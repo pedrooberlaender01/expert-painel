@@ -423,7 +423,7 @@ export default function Conversas() {
 
     try {
       // Enviar para webhook do n8n (ele envia via Uazapi e salva no banco)
-      const res = await fetch('http://187.77.61.4:5678/webhook/envio-saas', {
+      const res = await fetch('https://n8n-gend.srv1431760.hstgr.cloud/webhook/envio-saas', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

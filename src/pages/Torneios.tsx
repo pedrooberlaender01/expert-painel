@@ -453,7 +453,7 @@ const EnviarRankingModal: React.FC<EnviarRankingModalProps> = ({ ranking, tornei
     localStorage.setItem('ranking_envio_prefs', JSON.stringify({ numDestino: numDestino.trim(), instancia: instSelecionada }));
 
     try {
-      const res = await fetch('http://187.77.61.4:5678/webhook/ranking-torneio', {
+      const res = await fetch('https://n8n-gend.srv1431760.hstgr.cloud/webhook/ranking-torneio', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -43,7 +43,7 @@ interface CriarInstanciaResponse {
   expira_em?: string;
 }
 
-const N8N_BASE = 'http://187.77.61.4:5678/webhook';
+const N8N_BASE = 'https://n8n-gend.srv1431760.hstgr.cloud/webhook';
 
 type SupabaseQueryResult = Promise<{ data: unknown; error: { message?: string } | null }>;
 

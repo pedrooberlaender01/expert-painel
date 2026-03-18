@@ -479,7 +479,7 @@ export const Grupos: React.FC = () => {
         })),
       };
 
-      const res = await fetch('http://187.77.61.4:5678/webhook/relatorio-grupo', {
+      const res = await fetch('https://n8n-gend.srv1431760.hstgr.cloud/webhook/relatorio-grupo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

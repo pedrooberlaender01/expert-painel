@@ -47,7 +47,7 @@ export const SimuladorEnvios: React.FC = () => {
       const msgIdHex2 = generateHex(20, true);
       const mensagem = simMensagem.trim();
 
-      const webhookUrl = 'http://187.77.61.4:5678/webhook/assistente-whatsapp';
+      const webhookUrl = 'https://n8n-gend.srv1431760.hstgr.cloud/webhook/assistente-whatsapp';
       const payload = {
         BaseUrl: 'https://pedrooberlaender.uazapi.com',
         EventType: 'messages',
