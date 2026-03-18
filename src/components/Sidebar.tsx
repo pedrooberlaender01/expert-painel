@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Users, Activity, Send, Trophy, MessageSquare, MessagesSquare, Phone, Settings, LogOut, ChevronLeft, ChevronRight } from 'lucide-react';
+import { LayoutDashboard, Users, UsersRound, Activity, Send, Trophy, MessageSquare, MessagesSquare, Phone, Settings, LogOut, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useAuthStore } from '../stores/authStore';
 import { cn } from '../utils/cn';
 import LogoA from '../assets/Assinatura-A.svg';
@@ -17,12 +17,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
   const navItems = [
     { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
     { icon: MessagesSquare, label: 'Conversas', path: '/conversas' },
-    { icon: Users, label: 'Leads', path: '/leads' },
+    { icon: Users, label: 'Leads Assistente', path: '/leads' },
+    { icon: UsersRound, label: 'Grupos', path: '/grupos' },
     { icon: Activity, label: 'Monitoramento', path: '/funil' },
     { icon: Send, label: 'Envios', path: '/envios' },
     { icon: Trophy, label: 'Torneios', path: '/torneios' },
     { icon: MessageSquare, label: 'Mensagens', path: '/mensagens' },
-    { icon: Phone, label: 'Números', path: '/numeros' },
+    { icon: Phone, label: 'Central WhatsApp', path: '/central-whatsapp' },
     { icon: Settings, label: 'Configuracoes', path: '/configuracoes' },
   ];
 

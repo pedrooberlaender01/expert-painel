@@ -10,6 +10,7 @@ export interface SecaoConfig {
 }
 
 export const SECOES: SecaoConfig[] = [
+  { key: 'lead_chegou', titulo: 'Chegada do Lead' },
   { key: 'primeiro_contato', titulo: 'Primeiro Contato (Coleta de Nome)' },
   { key: 'convite', titulo: 'Convite Comunidade' },
   { key: 'confirmacao_entrada', titulo: 'Confirmação de Entrada' },
@@ -263,6 +264,24 @@ export function useMensagensFunil() {
     }
   }, [fetchData]);
 
+  const toggleAtivo = useCallback(async (id: string, ativo: boolean): Promise<string | null> => {
+    try {
+      console.log('[toggleAtivo] id:', id, 'ativo:', ativo);
+      const { error } = await supabase
+        .from('mensagens_funil_v2')
+        .update({ ativo, updated_at: new Date().toISOString() })
+        .eq('id', id);
+
+      if (error) throw error;
+
+      setData((prev) => prev.map((m) => (m.id === id ? { ...m, ativo } : m)));
+      return null;
+    } catch (err: any) {
+      console.error('[toggleAtivo] Erro:', err);
+      return err.message || 'Erro ao alterar status';
+    }
+  }, []);
+
   const reordenarFollowups = useCallback(async (
     items: { id: string; ordem: number }[]
   ): Promise<string | null> => {
@@ -294,5 +313,6 @@ export function useMensagensFunil() {
     criarFollowup,
     excluirFollowup,
     reordenarFollowups,
+    toggleAtivo,
   };
 }

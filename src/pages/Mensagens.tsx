@@ -3,6 +3,7 @@ import { Loader2, Save, Phone, GitBranch, Clock, ChevronDown, Plus, X, AlertTria
 import { PageHeader } from '../components/PageHeader';
 import { Toast } from '../components/Toast';
 import { MensagemCard } from '../components/mensagens/MensagemCard';
+import { GatilhoCard } from '../components/mensagens/GatilhoCard';
 import { FollowupCard } from '../components/mensagens/FollowupCard';
 import { useToast } from '../hooks/useToast';
 import { useMensagensFunil, SECOES } from '../hooks/useMensagensFunil';
@@ -20,7 +21,7 @@ const TABS: { key: TabKey; label: string; icon: typeof GitBranch; secoes: string
     key: 'funil',
     label: 'Etapas do Funil',
     icon: GitBranch,
-    secoes: ['primeiro_contato', 'convite', 'confirmacao_entrada'],
+    secoes: ['lead_chegou', 'primeiro_contato', 'convite', 'confirmacao_entrada'],
   },
   {
     key: 'followups',
@@ -71,7 +72,7 @@ export const Mensagens: React.FC = () => {
   const {
     data, loading, telefoneTeste, fetchData,
     salvarTelefoneTeste, salvarSecao, salvarCard,
-    criarFollowup, excluirFollowup, reordenarFollowups,
+    criarFollowup, excluirFollowup, reordenarFollowups, toggleAtivo,
   } = useMensagensFunil();
   const { toast, showToast, hideToast } = useToast();
 
@@ -294,6 +295,20 @@ export const Mensagens: React.FC = () => {
     }
   };
 
+  const handleToggleAtivo = async (id: string, nextActive: boolean) => {
+    const erro = await toggleAtivo(id, nextActive);
+    if (erro) {
+      showToast('error', 'Erro ao alterar status');
+    } else {
+      showToast('success', nextActive ? 'Follow-up ativado!' : 'Follow-up desativado!');
+      // Sync local edit state
+      setEditData((prev) => ({
+        ...prev,
+        [id]: { ...prev[id], ativo: nextActive },
+      }));
+    }
+  };
+
   const handleMoveFollowup = async (index: number, direction: 'up' | 'down') => {
     const followups = getMensagensSecao('followups');
     const targetIndex = direction === 'up' ? index - 1 : index + 1;
@@ -460,20 +475,37 @@ export const Mensagens: React.FC = () => {
                   )}
                 >
                   <div className="pt-5">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                      {mensagens.map((msg) => (
-                        <MensagemCard
+                    {/* Gatilho card full-width (only for lead_chegou section) */}
+                    {mensagens
+                      .filter((msg) => msg.cenario === 'lead_chegou_gatilho')
+                      .map((msg) => (
+                        <GatilhoCard
                           key={msg.id}
                           mensagem={msg}
                           isModified={modifiedIds.has(msg.id)}
-                          telefoneTeste={telefoneTeste}
-                          hasTempoEspera={hasTempoEspera}
-                          allowEmptyMessages={CENARIOS_EMPTY_ALLOWED.has(msg.cenario)}
-                          showAtivoToggle={hasTempoEspera}
                           onUpdate={(updates) => updateMensagem(msg.id, updates)}
-                          onShowToast={showToast}
                         />
                       ))}
+
+                    <div className={cn(
+                      'grid grid-cols-1 lg:grid-cols-2 gap-4',
+                      mensagens.some((m) => m.cenario === 'lead_chegou_gatilho') && 'mt-4'
+                    )}>
+                      {mensagens
+                        .filter((msg) => msg.cenario !== 'lead_chegou_gatilho')
+                        .map((msg) => (
+                          <MensagemCard
+                            key={msg.id}
+                            mensagem={msg}
+                            isModified={modifiedIds.has(msg.id)}
+                            telefoneTeste={telefoneTeste}
+                            hasTempoEspera={hasTempoEspera}
+                            allowEmptyMessages={CENARIOS_EMPTY_ALLOWED.has(msg.cenario)}
+                            showAtivoToggle={hasTempoEspera}
+                            onUpdate={(updates) => updateMensagem(msg.id, updates)}
+                            onShowToast={showToast}
+                          />
+                        ))}
                     </div>
 
                     {/* Save Section Button */}
@@ -550,6 +582,7 @@ export const Mensagens: React.FC = () => {
                     isLast={index === followups.length - 1}
                     onUpdate={(updates) => updateMensagem(msg.id, updates)}
                     onSave={() => handleSaveCard(msg.id, true)}
+                    onToggleActive={(nextActive) => handleToggleAtivo(msg.id, nextActive)}
                     onDelete={() => setDeleteTarget(editData[msg.id] || msg)}
                     onMoveUp={() => handleMoveFollowup(index, 'up')}
                     onMoveDown={() => handleMoveFollowup(index, 'down')}
@@ -589,6 +622,7 @@ export const Mensagens: React.FC = () => {
                     isLast={true}
                     onUpdate={(updates) => updateMensagem(msg.id, updates)}
                     onSave={() => handleSaveCard(msg.id, false)}
+                    onToggleActive={(nextActive) => handleToggleAtivo(msg.id, nextActive)}
                     onShowToast={showToast}
                   />
                 ))}

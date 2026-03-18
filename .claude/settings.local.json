@@ -36,7 +36,8 @@
       "Bash(cd \"/c/Users/pedro/OneDrive/Área de Trabalho/Allan/Dashboard - Leads\" && mv github-pages docs)",
       "Bash(cd \"C:/Users/pedro/OneDrive/Área de Trabalho/Allan/Dashboard - Leads\" && grep -l \"albdkqpvoyfhziozgwlk\" docs/assets/*.js | head -3)",
       "Bash(cd \"/c/Users/pedro/OneDrive/Área de Trabalho/Allan/Dashboard - Leads\" && sed -i 's/#0891B2/#0040E0/g' src/index.css src/pages/Conversas.tsx)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Read(//mnt/skills/public/frontend-design/**)"
     ]
   }
 }

@@ -11,10 +11,11 @@ import { Envios } from './pages/Envios';
 import { HistoricoEnvios } from './pages/HistoricoEnvios';
 import { Templates } from './pages/Templates';
 import { Mensagens } from './pages/Mensagens';
-import { Numeros } from './pages/Numeros';
+import { CentralWhatsapp } from './pages/CentralWhatsapp';
 import Conversas from './pages/Conversas';
 import { SimuladorEnvios } from './pages/SimuladorEnvios';
 import { Torneios } from './pages/Torneios';
+import { Grupos } from './pages/Grupos';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { useAuthStore } from './stores/authStore';
 
@@ -63,9 +64,10 @@ function App() {
           <Route path="/envios/simulador" element={<SimuladorEnvios />} />
           <Route path="/envios/historico" element={<HistoricoEnvios />} />
           <Route path="/envios/templates" element={<Templates />} />
+          <Route path="/grupos" element={<Grupos />} />
           <Route path="/torneios" element={<Torneios />} />
           <Route path="/mensagens" element={<Mensagens />} />
-          <Route path="/numeros" element={<Numeros />} />
+          <Route path="/central-whatsapp" element={<CentralWhatsapp />} />
           <Route path="/notificacoes" element={<Notificacoes />} />
           <Route path="/configuracoes" element={<Configuracoes />} />
         </Route>

@@ -1,5 +1,6 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { supabase } from '../backend/client';
+import axios from 'axios';
 
 export interface WhatsappRotacao {
   id: number;
@@ -8,6 +9,15 @@ export interface WhatsappRotacao {
   ativo: boolean;
   ordem: number;
   instancia: string;
+  token: string;
+  tipo: 'disparadora' | 'coleta_eventos' | 'torneio';
+  status_conexao: 'disconnected' | 'connecting' | 'connected';
+  pairing_code: string | null;
+  pairing_code_expires_at: string | null;
+  qr_code_base64: string | null;
+  last_connected_at: string | null;
+  last_disconnected_at: string | null;
+  last_disconnect_reason: string | null;
 }
 
 export interface WhatsappRotacaoMensagem {
@@ -16,6 +26,24 @@ export interface WhatsappRotacaoMensagem {
   ativo: boolean;
   ordem: number;
 }
+
+interface ReconectarResponse {
+  sucesso: boolean;
+  pairing_code?: string;
+  nome?: string;
+  numero?: string;
+  mensagem?: string;
+}
+
+interface CriarInstanciaResponse {
+  sucesso: boolean;
+  pairing_code?: string;
+  instancia_id?: string;
+  mensagem?: string;
+  expira_em?: string;
+}
+
+const N8N_BASE = 'http://187.77.61.4:5678/webhook';
 
 type SupabaseQueryResult = Promise<{ data: unknown; error: { message?: string } | null }>;
 
@@ -31,6 +59,7 @@ export function useWhatsappRotacao() {
   const [numeros, setNumeros] = useState<WhatsappRotacao[]>([]);
   const [mensagens, setMensagens] = useState<WhatsappRotacaoMensagem[]>([]);
   const [loading, setLoading] = useState(true);
+  const subscriptionRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
   const fromLoose = (table: string) => supabase.from(table) as unknown as FromLoose;
   const errorMessage = (err: unknown, fallback: string) =>
     err instanceof Error && err.message ? err.message : fallback;
@@ -56,8 +85,45 @@ export function useWhatsappRotacao() {
     }
   }, []);
 
+  // Supabase Realtime subscription
   useEffect(() => {
     fetchData();
+
+    const channel = supabase
+      .channel('whatsapp_rotacao_realtime')
+      .on(
+        'postgres_changes' as never,
+        { event: 'UPDATE', schema: 'public', table: 'whatsapp_rotacao' },
+        (payload: { new: WhatsappRotacao }) => {
+          const updated = payload.new;
+          setNumeros((prev) =>
+            prev.map((n) => (n.id === updated.id ? { ...n, ...updated } : n))
+          );
+        }
+      )
+      .on(
+        'postgres_changes' as never,
+        { event: 'INSERT', schema: 'public', table: 'whatsapp_rotacao' },
+        () => {
+          fetchData(false);
+        }
+      )
+      .on(
+        'postgres_changes' as never,
+        { event: 'DELETE', schema: 'public', table: 'whatsapp_rotacao' },
+        () => {
+          fetchData(false);
+        }
+      )
+      .subscribe();
+
+    subscriptionRef.current = channel;
+
+    return () => {
+      if (subscriptionRef.current) {
+        supabase.removeChannel(subscriptionRef.current);
+      }
+    };
   }, [fetchData]);
 
   const toggleAtivo = useCallback(async (id: number, ativo: boolean): Promise<string | null> => {
@@ -73,7 +139,7 @@ export function useWhatsappRotacao() {
     }
   }, []);
 
-  const adicionarNumero = useCallback(async (data: Omit<WhatsappRotacao, 'id'>): Promise<string | null> => {
+  const adicionarNumero = useCallback(async (data: Omit<WhatsappRotacao, 'id' | 'status_conexao' | 'pairing_code' | 'pairing_code_expires_at' | 'qr_code_base64' | 'last_connected_at' | 'last_disconnected_at' | 'last_disconnect_reason'>): Promise<string | null> => {
     try {
       const { error } = await fromLoose('whatsapp_rotacao')
         .insert(data as Record<string, unknown>);
@@ -98,30 +164,26 @@ export function useWhatsappRotacao() {
     }
   }, [fetchData]);
 
-  const excluirNumero = useCallback(async (id: number): Promise<string | null> => {
+  const excluirNumero = useCallback(async (id: number, instancia?: WhatsappRotacao): Promise<string | null> => {
     try {
-      const { error } = await fromLoose('whatsapp_rotacao')
-        .delete()
-        .eq('id', id);
-      if (error) throw error;
+      const dados = instancia || numeros.find((n) => n.id === id);
+      if (!dados) return 'Instância não encontrada';
 
-      // Reordenar os restantes
-      const restantes = numeros.filter((n) => n.id !== id).sort((a, b) => a.ordem - b.ordem);
-      for (let i = 0; i < restantes.length; i++) {
-        const novaOrdem = i + 1;
-        if (restantes[i].ordem !== novaOrdem) {
-          await fromLoose('whatsapp_rotacao')
-            .update({ ordem: novaOrdem })
-            .eq('id', restantes[i].id);
-        }
-      }
+      await axios.post(`${N8N_BASE}/excluir-instancia`, {
+        rotacao_id: dados.id,
+        instancia: dados.instancia,
+        token: dados.token,
+        numero: dados.numero,
+        nome: dados.nome,
+      });
 
-      await fetchData(false);
+      // Webhook OK — remover do estado local para sumir da tela
+      setNumeros((prev) => prev.filter((n) => n.id !== id));
       return null;
     } catch (err: unknown) {
-      return errorMessage(err, 'Erro ao excluir número');
+      return errorMessage(err, 'Erro ao excluir instância');
     }
-  }, [fetchData, numeros]);
+  }, [numeros]);
 
   const trocarOrdem = useCallback(async (idA: number, idB: number): Promise<string | null> => {
     try {
@@ -153,6 +215,56 @@ export function useWhatsappRotacao() {
       return errorMessage(err, 'Erro ao reordenar');
     }
   }, [numeros]);
+
+  // ── Reconectar instância via N8N webhook ──
+
+  const reconectar = useCallback(async (rotacaoId: number): Promise<ReconectarResponse> => {
+    try {
+      const { data } = await axios.post<ReconectarResponse>(`${N8N_BASE}/reconectar`, {
+        rotacao_id: rotacaoId,
+      });
+      return data;
+    } catch (err: unknown) {
+      return { sucesso: false, mensagem: errorMessage(err, 'Erro ao reconectar instância') };
+    }
+  }, []);
+
+  // ── Criar instância via N8N webhook ──
+
+  const criarInstancia = useCallback(async (nome: string, numero: string, tipo: 'disparadora' | 'coleta_eventos' | 'torneio' = 'disparadora'): Promise<CriarInstanciaResponse> => {
+    try {
+      const webhookUrl = tipo === 'torneio'
+        ? `${N8N_BASE}/torneio`
+        : `${N8N_BASE}/criar-instancia`;
+      const body: Record<string, string> = { nome, numero, tipo };
+      if (tipo === 'torneio') {
+        body.EventType = 'connection';
+      }
+      const { data } = await axios.post<CriarInstanciaResponse>(webhookUrl, body);
+
+      // Após criação bem-sucedida, garantir que o campo tipo esteja correto no Supabase
+      if (data.sucesso) {
+        const found = await supabase
+          .from('whatsapp_rotacao')
+          .select('id')
+          .eq('nome', nome)
+          .eq('numero', numero)
+          .order('id', { ascending: false })
+          .limit(1);
+
+        if (found.data && found.data.length > 0) {
+          await supabase
+            .from('whatsapp_rotacao')
+            .update({ tipo })
+            .eq('id', (found.data[0] as { id: number }).id);
+        }
+      }
+
+      return data;
+    } catch (err: unknown) {
+      return { sucesso: false, mensagem: errorMessage(err, 'Erro ao criar instância') };
+    }
+  }, []);
 
   // ── Mensagens de Abertura CRUD ──
 
@@ -249,8 +361,26 @@ export function useWhatsappRotacao() {
     }
   }, [mensagens]);
 
+  const instanciasDisparadoras = useMemo(
+    () => numeros.filter((n) => !n.tipo || n.tipo === 'disparadora'),
+    [numeros]
+  );
+
+  const instanciasColeta = useMemo(
+    () => numeros.filter((n) => n.tipo === 'coleta_eventos'),
+    [numeros]
+  );
+
+  const instanciasTorneio = useMemo(
+    () => numeros.filter((n) => n.tipo === 'torneio'),
+    [numeros]
+  );
+
   return {
     numeros,
+    instanciasDisparadoras,
+    instanciasColeta,
+    instanciasTorneio,
     mensagens,
     loading,
     fetchData,
@@ -259,6 +389,8 @@ export function useWhatsappRotacao() {
     editarNumero,
     excluirNumero,
     trocarOrdem,
+    reconectar,
+    criarInstancia,
     toggleAtivoMensagem,
     adicionarMensagem,
     editarMensagem,

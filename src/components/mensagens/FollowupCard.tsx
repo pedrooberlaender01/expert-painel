@@ -35,6 +35,7 @@ interface FollowupCardProps {
   isLast: boolean;
   onUpdate: (updates: Partial<MensagemFunil>) => void;
   onSave: () => void;
+  onToggleActive?: (nextActive: boolean) => void;
   onDelete?: () => void;
   onMoveUp?: () => void;
   onMoveDown?: () => void;
@@ -51,6 +52,7 @@ export const FollowupCard: React.FC<FollowupCardProps> = ({
   isLast,
   onUpdate,
   onSave,
+  onToggleActive,
   onDelete,
   onMoveUp,
   onMoveDown,
@@ -254,7 +256,11 @@ export const FollowupCard: React.FC<FollowupCardProps> = ({
               type="checkbox"
               className="sr-only peer"
               checked={mensagem.ativo}
-              onChange={() => onUpdate({ ativo: !mensagem.ativo })}
+              onChange={() => {
+                const nextActive = !mensagem.ativo;
+                onUpdate({ ativo: nextActive });
+                onToggleActive?.(nextActive);
+              }}
             />
             <div className="w-9 h-5 rounded-full transition-colors duration-200 bg-[#374151] peer-checked:bg-[#10b981] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-4" />
           </label>

@@ -1,9 +1,15 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Trophy, BarChart3, Users, Plus, Loader2, X, Pencil, Trash2, Pause, Play, XCircle, MoreHorizontal, RefreshCw, Crown, Search, ChevronDown, ChevronUp, AlertTriangle, Send } from 'lucide-react';
+import { Trophy, BarChart3, Users, Plus, Loader2, X, Pencil, Trash2, Pause, Play, XCircle, MoreHorizontal, RefreshCw, Crown, Search, ChevronDown, ChevronUp, AlertTriangle, Send, Smartphone, Wifi, WifiOff } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { Toast } from '../components/Toast';
 import { useToast } from '../hooks/useToast';
 import { supabase } from '../lib/supabase';
+import { InstanciaCard } from '../components/numeros/InstanciaCard';
+import { NovaInstanciaModal } from '../components/numeros/NovaInstanciaModal';
+import { NumeroFormModal } from '../components/numeros/NumeroFormModal';
+import { ConfirmDeleteNumeroModal } from '../components/numeros/ConfirmDeleteNumeroModal';
+import { useWhatsappRotacao } from '../hooks/useWhatsappRotacao';
+import type { WhatsappRotacao } from '../hooks/useWhatsappRotacao';
 import { cn } from '../utils/cn';
 
 // ── Types ──────────────────────────────────────────────────────────
@@ -74,6 +80,7 @@ const tabs = [
   { key: 'torneios', label: 'Torneios', icon: Trophy },
   { key: 'ranking', label: 'Ranking', icon: BarChart3 },
   { key: 'participantes', label: 'Participantes', icon: Users },
+  { key: 'instancia', label: 'Instância', icon: Smartphone },
 ] as const;
 
 type TabKey = typeof tabs[number]['key'];
@@ -601,6 +608,86 @@ export const Torneios: React.FC = () => {
 
   // Enviar Ranking modal
   const [enviarRankingOpen, setEnviarRankingOpen] = useState(false);
+
+  // Instância Torneio state
+  const {
+    instanciasTorneio,
+    loading: wppLoading,
+    fetchData: wppFetchData,
+    toggleAtivo: wppToggleAtivo,
+    editarNumero: wppEditarNumero,
+    excluirNumero: wppExcluirNumero,
+    trocarOrdem: wppTrocarOrdem,
+    reconectar: wppReconectar,
+    criarInstancia: wppCriarInstancia,
+  } = useWhatsappRotacao();
+
+  const [torneioInstanciaModal, setTorneioInstanciaModal] = useState(false);
+  const [torneioEditModal, setTorneioEditModal] = useState<{ open: boolean; numero: WhatsappRotacao | null }>({ open: false, numero: null });
+  const [torneioDeleteModal, setTorneioDeleteModal] = useState<WhatsappRotacao | null>(null);
+
+  const conectadosTorneio = instanciasTorneio.filter((n) => n.status_conexao === 'connected').length;
+  const desconectadosTorneio = instanciasTorneio.filter((n) => n.status_conexao === 'disconnected' || !n.status_conexao).length;
+
+  const handleTorneioToggleAtivo = async (id: number, ativo: boolean) => {
+    // Se está ativando, desativar todas as outras instâncias de torneio primeiro
+    if (ativo) {
+      const outrasAtivas = instanciasTorneio.filter((n) => n.id !== id && n.ativo);
+      for (const outra of outrasAtivas) {
+        await wppToggleAtivo(outra.id, false);
+      }
+    }
+    const erro = await wppToggleAtivo(id, ativo);
+    if (erro) showToast('error', erro);
+    else showToast('success', ativo ? 'Instância ativada!' : 'Instância desativada!');
+  };
+
+  const handleTorneioCriarInstancia = async (nome: string, numero: string) => {
+    const result = await wppCriarInstancia(nome, numero, 'torneio');
+    if (result.sucesso) {
+      showToast('success', 'Instância criada! Aguardando pareamento...');
+      wppFetchData(false);
+    }
+    return result;
+  };
+
+  const handleTorneioSaveNumero = async (data: { nome: string; numero: string; instancia: string; ordem: number }) => {
+    if (torneioEditModal.numero) {
+      const erro = await wppEditarNumero(torneioEditModal.numero.id, data);
+      if (erro) { showToast('error', erro); return; }
+      showToast('success', 'Instância atualizada!');
+    }
+    setTorneioEditModal({ open: false, numero: null });
+  };
+
+  const handleTorneioDeleteNumero = async () => {
+    if (!torneioDeleteModal) return;
+    const erro = await wppExcluirNumero(torneioDeleteModal.id, torneioDeleteModal);
+    if (erro) { showToast('error', erro); return; }
+    showToast('success', 'Instância excluída!');
+    setTorneioDeleteModal(null);
+  };
+
+  const handleTorneioReconectar = async (id: number) => {
+    const result = await wppReconectar(id);
+    if (result.sucesso) showToast('success', result.mensagem || 'Reconexão iniciada!');
+    else showToast('error', result.mensagem || 'Erro ao reconectar');
+    return result;
+  };
+
+  const handleTorneioMoveUp = async (numero: WhatsappRotacao) => {
+    const idx = instanciasTorneio.findIndex((n) => n.id === numero.id);
+    if (idx <= 0) return;
+    const erro = await wppTrocarOrdem(numero.id, instanciasTorneio[idx - 1].id);
+    if (erro) showToast('error', erro);
+  };
+
+  const handleTorneioMoveDown = async (numero: WhatsappRotacao) => {
+    const idx = instanciasTorneio.findIndex((n) => n.id === numero.id);
+    if (idx < 0 || idx >= instanciasTorneio.length - 1) return;
+    const erro = await wppTrocarOrdem(numero.id, instanciasTorneio[idx + 1].id);
+    if (erro) showToast('error', erro);
+  };
 
   // ── Fetch ──────────────────────────────────────────────────────
 
@@ -1854,6 +1941,116 @@ export const Torneios: React.FC = () => {
             </div>
           )}
         </>
+      )}
+
+      {/* ─── Aba Instância ──────────────────────────────────── */}
+      {activeTab === 'instancia' && (
+        <>
+          {wppLoading ? (
+            <div className="space-y-4">
+              <div className="card-dark p-4 animate-pulse">
+                <div className="h-4 w-48 bg-surface-200/40 rounded" />
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {[1, 2].map((i) => (
+                  <div key={i} className="card-dark p-5 animate-pulse">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-surface-200/50 rounded-lg" />
+                        <div className="h-4 w-32 bg-surface-200/50 rounded" />
+                      </div>
+                      <div className="w-11 h-6 bg-surface-200/30 rounded-full" />
+                    </div>
+                    <div className="h-3 w-48 bg-surface-200/30 rounded mb-2" />
+                    <div className="h-3 w-36 bg-surface-200/20 rounded" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* Status summary */}
+              <div className="card-dark p-4 mb-6 flex items-center gap-4 flex-wrap">
+                <div className="flex items-center gap-2.5">
+                  <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-emerald-500/10">
+                    <Wifi className="w-4 h-4 text-emerald-400" />
+                  </div>
+                  <p className="text-[14px] font-semibold text-txt">
+                    <span className="text-emerald-400">{conectadosTorneio}</span>
+                    <span className="text-txt-muted text-[12px] ml-1">conectado{conectadosTorneio !== 1 ? 's' : ''}</span>
+                  </p>
+                </div>
+                <div className="w-px h-6 bg-surface-300/20" />
+                <div className="flex items-center gap-2.5">
+                  <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-red-500/10">
+                    <WifiOff className="w-4 h-4 text-red-400" />
+                  </div>
+                  <p className="text-[14px] font-semibold text-txt">
+                    <span className="text-red-400">{desconectadosTorneio}</span>
+                    <span className="text-txt-muted text-[12px] ml-1">desconectado{desconectadosTorneio !== 1 ? 's' : ''}</span>
+                  </p>
+                </div>
+                <div className="w-px h-6 bg-surface-300/20" />
+                <p className="text-[13px] text-txt-muted">
+                  <span className="text-txt-secondary font-semibold">{instanciasTorneio.length}</span> instância{instanciasTorneio.length !== 1 ? 's' : ''} no total
+                </p>
+              </div>
+
+              <p className="text-sm text-white mb-5">
+                Instância dedicada ao torneio para receber prints e mensagens dos participantes via WhatsApp.
+              </p>
+
+              {/* Lista */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+                {instanciasTorneio.map((numero, idx) => (
+                  <InstanciaCard
+                    key={numero.id}
+                    numero={numero}
+                    isFirst={idx === 0}
+                    isLast={idx === instanciasTorneio.length - 1}
+                    onToggleAtivo={handleTorneioToggleAtivo}
+                    onEdit={(n) => setTorneioEditModal({ open: true, numero: n })}
+                    onDelete={(n) => setTorneioDeleteModal(n)}
+                    onMoveUp={handleTorneioMoveUp}
+                    onMoveDown={handleTorneioMoveDown}
+                    onReconectar={handleTorneioReconectar}
+                  />
+                ))}
+              </div>
+
+              <button
+                onClick={() => setTorneioInstanciaModal(true)}
+                className="w-full flex items-center justify-center gap-2 py-4 rounded-xl border-2 border-dashed border-[#004AFF]/30 text-[#004AFF]/70 hover:text-[#004AFF] hover:border-[#004AFF]/50 hover:bg-[#004AFF]/5 transition-all duration-200 text-[13px] font-medium"
+              >
+                <Plus className="w-4 h-4" />
+                Nova Instância Torneio
+              </button>
+            </>
+          )}
+        </>
+      )}
+
+      {/* Modals: Instância Torneio */}
+      {torneioInstanciaModal && (
+        <NovaInstanciaModal
+          onCriarInstancia={handleTorneioCriarInstancia}
+          onClose={() => setTorneioInstanciaModal(false)}
+        />
+      )}
+      {torneioEditModal.open && torneioEditModal.numero && (
+        <NumeroFormModal
+          numero={torneioEditModal.numero}
+          proximaOrdem={torneioEditModal.numero.ordem}
+          onSave={handleTorneioSaveNumero}
+          onClose={() => setTorneioEditModal({ open: false, numero: null })}
+        />
+      )}
+      {torneioDeleteModal && (
+        <ConfirmDeleteNumeroModal
+          nome={torneioDeleteModal.nome}
+          onConfirm={handleTorneioDeleteNumero}
+          onClose={() => setTorneioDeleteModal(null)}
+        />
       )}
 
       {/* Modals */}
