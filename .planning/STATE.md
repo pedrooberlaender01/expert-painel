@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: verifying
-stopped_at: Phase 2 context gathered
-last_updated: "2026-03-27T22:02:43.279Z"
+status: executing
+stopped_at: Completed 02-01-PLAN.md
+last_updated: "2026-03-27T22:39:07.204Z"
 last_activity: 2026-03-27
 progress:
   total_phases: 5
   completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
+  total_plans: 6
+  completed_plans: 4
   percent: 13
 ---
 
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-27)
 
 **Core value:** Isolamento seguro de dados entre experts — um expert NUNCA pode ver, modificar ou interagir com dados de outro expert, enquanto a agencia (admin master) tem visibilidade e controle total sobre todos.
-**Current focus:** Phase 01 — database-foundation-migration
+**Current focus:** Phase 02 — auth-security-hardening
 
 ## Current Position
 
-Phase: 2
-Plan: Not started
-Status: Phase complete — ready for verification
+Phase: 02 (auth-security-hardening) — EXECUTING
+Plan: 2 of 3
+Status: Ready to execute
 Last activity: 2026-03-27
 
 Progress: [█░░░░░░░░░] 13%
@@ -55,6 +55,7 @@ Progress: [█░░░░░░░░░] 13%
 | Phase 01 P01 | 4min | 1 tasks | 1 files |
 | Phase 01 P02 | 2min | 1 tasks | 1 files |
 | Phase 01 P03 | 4min | 2 tasks | 3 files |
+| Phase 02 P01 | 5min | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -72,6 +73,9 @@ Recent decisions affecting current work:
 - [Phase 01]: DO block migration pattern: fetch UUID once, reuse for all 26 tables atomically
 - [Phase 01]: expert_id optional in Insert types -- Phase 2 RLS will provide default
 - [Phase 01]: Phase 01 complete: all 26 tables have expert_id NOT NULL + FK + backfilled
+- [Phase 02]: Existing users (Pedro, Thiago, Lindomar) set to role=admin as agency team
+- [Phase 02]: admin_login RPC returns JSONB with nested expert profile + plan data
+- [Phase 02]: ProtectedRoute requiredRole prop for route-level RBAC
 
 ### Pending Todos
 
@@ -85,6 +89,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-27T22:02:43.267Z
-Stopped at: Phase 2 context gathered
-Resume file: .planning/phases/02-auth-security-hardening/02-CONTEXT.md
+Last session: 2026-03-27T22:39:07.200Z
+Stopped at: Completed 02-01-PLAN.md
+Resume file: None

@@ -15,13 +15,13 @@
 
 ### Auth & Security
 
-- [ ] **AUTH-01**: Admin master pode fazer login com role `admin` e acessar rota /admin
-- [ ] **AUTH-02**: Expert pode fazer login com role `expert` e ver apenas seu painel personalizado
-- [ ] **AUTH-03**: Login vincula expert_id à sessão (armazenado no localStorage com expiração 24h)
-- [ ] **AUTH-04**: Rate limiting no login com delay progressivo contra brute force (1s, 2s, 4s, 8s...)
-- [ ] **AUTH-05**: RLS policies no Supabase filtram por expert_id em TODAS as tabelas (SELECT, INSERT, UPDATE, DELETE)
-- [ ] **AUTH-06**: Um expert não consegue acessar, ver ou modificar dados de outro expert via API direta
-- [ ] **AUTH-07**: RPCs do Supabase validam expert_id server-side (não confiam no frontend)
+- [x] **AUTH-01**: Admin master pode fazer login com role `admin` e acessar rota /admin
+- [x] **AUTH-02**: Expert pode fazer login com role `expert` e ver apenas seu painel personalizado
+- [x] **AUTH-03**: Login vincula expert_id à sessão (armazenado no localStorage com expiração 24h)
+- [x] **AUTH-04**: Rate limiting no login com delay progressivo contra brute force (1s, 2s, 4s, 8s...)
+- [x] **AUTH-05**: RLS policies no Supabase filtram por expert_id em TODAS as tabelas (SELECT, INSERT, UPDATE, DELETE)
+- [x] **AUTH-06**: Um expert não consegue acessar, ver ou modificar dados de outro expert via API direta
+- [x] **AUTH-07**: RPCs do Supabase validam expert_id server-side (não confiam no frontend)
 - [ ] **AUTH-08**: Nenhuma chave sensível exposta no frontend (service_role_key, tokens UAZAPI, API keys Minimax)
 - [ ] **AUTH-09**: Inputs sanitizados contra XSS em todos os formulários e campos de texto
 - [ ] **AUTH-10**: CSP headers configurados via meta tags no index.html
@@ -135,13 +135,13 @@
 | MTNT-03 | Phase 1 | Complete |
 | MTNT-04 | Phase 1 | Complete |
 | MTNT-05 | Phase 1 | Complete |
-| AUTH-01 | Phase 2 | Pending |
-| AUTH-02 | Phase 2 | Pending |
-| AUTH-03 | Phase 2 | Pending |
-| AUTH-04 | Phase 2 | Pending |
-| AUTH-05 | Phase 2 | Pending |
-| AUTH-06 | Phase 2 | Pending |
-| AUTH-07 | Phase 2 | Pending |
+| AUTH-01 | Phase 2 | Complete |
+| AUTH-02 | Phase 2 | Complete |
+| AUTH-03 | Phase 2 | Complete |
+| AUTH-04 | Phase 2 | Complete |
+| AUTH-05 | Phase 2 | Complete |
+| AUTH-06 | Phase 2 | Complete |
+| AUTH-07 | Phase 2 | Complete |
 | AUTH-08 | Phase 2 | Pending |
 | AUTH-09 | Phase 2 | Pending |
 | AUTH-10 | Phase 2 | Pending |
