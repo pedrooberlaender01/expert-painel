@@ -29,7 +29,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Every relevant table has an `expert_id` column (UUID, NOT NULL, FK to experts.id) with an index on it
   3. All 1762 existing leads and their related data have been migrated to Allan's expert_id with zero data loss
   4. Existing application continues to function after migration (no broken queries)
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
 - [ ] 01-01: Create experts and planos tables, seed Allan as Expert #1
