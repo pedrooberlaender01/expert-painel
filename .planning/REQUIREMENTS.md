@@ -9,8 +9,8 @@
 
 - [x] **MTNT-01**: Tabela `experts` criada com campos: nome, slug, cor_primaria, cor_secundaria, logo_url, nome_plataforma, nome_assistente, voice_id, voice_settings (JSONB), plano_id, ativo, created_at
 - [x] **MTNT-02**: Tabela `planos` criada com campos: nome, max_leads, max_instancias, max_envios_mes, features_permitidas (JSONB), ativo, created_at
-- [ ] **MTNT-03**: Coluna `expert_id` (UUID, NOT NULL, FK → experts.id) adicionada em todas as tabelas relevantes: leads, mensagens, followups_enviados, notificacoes, templates_mensagem, configuracoes, mensagens_funil_v2, whatsapp_rotacao, whatsapp_rotacao_config, whatsapp_rotacao_mensagens, whatsapp_eventos_log, moderacao_grupos, moderacao_strikes, moderacao_log, agendamentos_mensagens, agendamentos_grupos, torneios, participantes, greens, log_imagens, copys_geradas, expert_perfil, blacklist_grupos, grupos_ignorar_coleta, telegram_canais, documents
-- [ ] **MTNT-04**: Todos os 1762 leads existentes e dados relacionados migrados com expert_id do Allan (Expert #1)
+- [x] **MTNT-03**: Coluna `expert_id` (UUID, NOT NULL, FK → experts.id) adicionada em todas as tabelas relevantes: leads, mensagens, followups_enviados, notificacoes, templates_mensagem, configuracoes, mensagens_funil_v2, whatsapp_rotacao, whatsapp_rotacao_config, whatsapp_rotacao_mensagens, whatsapp_eventos_log, moderacao_grupos, moderacao_strikes, moderacao_log, agendamentos_mensagens, agendamentos_grupos, torneios, participantes, greens, log_imagens, copys_geradas, expert_perfil, blacklist_grupos, grupos_ignorar_coleta, telegram_canais, documents
+- [x] **MTNT-04**: Todos os 1762 leads existentes e dados relacionados migrados com expert_id do Allan (Expert #1)
 - [x] **MTNT-05**: Índices criados em expert_id para todas as tabelas relevantes (performance de queries filtradas)
 
 ### Auth & Security
@@ -132,8 +132,8 @@
 |-------------|-------|--------|
 | MTNT-01 | Phase 1 | Complete |
 | MTNT-02 | Phase 1 | Complete |
-| MTNT-03 | Phase 1 | Pending |
-| MTNT-04 | Phase 1 | Pending |
+| MTNT-03 | Phase 1 | Complete |
+| MTNT-04 | Phase 1 | Complete |
 | MTNT-05 | Phase 1 | Complete |
 | AUTH-01 | Phase 2 | Pending |
 | AUTH-02 | Phase 2 | Pending |
