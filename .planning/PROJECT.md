@@ -34,10 +34,10 @@ Isolamento seguro de dados entre experts — um expert NUNCA pode ver, modificar
 <!-- Multi-tenant transformation scope — v1 milestone. -->
 
 - ✓ Sistema multi-tenant com coluna `expert_id` em todas as tabelas relevantes — Validated in Phase 1
-- [ ] RLS policies no Supabase filtrando por `expert_id` em todas as queries
+- ✓ RLS policies no Supabase filtrando por `expert_id` em todas as queries — Validated in Phase 2 (transition mode)
 - ✓ Tabela `experts` com dados de personalização (cor, logo, nome, persona, voice_id) — Validated in Phase 1
 - ✓ Tabela `planos` com limites editáveis (leads, instâncias, envios/mês, features) — Validated in Phase 1
-- [ ] Auth customizada multi-tenant (expert_id vinculado ao login, role: expert/admin)
+- ✓ Auth customizada multi-tenant (expert_id vinculado ao login, role: expert/admin) — Validated in Phase 2
 - [ ] White-label via CSS Variables (--color-primary, --color-primary-hover, --color-primary-bg)
 - [ ] Logo e nome da plataforma dinâmicos no sidebar por expert
 - [ ] Nome da assistente configurável por expert (hoje "Helena")
@@ -51,9 +51,9 @@ Isolamento seguro de dados entre experts — um expert NUNCA pode ver, modificar
 - [ ] Webhooks n8n validam que expert_id do payload corresponde ao token UAZAPI
 - [ ] Migração dos 1762 leads existentes + dados para expert_id do Allan (Expert #1)
 - [ ] Voice settings por expert (voice_id Minimax, speed, pitch, timbre, vol como JSONB)
-- [ ] Rate limiting no login (delay progressivo contra brute force)
-- [ ] Sessão com expiração (24h no localStorage)
-- [ ] CSP headers via meta tags no index.html
+- ✓ Rate limiting no login (delay progressivo contra brute force) — Validated in Phase 2
+- ✓ Sessão com expiração (24h no localStorage) — Validated in Phase 2
+- ✓ CSP headers via meta tags no index.html — Validated in Phase 2
 - [ ] Console.log removidos no build de produção (esbuild drop)
 - [ ] Inputs sanitizados contra XSS em toda a aplicação
 - [ ] Nenhuma chave sensível exposta no frontend (service_role, tokens UAZAPI, API keys)
@@ -162,4 +162,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-27 after Phase 1 completion — Database Foundation & Migration*
+*Last updated: 2026-03-27 after Phase 2 completion — Auth & Security Hardening*
