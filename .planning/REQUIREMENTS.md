@@ -128,17 +128,74 @@
 
 ## Traceability
 
-<!-- Populated during roadmap creation -->
-
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| — | — | — |
+| MTNT-01 | Phase 1 | Pending |
+| MTNT-02 | Phase 1 | Pending |
+| MTNT-03 | Phase 1 | Pending |
+| MTNT-04 | Phase 1 | Pending |
+| MTNT-05 | Phase 1 | Pending |
+| AUTH-01 | Phase 2 | Pending |
+| AUTH-02 | Phase 2 | Pending |
+| AUTH-03 | Phase 2 | Pending |
+| AUTH-04 | Phase 2 | Pending |
+| AUTH-05 | Phase 2 | Pending |
+| AUTH-06 | Phase 2 | Pending |
+| AUTH-07 | Phase 2 | Pending |
+| AUTH-08 | Phase 2 | Pending |
+| AUTH-09 | Phase 2 | Pending |
+| AUTH-10 | Phase 2 | Pending |
+| AUTH-11 | Phase 2 | Pending |
+| AUTH-12 | Phase 2 | Pending |
+| WLBL-01 | Phase 4 | Pending |
+| WLBL-02 | Phase 4 | Pending |
+| WLBL-03 | Phase 4 | Pending |
+| WLBL-04 | Phase 4 | Pending |
+| WLBL-05 | Phase 4 | Pending |
+| WLBL-06 | Phase 4 | Pending |
+| WLBL-07 | Phase 4 | Pending |
+| WLBL-08 | Phase 4 | Pending |
+| ADMN-01 | Phase 3 | Pending |
+| ADMN-02 | Phase 3 | Pending |
+| ADMN-03 | Phase 3 | Pending |
+| ADMN-04 | Phase 3 | Pending |
+| ADMN-05 | Phase 3 | Pending |
+| ADMN-06 | Phase 3 | Pending |
+| ADMN-07 | Phase 3 | Pending |
+| ADMN-08 | Phase 3 | Pending |
+| ADMN-09 | Phase 3 | Pending |
+| ADMN-10 | Phase 3 | Pending |
+| ADMN-11 | Phase 3 | Pending |
+| PLAN-01 | Phase 3 | Pending |
+| PLAN-02 | Phase 3 | Pending |
+| PLAN-03 | Phase 3 | Pending |
+| PLAN-04 | Phase 4 | Pending |
+| PLAN-05 | Phase 4 | Pending |
+| PLAN-06 | Phase 4 | Pending |
+| PLAN-07 | Phase 4 | Pending |
+| PLAN-08 | Phase 3 | Pending |
+| WAPP-01 | Phase 5 | Pending |
+| WAPP-02 | Phase 5 | Pending |
+| WAPP-03 | Phase 5 | Pending |
+| WAPP-04 | Phase 5 | Pending |
+| WAPP-05 | Phase 5 | Pending |
+| WAPP-06 | Phase 5 | Pending |
+| N8N-01 | Phase 5 | Pending |
+| N8N-02 | Phase 5 | Pending |
+| N8N-03 | Phase 5 | Pending |
+| N8N-04 | Phase 5 | Pending |
+| N8N-05 | Phase 5 | Pending |
+| N8N-06 | Phase 5 | Pending |
+| VOIC-01 | Phase 5 | Pending |
+| VOIC-02 | Phase 5 | Pending |
+| VOIC-03 | Phase 5 | Pending |
+| VOIC-04 | Phase 5 | Pending |
 
 **Coverage:**
-- v1 requirements: 55 total
-- Mapped to phases: 0
-- Unmapped: 55 (pending roadmap)
+- v1 requirements: 60 total
+- Mapped to phases: 60
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-27*
-*Last updated: 2026-03-27 after initial definition*
+*Last updated: 2026-03-27 after roadmap creation*
