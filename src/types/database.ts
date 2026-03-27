@@ -250,6 +250,20 @@ type Relationship = {
   isOneToOne?: boolean;
 };
 
+// --- Admin types ---
+
+export interface AdminUserRow {
+  id: string;
+  email: string;
+  nome: string;
+  senha_hash: string;
+  role: 'admin' | 'expert';
+  expert_id: string | null;
+  ativo: boolean;
+  created_at: string;
+  last_login: string | null;
+}
+
 // --- Multi-tenant types ---
 
 export interface ExpertRow {

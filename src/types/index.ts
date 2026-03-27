@@ -50,7 +50,31 @@ export interface MetricaDiaria {
   no_grupo: number;
 }
 
+export interface ExpertProfile {
+  id: string;
+  nome: string;
+  slug: string;
+  cor_primaria: string;
+  cor_secundaria: string;
+  logo_url: string | null;
+  nome_plataforma: string;
+  nome_assistente: string;
+  ativo: boolean;
+  plano: {
+    id: string;
+    nome: string;
+    max_leads: number | null;
+    max_instancias: number | null;
+    max_envios_mes: number | null;
+    features_permitidas: string[] | null;
+  };
+}
+
 export interface User {
+  id: string;
   email: string;
   nome: string;
+  role: 'admin' | 'expert';
+  expert_id: string | null;
+  expert: ExpertProfile | null;
 }

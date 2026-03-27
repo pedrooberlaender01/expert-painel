@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter, Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Menu } from 'lucide-react';
 import { Sidebar } from './components/Sidebar';
 import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
@@ -16,21 +17,73 @@ import Conversas from './pages/Conversas';
 import { SimuladorEnvios } from './pages/SimuladorEnvios';
 import { Torneios } from './pages/Torneios';
 import { Grupos } from './pages/Grupos';
+import Agendamentos from './pages/Agendamentos';
+import Agendados from './pages/Agendados';
+import GerarCopy from './pages/GerarCopy';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { useAuthStore } from './stores/authStore';
 
 const ProtectedLayout = () => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const isConversas = location.pathname === '/conversas';
+  const isGerarCopy = location.pathname === '/envios/gerar-copy';
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+
   return (
-    <div className="flex min-h-screen bg-surface">
+    <div className="flex min-h-screen relative overflow-x-hidden" style={{ background: 'linear-gradient(135deg, #0a0a0f 0%, #0d1117 40%, #0f0a1a 100%)' }}>
+      {/* Ambient lights */}
+      <div className="ambient-light ambient-light--blue" />
+      <div className="ambient-light ambient-light--green" />
+      <div className="ambient-light ambient-light--purple" />
+
+      {/* Desktop sidebar */}
       <Sidebar
         collapsed={isSidebarCollapsed}
         onToggle={() => setIsSidebarCollapsed((prev) => !prev)}
       />
-      <main className="flex-1 overflow-y-auto h-screen min-w-0">
-        <div className={isConversas ? 'h-full' : 'h-full p-6 lg:p-8'}>
+
+      {/* Mobile menu overlay */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          <div
+            className="absolute inset-0 animate-fade-in"
+            style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}
+            onClick={() => setMobileMenuOpen(false)}
+          />
+          <div
+            className="relative h-full w-[280px] animate-slide-in-right"
+            style={{ background: '#0c0c14', borderRight: '1px solid rgba(255,255,255,0.04)' }}
+          >
+            <Sidebar
+              collapsed={false}
+              onToggle={() => setMobileMenuOpen(false)}
+              isMobile
+            />
+          </div>
+        </div>
+      )}
+
+      <main className="flex-1 overflow-y-auto h-screen min-w-0 relative z-10">
+        {/* Mobile top bar — always visible on mobile */}
+        <div className="flex md:hidden items-center justify-between px-4 py-3 sticky top-0 z-30" style={{ background: 'rgba(10,10,15,0.95)', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+          <button
+            onClick={() => setMobileMenuOpen(true)}
+            className="p-2 rounded-lg transition-all"
+            style={{ color: 'rgba(255,255,255,0.6)', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)' }}
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+          <span className="text-[13px] font-semibold text-white font-display">Allan Cabral</span>
+          <div className="w-9" /> {/* spacer */}
+        </div>
+
+        <div className={isConversas || isGerarCopy ? 'h-full' : 'h-full p-3 sm:p-4 md:p-6 lg:p-8'}>
           <Outlet />
         </div>
       </main>
@@ -48,6 +101,15 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
 
+        {/* Admin routes — Phase 3 will add actual admin pages */}
+        <Route path="/admin" element={
+          <ProtectedRoute requiredRole="admin">
+            <ProtectedLayout />
+          </ProtectedRoute>
+        }>
+          <Route index element={<div className="p-8 text-white">Admin Panel — Em construcao (Phase 3)</div>} />
+        </Route>
+
         <Route
           element={(
             <ProtectedRoute>
@@ -64,6 +126,9 @@ function App() {
           <Route path="/envios/simulador" element={<SimuladorEnvios />} />
           <Route path="/envios/historico" element={<HistoricoEnvios />} />
           <Route path="/envios/templates" element={<Templates />} />
+          <Route path="/envios/agendamentos" element={<Agendamentos />} />
+          <Route path="/envios/agendados" element={<Agendados />} />
+          <Route path="/envios/gerar-copy" element={<GerarCopy />} />
           <Route path="/grupos" element={<Grupos />} />
           <Route path="/torneios" element={<Torneios />} />
           <Route path="/mensagens" element={<Mensagens />} />

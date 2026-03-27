@@ -1,28 +1,48 @@
 import { create } from 'zustand';
 import { supabase } from '../lib/supabase';
-
-interface User {
-  id: string;
-  email: string;
-  nome: string;
-}
+import type { User } from '../types/index';
 
 interface AuthState {
   user: User | null;
   loading: boolean;
+  loginAttempts: number;
+  lockedUntil: number | null;
   signIn: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   signOut: () => void;
   initialize: () => void;
+  isSessionExpired: () => boolean;
+  isAdmin: () => boolean;
+  getExpertId: () => string | null;
 }
 
 const AUTH_KEY = 'dashboard-auth-user';
+const AUTH_TIMESTAMP_KEY = 'dashboard-auth-timestamp';
+const SESSION_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
 
-type AuthStoreSetter = (state: Partial<AuthState>) => void;
+function getDelayMs(attempts: number): number {
+  if (attempts >= 10) return 30000;
+  if (attempts >= 5) return 5000;
+  if (attempts >= 3) return 1000;
+  return 0;
+}
 
-export const useAuthStore = create<AuthState>((set: AuthStoreSetter) => ({
+type AuthStoreSetter = (state: Partial<AuthState> | ((prev: AuthState) => Partial<AuthState>)) => void;
+
+export const useAuthStore = create<AuthState>((set: AuthStoreSetter, get) => ({
   user: null,
   loading: true,
+  loginAttempts: 0,
+  lockedUntil: null,
+
   signIn: async (email: string, password: string) => {
+    const state = get();
+
+    // Check brute force lockout
+    if (state.lockedUntil && Date.now() < state.lockedUntil) {
+      const remaining = Math.ceil((state.lockedUntil - Date.now()) / 1000);
+      return { success: false, error: `Muitas tentativas. Aguarde ${remaining}s.` };
+    }
+
     try {
       const { data, error } = await supabase.rpc('admin_login', {
         p_email: email,
@@ -33,32 +53,71 @@ export const useAuthStore = create<AuthState>((set: AuthStoreSetter) => ({
       if (data?.success && data.user) {
         const user = data.user as User;
         localStorage.setItem(AUTH_KEY, JSON.stringify(user));
-        set({ user, loading: false });
+        localStorage.setItem(AUTH_TIMESTAMP_KEY, Date.now().toString());
+        set({ user, loading: false, loginAttempts: 0, lockedUntil: null });
         return { success: true };
       }
 
+      // Failed login — increment attempts and set delay
+      const newAttempts = state.loginAttempts + 1;
+      const delay = getDelayMs(newAttempts);
+      set({
+        loginAttempts: newAttempts,
+        lockedUntil: delay > 0 ? Date.now() + delay : null,
+      });
+
       return { success: false, error: data?.error || 'Erro ao fazer login' };
     } catch (err: unknown) {
+      const newAttempts = state.loginAttempts + 1;
+      const delay = getDelayMs(newAttempts);
+      set({
+        loginAttempts: newAttempts,
+        lockedUntil: delay > 0 ? Date.now() + delay : null,
+      });
+
       const message = err instanceof Error ? err.message : 'Erro ao fazer login';
       return { success: false, error: message };
     }
   },
+
   signOut: () => {
     localStorage.removeItem(AUTH_KEY);
+    localStorage.removeItem(AUTH_TIMESTAMP_KEY);
     set({ user: null, loading: false });
   },
+
+  isSessionExpired: () => {
+    const timestamp = localStorage.getItem(AUTH_TIMESTAMP_KEY);
+    if (!timestamp) return true;
+    return Date.now() - parseInt(timestamp, 10) > SESSION_DURATION_MS;
+  },
+
   initialize: () => {
     const stored = localStorage.getItem(AUTH_KEY);
     if (stored) {
       try {
+        // Check session expiration
+        const timestamp = localStorage.getItem(AUTH_TIMESTAMP_KEY);
+        if (!timestamp || Date.now() - parseInt(timestamp, 10) > SESSION_DURATION_MS) {
+          localStorage.removeItem(AUTH_KEY);
+          localStorage.removeItem(AUTH_TIMESTAMP_KEY);
+          set({ user: null, loading: false });
+          return;
+        }
+
         const user = JSON.parse(stored) as User;
         set({ user, loading: false });
       } catch {
         localStorage.removeItem(AUTH_KEY);
+        localStorage.removeItem(AUTH_TIMESTAMP_KEY);
         set({ user: null, loading: false });
       }
     } else {
       set({ user: null, loading: false });
     }
   },
+
+  isAdmin: () => get().user?.role === 'admin',
+
+  getExpertId: () => get().user?.expert_id ?? null,
 }));

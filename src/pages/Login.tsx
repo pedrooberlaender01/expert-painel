@@ -14,9 +14,9 @@ export const Login: React.FC = () => {
   const navigate = useNavigate();
   const { toast, showToast, hideToast } = useToast();
 
-  // If already authenticated, redirect to dashboard
+  // If already authenticated, redirect based on role
   if (!loading && user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to={user.role === 'admin' ? '/admin' : '/'} replace />;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -27,7 +27,12 @@ export const Login: React.FC = () => {
     const result = await signIn(email, password);
 
     if (result.success) {
-      navigate('/', { replace: true });
+      const currentUser = useAuthStore.getState().user;
+      if (currentUser?.role === 'admin') {
+        navigate('/admin', { replace: true });
+      } else {
+        navigate('/', { replace: true });
+      }
     } else {
       const message = translateError(result.error || 'Erro ao fazer login');
       setError(message);
