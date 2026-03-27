@@ -33,10 +33,10 @@ Isolamento seguro de dados entre experts — um expert NUNCA pode ver, modificar
 
 <!-- Multi-tenant transformation scope — v1 milestone. -->
 
-- [ ] Sistema multi-tenant com coluna `expert_id` em todas as tabelas relevantes
+- ✓ Sistema multi-tenant com coluna `expert_id` em todas as tabelas relevantes — Validated in Phase 1
 - [ ] RLS policies no Supabase filtrando por `expert_id` em todas as queries
-- [ ] Tabela `experts` com dados de personalização (cor, logo, nome, persona, voice_id)
-- [ ] Tabela `planos` com limites editáveis (leads, instâncias, envios/mês, features)
+- ✓ Tabela `experts` com dados de personalização (cor, logo, nome, persona, voice_id) — Validated in Phase 1
+- ✓ Tabela `planos` com limites editáveis (leads, instâncias, envios/mês, features) — Validated in Phase 1
 - [ ] Auth customizada multi-tenant (expert_id vinculado ao login, role: expert/admin)
 - [ ] White-label via CSS Variables (--color-primary, --color-primary-hover, --color-primary-bg)
 - [ ] Logo e nome da plataforma dinâmicos no sidebar por expert
@@ -162,4 +162,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-27 after initialization*
+*Last updated: 2026-03-27 after Phase 1 completion — Database Foundation & Migration*
