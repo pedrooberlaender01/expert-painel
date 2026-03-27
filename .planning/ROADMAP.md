@@ -33,7 +33,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 Plans:
 - [x] 01-01: Create experts and planos tables, seed Allan as Expert #1
-- [ ] 01-02: Add expert_id column to all 25 relevant tables with indexes
+- [x] 01-02: Add expert_id column to all 26 relevant tables with indexes
 - [ ] 01-03: Migrate existing data to Expert #1 and validate integrity
 
 ### Phase 2: Auth & Security Hardening
@@ -114,7 +114,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Database Foundation & Migration | 0/3 | Not started | - |
+| 1. Database Foundation & Migration | 2/3 | In progress | - |
 | 2. Auth & Security Hardening | 0/3 | Not started | - |
 | 3. Admin Master Panel | 0/3 | Not started | - |
 | 4. White-Label & Plan Enforcement | 0/3 | Not started | - |

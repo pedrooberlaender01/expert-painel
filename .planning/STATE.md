@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-01-PLAN.md
-last_updated: "2026-03-27T20:51:55.371Z"
+stopped_at: Completed 01-02-PLAN.md
+last_updated: "2026-03-27T20:55:27Z"
 last_activity: 2026-03-27
 progress:
   total_phases: 5
   completed_phases: 0
   total_plans: 3
-  completed_plans: 1
-  percent: 0
+  completed_plans: 2
+  percent: 13
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-03-27)
 ## Current Position
 
 Phase: 01 (database-foundation-migration) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 Status: Ready to execute
 Last activity: 2026-03-27
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [█░░░░░░░░░] 13%
 
 ## Performance Metrics
 
@@ -53,6 +53,7 @@ Progress: [░░░░░░░░░░] 0%
 
 *Updated after each plan completion*
 | Phase 01 P01 | 4min | 1 tasks | 1 files |
+| Phase 01 P02 | 2min | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -65,6 +66,8 @@ Recent decisions affecting current work:
 - [Roadmap]: Phase 5 (WhatsApp/N8N/Voice) depends on Phase 2 not Phase 4, enabling parallel work if needed
 - [Phase 01]: Used Supabase Management API for DDL migrations (MCP tools unavailable in session)
 - [Phase 01]: Enterprise plan uses NULL limits for unlimited (max_leads, max_envios_mes)
+- [Phase 01]: All 26 tables from MTNT-03 exist and received expert_id UUID NULLABLE + index
+- [Phase 01]: expert_id columns intentionally NULLABLE -- NOT NULL + FK come in Plan 03 after backfill
 
 ### Pending Todos
 
@@ -78,6 +81,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-27T20:51:55.367Z
-Stopped at: Completed 01-01-PLAN.md
+Last session: 2026-03-27T20:55:27Z
+Stopped at: Completed 01-02-PLAN.md
 Resume file: None
