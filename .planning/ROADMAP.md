@@ -46,7 +46,7 @@ Plans:
   3. Login has progressive rate limiting (delays increase after failed attempts) and sessions expire after 24 hours
   4. No sensitive keys (service_role, UAZAPI tokens, Minimax API keys) are present in the frontend bundle or network responses to the browser
   5. All user inputs are sanitized against XSS, CSP headers are set, and console.log is stripped from production builds
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
 - [ ] 02-01: Extend auth system with roles (admin/expert) and expert_id session binding
@@ -64,7 +64,7 @@ Plans:
   4. Admin dashboard shows consolidated metrics across all experts with per-expert breakdown
   5. Admin can create/edit plans with configurable limits (leads, instances, sends/month, features) and the three default plans (Basico, Pro, Enterprise) exist with correct values
   6. Admin can impersonate any expert (see the panel as the expert sees it) and can assign/remove UAZAPI instances and configure voice_id per expert
-**Plans**: TBD
+**Plans**: 3 plans
 **UI hint**: yes
 
 Plans:
@@ -82,7 +82,7 @@ Plans:
   3. Where "Helena" appears in funnel messages, it shows the expert's configured assistant name instead
   4. An expert on Plano Basico is blocked from creating more than 500 leads, connecting more than 2 instances, and sending more than 1000 messages/month, with a clear visual indicator showing the limit
   5. Features restricted by plan (e.g., Torneio, Copy IA) show "Disponivel no plano Pro" for experts without access
-**Plans**: TBD
+**Plans**: 3 plans
 **UI hint**: yes
 
 Plans:
@@ -100,7 +100,7 @@ Plans:
   3. N8N workflows (Boas vindas, Follow up, Envio Mensagem) correctly filter by expert_id and use the correct expert's UAZAPI tokens
   4. Webhook payloads carry expert_id and n8n validates that the expert_id matches the UAZAPI token that triggered the webhook
   5. Audio generation in the funnel uses the expert's voice_id and voice_settings; if no voice_id is configured, it falls back to the system default voice
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
 - [ ] 05-01: WhatsApp instance isolation and expert-scoped management
