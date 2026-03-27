@@ -32,7 +32,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans
 
 Plans:
-- [ ] 01-01: Create experts and planos tables, seed Allan as Expert #1
+- [x] 01-01: Create experts and planos tables, seed Allan as Expert #1
 - [ ] 01-02: Add expert_id column to all 25 relevant tables with indexes
 - [ ] 01-03: Migrate existing data to Expert #1 and validate integrity
 
