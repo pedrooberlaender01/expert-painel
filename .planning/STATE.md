@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: Completed 02-02-PLAN.md
-last_updated: "2026-03-27T22:44:48.685Z"
+status: verifying
+stopped_at: Completed 02-03-PLAN.md
+last_updated: "2026-03-27T22:52:26.173Z"
 last_activity: 2026-03-27
 progress:
   total_phases: 5
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 6
-  completed_plans: 5
+  completed_plans: 6
   percent: 13
 ---
 
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-03-27)
 
 Phase: 02 (auth-security-hardening) — EXECUTING
 Plan: 3 of 3
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-03-27
 
 Progress: [█░░░░░░░░░] 13%
@@ -57,6 +57,7 @@ Progress: [█░░░░░░░░░] 13%
 | Phase 01 P03 | 4min | 2 tasks | 3 files |
 | Phase 02 P01 | 5min | 2 tasks | 7 files |
 | Phase 02 P02 | 3min | 1 tasks | 1 files |
+| Phase 02 P03 | 5min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -79,6 +80,10 @@ Recent decisions affecting current work:
 - [Phase 02]: ProtectedRoute requiredRole prop for route-level RBAC
 - [Phase 02]: Transition RLS policies: 3-part condition allows existing direct queries during migration
 - [Phase 02]: FORCE RLS on all 26 tables; service_role bypasses for admin RPCs
+- [Phase 02]: CSP meta tag pins exact Supabase domain + Google Fonts, blocks frames/objects
+- [Phase 02]: esbuild drop production-only via defineConfig callback with mode parameter
+- [Phase 02]: UAZAPI_BASE_URL deprecated (not removed) -- SimuladorEnvios and Grupos still use it
+- [Phase 02]: sanitize_text() as reusable SQL function for all text input sanitization
 
 ### Pending Todos
 
@@ -92,6 +97,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-27T22:44:48.681Z
-Stopped at: Completed 02-02-PLAN.md
+Last session: 2026-03-27T22:52:26.168Z
+Stopped at: Completed 02-03-PLAN.md
 Resume file: None

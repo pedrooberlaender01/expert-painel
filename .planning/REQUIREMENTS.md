@@ -22,11 +22,11 @@
 - [x] **AUTH-05**: RLS policies no Supabase filtram por expert_id em TODAS as tabelas (SELECT, INSERT, UPDATE, DELETE)
 - [x] **AUTH-06**: Um expert não consegue acessar, ver ou modificar dados de outro expert via API direta
 - [x] **AUTH-07**: RPCs do Supabase validam expert_id server-side (não confiam no frontend)
-- [ ] **AUTH-08**: Nenhuma chave sensível exposta no frontend (service_role_key, tokens UAZAPI, API keys Minimax)
-- [ ] **AUTH-09**: Inputs sanitizados contra XSS em todos os formulários e campos de texto
-- [ ] **AUTH-10**: CSP headers configurados via meta tags no index.html
-- [ ] **AUTH-11**: Console.log removidos no build de produção via esbuild drop
-- [ ] **AUTH-12**: Webhooks do n8n validam que expert_id do payload corresponde ao token UAZAPI que enviou a requisição
+- [x] **AUTH-08**: Nenhuma chave sensível exposta no frontend (service_role_key, tokens UAZAPI, API keys Minimax)
+- [x] **AUTH-09**: Inputs sanitizados contra XSS em todos os formulários e campos de texto
+- [x] **AUTH-10**: CSP headers configurados via meta tags no index.html
+- [x] **AUTH-11**: Console.log removidos no build de produção via esbuild drop
+- [x] **AUTH-12**: Webhooks do n8n validam que expert_id do payload corresponde ao token UAZAPI que enviou a requisição
 
 ### White-Label
 
@@ -142,11 +142,11 @@
 | AUTH-05 | Phase 2 | Complete |
 | AUTH-06 | Phase 2 | Complete |
 | AUTH-07 | Phase 2 | Complete |
-| AUTH-08 | Phase 2 | Pending |
-| AUTH-09 | Phase 2 | Pending |
-| AUTH-10 | Phase 2 | Pending |
-| AUTH-11 | Phase 2 | Pending |
-| AUTH-12 | Phase 2 | Pending |
+| AUTH-08 | Phase 2 | Complete |
+| AUTH-09 | Phase 2 | Complete |
+| AUTH-10 | Phase 2 | Complete |
+| AUTH-11 | Phase 2 | Complete |
+| AUTH-12 | Phase 2 | Complete |
 | WLBL-01 | Phase 4 | Pending |
 | WLBL-02 | Phase 4 | Pending |
 | WLBL-03 | Phase 4 | Pending |

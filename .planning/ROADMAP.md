@@ -51,7 +51,7 @@ Plans:
 Plans:
 - [x] 02-01: Extend auth system with roles (admin/expert) and expert_id session binding
 - [x] 02-02: Create RLS policies for all tables filtering by expert_id
-- [ ] 02-03: Security hardening (rate limiting, XSS sanitization, CSP, secret removal, server-side RPC validation)
+- [x] 02-03: Security hardening (rate limiting, XSS sanitization, CSP, secret removal, server-side RPC validation)
 
 ### Phase 3: Admin Master Panel
 **Goal**: Agency admin can create and manage experts, configure plans, view global metrics, and impersonate any expert for debugging
