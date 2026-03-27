@@ -9,7 +9,8 @@ export type StatusLead =
   | "entrou_grupo"
   | "nao_interessado"
   | "sem_resposta"
-  | "atendimento_manual";
+  | "atendimento_manual"
+  | "lead_chegou";
 
 export type StatusPremium =
   | "primeiro_audio_enviado"
@@ -18,6 +19,7 @@ export type StatusPremium =
 
 export interface Lead {
   id: string;
+  expert_id: string;
   telefone: string;
   nome: string | null;
   origem: string;

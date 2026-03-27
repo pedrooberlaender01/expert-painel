@@ -14,7 +14,8 @@ export type StatusLead =
   | 'entrou_grupo'
   | 'nao_interessado'
   | 'sem_resposta'
-  | 'atendimento_manual';
+  | 'atendimento_manual'
+  | 'lead_chegou';
 
 // --- Status do assistente premium (manual) ---
 export type StatusPremium =
@@ -34,6 +35,7 @@ export type StatusEnvioLead = 'enviado' | 'erro';
 
 export interface LeadRow {
   id: string;
+  expert_id: string;
   telefone: string;
   nome: string | null;
   origem: string;
@@ -60,6 +62,7 @@ export interface LeadRow {
 
 export interface LeadInsert {
   id?: string;
+  expert_id?: string;  // Set by RLS/default in Phase 2
   telefone: string;
   nome?: string | null;
   origem?: string;
@@ -86,6 +89,7 @@ export type LeadUpdate = Partial<LeadInsert>;
 
 export interface NotificacaoRow {
   id: string;
+  expert_id: string;
   tipo: TipoNotificacao;
   titulo: string;
   mensagem: string;
@@ -96,6 +100,7 @@ export interface NotificacaoRow {
 
 export interface TemplateMensagemRow {
   id: string;
+  expert_id: string;
   nome: string;
   tipo: TipoTemplate;
   mensagem_com_nome: string;
@@ -166,6 +171,7 @@ export interface MetricaDiariaRow {
 
 export interface ConfiguracaoRow {
   id: string;
+  expert_id: string;
   chave: string;
   valor: string;
   descricao: string | null;
@@ -186,12 +192,14 @@ export interface MembrosGrupoRow {
 
 export interface MensagemFunilRow {
   id: string;
+  expert_id: string;
   secao: string;
   cenario: string;
   titulo: string;
   descricao: string;
   tipo_envio: string;
   mensagens: string[];
+  variacoes: string[][] | null;
   tempo_espera_minutos: number | null;
   status_alvo: string | null;
   ordem: number;
@@ -202,6 +210,7 @@ export interface MensagemFunilRow {
 
 export interface WhatsappRotacaoRow {
   id: number;
+  expert_id: string;
   nome: string;
   numero: string;
   ativo: boolean;
@@ -211,6 +220,7 @@ export interface WhatsappRotacaoRow {
 
 export interface WhatsappRotacaoMensagemRow {
   id: number;
+  expert_id: string;
   mensagem: string;
   ativo: boolean;
   ordem: number;
@@ -239,6 +249,66 @@ type Relationship = {
   referencedColumns: string[];
   isOneToOne?: boolean;
 };
+
+// --- Multi-tenant types ---
+
+export interface ExpertRow {
+  id: string;
+  nome: string;
+  slug: string;
+  cor_primaria: string;
+  cor_secundaria: string;
+  logo_url: string | null;
+  nome_plataforma: string;
+  nome_assistente: string;
+  voice_id: string | null;
+  voice_settings: Record<string, number> | null;
+  plano_id: string | null;
+  ativo: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ExpertInsert {
+  id?: string;
+  nome: string;
+  slug: string;
+  cor_primaria?: string;
+  cor_secundaria?: string;
+  logo_url?: string | null;
+  nome_plataforma?: string;
+  nome_assistente?: string;
+  voice_id?: string | null;
+  voice_settings?: Record<string, number> | null;
+  plano_id?: string | null;
+  ativo?: boolean;
+}
+
+export type ExpertUpdate = Partial<ExpertInsert>;
+
+export interface PlanoRow {
+  id: string;
+  nome: string;
+  max_leads: number | null;
+  max_instancias: number;
+  max_envios_mes: number | null;
+  features_permitidas: string[];
+  ativo: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface PlanoInsert {
+  id?: string;
+  nome: string;
+  max_leads?: number | null;
+  max_instancias?: number;
+  max_envios_mes?: number | null;
+  features_permitidas?: string[];
+  ativo?: boolean;
+}
+
+export type PlanoUpdate = Partial<PlanoInsert>;
 
 // --- Database type para o cliente tipado ---
 
@@ -315,6 +385,18 @@ export type Database = {
         Row: WhatsappRotacaoMensagemRow;
         Insert: Omit<WhatsappRotacaoMensagemRow, 'id'>;
         Update: Partial<Omit<WhatsappRotacaoMensagemRow, 'id'>>;
+        Relationships: Relationship[];
+      };
+      experts: {
+        Row: ExpertRow;
+        Insert: ExpertInsert;
+        Update: ExpertUpdate;
+        Relationships: Relationship[];
+      };
+      planos: {
+        Row: PlanoRow;
+        Insert: PlanoInsert;
+        Update: PlanoUpdate;
         Relationships: Relationship[];
       };
     };
