@@ -24,7 +24,7 @@ export const TipoEnvioSelector: React.FC<TipoEnvioSelectorProps> = ({ tipo, onCh
             className={cn(
               'flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer transition-all duration-200 border',
               selected
-                ? 'bg-[#004AFF]/10 border-[#004AFF]/30 shadow-[inset_0_0_20px_rgba(16,185,129,0.03)]'
+                ? 'bg-[#004AFF]/10 border-[#004AFF]/30 shadow-[inset_0_0_20px_var(--color-primary-bg)]'
                 : 'bg-surface-50/50 border-surface-300/20 hover:border-surface-300/40'
             )}
           >

@@ -106,7 +106,7 @@ export const GatilhoCard: React.FC<GatilhoCardProps> = ({
           <button
             onClick={addWord}
             disabled={!newWord.trim()}
-            className="flex items-center gap-1 text-[12px] font-medium text-emerald-400 hover:text-emerald-300 transition-colors px-3 py-2 rounded-lg border border-dashed border-emerald-500/30 hover:border-emerald-500/50 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:text-emerald-400 disabled:hover:border-emerald-500/30 shrink-0"
+            className="flex items-center gap-1 text-[12px] font-medium text-primary-light hover:text-primary transition-colors px-3 py-2 rounded-lg border border-dashed border-primary-bg hover:border-primary disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:text-primary-light disabled:hover:border-primary-bg shrink-0"
           >
             <Plus className="w-3.5 h-3.5" />
             Adicionar

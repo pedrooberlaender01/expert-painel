@@ -17,10 +17,10 @@ const STATUS_OPTIONS: StatusLead[] = [
 const statusCheckboxColors: Record<StatusLead, string> = {
   primeiro_audio_enviado: 'border-amber-500/40 bg-amber-500/10 data-[checked]:bg-amber-500 data-[checked]:border-amber-500',
   convite_enviado: 'border-sky-500/40 bg-sky-500/10 data-[checked]:bg-sky-500 data-[checked]:border-sky-500',
-  interessado: 'border-emerald-500/40 bg-emerald-500/10 data-[checked]:bg-emerald-500 data-[checked]:border-emerald-500',
+  interessado: 'border-primary-bg bg-primary-bg data-[checked]:bg-primary data-[checked]:border-primary',
   nao_interessado: 'border-surface-300/40 bg-surface-300/10 data-[checked]:bg-surface-300 data-[checked]:border-surface-300',
   link_enviado: 'border-violet-500/40 bg-violet-500/10 data-[checked]:bg-violet-500 data-[checked]:border-violet-500',
-  no_grupo: 'border-emerald-400/40 bg-emerald-400/10 data-[checked]:bg-emerald-400 data-[checked]:border-emerald-400',
+  no_grupo: 'border-primary-bg bg-primary-bg data-[checked]:bg-primary-light data-[checked]:border-primary-light',
   sem_resposta: 'border-rose-500/40 bg-rose-500/10 data-[checked]:bg-rose-500 data-[checked]:border-rose-500',
 };
 

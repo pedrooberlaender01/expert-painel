@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Volume2, FileText, Image, Video, Trash2, Plus, Play, Loader2, Save, ChevronUp, ChevronDown } from 'lucide-react';
 import { cn } from '../../utils/cn';
+import { WEBHOOKS, fetchWithTimeout } from '../../config/webhooks';
 import { getStatusLabel } from '../../utils/formatters';
 import type { MensagemFunil } from '../../hooks/useMensagensFunil';
 
@@ -124,7 +125,7 @@ export const FollowupCard: React.FC<FollowupCardProps> = ({
 
     setTesting(true);
     try {
-      const res = await fetch('https://n8n-n8n.04qisd.easypanel.host/webhook/teste-mensagem', {
+      const res = await fetchWithTimeout(WEBHOOKS.TESTE_MENSAGEM, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -262,7 +263,7 @@ export const FollowupCard: React.FC<FollowupCardProps> = ({
                 onToggleActive?.(nextActive);
               }}
             />
-            <div className="w-9 h-5 rounded-full transition-colors duration-200 bg-[#374151] peer-checked:bg-[#10b981] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-4" />
+            <div className="w-9 h-5 rounded-full transition-colors duration-200 bg-[#374151] peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-4" />
           </label>
         </div>
       </div>
@@ -325,7 +326,7 @@ export const FollowupCard: React.FC<FollowupCardProps> = ({
             className={cn(
               'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all duration-200 border',
               mensagem.tipo_envio === key
-                ? 'bg-emerald-500 text-white border-emerald-500'
+                ? 'bg-primary text-white border-primary'
                 : 'bg-surface-50 text-txt-muted border-surface-200 hover:border-surface-300',
               disabled && 'pointer-events-none'
             )}
@@ -396,7 +397,7 @@ export const FollowupCard: React.FC<FollowupCardProps> = ({
       {!disabled && (
         <button
           onClick={addMessage}
-          className="flex items-center gap-1.5 text-[12px] font-medium text-emerald-400 hover:text-emerald-300 transition-colors mb-5 px-3 py-2 rounded-lg border border-dashed border-emerald-500/30 hover:border-emerald-500/50 w-full justify-center"
+          className="flex items-center gap-1.5 text-[12px] font-medium text-primary-light hover:text-primary transition-colors mb-5 px-3 py-2 rounded-lg border border-dashed border-primary-bg hover:border-primary w-full justify-center"
         >
           <Plus className="w-3.5 h-3.5" />
           Adicionar mensagem
@@ -445,7 +446,7 @@ export const FollowupCard: React.FC<FollowupCardProps> = ({
           className={cn(
             'flex items-center justify-center gap-2 px-5 py-2 rounded-xl text-[12px] font-semibold transition-all duration-200',
             isModified && !disabled
-              ? 'bg-emerald-500 text-white hover:bg-emerald-400 shadow-lg shadow-emerald-500/20'
+              ? 'bg-primary text-white hover:bg-primary-hover shadow-lg shadow-primary-bg'
               : 'bg-surface-200/40 text-txt-dim cursor-not-allowed'
           )}
         >

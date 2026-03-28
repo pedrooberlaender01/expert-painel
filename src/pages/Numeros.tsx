@@ -208,11 +208,11 @@ export const Numeros: React.FC = () => {
         <>
           {/* Resumo */}
           <div className="card-dark p-4 mb-6 flex items-center gap-3">
-            <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-emerald-500/10">
-              <Phone className="w-4 h-4 text-emerald-400" />
+            <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-primary-bg">
+              <Phone className="w-4 h-4 text-primary-light" />
             </div>
             <p className="text-[14px] font-semibold text-txt">
-              <span className="text-emerald-400">{numerosAtivos}</span>
+              <span className="text-primary-light">{numerosAtivos}</span>
               {' '}número{numerosAtivos !== 1 ? 's' : ''} ativo{numerosAtivos !== 1 ? 's' : ''} de{' '}
               <span className="text-txt-secondary">{numeros.length}</span> total
             </p>
@@ -250,11 +250,11 @@ export const Numeros: React.FC = () => {
         <>
           {/* Resumo */}
           <div className="card-dark p-4 mb-6 flex items-center gap-3">
-            <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-emerald-500/10">
-              <MessageCircle className="w-4 h-4 text-emerald-400" />
+            <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-primary-bg">
+              <MessageCircle className="w-4 h-4 text-primary-light" />
             </div>
             <p className="text-[14px] font-semibold text-txt">
-              <span className="text-emerald-400">{mensagensAtivas}</span>
+              <span className="text-primary-light">{mensagensAtivas}</span>
               {' '}mensagen{mensagensAtivas !== 1 ? 's' : ''} ativa{mensagensAtivas !== 1 ? 's' : ''} de{' '}
               <span className="text-txt-secondary">{mensagens.length}</span> total
             </p>
