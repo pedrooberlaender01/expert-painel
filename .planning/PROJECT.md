@@ -38,9 +38,9 @@ Isolamento seguro de dados entre experts — um expert NUNCA pode ver, modificar
 - ✓ Tabela `experts` com dados de personalização (cor, logo, nome, persona, voice_id) — Validated in Phase 1
 - ✓ Tabela `planos` com limites editáveis (leads, instâncias, envios/mês, features) — Validated in Phase 1
 - ✓ Auth customizada multi-tenant (expert_id vinculado ao login, role: expert/admin) — Validated in Phase 2
-- [ ] White-label via CSS Variables (--color-primary, --color-primary-hover, --color-primary-bg)
-- [ ] Logo e nome da plataforma dinâmicos no sidebar por expert
-- [ ] Nome da assistente configurável por expert (hoje "Helena")
+- ✓ White-label via CSS Variables (--color-primary, --color-primary-hover, --color-primary-bg) — Validated in Phase 4
+- ✓ Logo e nome da plataforma dinâmicos no sidebar por expert — Validated in Phase 4
+- [ ] Nome da assistente configurável por expert (hoje "Helena") — Deferred to Phase 5 (n8n only)
 - ✓ Painel admin master em rota /admin dentro do mesmo app React — Validated in Phase 3
 - ✓ Admin master: CRUD de experts (criar, editar, suspender) — Validated in Phase 3
 - ✓ Admin master: Dashboard global com métricas consolidadas de todos experts — Validated in Phase 3
@@ -162,4 +162,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-28 after Phase 3 completion — Admin Master Panel*
+*Last updated: 2026-03-28 after Phase 4 completion — White-Label & Plan Enforcement*
