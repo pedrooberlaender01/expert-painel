@@ -66,12 +66,12 @@
 
 ### WhatsApp & Instâncias
 
-- [ ] **WAPP-01**: Instâncias UAZAPI vinculadas a expert_id na tabela whatsapp_rotacao
-- [ ] **WAPP-02**: Expert pode ver e gerenciar apenas suas próprias instâncias na Central WhatsApp
-- [ ] **WAPP-03**: Expert pode conectar/desconectar instâncias dentro do limite do seu plano
+- [x] **WAPP-01**: Instâncias UAZAPI vinculadas a expert_id na tabela whatsapp_rotacao
+- [x] **WAPP-02**: Expert pode ver e gerenciar apenas suas próprias instâncias na Central WhatsApp
+- [x] **WAPP-03**: Expert pode conectar/desconectar instâncias dentro do limite do seu plano
 - [ ] **WAPP-04**: Admin master pode provisionar instâncias e atribuir a qualquer expert
-- [ ] **WAPP-05**: Rotação de números funciona apenas entre instâncias do mesmo expert
-- [ ] **WAPP-06**: Webhooks das instâncias carregam expert_id para filtrar no n8n
+- [x] **WAPP-05**: Rotação de números funciona apenas entre instâncias do mesmo expert
+- [x] **WAPP-06**: Webhooks das instâncias carregam expert_id para filtrar no n8n
 
 ### N8N Workflows
 
@@ -84,10 +84,10 @@
 
 ### Voice (Minimax)
 
-- [ ] **VOIC-01**: Campo voice_id na tabela experts (preenchido manualmente pelo admin no MVP)
-- [ ] **VOIC-02**: Campo voice_settings (JSONB) na tabela experts com speed, pitch, timbre, vol
+- [x] **VOIC-01**: Campo voice_id na tabela experts (preenchido manualmente pelo admin no MVP)
+- [x] **VOIC-02**: Campo voice_settings (JSONB) na tabela experts com speed, pitch, timbre, vol
 - [ ] **VOIC-03**: Workflows de áudio do funil usam voice_id e voice_settings do expert correspondente
-- [ ] **VOIC-04**: Se expert não tem voice_id configurado, opções de áudio são desabilitadas (sem fallback)
+- [x] **VOIC-04**: Se expert não tem voice_id configurado, opções de áudio são desabilitadas (sem fallback)
 
 ## v2 Requirements
 
@@ -174,22 +174,22 @@
 | PLAN-06 | Phase 4 | Complete |
 | PLAN-07 | Phase 4 | Complete |
 | PLAN-08 | Phase 3 | Complete |
-| WAPP-01 | Phase 5 | Pending |
-| WAPP-02 | Phase 5 | Pending |
-| WAPP-03 | Phase 5 | Pending |
+| WAPP-01 | Phase 5 | Complete |
+| WAPP-02 | Phase 5 | Complete |
+| WAPP-03 | Phase 5 | Complete |
 | WAPP-04 | Phase 5 | Pending |
-| WAPP-05 | Phase 5 | Pending |
-| WAPP-06 | Phase 5 | Pending |
+| WAPP-05 | Phase 5 | Complete |
+| WAPP-06 | Phase 5 | Complete |
 | N8N-01 | Phase 5 | Pending |
 | N8N-02 | Phase 5 | Pending |
 | N8N-03 | Phase 5 | Pending |
 | N8N-04 | Phase 5 | Pending |
 | N8N-05 | Phase 5 | Pending |
 | N8N-06 | Phase 5 | Pending |
-| VOIC-01 | Phase 5 | Pending |
-| VOIC-02 | Phase 5 | Pending |
+| VOIC-01 | Phase 5 | Complete |
+| VOIC-02 | Phase 5 | Complete |
 | VOIC-03 | Phase 5 | Pending |
-| VOIC-04 | Phase 5 | Pending |
+| VOIC-04 | Phase 5 | Complete |
 
 **Coverage:**
 - v1 requirements: 60 total

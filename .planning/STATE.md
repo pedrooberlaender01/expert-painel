@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: verifying
-stopped_at: Phase 5 context gathered
-last_updated: "2026-03-28T03:12:07.608Z"
+status: executing
+stopped_at: Completed 05-01-PLAN.md
+last_updated: "2026-03-28T03:50:39.987Z"
 last_activity: 2026-03-28
 progress:
   total_phases: 5
   completed_phases: 4
-  total_plans: 12
-  completed_plans: 12
+  total_plans: 15
+  completed_plans: 13
   percent: 13
 ---
 
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-27)
 
 **Core value:** Isolamento seguro de dados entre experts — um expert NUNCA pode ver, modificar ou interagir com dados de outro expert, enquanto a agencia (admin master) tem visibilidade e controle total sobre todos.
-**Current focus:** Phase 04 — white-label-plan-enforcement
+**Current focus:** Phase 05 — whatsapp-n8n-workflows-voice
 
 ## Current Position
 
-Phase: 5
-Plan: Not started
-Status: Phase complete — ready for verification
+Phase: 05 (whatsapp-n8n-workflows-voice) — EXECUTING
+Plan: 2 of 3
+Status: Ready to execute
 Last activity: 2026-03-28
 
 Progress: [█░░░░░░░░░] 13%
@@ -64,6 +64,7 @@ Progress: [█░░░░░░░░░] 13%
 | Phase 04 P01 | 21min | 4 tasks | 38 files |
 | Phase 04 P02 | 2min | 2 tasks | 2 files |
 | Phase 04 P03 | 3min | 2 tasks | 6 files |
+| Phase 05 P01 | 4min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -103,6 +104,8 @@ Recent decisions affecting current work:
 - [Phase 04]: NavItem interface with optional featureKey for TypeScript strict mode gating
 - [Phase 04]: Gated sidebar items rendered as div (not NavLink) with lock icon and plan tooltip
 - [Phase 04]: No create-lead button in Leads.tsx; only banner added. Both Nova Instancia buttons disabled at limit. PlanLimitBanner renders at 80%+ usage only.
+- [Phase 05]: voice_id and voice_settings added to ExpertProfile type; audio disabling via voiceEnabled prop pattern
+- [Phase 05]: Webhook payloads enriched with expert_id via useAuthStore.getState().getActiveExpertId()
 
 ### Pending Todos
 
@@ -116,6 +119,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-28T03:12:07.602Z
-Stopped at: Phase 5 context gathered
-Resume file: .planning/phases/05-whatsapp-n8n-workflows-voice/05-CONTEXT.md
+Last session: 2026-03-28T03:50:39.979Z
+Stopped at: Completed 05-01-PLAN.md
+Resume file: None
