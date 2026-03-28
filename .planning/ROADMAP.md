@@ -99,13 +99,13 @@ Plans:
   2. Number rotation only cycles through instances belonging to the same expert
   3. N8N workflows (Boas vindas, Follow up, Envio Mensagem) correctly filter by expert_id and use the correct expert's UAZAPI tokens
   4. Webhook payloads carry expert_id and n8n validates that the expert_id matches the UAZAPI token that triggered the webhook
-  5. Audio generation in the funnel uses the expert's voice_id and voice_settings; if no voice_id is configured, it falls back to the system default voice
+  5. Audio generation in the funnel uses the expert's voice_id and voice_settings; if no voice_id is configured, audio options are disabled (no fallback)
 **Plans**: 3 plans
 
 Plans:
-- [ ] 05-01: WhatsApp instance isolation and expert-scoped management
-- [ ] 05-02: N8N workflow updates for multi-tenant filtering and token routing
-- [ ] 05-03: Voice settings per expert and audio workflow integration
+- [ ] 05-01-PLAN.md — Frontend: WhatsApp webhook enrichment, ExpertProfile voice_id type, audio disabling in Mensagens
+- [ ] 05-02-PLAN.md — N8N: Update Boas vindas, Follow up, Envio Mensagem workflows for multi-tenant
+- [ ] 05-03-PLAN.md — N8N: Update Coleta, Rotatividade, identificaConexao + configuracoes duplication RPC
 
 ## Progress
 
