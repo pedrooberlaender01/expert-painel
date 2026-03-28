@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 05-01-PLAN.md
-last_updated: "2026-03-28T03:50:39.987Z"
+stopped_at: Completed 05-03-PLAN.md
+last_updated: "2026-03-28T03:57:14.986Z"
 last_activity: 2026-03-28
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 15
-  completed_plans: 13
+  completed_plans: 14
   percent: 13
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-03-27)
 ## Current Position
 
 Phase: 05 (whatsapp-n8n-workflows-voice) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 Status: Ready to execute
 Last activity: 2026-03-28
 
@@ -65,6 +65,7 @@ Progress: [█░░░░░░░░░] 13%
 | Phase 04 P02 | 2min | 2 tasks | 2 files |
 | Phase 04 P03 | 3min | 2 tasks | 6 files |
 | Phase 05 P01 | 4min | 2 tasks | 5 files |
+| Phase 05 P03 | 4min | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -106,6 +107,9 @@ Recent decisions affecting current work:
 - [Phase 04]: No create-lead button in Leads.tsx; only banner added. Both Nova Instancia buttons disabled at limit. PlanLimitBanner renders at 80%+ usage only.
 - [Phase 05]: voice_id and voice_settings added to ExpertProfile type; audio disabling via voiceEnabled prop pattern
 - [Phase 05]: Webhook payloads enriched with expert_id via useAuthStore.getState().getActiveExpertId()
+- [Phase 05]: N8N_GEND exported from webhooks.ts for reuse in traffic links
+- [Phase 05]: Rotatividade Numero uses expert_id from query parameter (not instance name)
+- [Phase 05]: Template expert for configuracoes resolved dynamically by created_at ASC
 
 ### Pending Todos
 
@@ -119,6 +123,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-28T03:50:39.979Z
-Stopped at: Completed 05-01-PLAN.md
+Last session: 2026-03-28T03:57:14.982Z
+Stopped at: Completed 05-03-PLAN.md
 Resume file: None

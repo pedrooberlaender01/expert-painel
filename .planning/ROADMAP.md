@@ -105,7 +105,7 @@ Plans:
 Plans:
 - [x] 05-01-PLAN.md — Frontend: WhatsApp webhook enrichment, ExpertProfile voice_id type, audio disabling in Mensagens
 - [ ] 05-02-PLAN.md — N8N: Update Boas vindas, Follow up, Envio Mensagem workflows for multi-tenant
-- [ ] 05-03-PLAN.md — N8N: Update Coleta, Rotatividade, identificaConexao + configuracoes duplication RPC
+- [x] 05-03-PLAN.md — N8N: Update Coleta, Rotatividade, identificaConexao + configuracoes duplication RPC
 
 ## Progress
 

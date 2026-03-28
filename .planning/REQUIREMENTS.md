@@ -69,14 +69,14 @@
 - [x] **WAPP-01**: Instâncias UAZAPI vinculadas a expert_id na tabela whatsapp_rotacao
 - [x] **WAPP-02**: Expert pode ver e gerenciar apenas suas próprias instâncias na Central WhatsApp
 - [x] **WAPP-03**: Expert pode conectar/desconectar instâncias dentro do limite do seu plano
-- [ ] **WAPP-04**: Admin master pode provisionar instâncias e atribuir a qualquer expert
+- [x] **WAPP-04**: Admin master pode provisionar instâncias e atribuir a qualquer expert
 - [x] **WAPP-05**: Rotação de números funciona apenas entre instâncias do mesmo expert
 - [x] **WAPP-06**: Webhooks das instâncias carregam expert_id para filtrar no n8n
 
 ### N8N Workflows
 
-- [ ] **N8N-01**: Workflows compartilhados recebem expert_id nos webhooks e filtram queries Supabase por expert_id
-- [ ] **N8N-02**: Tabela configuracoes passa a ter expert_id (cada expert tem seus próprios links, tempos de follow-up, etc.)
+- [x] **N8N-01**: Workflows compartilhados recebem expert_id nos webhooks e filtram queries Supabase por expert_id
+- [x] **N8N-02**: Tabela configuracoes passa a ter expert_id (cada expert tem seus próprios links, tempos de follow-up, etc.)
 - [ ] **N8N-03**: Workflows de envio de mensagem usam tokens UAZAPI do expert correto (não global)
 - [ ] **N8N-04**: Workflow "Boas vindas - Leads Insta" filtra por expert_id do webhook recebido
 - [ ] **N8N-05**: Workflow "Follow up - assistente" processa apenas leads do expert correspondente
@@ -177,11 +177,11 @@
 | WAPP-01 | Phase 5 | Complete |
 | WAPP-02 | Phase 5 | Complete |
 | WAPP-03 | Phase 5 | Complete |
-| WAPP-04 | Phase 5 | Pending |
+| WAPP-04 | Phase 5 | Complete |
 | WAPP-05 | Phase 5 | Complete |
 | WAPP-06 | Phase 5 | Complete |
-| N8N-01 | Phase 5 | Pending |
-| N8N-02 | Phase 5 | Pending |
+| N8N-01 | Phase 5 | Complete |
+| N8N-02 | Phase 5 | Complete |
 | N8N-03 | Phase 5 | Pending |
 | N8N-04 | Phase 5 | Pending |
 | N8N-05 | Phase 5 | Pending |
