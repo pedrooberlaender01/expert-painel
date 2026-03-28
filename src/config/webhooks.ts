@@ -3,7 +3,7 @@
 // AUTH-08 audit: No Minimax API keys in frontend (confirmed). Audio generation is server-side only (per D-10).
 // ─────────────────────────────────────────────
 
-const N8N_GEND = 'https://n8n-gend.srv1431760.hstgr.cloud/webhook';
+export const N8N_GEND = 'https://n8n-gend.srv1431760.hstgr.cloud/webhook';
 const N8N_EASYPANEL = 'https://n8n-n8n.04qisd.easypanel.host/webhook';
 
 export const WEBHOOKS = {

@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Loader2, Upload, X, Check } from 'lucide-react';
+import { Loader2, Upload, X, Check, Copy, CheckCheck } from 'lucide-react';
 import { PageHeader } from '../../components/PageHeader';
 import { useAdminExperts } from '../../hooks/useAdminExperts';
 import type { ExpertFormData } from '../../types/admin';
 import type { PlanoRow } from '../../types/database';
 import type { ExpertDetail } from '../../hooks/useAdminExperts';
+import { N8N_GEND } from '../../config/webhooks';
 
 // --- Color palette ---
 const COLOR_PALETTE = [
@@ -85,6 +86,7 @@ export const AdminExpertForm: React.FC = () => {
   const [planos, setPlanos] = useState<PlanoRow[]>([]);
   const [detail, setDetail] = useState<ExpertDetail | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [copiedLink, setCopiedLink] = useState<string | null>(null);
 
   // Form state
   const [form, setForm] = useState<ExpertFormData>({
@@ -449,6 +451,51 @@ export const AdminExpertForm: React.FC = () => {
                 ))}
               </div>
             )}
+          </div>
+        )}
+
+        {/* Section 6b: Links de Trafego (edit only) */}
+        {isEditing && id && (
+          <div className="glass-card p-5 space-y-4">
+            <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Links de Trafego</h3>
+            <p className="text-xs text-white/30">URLs para campanhas de trafego. Cada link direciona leads para as instancias deste expert.</p>
+
+            {[
+              { label: 'Link Instagram', path: 'whatsapp-rotacao' },
+              { label: 'Link Facebook', path: 'whatsapp-rotacao-facebook' },
+            ].map(({ label, path }) => {
+              const url = `${N8N_GEND}/${path}?expert_id=${id}`;
+              const isCopied = copiedLink === path;
+              return (
+                <div key={path}>
+                  <label className="block text-xs text-white/50 mb-1.5">{label}</label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      readOnly
+                      value={url}
+                      className={`${INPUT_CLASS} opacity-70 cursor-default flex-1`}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText(url);
+                        setCopiedLink(path);
+                        setTimeout(() => setCopiedLink(null), 2000);
+                      }}
+                      className="flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-xs text-white/60 hover:text-white/90 transition-all flex-shrink-0"
+                      style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
+                    >
+                      {isCopied ? (
+                        <><CheckCheck className="w-3.5 h-3.5 text-emerald-400" /><span className="text-emerald-400">Copiado</span></>
+                      ) : (
+                        <><Copy className="w-3.5 h-3.5" /><span>Copiar</span></>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
 
