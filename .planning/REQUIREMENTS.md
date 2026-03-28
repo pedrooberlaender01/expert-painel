@@ -33,8 +33,8 @@
 - [x] **WLBL-01**: CSS Variables definidas no :root (--color-primary, --color-primary-hover, --color-primary-bg, --color-primary-light)
 - [x] **WLBL-02**: No login, CSS Variables são sobrescritas com os valores do expert logado
 - [x] **WLBL-03**: Todos os componentes que usam #10b981 (verde) migrados para usar var(--color-primary)
-- [ ] **WLBL-04**: Logo do expert exibida no topo do sidebar (onde hoje é "Allan Cabral / AUTOMAÇÕES")
-- [ ] **WLBL-05**: Nome da plataforma do expert exibido ao lado da logo no sidebar
+- [x] **WLBL-04**: Logo do expert exibida no topo do sidebar (onde hoje é "Allan Cabral / AUTOMAÇÕES")
+- [x] **WLBL-05**: Nome da plataforma do expert exibido ao lado da logo no sidebar
 - [ ] **WLBL-06**: Nome da assistente configurável por expert (onde aparece "Helena" nas mensagens do funil)
 - [x] **WLBL-07**: Efeitos de fundo/gradientes sutis adaptam-se à cor primária do expert
 - [x] **WLBL-08**: Layout, fontes (Inter/Outfit/JetBrains Mono), cores de superfície (#0a0a0a, #1a1a1a, #232328) e estrutura de componentes são idênticos entre experts
@@ -61,7 +61,7 @@
 - [ ] **PLAN-04**: Limites de leads são enforced (bloqueia criação de novo lead quando limite atingido)
 - [ ] **PLAN-05**: Limites de instâncias são enforced (bloqueia conexão de nova instância quando limite atingido)
 - [ ] **PLAN-06**: Limites de envios/mês são enforced com contador mensal (bloqueia envio quando limite atingido)
-- [ ] **PLAN-07**: Features bloqueadas por plano mostram indicador visual (ex: "Disponível no plano Pro")
+- [x] **PLAN-07**: Features bloqueadas por plano mostram indicador visual (ex: "Disponível no plano Pro")
 - [x] **PLAN-08**: Valores dos planos são editáveis pelo admin master (não hardcoded)
 
 ### WhatsApp & Instâncias
@@ -150,8 +150,8 @@
 | WLBL-01 | Phase 4 | Complete |
 | WLBL-02 | Phase 4 | Complete |
 | WLBL-03 | Phase 4 | Complete |
-| WLBL-04 | Phase 4 | Pending |
-| WLBL-05 | Phase 4 | Pending |
+| WLBL-04 | Phase 4 | Complete |
+| WLBL-05 | Phase 4 | Complete |
 | WLBL-06 | Phase 4 | Pending |
 | WLBL-07 | Phase 4 | Complete |
 | WLBL-08 | Phase 4 | Complete |
@@ -172,7 +172,7 @@
 | PLAN-04 | Phase 4 | Pending |
 | PLAN-05 | Phase 4 | Pending |
 | PLAN-06 | Phase 4 | Pending |
-| PLAN-07 | Phase 4 | Pending |
+| PLAN-07 | Phase 4 | Complete |
 | PLAN-08 | Phase 3 | Complete |
 | WAPP-01 | Phase 5 | Pending |
 | WAPP-02 | Phase 5 | Pending |
