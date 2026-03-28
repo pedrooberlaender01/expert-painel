@@ -25,6 +25,7 @@ import { AdminLayout } from './components/admin/AdminLayout';
 import { AdminExperts } from './pages/admin/AdminExperts';
 import { AdminExpertForm } from './pages/admin/AdminExpertForm';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
+import { AdminPlanos } from './pages/admin/AdminPlanos';
 import { useAuthStore } from './stores/authStore';
 
 const ProtectedLayout = () => {
@@ -115,7 +116,7 @@ function App() {
           <Route path="experts" element={<AdminExperts />} />
           <Route path="experts/new" element={<AdminExpertForm />} />
           <Route path="experts/:id/edit" element={<AdminExpertForm />} />
-          <Route path="planos" element={<div className="text-white text-center mt-20 text-lg">Planos — Em construcao</div>} />
+          <Route path="planos" element={<AdminPlanos />} />
         </Route>
 
         <Route
