@@ -1,18 +1,24 @@
 import { create } from 'zustand';
 import { supabase } from '../lib/supabase';
-import type { User } from '../types/index';
+import type { User, ExpertProfile } from '../types/index';
 
 interface AuthState {
   user: User | null;
   loading: boolean;
   loginAttempts: number;
   lockedUntil: number | null;
+  // Impersonation state (session-only, not persisted)
+  impersonatedExpertId: string | null;
+  impersonatedExpert: ExpertProfile | null;
   signIn: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   signOut: () => void;
   initialize: () => void;
   isSessionExpired: () => boolean;
   isAdmin: () => boolean;
   getExpertId: () => string | null;
+  startImpersonation: (expertId: string, expert: ExpertProfile) => void;
+  stopImpersonation: () => void;
+  getActiveExpertId: () => string | null;
 }
 
 const AUTH_KEY = 'dashboard-auth-user';
@@ -33,6 +39,8 @@ export const useAuthStore = create<AuthState>((set: AuthStoreSetter, get) => ({
   loading: true,
   loginAttempts: 0,
   lockedUntil: null,
+  impersonatedExpertId: null,
+  impersonatedExpert: null,
 
   signIn: async (email: string, password: string) => {
     const state = get();
@@ -120,4 +128,14 @@ export const useAuthStore = create<AuthState>((set: AuthStoreSetter, get) => ({
   isAdmin: () => get().user?.role === 'admin',
 
   getExpertId: () => get().user?.expert_id ?? null,
+
+  startImpersonation: (expertId: string, expert: ExpertProfile) => {
+    set({ impersonatedExpertId: expertId, impersonatedExpert: expert });
+  },
+
+  stopImpersonation: () => {
+    set({ impersonatedExpertId: null, impersonatedExpert: null });
+  },
+
+  getActiveExpertId: () => get().impersonatedExpertId || get().getExpertId(),
 }));
