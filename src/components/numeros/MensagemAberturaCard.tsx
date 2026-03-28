@@ -47,7 +47,7 @@ export const MensagemAberturaCard: React.FC<MensagemAberturaCardProps> = ({
           onClick={() => onToggleAtivo(mensagem.id, !mensagem.ativo)}
           className={cn(
             'relative w-11 h-6 rounded-full transition-colors duration-200 shrink-0',
-            mensagem.ativo ? 'bg-emerald-500' : 'bg-surface-300/40'
+            mensagem.ativo ? 'bg-primary' : 'bg-surface-300/40'
           )}
         >
           <span className={cn(

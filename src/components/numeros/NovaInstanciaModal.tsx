@@ -120,8 +120,8 @@ export const NovaInstanciaModal: React.FC<NovaInstanciaModalProps> = ({
             {resultado.sucesso ? (
               <div className="space-y-4">
                 <div className="flex items-center gap-2 mb-1">
-                  <div className="w-2 h-2 rounded-full bg-emerald-400" />
-                  <span className="text-[13px] font-semibold text-emerald-400">
+                  <div className="w-2 h-2 rounded-full bg-primary-light" />
+                  <span className="text-[13px] font-semibold text-primary-light">
                     Instância criada com sucesso!
                   </span>
                 </div>

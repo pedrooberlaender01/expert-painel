@@ -58,7 +58,7 @@ export const NumeroCard: React.FC<NumeroCardProps> = ({
           onClick={() => onToggleAtivo(numero.id, !numero.ativo)}
           className={cn(
             'relative w-11 h-6 rounded-full transition-colors duration-200 shrink-0',
-            numero.ativo ? 'bg-emerald-500' : 'bg-surface-300/40'
+            numero.ativo ? 'bg-primary' : 'bg-surface-300/40'
           )}
         >
           <span className={cn(

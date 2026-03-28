@@ -84,10 +84,10 @@ function CountdownTimer({ expiresAt }: { expiresAt: string }) {
 const STATUS_CONFIG = {
   connected: {
     label: 'Conectado',
-    bg: 'bg-emerald-500/10',
-    text: 'text-emerald-400',
-    ring: 'ring-emerald-500/25',
-    dot: 'bg-emerald-400',
+    bg: 'bg-primary-bg',
+    text: 'text-primary-light',
+    ring: 'ring-primary-bg',
+    dot: 'bg-primary-light',
     icon: Wifi,
   },
   disconnected: {
@@ -179,7 +179,7 @@ export const ColetaInstanciaCard: React.FC<ColetaInstanciaCardProps> = ({
       {/* Status glow on the left edge */}
       <div className={cn(
         'absolute left-0 top-0 bottom-0 w-[3px] rounded-r-full transition-colors duration-300',
-        status === 'connected' && 'bg-emerald-500/60',
+        status === 'connected' && 'bg-primary-bg',
         status === 'disconnected' && 'bg-red-500/40',
         status === 'connecting' && 'bg-amber-500/60 animate-pulse',
       )} />
@@ -214,7 +214,7 @@ export const ColetaInstanciaCard: React.FC<ColetaInstanciaCardProps> = ({
           onClick={() => onToggleAtivo(numero.id, !numero.ativo)}
           className={cn(
             'relative w-11 h-6 rounded-full transition-colors duration-200 shrink-0 mt-1',
-            numero.ativo ? 'bg-emerald-500' : 'bg-surface-300/40'
+            numero.ativo ? 'bg-primary' : 'bg-surface-300/40'
           )}
         >
           <span className={cn(
@@ -242,9 +242,9 @@ export const ColetaInstanciaCard: React.FC<ColetaInstanciaCardProps> = ({
 
       {/* Connected info */}
       {status === 'connected' && numero.last_connected_at && (
-        <div className="flex items-center gap-2 mb-3 px-3 py-2 rounded-lg bg-emerald-500/5 border border-emerald-500/10">
-          <StatusIcon className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-          <span className="text-[12px] text-emerald-400/90 font-medium">
+        <div className="flex items-center gap-2 mb-3 px-3 py-2 rounded-lg bg-primary-bg border border-primary-bg">
+          <StatusIcon className="w-3.5 h-3.5 text-primary-light shrink-0" />
+          <span className="text-[12px] text-primary-light/90 font-medium">
             Conectado {formatTimeSince(numero.last_connected_at)}
           </span>
         </div>
@@ -262,7 +262,7 @@ export const ColetaInstanciaCard: React.FC<ColetaInstanciaCardProps> = ({
               onClick={() => handleCopyCode(pairingCode)}
               className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 text-[11px] font-medium text-zinc-400 hover:text-white bg-zinc-700/50 hover:bg-zinc-700/80 rounded-lg transition-all"
             >
-              {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copied ? <Check className="w-3 h-3 text-primary-light" /> : <Copy className="w-3 h-3" />}
               {copied ? 'Copiado!' : 'Copiar código'}
             </button>
             {numero.pairing_code_expires_at && (
@@ -343,7 +343,7 @@ export const ColetaInstanciaCard: React.FC<ColetaInstanciaCardProps> = ({
               onClick={() => handleCopyCode(localPairingCode)}
               className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 text-[11px] font-medium text-zinc-400 hover:text-white bg-zinc-700/50 hover:bg-zinc-700/80 rounded-lg transition-all"
             >
-              {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+              {copied ? <Check className="w-3 h-3 text-primary-light" /> : <Copy className="w-3 h-3" />}
               {copied ? 'Copiado!' : 'Copiar código'}
             </button>
             <p className="text-[11px] text-zinc-500 mt-2">
