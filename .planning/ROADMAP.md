@@ -88,7 +88,7 @@ Plans:
 Plans:
 - [x] 04-01: CSS Variables system and dynamic theme application on login
 - [x] 04-02: White-label components (sidebar logo/name, assistant name, gradient adaptation)
-- [ ] 04-03: Plan limit enforcement across all features with visual indicators
+- [x] 04-03: Plan limit enforcement across all features with visual indicators
 
 ### Phase 5: WhatsApp, N8N Workflows & Voice
 **Goal**: WhatsApp instances are isolated per expert, n8n workflows filter by expert_id, and each expert's voice settings are used for audio generation

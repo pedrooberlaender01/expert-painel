@@ -58,9 +58,9 @@
 - [x] **PLAN-01**: Plano Básico: 500 leads, 2 instâncias, 1000 envios/mês, agendamento
 - [x] **PLAN-02**: Plano Pro: 2000 leads, 5 instâncias, 5000 envios/mês, agendamento + torneio + copy IA
 - [x] **PLAN-03**: Plano Enterprise: ilimitado leads, 10 instâncias, envios ilimitados, todas as features
-- [ ] **PLAN-04**: Limites de leads são enforced (bloqueia criação de novo lead quando limite atingido)
-- [ ] **PLAN-05**: Limites de instâncias são enforced (bloqueia conexão de nova instância quando limite atingido)
-- [ ] **PLAN-06**: Limites de envios/mês são enforced com contador mensal (bloqueia envio quando limite atingido)
+- [x] **PLAN-04**: Limites de leads são enforced (bloqueia criação de novo lead quando limite atingido)
+- [x] **PLAN-05**: Limites de instâncias são enforced (bloqueia conexão de nova instância quando limite atingido)
+- [x] **PLAN-06**: Limites de envios/mês são enforced com contador mensal (bloqueia envio quando limite atingido)
 - [x] **PLAN-07**: Features bloqueadas por plano mostram indicador visual (ex: "Disponível no plano Pro")
 - [x] **PLAN-08**: Valores dos planos são editáveis pelo admin master (não hardcoded)
 
@@ -169,9 +169,9 @@
 | PLAN-01 | Phase 3 | Complete |
 | PLAN-02 | Phase 3 | Complete |
 | PLAN-03 | Phase 3 | Complete |
-| PLAN-04 | Phase 4 | Pending |
-| PLAN-05 | Phase 4 | Pending |
-| PLAN-06 | Phase 4 | Pending |
+| PLAN-04 | Phase 4 | Complete |
+| PLAN-05 | Phase 4 | Complete |
+| PLAN-06 | Phase 4 | Complete |
 | PLAN-07 | Phase 4 | Complete |
 | PLAN-08 | Phase 3 | Complete |
 | WAPP-01 | Phase 5 | Pending |
