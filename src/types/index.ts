@@ -59,6 +59,8 @@ export interface ExpertProfile {
   logo_url: string | null;
   nome_plataforma: string;
   nome_assistente: string;
+  voice_id: string | null;
+  voice_settings: Record<string, number> | null;
   ativo: boolean;
   plano: {
     id: string;

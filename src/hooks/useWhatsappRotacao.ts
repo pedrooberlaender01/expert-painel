@@ -1,6 +1,8 @@
 import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { supabase } from '../backend/client';
 import axios from 'axios';
+import { WEBHOOKS } from '../config/webhooks';
+import { useAuthStore } from '../stores/authStore';
 
 export interface WhatsappRotacao {
   id: number;
@@ -10,7 +12,7 @@ export interface WhatsappRotacao {
   ordem: number;
   instancia: string;
   token: string;
-  tipo: 'disparadora' | 'coleta_eventos' | 'torneio';
+  tipo: 'disparadora' | 'coleta_eventos' | 'torneio' | 'seguranca';
   status_conexao: 'disconnected' | 'connecting' | 'connected';
   pairing_code: string | null;
   pairing_code_expires_at: string | null;
@@ -43,7 +45,7 @@ interface CriarInstanciaResponse {
   expira_em?: string;
 }
 
-const N8N_BASE = 'https://n8n-gend.srv1431760.hstgr.cloud/webhook';
+// Webhook URLs centralized in src/config/webhooks.ts
 
 type SupabaseQueryResult = Promise<{ data: unknown; error: { message?: string } | null }>;
 
@@ -169,12 +171,14 @@ export function useWhatsappRotacao() {
       const dados = instancia || numeros.find((n) => n.id === id);
       if (!dados) return 'Instância não encontrada';
 
-      await axios.post(`${N8N_BASE}/excluir-instancia`, {
+      const expertId = useAuthStore.getState().getActiveExpertId();
+      await axios.post(WEBHOOKS.EXCLUIR_INSTANCIA, {
         rotacao_id: dados.id,
         instancia: dados.instancia,
         token: dados.token,
         numero: dados.numero,
         nome: dados.nome,
+        expert_id: expertId,
       });
 
       // Webhook OK — remover do estado local para sumir da tela
@@ -220,8 +224,10 @@ export function useWhatsappRotacao() {
 
   const reconectar = useCallback(async (rotacaoId: number): Promise<ReconectarResponse> => {
     try {
-      const { data } = await axios.post<ReconectarResponse>(`${N8N_BASE}/reconectar`, {
+      const expertId = useAuthStore.getState().getActiveExpertId();
+      const { data } = await axios.post<ReconectarResponse>(WEBHOOKS.RECONECTAR, {
         rotacao_id: rotacaoId,
+        expert_id: expertId,
       });
       return data;
     } catch (err: unknown) {
@@ -231,13 +237,16 @@ export function useWhatsappRotacao() {
 
   // ── Criar instância via N8N webhook ──
 
-  const criarInstancia = useCallback(async (nome: string, numero: string, tipo: 'disparadora' | 'coleta_eventos' | 'torneio' = 'disparadora'): Promise<CriarInstanciaResponse> => {
+  const criarInstancia = useCallback(async (nome: string, numero: string, tipo: 'disparadora' | 'coleta_eventos' | 'torneio' | 'seguranca' = 'disparadora'): Promise<CriarInstanciaResponse> => {
     try {
       const webhookUrl = tipo === 'torneio'
-        ? `${N8N_BASE}/torneio`
-        : `${N8N_BASE}/criar-instancia`;
-      const body: Record<string, string> = { nome, numero, tipo };
-      if (tipo === 'torneio') {
+        ? WEBHOOKS.TORNEIO
+        : tipo === 'seguranca'
+        ? WEBHOOKS.SEGURANCA
+        : WEBHOOKS.CRIAR_INSTANCIA;
+      const expertId = useAuthStore.getState().getActiveExpertId();
+      const body: Record<string, string | null> = { nome, numero, tipo, expert_id: expertId };
+      if (tipo === 'torneio' || tipo === 'seguranca') {
         body.EventType = 'connection';
       }
       const { data } = await axios.post<CriarInstanciaResponse>(webhookUrl, body);
@@ -376,11 +385,17 @@ export function useWhatsappRotacao() {
     [numeros]
   );
 
+  const instanciasSeguranca = useMemo(
+    () => numeros.filter((n) => n.tipo === 'seguranca'),
+    [numeros]
+  );
+
   return {
     numeros,
     instanciasDisparadoras,
     instanciasColeta,
     instanciasTorneio,
+    instanciasSeguranca,
     mensagens,
     loading,
     fetchData,
