@@ -7,36 +7,46 @@ export default {
     extend: {
       colors: {
         surface: {
-          DEFAULT: '#0A0A0B',
-          50: '#141416',
+          DEFAULT: '#0a0a0f',
+          50: '#0d1117',
           100: '#1A1A1E',
           200: '#232328',
           300: '#3F3F46',
           400: '#52525B',
         },
         accent: {
-          DEFAULT: '#004AFF',
-          muted: '#0040E0',
-          bright: '#3370FF',
-          dim: 'rgba(0, 74, 255, 0.12)',
-          glow: 'rgba(0, 74, 255, 0.25)',
+          DEFAULT: '#3b82f6',
+          muted: '#2563eb',
+          bright: '#60a5fa',
+          dim: 'rgba(59, 130, 246, 0.12)',
+          glow: 'rgba(59, 130, 246, 0.25)',
+        },
+        primary: {
+          DEFAULT: 'var(--color-primary)',
+          hover: 'var(--color-primary-hover)',
+          bg: 'var(--color-primary-bg)',
+          light: 'var(--color-primary-light)',
+        },
+        teal: {
+          DEFAULT: '#10b981',
+          bright: '#34d399',
         },
         txt: {
-          DEFAULT: '#FAFAFA',
-          secondary: '#E8E8EF',
-          muted: '#D0D0DA',
-          dim: '#B8B8C4',
+          DEFAULT: '#ffffff',
+          secondary: 'rgba(255, 255, 255, 0.7)',
+          muted: 'rgba(255, 255, 255, 0.5)',
+          dim: 'rgba(255, 255, 255, 0.35)',
         },
         glass: {
-          DEFAULT: 'rgba(255, 255, 255, 0.03)',
-          border: 'rgba(255, 255, 255, 0.06)',
+          DEFAULT: 'rgba(255, 255, 255, 0.04)',
+          border: 'rgba(255, 255, 255, 0.04)',
           hover: 'rgba(255, 255, 255, 0.05)',
         },
       },
       fontFamily: {
-        display: ['Outfit', 'sans-serif'],
+        display: ['Inter', 'Outfit', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
-        body: ['Outfit', 'sans-serif'],
+        body: ['Inter', 'Outfit', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards',
@@ -63,8 +73,8 @@ export default {
           '100%': { opacity: '1', transform: 'translateX(0)' },
         },
         glowPulse: {
-          '0%, 100%': { boxShadow: '0 0 20px rgba(0, 74, 255, 0.05)' },
-          '50%': { boxShadow: '0 0 40px rgba(0, 74, 255, 0.12)' },
+          '0%, 100%': { boxShadow: '0 0 20px rgba(59, 130, 246, 0.05)' },
+          '50%': { boxShadow: '0 0 40px rgba(59, 130, 246, 0.12)' },
         },
         shimmer: {
           '0%': { backgroundPosition: '-200% 0' },
@@ -95,7 +105,7 @@ export default {
       backgroundImage: {
         'noise': "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E\")",
         'grid-pattern': 'linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)',
-        'mesh-gradient': 'radial-gradient(ellipse at 20% 50%, rgba(0, 74, 255, 0.06) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(0, 74, 255, 0.04) 0%, transparent 50%), radial-gradient(ellipse at 60% 80%, rgba(0, 74, 255, 0.03) 0%, transparent 50%)',
+        'mesh-gradient': 'radial-gradient(ellipse at 20% 50%, rgba(59, 130, 246, 0.06) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 50%), radial-gradient(ellipse at 60% 80%, var(--color-primary-bg) 0%, transparent 50%)',
       },
       backgroundSize: {
         'grid': '24px 24px',

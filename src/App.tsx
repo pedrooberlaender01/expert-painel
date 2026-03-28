@@ -34,6 +34,34 @@ const ProtectedLayout = () => {
   const location = useLocation();
   const isConversas = location.pathname === '/conversas';
   const isGerarCopy = location.pathname === '/envios/gerar-copy';
+  const { user, impersonatedExpert } = useAuthStore();
+
+  // Apply expert brand colors dynamically via CSS variables
+  useEffect(() => {
+    const expert = impersonatedExpert || user?.expert;
+    if (expert) {
+      const root = document.documentElement;
+      root.style.setProperty('--color-primary', expert.cor_primaria);
+      root.style.setProperty('--color-primary-hover', expert.cor_secundaria);
+      // Generate bg variant: parse hex to rgba with 0.12 opacity
+      const hex = expert.cor_primaria.replace('#', '');
+      const r = parseInt(hex.substring(0, 2), 16);
+      const g = parseInt(hex.substring(2, 4), 16);
+      const b = parseInt(hex.substring(4, 6), 16);
+      root.style.setProperty('--color-primary-bg', `rgba(${r}, ${g}, ${b}, 0.12)`);
+      root.style.setProperty('--color-primary-light', expert.cor_secundaria);
+    }
+    return () => {
+      // Reset to defaults on cleanup (e.g., signOut)
+      const root = document.documentElement;
+      root.style.setProperty('--color-primary', '#10b981');
+      root.style.setProperty('--color-primary-hover', '#059669');
+      root.style.setProperty('--color-primary-bg', 'rgba(16, 185, 129, 0.12)');
+      root.style.setProperty('--color-primary-light', '#34d399');
+    };
+  }, [user?.expert, impersonatedExpert]);
+
+  const expertName = impersonatedExpert?.nome || user?.expert?.nome || user?.nome || '';
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -84,7 +112,7 @@ const ProtectedLayout = () => {
           >
             <Menu className="w-5 h-5" />
           </button>
-          <span className="text-[13px] font-semibold text-white font-display">Allan Cabral</span>
+          <span className="text-[13px] font-semibold text-white font-display">{expertName}</span>
           <div className="w-9" /> {/* spacer */}
         </div>
 
