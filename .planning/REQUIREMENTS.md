@@ -41,7 +41,7 @@
 
 ### Admin Master
 
-- [ ] **ADMN-01**: Rota /admin protegida acessível apenas por role `admin`
+- [x] **ADMN-01**: Rota /admin protegida acessível apenas por role `admin`
 - [ ] **ADMN-02**: Admin pode criar novo expert (nome, cor primária, cor secundária, logo, plano, nome assistente)
 - [ ] **ADMN-03**: Admin pode editar dados de qualquer expert
 - [ ] **ADMN-04**: Admin pode suspender/reativar expert (ativo: true/false)
@@ -49,7 +49,7 @@
 - [ ] **ADMN-06**: Dashboard global com métricas consolidadas de todos experts (total leads, envios, conversões)
 - [ ] **ADMN-07**: Admin pode ver breakdown de métricas por expert individual
 - [ ] **ADMN-08**: Admin pode criar/editar planos com limites (max_leads, max_instancias, max_envios_mes, features_permitidas)
-- [ ] **ADMN-09**: Admin pode impersonar qualquer expert (ver o painel como se fosse o expert, para debug/suporte)
+- [x] **ADMN-09**: Admin pode impersonar qualquer expert (ver o painel como se fosse o expert, para debug/suporte)
 - [ ] **ADMN-10**: Admin pode atribuir/remover instâncias UAZAPI a experts
 - [ ] **ADMN-11**: Admin pode configurar voice_id manualmente por expert
 
@@ -155,7 +155,7 @@
 | WLBL-06 | Phase 4 | Pending |
 | WLBL-07 | Phase 4 | Pending |
 | WLBL-08 | Phase 4 | Pending |
-| ADMN-01 | Phase 3 | Pending |
+| ADMN-01 | Phase 3 | Complete |
 | ADMN-02 | Phase 3 | Pending |
 | ADMN-03 | Phase 3 | Pending |
 | ADMN-04 | Phase 3 | Pending |
@@ -163,7 +163,7 @@
 | ADMN-06 | Phase 3 | Pending |
 | ADMN-07 | Phase 3 | Pending |
 | ADMN-08 | Phase 3 | Pending |
-| ADMN-09 | Phase 3 | Pending |
+| ADMN-09 | Phase 3 | Complete |
 | ADMN-10 | Phase 3 | Pending |
 | ADMN-11 | Phase 3 | Pending |
 | PLAN-01 | Phase 3 | Pending |
