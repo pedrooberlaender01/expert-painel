@@ -70,7 +70,7 @@ Plans:
 Plans:
 - [x] 03-01: Admin route protection and layout scaffold
 - [x] 03-02: Expert CRUD (create, edit, suspend, user credentials)
-- [ ] 03-03: Global dashboard, plan management, impersonation, instance/voice assignment
+- [x] 03-03: Global dashboard, plan management, impersonation, instance/voice assignment
 
 ### Phase 4: White-Label & Plan Enforcement
 **Goal**: Each expert sees a personalized dashboard (their colors, logo, assistant name) and plan limits are actively enforced throughout the application

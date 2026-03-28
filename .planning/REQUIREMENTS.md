@@ -46,23 +46,23 @@
 - [x] **ADMN-03**: Admin pode editar dados de qualquer expert
 - [x] **ADMN-04**: Admin pode suspender/reativar expert (ativo: true/false)
 - [x] **ADMN-05**: Admin pode criar usuário de acesso para expert (email + senha)
-- [ ] **ADMN-06**: Dashboard global com métricas consolidadas de todos experts (total leads, envios, conversões)
-- [ ] **ADMN-07**: Admin pode ver breakdown de métricas por expert individual
-- [ ] **ADMN-08**: Admin pode criar/editar planos com limites (max_leads, max_instancias, max_envios_mes, features_permitidas)
+- [x] **ADMN-06**: Dashboard global com métricas consolidadas de todos experts (total leads, envios, conversões)
+- [x] **ADMN-07**: Admin pode ver breakdown de métricas por expert individual
+- [x] **ADMN-08**: Admin pode criar/editar planos com limites (max_leads, max_instancias, max_envios_mes, features_permitidas)
 - [x] **ADMN-09**: Admin pode impersonar qualquer expert (ver o painel como se fosse o expert, para debug/suporte)
 - [x] **ADMN-10**: Admin pode atribuir/remover instâncias UAZAPI a experts
 - [x] **ADMN-11**: Admin pode configurar voice_id manualmente por expert
 
 ### Planos & Limites
 
-- [ ] **PLAN-01**: Plano Básico: 500 leads, 2 instâncias, 1000 envios/mês, agendamento
-- [ ] **PLAN-02**: Plano Pro: 2000 leads, 5 instâncias, 5000 envios/mês, agendamento + torneio + copy IA
-- [ ] **PLAN-03**: Plano Enterprise: ilimitado leads, 10 instâncias, envios ilimitados, todas as features
+- [x] **PLAN-01**: Plano Básico: 500 leads, 2 instâncias, 1000 envios/mês, agendamento
+- [x] **PLAN-02**: Plano Pro: 2000 leads, 5 instâncias, 5000 envios/mês, agendamento + torneio + copy IA
+- [x] **PLAN-03**: Plano Enterprise: ilimitado leads, 10 instâncias, envios ilimitados, todas as features
 - [ ] **PLAN-04**: Limites de leads são enforced (bloqueia criação de novo lead quando limite atingido)
 - [ ] **PLAN-05**: Limites de instâncias são enforced (bloqueia conexão de nova instância quando limite atingido)
 - [ ] **PLAN-06**: Limites de envios/mês são enforced com contador mensal (bloqueia envio quando limite atingido)
 - [ ] **PLAN-07**: Features bloqueadas por plano mostram indicador visual (ex: "Disponível no plano Pro")
-- [ ] **PLAN-08**: Valores dos planos são editáveis pelo admin master (não hardcoded)
+- [x] **PLAN-08**: Valores dos planos são editáveis pelo admin master (não hardcoded)
 
 ### WhatsApp & Instâncias
 
@@ -160,20 +160,20 @@
 | ADMN-03 | Phase 3 | Complete |
 | ADMN-04 | Phase 3 | Complete |
 | ADMN-05 | Phase 3 | Complete |
-| ADMN-06 | Phase 3 | Pending |
-| ADMN-07 | Phase 3 | Pending |
-| ADMN-08 | Phase 3 | Pending |
+| ADMN-06 | Phase 3 | Complete |
+| ADMN-07 | Phase 3 | Complete |
+| ADMN-08 | Phase 3 | Complete |
 | ADMN-09 | Phase 3 | Complete |
 | ADMN-10 | Phase 3 | Complete |
 | ADMN-11 | Phase 3 | Complete |
-| PLAN-01 | Phase 3 | Pending |
-| PLAN-02 | Phase 3 | Pending |
-| PLAN-03 | Phase 3 | Pending |
+| PLAN-01 | Phase 3 | Complete |
+| PLAN-02 | Phase 3 | Complete |
+| PLAN-03 | Phase 3 | Complete |
 | PLAN-04 | Phase 4 | Pending |
 | PLAN-05 | Phase 4 | Pending |
 | PLAN-06 | Phase 4 | Pending |
 | PLAN-07 | Phase 4 | Pending |
-| PLAN-08 | Phase 3 | Pending |
+| PLAN-08 | Phase 3 | Complete |
 | WAPP-01 | Phase 5 | Pending |
 | WAPP-02 | Phase 5 | Pending |
 | WAPP-03 | Phase 5 | Pending |
