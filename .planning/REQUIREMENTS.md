@@ -87,7 +87,7 @@
 - [ ] **VOIC-01**: Campo voice_id na tabela experts (preenchido manualmente pelo admin no MVP)
 - [ ] **VOIC-02**: Campo voice_settings (JSONB) na tabela experts com speed, pitch, timbre, vol
 - [ ] **VOIC-03**: Workflows de áudio do funil usam voice_id e voice_settings do expert correspondente
-- [ ] **VOIC-04**: Se expert não tem voice_id configurado, fallback para voz padrão do sistema
+- [ ] **VOIC-04**: Se expert não tem voice_id configurado, opções de áudio são desabilitadas (sem fallback)
 
 ## v2 Requirements
 
@@ -198,4 +198,4 @@
 
 ---
 *Requirements defined: 2026-03-27*
-*Last updated: 2026-03-27 after roadmap creation*
+*Last updated: 2026-03-28 — VOIC-04 updated per D-12 (no fallback, audio disabled when no voice_id)*
