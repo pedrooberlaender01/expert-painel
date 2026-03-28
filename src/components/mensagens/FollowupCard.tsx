@@ -41,6 +41,7 @@ interface FollowupCardProps {
   onMoveUp?: () => void;
   onMoveDown?: () => void;
   onShowToast: (type: 'success' | 'error', message: string) => void;
+  voiceEnabled?: boolean;
 }
 
 export const FollowupCard: React.FC<FollowupCardProps> = ({
@@ -58,6 +59,7 @@ export const FollowupCard: React.FC<FollowupCardProps> = ({
   onMoveUp,
   onMoveDown,
   onShowToast,
+  voiceEnabled = true,
 }) => {
   const [testing, setTesting] = useState(false);
   const textareaRefs = useRef<Map<number, HTMLTextAreaElement>>(new Map());
@@ -318,23 +320,29 @@ export const FollowupCard: React.FC<FollowupCardProps> = ({
 
       {/* ── Toggle Tipo Envio (4 opções) ── */}
       <div className="flex gap-1.5 mb-4 flex-wrap">
-        {TIPO_ENVIO_OPTIONS.map(({ key, label, icon: Icon }) => (
-          <button
-            key={key}
-            onClick={() => onUpdate({ tipo_envio: key })}
-            disabled={disabled}
-            className={cn(
-              'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all duration-200 border',
-              mensagem.tipo_envio === key
-                ? 'bg-primary text-white border-primary'
-                : 'bg-surface-50 text-txt-muted border-surface-200 hover:border-surface-300',
-              disabled && 'pointer-events-none'
-            )}
-          >
-            <Icon className="w-3.5 h-3.5" />
-            {label}
-          </button>
-        ))}
+        {TIPO_ENVIO_OPTIONS.map(({ key, label, icon: Icon }) => {
+          const isAudioDisabled = key === 'audio' && !voiceEnabled;
+          return (
+            <button
+              key={key}
+              onClick={() => { if (!isAudioDisabled) onUpdate({ tipo_envio: key }); }}
+              disabled={disabled || isAudioDisabled}
+              title={isAudioDisabled ? 'Audio indisponivel — configure voice_id no painel admin' : undefined}
+              className={cn(
+                'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all duration-200 border',
+                mensagem.tipo_envio === key
+                  ? 'bg-primary text-white border-primary'
+                  : isAudioDisabled
+                    ? 'bg-surface-50/50 text-txt-dim border-surface-200 cursor-not-allowed opacity-50'
+                    : 'bg-surface-50 text-txt-muted border-surface-200 hover:border-surface-300',
+                disabled && 'pointer-events-none'
+              )}
+            >
+              <Icon className="w-3.5 h-3.5" />
+              {label}{isAudioDisabled ? ' (indisponivel)' : ''}
+            </button>
+          );
+        })}
       </div>
 
       {/* ── Mensagens ── */}

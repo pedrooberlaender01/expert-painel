@@ -11,6 +11,7 @@ import type { MensagemFunil } from '../hooks/useMensagensFunil';
 import { cn } from '../utils/cn';
 import { getStatusLabel } from '../utils/formatters';
 import { MensagensAbertura } from '../components/mensagens/MensagensAbertura';
+import { useAuthStore } from '../stores/authStore';
 
 const SECOES_COM_TEMPO = new Set(['followups', 'boas_vindas']);
 const CENARIOS_EMPTY_ALLOWED = new Set(['outro']);
@@ -78,6 +79,11 @@ export const Mensagens: React.FC = () => {
     criarFollowup, excluirFollowup, reordenarFollowups, toggleAtivo,
   } = useMensagensFunil();
   const { toast, showToast, hideToast } = useToast();
+
+  // Voice availability check (D-12: no voice_id = audio disabled)
+  const { user, impersonatedExpert } = useAuthStore();
+  const activeExpert = impersonatedExpert || user?.expert;
+  const hasVoiceId = Boolean(activeExpert?.voice_id);
 
   // Local editable state
   const [editData, setEditData] = useState<Record<string, MensagemFunil>>({});
@@ -466,6 +472,7 @@ export const Mensagens: React.FC = () => {
                             allowEmptyMessages={CENARIOS_EMPTY_ALLOWED.has(msg.cenario)}
                             showAtivoToggle={hasTempoEspera}
                             hideTypeToggle={CENARIOS_SEM_TOGGLE_TIPO.has(msg.cenario)}
+                            voiceEnabled={hasVoiceId}
                             onUpdate={(updates) => updateMensagem(msg.id, updates)}
                             onShowToast={showToast}
                           />
@@ -555,6 +562,7 @@ export const Mensagens: React.FC = () => {
                     onMoveUp={() => handleMoveFollowup(index, 'up')}
                     onMoveDown={() => handleMoveFollowup(index, 'down')}
                     onShowToast={showToast}
+                    voiceEnabled={hasVoiceId}
                   />
                 ))}
               </div>
@@ -592,6 +600,7 @@ export const Mensagens: React.FC = () => {
                     onSave={() => handleSaveCard(msg.id, false)}
                     onToggleActive={(nextActive) => handleToggleAtivo(msg.id, nextActive)}
                     onShowToast={showToast}
+                    voiceEnabled={hasVoiceId}
                   />
                 ))}
               </div>
@@ -685,15 +694,24 @@ export const Mensagens: React.FC = () => {
                 <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Tipo de envio</label>
                 <select
                   value={createForm.tipo_envio}
-                  onChange={(e) => setCreateForm((p) => ({ ...p, tipo_envio: e.target.value }))}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (val === 'audio' && !hasVoiceId) return;
+                    setCreateForm((p) => ({ ...p, tipo_envio: val }));
+                  }}
                   className="w-full text-white text-[13px] outline-none cursor-pointer appearance-none transition-all duration-200"
                   style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 36px 10px 14px', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
                 >
                   <option value="texto">Texto</option>
-                  <option value="audio">Áudio</option>
+                  <option value="audio" disabled={!hasVoiceId}>Áudio{!hasVoiceId ? ' (indisponível)' : ''}</option>
                   <option value="imagem">Imagem</option>
                   <option value="video">Vídeo</option>
                 </select>
+                {!hasVoiceId && (
+                  <p className="text-[11px] mt-1" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                    Audio indisponivel — configure voice_id no painel admin
+                  </p>
+                )}
               </div>
             </div>
 

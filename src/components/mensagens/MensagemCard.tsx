@@ -12,6 +12,7 @@ interface MensagemCardProps {
   allowEmptyMessages: boolean;
   showAtivoToggle: boolean;
   hideTypeToggle?: boolean;
+  voiceEnabled?: boolean;
   onUpdate: (updates: Partial<MensagemFunil>) => void;
   onShowToast: (type: 'success' | 'error', message: string) => void;
 }
@@ -24,6 +25,7 @@ export const MensagemCard: React.FC<MensagemCardProps> = ({
   allowEmptyMessages,
   showAtivoToggle,
   hideTypeToggle,
+  voiceEnabled = true,
   onUpdate,
   onShowToast,
 }) => {
@@ -236,21 +238,27 @@ export const MensagemCard: React.FC<MensagemCardProps> = ({
           {[
             { key: 'audio', label: 'Áudio', icon: Volume2 },
             { key: 'texto', label: 'Texto', icon: FileText },
-          ].map(({ key, label, icon: Icon }) => (
-            <button
-              key={key}
-              onClick={() => onUpdate({ tipo_envio: key })}
-              disabled={disabled}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all duration-200"
-              style={mensagem.tipo_envio === key
-                ? { background: 'var(--color-primary-bg)', border: '1px solid var(--color-primary-bg)', color: 'var(--color-primary-light)' }
-                : { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.45)' }
-              }
-            >
-              <Icon className="w-3.5 h-3.5" />
-              {label}
-            </button>
-          ))}
+          ].map(({ key, label, icon: Icon }) => {
+            const isAudioDisabled = key === 'audio' && !voiceEnabled;
+            return (
+              <button
+                key={key}
+                onClick={() => { if (!isAudioDisabled) onUpdate({ tipo_envio: key }); }}
+                disabled={disabled || isAudioDisabled}
+                title={isAudioDisabled ? 'Audio indisponivel — configure voice_id no painel admin' : undefined}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all duration-200"
+                style={mensagem.tipo_envio === key
+                  ? { background: 'var(--color-primary-bg)', border: '1px solid var(--color-primary-bg)', color: 'var(--color-primary-light)' }
+                  : isAudioDisabled
+                    ? { background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.02)', color: 'rgba(255,255,255,0.2)', cursor: 'not-allowed' }
+                    : { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.45)' }
+                }
+              >
+                <Icon className="w-3.5 h-3.5" />
+                {label}{isAudioDisabled ? ' (indisponivel)' : ''}
+              </button>
+            );
+          })}
         </div>
       )}
 
