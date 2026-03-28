@@ -69,7 +69,7 @@ Plans:
 
 Plans:
 - [x] 03-01: Admin route protection and layout scaffold
-- [ ] 03-02: Expert CRUD (create, edit, suspend, user credentials)
+- [x] 03-02: Expert CRUD (create, edit, suspend, user credentials)
 - [ ] 03-03: Global dashboard, plan management, impersonation, instance/voice assignment
 
 ### Phase 4: White-Label & Plan Enforcement
