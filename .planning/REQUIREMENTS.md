@@ -30,14 +30,14 @@
 
 ### White-Label
 
-- [ ] **WLBL-01**: CSS Variables definidas no :root (--color-primary, --color-primary-hover, --color-primary-bg, --color-primary-light)
-- [ ] **WLBL-02**: No login, CSS Variables são sobrescritas com os valores do expert logado
-- [ ] **WLBL-03**: Todos os componentes que usam #10b981 (verde) migrados para usar var(--color-primary)
+- [x] **WLBL-01**: CSS Variables definidas no :root (--color-primary, --color-primary-hover, --color-primary-bg, --color-primary-light)
+- [x] **WLBL-02**: No login, CSS Variables são sobrescritas com os valores do expert logado
+- [x] **WLBL-03**: Todos os componentes que usam #10b981 (verde) migrados para usar var(--color-primary)
 - [ ] **WLBL-04**: Logo do expert exibida no topo do sidebar (onde hoje é "Allan Cabral / AUTOMAÇÕES")
 - [ ] **WLBL-05**: Nome da plataforma do expert exibido ao lado da logo no sidebar
 - [ ] **WLBL-06**: Nome da assistente configurável por expert (onde aparece "Helena" nas mensagens do funil)
-- [ ] **WLBL-07**: Efeitos de fundo/gradientes sutis adaptam-se à cor primária do expert
-- [ ] **WLBL-08**: Layout, fontes (Inter/Outfit/JetBrains Mono), cores de superfície (#0a0a0a, #1a1a1a, #232328) e estrutura de componentes são idênticos entre experts
+- [x] **WLBL-07**: Efeitos de fundo/gradientes sutis adaptam-se à cor primária do expert
+- [x] **WLBL-08**: Layout, fontes (Inter/Outfit/JetBrains Mono), cores de superfície (#0a0a0a, #1a1a1a, #232328) e estrutura de componentes são idênticos entre experts
 
 ### Admin Master
 
@@ -147,14 +147,14 @@
 | AUTH-10 | Phase 2 | Complete |
 | AUTH-11 | Phase 2 | Complete |
 | AUTH-12 | Phase 2 | Complete |
-| WLBL-01 | Phase 4 | Pending |
-| WLBL-02 | Phase 4 | Pending |
-| WLBL-03 | Phase 4 | Pending |
+| WLBL-01 | Phase 4 | Complete |
+| WLBL-02 | Phase 4 | Complete |
+| WLBL-03 | Phase 4 | Complete |
 | WLBL-04 | Phase 4 | Pending |
 | WLBL-05 | Phase 4 | Pending |
 | WLBL-06 | Phase 4 | Pending |
-| WLBL-07 | Phase 4 | Pending |
-| WLBL-08 | Phase 4 | Pending |
+| WLBL-07 | Phase 4 | Complete |
+| WLBL-08 | Phase 4 | Complete |
 | ADMN-01 | Phase 3 | Complete |
 | ADMN-02 | Phase 3 | Complete |
 | ADMN-03 | Phase 3 | Complete |

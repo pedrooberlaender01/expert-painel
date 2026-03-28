@@ -86,7 +86,7 @@ Plans:
 **UI hint**: yes
 
 Plans:
-- [ ] 04-01: CSS Variables system and dynamic theme application on login
+- [x] 04-01: CSS Variables system and dynamic theme application on login
 - [ ] 04-02: White-label components (sidebar logo/name, assistant name, gradient adaptation)
 - [ ] 04-03: Plan limit enforcement across all features with visual indicators
 
