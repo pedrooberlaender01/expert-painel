@@ -11,15 +11,16 @@ interface LeadBadgeProps {
 const statusColors: Record<StatusLead, string> = {
   primeiro_audio_enviado: "bg-amber-500/10 text-amber-400 border-amber-500/20",
   convite_enviado: "bg-sky-500/10 text-sky-400 border-sky-500/20",
-  interessado: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+  interessado: "bg-primary-bg text-primary-light border-primary-bg",
   aguardando_cadastro: "bg-orange-500/10 text-orange-400 border-orange-500/20",
   link_enviado: "bg-violet-500/10 text-violet-400 border-violet-500/20",
   aguardando_confirmacao_entrada: "bg-blue-600/10 text-blue-400 border-blue-600/20",
-  no_grupo: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
-  entrou_grupo: "bg-emerald-500/15 text-emerald-400 border-emerald-500/25",
+  no_grupo: "bg-primary-bg text-primary-light border-primary-bg",
+  entrou_grupo: "bg-primary-bg text-primary-light border-primary-bg",
   nao_interessado: "bg-surface-300/30 text-txt-muted border-surface-300/30",
   sem_resposta: "bg-rose-500/10 text-rose-400 border-rose-500/20",
   atendimento_manual: "bg-zinc-500/10 text-zinc-400 border-zinc-500/20",
+  lead_chegou: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
 };
 
 export const LeadBadge: React.FC<LeadBadgeProps> = ({ status, className }) => {

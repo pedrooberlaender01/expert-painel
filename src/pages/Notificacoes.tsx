@@ -19,8 +19,8 @@ const getIcon = (tipo: TipoNotificacao) => {
 const getColor = (tipo: TipoNotificacao) => {
   switch (tipo) {
     case 'novo_lead': return "bg-sky-500/10 text-sky-400 border-sky-500/20";
-    case 'interesse': return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
-    case 'conversao': return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+    case 'interesse': return "bg-primary-bg text-primary-light border-primary-bg";
+    case 'conversao': return "bg-primary-bg text-primary-light border-primary-bg";
     case 'saiu_grupo': return "bg-rose-500/10 text-rose-400 border-rose-500/20";
     default: return "bg-surface-300/20 text-txt-muted border-surface-300/20";
   }

@@ -218,7 +218,7 @@ export const CentralWhatsapp: React.FC = () => {
   const proximaOrdemMsg = mensagens.length > 0 ? Math.max(...mensagens.map((m) => m.ordem)) + 1 : 1;
 
   return (
-    <div>
+    <div className="overflow-x-hidden">
       <PageHeader
         title="Central WhatsApp"
         subtitle="Gerencie instâncias, conexões e mensagens de abertura"
@@ -227,22 +227,27 @@ export const CentralWhatsapp: React.FC = () => {
       />
 
       {/* Tabs */}
-      <div className="flex gap-1 p-1 rounded-xl bg-surface-50 border border-surface-300/20 mb-8">
-        {TABS.map((tab) => (
-          <button
-            key={tab.key}
-            onClick={() => setActiveTab(tab.key)}
-            className={cn(
-              'flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-200',
-              activeTab === tab.key
-                ? 'bg-[#004AFF]/10 text-[#004AFF] border-glow shadow-sm'
-                : 'text-txt-muted hover:text-txt hover:bg-surface-200/30'
-            )}
-          >
-            <tab.icon className="w-4 h-4" />
-            {tab.label}
-          </button>
-        ))}
+      <div
+        className="grid grid-cols-2 md:flex md:w-fit gap-1 p-1 rounded-[14px] w-full mb-8"
+        style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
+      >
+        {TABS.map((tab) => {
+          const isActive = activeTab === tab.key;
+          return (
+            <button
+              key={tab.key}
+              onClick={() => setActiveTab(tab.key)}
+              className="flex items-center justify-center gap-2 px-3 md:px-5 py-2.5 rounded-[10px] text-[12px] md:text-[13px] font-medium transition-all duration-200"
+              style={isActive
+                ? { background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', color: '#60a5fa' }
+                : { background: 'transparent', border: '1px solid transparent', color: 'rgba(255,255,255,0.45)' }
+              }
+            >
+              <tab.icon className="w-3.5 h-3.5 shrink-0" style={{ opacity: isActive ? 1 : 0.5 }} />
+              <span className="truncate">{tab.label}</span>
+            </button>
+          );
+        })}
       </div>
 
       {/* Loading skeleton (both tabs) */}
@@ -265,11 +270,11 @@ export const CentralWhatsapp: React.FC = () => {
           {/* Status summary */}
           <div className="card-dark p-4 mb-6 flex items-center gap-4 flex-wrap">
             <div className="flex items-center gap-2.5">
-              <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-emerald-500/10">
-                <Wifi className="w-4 h-4 text-emerald-400" />
+              <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-primary-bg">
+                <Wifi className="w-4 h-4 text-primary-light" />
               </div>
               <p className="text-[14px] font-semibold text-txt">
-                <span className="text-emerald-400">{conectadosDisp}</span>
+                <span className="text-primary-light">{conectadosDisp}</span>
                 <span className="text-txt-muted text-[12px] ml-1">conectado{conectadosDisp !== 1 ? 's' : ''}</span>
               </p>
             </div>
@@ -327,11 +332,11 @@ export const CentralWhatsapp: React.FC = () => {
           {/* Status summary */}
           <div className="card-dark p-4 mb-6 flex items-center gap-4 flex-wrap">
             <div className="flex items-center gap-2.5">
-              <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-emerald-500/10">
-                <Wifi className="w-4 h-4 text-emerald-400" />
+              <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-primary-bg">
+                <Wifi className="w-4 h-4 text-primary-light" />
               </div>
               <p className="text-[14px] font-semibold text-txt">
-                <span className="text-emerald-400">{conectadosColeta}</span>
+                <span className="text-primary-light">{conectadosColeta}</span>
                 <span className="text-txt-muted text-[12px] ml-1">conectado{conectadosColeta !== 1 ? 's' : ''}</span>
               </p>
             </div>
@@ -384,11 +389,11 @@ export const CentralWhatsapp: React.FC = () => {
         <>
           {/* Resumo */}
           <div className="card-dark p-4 mb-6 flex items-center gap-3">
-            <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-emerald-500/10">
-              <MessageCircle className="w-4 h-4 text-emerald-400" />
+            <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-primary-bg">
+              <MessageCircle className="w-4 h-4 text-primary-light" />
             </div>
             <p className="text-[14px] font-semibold text-txt">
-              <span className="text-emerald-400">{mensagensAtivas}</span>
+              <span className="text-primary-light">{mensagensAtivas}</span>
               {' '}mensagen{mensagensAtivas !== 1 ? 's' : ''} ativa{mensagensAtivas !== 1 ? 's' : ''} de{' '}
               <span className="text-txt-secondary">{mensagens.length}</span> total
             </p>

@@ -85,46 +85,51 @@ const DayPicker: React.FC<{
   return (
     <div
       ref={ref}
-      className="absolute top-full mt-2 z-50 animate-slide-up"
-      style={{ animationDuration: '0.25s' }}
+      className="absolute top-full mt-2 z-[100] animate-fade-in w-[260px] overflow-hidden"
+      style={{
+        background: 'rgba(22, 27, 34, 0.97)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        borderRadius: '14px',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06)',
+        backdropFilter: 'none',
+        WebkitBackdropFilter: 'none',
+      }}
     >
-      <div
-        className="rounded-xl p-3 border border-white/[0.06] shadow-2xl w-[260px]"
-        style={{
-          background: 'linear-gradient(145deg, rgba(20, 20, 22, 0.97) 0%, rgba(26, 26, 30, 0.97) 100%)',
-          backdropFilter: 'blur(24px)',
-        }}
-      >
-        {/* Accent line */}
-        <div className="absolute top-0 left-3 right-3 h-[1px] bg-gradient-to-r from-transparent via-blue-600/30 to-transparent" />
+      {/* Label */}
+      <div style={{ padding: '16px 16px 4px' }}>
+        <span className="text-[11px] uppercase font-medium" style={{ color: 'rgba(255,255,255,0.4)', letterSpacing: '0.5px' }}>{label}</span>
+      </div>
 
-        {/* Label */}
-        <div className="text-[9px] uppercase tracking-[0.1em] text-txt-dim font-mono mb-2">{label}</div>
+      {/* Month nav */}
+      <div className="flex items-center justify-between" style={{ padding: '8px 16px' }}>
+        <button
+          onClick={() => setViewMonth(m => Math.max(0, m - 1))}
+          className="transition-all duration-150"
+          style={{ color: 'rgba(255,255,255,0.4)', background: 'transparent', border: 'none', padding: '4px 8px', borderRadius: '6px', cursor: 'pointer' }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.4)'; }}
+        >
+          <ChevronLeft className="w-3.5 h-3.5" />
+        </button>
+        <span className="text-[14px] font-semibold text-white">{MONTHS_SHORT[viewMonth]}</span>
+        <button
+          onClick={() => setViewMonth(m => Math.min(11, m + 1))}
+          className="transition-all duration-150"
+          style={{ color: viewMonth >= getMonth(now) ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.4)', background: 'transparent', border: 'none', padding: '4px 8px', borderRadius: '6px', cursor: viewMonth >= getMonth(now) ? 'default' : 'pointer' }}
+          onMouseEnter={(e) => { if (viewMonth < getMonth(now)) { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; } }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = viewMonth >= getMonth(now) ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.4)'; }}
+          disabled={viewMonth >= getMonth(now)}
+        >
+          <ChevronRight className="w-3.5 h-3.5" />
+        </button>
+      </div>
 
-        {/* Month nav */}
-        <div className="flex items-center justify-between mb-3">
-          <button
-            onClick={() => setViewMonth(m => Math.max(0, m - 1))}
-            className="p-1 rounded-lg hover:bg-white/[0.04] text-txt-muted hover:text-txt transition-colors"
-          >
-            <ChevronLeft className="w-3.5 h-3.5" />
-          </button>
-          <span className="text-xs font-semibold text-txt font-display">{MONTHS_SHORT[viewMonth]}</span>
-          <button
-            onClick={() => setViewMonth(m => Math.min(11, m + 1))}
-            className="p-1 rounded-lg hover:bg-white/[0.04] text-txt-muted hover:text-txt transition-colors"
-            disabled={viewMonth >= getMonth(now)}
-          >
-            <ChevronRight className="w-3.5 h-3.5" />
-          </button>
-        </div>
-
-        {/* Day grid */}
-        <div className="grid grid-cols-7 gap-0.5">
+      {/* Day grid */}
+      <div style={{ padding: '0 16px 16px' }}>
+        <div className="grid grid-cols-7" style={{ gap: '2px' }}>
           {['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map((d, i) => (
-            <div key={i} className="text-[8px] text-txt-dim font-mono text-center py-1">{d}</div>
+            <div key={i} className="text-[11px] text-center font-medium" style={{ color: 'rgba(255,255,255,0.35)', padding: '6px 0' }}>{d}</div>
           ))}
-          {/* Offset for first day */}
           {Array.from({ length: new Date(currentYear, viewMonth, 1).getDay() }).map((_, i) => (
             <div key={`pad-${i}`} />
           ))}
@@ -139,15 +144,20 @@ const DayPicker: React.FC<{
                 key={day}
                 onClick={() => handleSelect(day)}
                 disabled={isFuture}
-                className={cn(
-                  "w-full aspect-square rounded-lg text-[11px] font-mono transition-all duration-200 relative",
-                  isFuture && "opacity-20 cursor-not-allowed",
-                  isSelected
-                    ? "bg-[#004AFF] text-surface font-semibold shadow-[0_0_12px_rgba(16,185,129,0.3)]"
-                    : isToday
-                    ? "text-[#004AFF] ring-1 ring-[#004AFF]/30 hover:bg-[#004AFF]/10"
-                    : "text-txt-secondary hover:bg-white/[0.04] hover:text-txt"
-                )}
+                className="flex items-center justify-center transition-all duration-150"
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '8px',
+                  fontSize: '13px',
+                  background: isSelected ? '#3b82f6' : 'transparent',
+                  color: isFuture ? 'rgba(255,255,255,0.15)' : isSelected ? '#fff' : isToday ? '#60a5fa' : 'rgba(255,255,255,0.7)',
+                  fontWeight: isSelected || isToday ? 600 : 400,
+                  cursor: isFuture ? 'not-allowed' : 'pointer',
+                  border: isToday && !isSelected ? '1px solid rgba(59,130,246,0.4)' : '1px solid transparent',
+                }}
+                onMouseEnter={(e) => { if (!isFuture && !isSelected) { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#fff'; } }}
+                onMouseLeave={(e) => { if (!isFuture && !isSelected) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = isToday ? '#60a5fa' : 'rgba(255,255,255,0.7)'; } }}
               >
                 {day}
               </button>
@@ -172,25 +182,25 @@ const PeriodSelector: React.FC<{
   return (
     <div className="flex flex-col sm:flex-row sm:items-center gap-3">
       {/* Preset pills */}
-      <div className="flex items-center gap-1 p-0.5 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+      <div className="flex items-center gap-1 p-0.5 rounded-xl">
         {PRESETS.map(({ key, label }) => (
           <button
             key={key}
             onClick={() => onPresetChange(key)}
             className={cn(
-              "px-3 py-1.5 rounded-lg text-[11px] font-medium font-display transition-all duration-300 relative",
+              "px-3 py-1.5 rounded-full text-[11px] font-medium font-display transition-all duration-300",
               activePreset === key
-                ? "text-[#004AFF]"
-                : "text-txt-muted hover:text-txt-secondary"
+                ? "text-[#60a5fa]"
+                : "text-white/[0.4] hover:text-white/[0.6] bg-transparent"
             )}
+            style={activePreset === key ? {
+              background: 'rgba(59,130,246,0.15)',
+              border: '1px solid rgba(59,130,246,0.3)',
+            } : {
+              border: '1px solid transparent',
+            }}
           >
-            {activePreset === key && (
-              <div
-                className="absolute inset-0 rounded-lg bg-[#004AFF]/[0.08] border border-[#004AFF]/20 pointer-events-none"
-                style={{ boxShadow: '0 0 16px rgba(0, 74, 255, 0.06)' }}
-              />
-            )}
-            <span className="relative z-10">{label}</span>
+            {label}
           </button>
         ))}
       </div>
@@ -209,7 +219,7 @@ const PeriodSelector: React.FC<{
             className={cn(
               "px-2 py-1 rounded-lg transition-all duration-200 tabular-nums",
               startPickerOpen
-                ? "bg-[#004AFF]/10 text-[#004AFF] border border-[#004AFF]/20"
+                ? "bg-[#3b82f6]/10 text-[#60a5fa] border border-[#3b82f6]/20"
                 : "text-txt-secondary hover:text-txt hover:bg-white/[0.03] border border-transparent"
             )}
           >
@@ -236,7 +246,7 @@ const PeriodSelector: React.FC<{
             className={cn(
               "px-2 py-1 rounded-lg transition-all duration-200 tabular-nums",
               endPickerOpen
-                ? "bg-[#004AFF]/10 text-[#004AFF] border border-[#004AFF]/20"
+                ? "bg-[#3b82f6]/10 text-[#60a5fa] border border-[#3b82f6]/20"
                 : "text-txt-secondary hover:text-txt hover:bg-white/[0.03] border border-transparent"
             )}
           >
@@ -277,7 +287,7 @@ const KpiDateRangePicker: React.FC<{
           className={cn(
             "px-2 py-1 rounded-lg transition-all duration-200 tabular-nums",
             startPickerOpen
-              ? "bg-[#004AFF]/10 text-[#004AFF] border border-[#004AFF]/20"
+              ? "bg-[#3b82f6]/10 text-[#60a5fa] border border-[#3b82f6]/20"
               : "text-txt-secondary hover:text-txt hover:bg-white/[0.03] border border-transparent"
           )}
         >
@@ -304,7 +314,7 @@ const KpiDateRangePicker: React.FC<{
           className={cn(
             "px-2 py-1 rounded-lg transition-all duration-200 tabular-nums",
             endPickerOpen
-              ? "bg-[#004AFF]/10 text-[#004AFF] border border-[#004AFF]/20"
+              ? "bg-[#3b82f6]/10 text-[#60a5fa] border border-[#3b82f6]/20"
               : "text-txt-secondary hover:text-txt hover:bg-white/[0.03] border border-transparent"
           )}
         >
@@ -332,14 +342,15 @@ type TooltipProps = { active?: boolean; payload?: TooltipEntry[]; label?: string
 const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
   if (!active || !payload) return null;
   return (
-    <div className="relative rounded-xl p-3.5 shadow-2xl border border-white/[0.06] overflow-hidden"
+    <div className="relative rounded-xl p-3.5 shadow-2xl overflow-hidden"
       style={{
-        background: 'linear-gradient(145deg, rgba(26, 26, 30, 0.95) 0%, rgba(20, 20, 22, 0.95) 100%)',
-        backdropFilter: 'blur(20px)',
+        background: 'rgba(255, 255, 255, 0.04)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
+        border: '1px solid rgba(255, 255, 255, 0.04)',
       }}
     >
-      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-blue-600/40 via-blue-600/20 to-transparent" />
-      <p className="text-[10px] text-txt-muted font-mono mb-2.5 uppercase tracking-wider">
+      <p className="text-[10px] font-mono mb-2.5 uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.45)' }}>
         {label ? format(parseLocalDate(label), "EEE, dd 'de' MMM", { locale: ptBR }) : ''}
       </p>
       <div className="space-y-1.5">
@@ -498,17 +509,21 @@ export const Dashboard: React.FC = () => {
         titleRight={
           <button
             onClick={() => setIsNotificationsOpen(true)}
-            className="relative p-2.5 text-txt-muted hover:text-txt hover:bg-white/[0.04] rounded-xl transition-all duration-300 group"
+            className="relative p-2.5 rounded-xl transition-all duration-300 group"
+            style={{ color: 'rgba(255,255,255,0.5)', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)' }}
             aria-label="Abrir notificacoes"
           >
             <Bell className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
             {contadorNaoLidas > 0 && (
-              <span className={cn(
-                "absolute -top-0.5 -right-0.5 h-4 bg-[#004AFF] text-surface text-[9px] font-mono font-bold flex items-center justify-center rounded-full shadow-[0_0_8px_rgba(16,185,129,0.4)]",
-                contadorNaoLidas > 99 ? "min-w-5 px-1" : "w-4"
-              )}>
-                {contadorNaoLidas > 99 ? '99+' : contadorNaoLidas}
-              </span>
+              <>
+                <span className="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full" style={{ boxShadow: '0 0 6px var(--color-primary-bg)' }} />
+                <span className={cn(
+                  "absolute -top-1 -right-1 h-4 text-white text-[9px] font-mono font-bold flex items-center justify-center rounded-full",
+                  contadorNaoLidas > 99 ? "min-w-5 px-1" : "w-4"
+                )} style={{ background: 'rgba(59,130,246,0.9)', backdropFilter: 'blur(4px)' }}>
+                  {contadorNaoLidas > 99 ? '99+' : contadorNaoLidas}
+                </span>
+              </>
             )}
           </button>
         }
@@ -540,7 +555,7 @@ export const Dashboard: React.FC = () => {
             value={`${conversionRate}%`}
             subtitle={`${leadsNoGrupo} de ${totalLeads} entraram no grupo`}
             icon={TrendingUp}
-            color="emerald"
+            color="primary"
             sparklineData={sparkConversao.length > 1 ? sparkConversao : undefined}
           />
         </div>
@@ -562,14 +577,14 @@ export const Dashboard: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 relative z-10">
 
         {/* Chart */}
-        <div className="lg:col-span-2 card-dark p-6 animate-slide-up stagger-4 opacity-0">
+        <div className="lg:col-span-2 glass-card p-6 animate-slide-up stagger-4 opacity-0">
           {/* Chart header row 1: Title + Period summary */}
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2.5">
-              <div className="p-1.5 rounded-lg bg-[#004AFF]/10 ring-1 ring-[#004AFF]/20">
-                <Activity className="w-3.5 h-3.5 text-[#004AFF]" />
+              <div className="p-1.5 rounded-xl" style={{ background: 'rgba(59,130,246,0.12)' }}>
+                <Activity className="w-3.5 h-3.5 text-[#60a5fa]" />
               </div>
-              <h3 className="text-sm font-semibold text-txt font-display">{chartTitle}</h3>
+              <h3 className="text-sm font-semibold text-white font-display">{chartTitle}</h3>
             </div>
 
             {/* Compact period stats */}
@@ -580,15 +595,15 @@ export const Dashboard: React.FC = () => {
                 { label: 'Melhor dia', value: periodSummary.best },
               ].map(({ label, value }) => (
                 <div key={label} className="text-right">
-                  <div className="text-[9px] text-txt-dim font-mono uppercase tracking-wider">{label}</div>
-                  <div className="text-sm font-bold text-txt font-display tabular-nums leading-tight">{value}</div>
+                  <div className="text-[9px] font-mono uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.35)' }}>{label}</div>
+                  <div className="text-sm font-bold text-white font-display tabular-nums leading-tight">{value}</div>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Chart header row 2: Period selector + Legend */}
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 mb-5 pb-4 border-b border-white/[0.03]">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 mb-5 pb-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
             <PeriodSelector
               activePreset={activePreset}
               dateRange={dateRange}
@@ -601,21 +616,21 @@ export const Dashboard: React.FC = () => {
               {[
                 { label: 'Total', color: '#FBBF24' },
                 { label: 'Interessados', color: '#34D399' },
-                { label: 'No Grupo', color: '#004AFF' },
+                { label: 'No Grupo', color: '#3b82f6' },
               ].map(({ label, color }) => (
                 <div key={label} className="flex items-center gap-1.5 group/legend cursor-default">
                   <div
                     className="w-2 h-2 rounded-full transition-transform duration-200 group-hover/legend:scale-125"
                     style={{ backgroundColor: color, boxShadow: `0 0 6px ${color}30` }}
                   />
-                  <span className="text-[10px] text-txt-dim font-mono group-hover/legend:text-txt-muted transition-colors">{label}</span>
+                  <span className="text-[10px] font-mono transition-colors" style={{ color: 'rgba(255,255,255,0.35)' }}>{label}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Chart area */}
-          <div className="h-72">
+          <div className="h-72 [&_*]:outline-none [&_.recharts-surface]:cursor-default">
             {filteredChartData.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <ComposedChart data={filteredChartData} barGap={2}>
@@ -629,14 +644,14 @@ export const Dashboard: React.FC = () => {
                       <stop offset="95%" stopColor="#34D399" stopOpacity={0} />
                     </linearGradient>
                     <linearGradient id="gradientGrupo" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#004AFF" stopOpacity={0.15} />
-                      <stop offset="95%" stopColor="#004AFF" stopOpacity={0} />
+                      <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.15} />
+                      <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid
                     strokeDasharray="3 3"
                     vertical={false}
-                    stroke="rgba(255,255,255,0.03)"
+                    stroke="rgba(255,255,255,0.04)"
                   />
                   <XAxis
                     dataKey="data"
@@ -646,7 +661,7 @@ export const Dashboard: React.FC = () => {
                     fontFamily="JetBrains Mono"
                     tickLine={false}
                     axisLine={false}
-                    tick={{ fill: '#52525B' }}
+                    tick={{ fill: 'rgba(255,255,255,0.3)' }}
                   />
                   <YAxis
                     stroke="transparent"
@@ -654,10 +669,10 @@ export const Dashboard: React.FC = () => {
                     fontFamily="JetBrains Mono"
                     tickLine={false}
                     axisLine={false}
-                    tick={{ fill: '#52525B' }}
+                    tick={{ fill: 'rgba(255,255,255,0.3)' }}
                     width={30}
                   />
-                  <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(0, 74, 255, 0.03)' }} />
+                  <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(59, 130, 246, 0.03)' }} />
                   <Area
                     type="monotone"
                     dataKey="leads_total"
@@ -689,11 +704,11 @@ export const Dashboard: React.FC = () => {
                     dataKey="no_grupo"
                     name="No Grupo"
                     fill="url(#gradientGrupo)"
-                    stroke="#004AFF"
+                    stroke="#3b82f6"
                     strokeWidth={1.5}
                     strokeOpacity={0.5}
                     dot={false}
-                    activeDot={{ r: 3, fill: '#004AFF', stroke: '#0A0A0B', strokeWidth: 2 }}
+                    activeDot={{ r: 3, fill: '#3b82f6', stroke: '#0A0A0B', strokeWidth: 2 }}
                     animationDuration={800}
                     animationEasing="ease-out"
                   />
@@ -702,9 +717,9 @@ export const Dashboard: React.FC = () => {
             ) : (
               <div className="h-full flex items-center justify-center">
                 <div className="text-center">
-                  <Calendar className="w-8 h-8 text-txt-dim mx-auto mb-2" />
-                  <p className="text-sm text-txt-muted">Sem dados para o periodo selecionado</p>
-                  <p className="text-[11px] text-txt-dim mt-1">Selecione um periodo com dados disponiveis</p>
+                  <Calendar className="w-8 h-8 mx-auto mb-2" style={{ color: 'rgba(255,255,255,0.15)' }} />
+                  <p className="text-sm" style={{ color: 'rgba(255,255,255,0.3)' }}>Sem dados para o periodo selecionado</p>
+                  <p className="text-[11px] mt-1" style={{ color: 'rgba(255,255,255,0.2)' }}>Selecione um periodo com dados disponiveis</p>
                 </div>
               </div>
             )}
@@ -712,49 +727,52 @@ export const Dashboard: React.FC = () => {
         </div>
 
         {/* Recent leads */}
-        <div className="card-dark p-5 flex flex-col animate-slide-up stagger-5 opacity-0">
+        <div className="glass-card p-5 flex flex-col animate-slide-up stagger-5 opacity-0">
           <div className="flex justify-between items-center mb-5">
-            <h3 className="text-sm font-semibold text-txt font-display">
+            <h3 className="text-sm font-semibold text-white font-display">
               {kpiIsToday ? 'Leads de Hoje' : kpiIsSingleDay ? `Leads - ${format(kpiRange.start, 'dd/MM')}` : 'Leads do Periodo'}
             </h3>
-            <span className="text-[10px] text-[#004AFF] font-mono font-semibold bg-[#004AFF]/8 px-2.5 py-1 rounded-lg ring-1 ring-[#004AFF]/15">
+            <span className="text-[10px] text-[#60a5fa] font-mono font-semibold px-2.5 py-1 rounded-lg" style={{ background: 'rgba(59,130,246,0.10)', border: '1px solid rgba(59,130,246,0.20)' }}>
               {leadsPeriodo.length}
             </span>
           </div>
 
-          <div className="flex-1 overflow-y-auto pr-1 space-y-0.5 max-h-[340px]">
+          <div className="flex-1 overflow-y-auto pr-1 space-y-1.5 max-h-[340px]">
             {leadsPeriodo.slice(0, 10).map((lead, i) => (
               <div
                 key={lead.id}
-                className="flex items-center justify-between p-3 hover:bg-white/[0.02] rounded-xl transition-all duration-300 group cursor-default"
+                className="inner-item flex items-center justify-between group cursor-default"
                 style={{ animationDelay: `${0.3 + i * 0.03}s` }}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-surface-200/60 flex items-center justify-center text-[11px] font-semibold text-txt-muted font-mono shrink-0 ring-1 ring-white/[0.04]">
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-semibold font-mono shrink-0" style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.04)' }}>
                     {(lead.nome || '?')[0].toUpperCase()}
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[13px] font-medium text-txt group-hover:text-[#004AFF] transition-colors duration-300">{lead.nome || 'Sem nome'}</span>
-                    <span className="text-[10px] text-txt-dim font-mono">{formatTelefone(lead.telefone)}</span>
+                    <span className="text-[13px] font-medium text-white group-hover:text-[#60a5fa] transition-colors duration-300">{lead.nome || 'Sem nome'}</span>
+                    <span className="text-[10px] font-mono" style={{ color: 'rgba(255,255,255,0.35)' }}>{formatTelefone(lead.telefone)}</span>
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-1.5">
                   <LeadBadge status={lead.status as StatusLead} />
-                  <span className="text-[9px] text-txt-dim font-mono tabular-nums">
+                  <span className="text-[9px] font-mono tabular-nums" style={{ color: 'rgba(255,255,255,0.35)' }}>
                     {lead.ultima_interacao ? formatRelativeTime(lead.ultima_interacao) : formatTime(lead.data_primeiro_contato ?? lead.created_at)}
                   </span>
                 </div>
               </div>
             ))}
             {leadsPeriodo.length === 0 && (
-              <div className="text-center text-txt-dim py-12 text-sm">Nenhum lead no periodo.</div>
+              <div className="text-center py-12 flex flex-col items-center gap-2">
+                <Users className="w-8 h-8" style={{ color: 'rgba(255,255,255,0.15)' }} />
+                <p className="text-sm" style={{ color: 'rgba(255,255,255,0.3)' }}>Nenhum lead no periodo.</p>
+              </div>
             )}
           </div>
 
-          <div className="mt-4 pt-4 border-t border-white/[0.04]">
+          <div className="mt-4 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
             <button
               onClick={() => navigate('/leads')}
-              className="flex items-center justify-center w-full text-xs text-[#004AFF] font-medium hover:text-blue-300 transition-colors duration-300 group py-1"
+              className="flex items-center justify-center w-full text-xs text-[#60a5fa] font-medium hover:underline transition-colors duration-300 group py-1"
             >
               Ver todos <ArrowRight className="w-3.5 h-3.5 ml-1.5 group-hover:translate-x-1 transition-transform duration-300" />
             </button>
@@ -773,12 +791,12 @@ export const Dashboard: React.FC = () => {
             <div className="card-dark-elevated overflow-hidden flex flex-col max-h-[70vh] animate-slide-up">
               <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.04]">
                 <div className="flex items-center gap-2.5">
-                  <div className="p-1.5 rounded-lg bg-[#004AFF]/10 ring-1 ring-[#004AFF]/20">
-                    <Bell className="w-4 h-4 text-[#004AFF]" />
+                  <div className="p-1.5 rounded-lg bg-[#3b82f6]/10 ring-1 ring-[#3b82f6]/20">
+                    <Bell className="w-4 h-4 text-[#60a5fa]" />
                   </div>
                   <span className="text-sm font-semibold text-txt font-display">Notificacoes</span>
                   {contadorNaoLidas > 0 && (
-                    <span className="text-[10px] text-[#004AFF] font-mono font-semibold bg-[#004AFF]/8 px-2 py-0.5 rounded-lg ring-1 ring-[#004AFF]/15">
+                    <span className="text-[10px] text-[#60a5fa] font-mono font-semibold bg-[#3b82f6]/8 px-2 py-0.5 rounded-lg ring-1 ring-[#3b82f6]/15">
                       {contadorNaoLidas}
                     </span>
                   )}
@@ -787,7 +805,7 @@ export const Dashboard: React.FC = () => {
                   {notificacoes.length > 0 && (
                     <button
                       onClick={marcarTodasComoLidas}
-                      className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] text-[#004AFF] hover:text-blue-300 font-medium transition-colors rounded-lg hover:bg-[#004AFF]/5"
+                      className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] text-[#60a5fa] hover:text-blue-300 font-medium transition-colors rounded-lg hover:bg-[#3b82f6]/5"
                     >
                       <CheckCheck className="w-3.5 h-3.5" />
                       Marcar todas como lidas

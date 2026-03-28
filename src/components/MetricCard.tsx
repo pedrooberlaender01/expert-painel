@@ -9,50 +9,46 @@ interface MetricCardProps {
   trend?: string;
   trendType?: 'positive' | 'negative' | 'neutral';
   icon: LucideIcon;
-  color?: 'emerald' | 'cyan' | 'amber' | 'rose';
+  color?: 'primary' | 'cyan' | 'amber' | 'rose';
   sparklineData?: number[];
 }
 
 const colorMap = {
-  emerald: {
-    icon: 'bg-emerald-500/10 text-emerald-400',
-    iconRing: 'ring-emerald-500/20',
-    glow: 'group-hover:shadow-[0_0_40px_rgba(16,185,129,0.08)]',
-    gradient: 'from-emerald-500/8 via-transparent to-transparent',
-    sparkline: '#10B981',
-    sparklineFill: 'rgba(16, 185, 129, 0.08)',
-    dot: 'bg-emerald-400',
-    accentLine: 'bg-gradient-to-r from-emerald-500/40 to-transparent',
+  primary: {
+    iconBg: 'var(--color-primary-bg)',
+    iconColor: 'var(--color-primary-light)',
+    sparkline: 'var(--color-primary)',
+    sparklineFill: 'var(--color-primary-bg)',
+    badgeBg: 'var(--color-primary-bg)',
+    badgeBorder: 'var(--color-primary-bg)',
+    badgeText: 'var(--color-primary-light)',
   },
   cyan: {
-    icon: 'bg-blue-600/10 text-blue-400',
-    iconRing: 'ring-blue-600/20',
-    glow: 'group-hover:shadow-[0_0_40px_rgba(0,74,255,0.08)]',
-    gradient: 'from-blue-600/8 via-transparent to-transparent',
-    sparkline: '#004AFF',
-    sparklineFill: 'rgba(0, 74, 255, 0.08)',
-    dot: 'bg-blue-400',
-    accentLine: 'bg-gradient-to-r from-blue-600/40 to-transparent',
+    iconBg: 'rgba(59, 130, 246, 0.12)',
+    iconColor: '#60a5fa',
+    sparkline: '#3b82f6',
+    sparklineFill: 'rgba(59, 130, 246, 0.08)',
+    badgeBg: 'rgba(59, 130, 246, 0.10)',
+    badgeBorder: 'rgba(59, 130, 246, 0.20)',
+    badgeText: '#60a5fa',
   },
   amber: {
-    icon: 'bg-amber-500/10 text-amber-400',
-    iconRing: 'ring-amber-500/20',
-    glow: 'group-hover:shadow-[0_0_40px_rgba(245,158,11,0.08)]',
-    gradient: 'from-amber-500/8 via-transparent to-transparent',
+    iconBg: 'rgba(250, 204, 60, 0.12)',
+    iconColor: '#facc3c',
     sparkline: '#F59E0B',
     sparklineFill: 'rgba(245, 158, 11, 0.08)',
-    dot: 'bg-amber-400',
-    accentLine: 'bg-gradient-to-r from-amber-500/40 to-transparent',
+    badgeBg: 'rgba(250, 204, 60, 0.10)',
+    badgeBorder: 'rgba(250, 204, 60, 0.20)',
+    badgeText: '#facc3c',
   },
   rose: {
-    icon: 'bg-rose-500/10 text-rose-400',
-    iconRing: 'ring-rose-500/20',
-    glow: 'group-hover:shadow-[0_0_40px_rgba(244,63,94,0.08)]',
-    gradient: 'from-rose-500/8 via-transparent to-transparent',
+    iconBg: 'rgba(244, 63, 94, 0.12)',
+    iconColor: '#fb7185',
     sparkline: '#F43F5E',
     sparklineFill: 'rgba(244, 63, 94, 0.08)',
-    dot: 'bg-rose-400',
-    accentLine: 'bg-gradient-to-r from-rose-500/40 to-transparent',
+    badgeBg: 'rgba(244, 63, 94, 0.10)',
+    badgeBorder: 'rgba(244, 63, 94, 0.20)',
+    badgeText: '#fb7185',
   },
 };
 
@@ -90,7 +86,7 @@ const Sparkline: React.FC<{ data: number[]; color: string; fill: string }> = ({ 
 };
 
 const defaultSparklines: Record<string, number[]> = {
-  emerald: [4, 6, 5, 8, 7, 9, 10, 8, 12, 11, 13],
+  primary: [4, 6, 5, 8, 7, 9, 10, 8, 12, 11, 13],
   cyan: [8, 10, 9, 12, 11, 15, 14, 13, 16, 15, 18],
   amber: [3, 2, 4, 3, 5, 4, 3, 5, 4, 6, 3],
   rose: [5, 4, 6, 5, 3, 4, 5, 3, 4, 3, 2],
@@ -103,48 +99,43 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   trend,
   trendType = 'neutral',
   icon: Icon,
-  color = 'emerald',
+  color = 'primary',
   sparklineData,
 }) => {
   const colors = colorMap[color];
   const data = sparklineData || defaultSparklines[color];
 
   const trendConfig = {
-    positive: { color: 'text-emerald-400', icon: TrendingUp, bg: 'bg-emerald-500/8' },
-    negative: { color: 'text-rose-400', icon: TrendingDown, bg: 'bg-rose-500/8' },
-    neutral: { color: 'text-txt-muted', icon: Minus, bg: 'bg-surface-300/10' },
+    positive: { color: 'var(--color-primary-light)', icon: TrendingUp, bg: 'var(--color-primary-bg)', border: 'var(--color-primary-bg)' },
+    negative: { color: '#fb7185', icon: TrendingDown, bg: 'rgba(244, 63, 94, 0.10)', border: 'rgba(244, 63, 94, 0.20)' },
+    neutral: { color: 'rgba(255,255,255,0.5)', icon: Minus, bg: 'rgba(255, 255, 255, 0.05)', border: 'rgba(255, 255, 255, 0.04)' },
   };
 
   const TrendIcon = trendConfig[trendType].icon;
 
   return (
-    <div className={cn(
-      "card-dark p-5 group transition-all duration-500 h-full flex flex-col relative",
-      colors.glow
-    )}>
-      {/* Subtle gradient overlay */}
-      <div className={cn("absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none", colors.gradient)} />
-
-      {/* Top accent line */}
-      <div className={cn("absolute top-0 left-0 right-0 h-[1px]", colors.accentLine)} />
-
+    <div className="glass-card p-5 group h-full flex flex-col relative">
       <div className="relative z-10 flex flex-col h-full">
-        {/* Header */}
+        {/* Header: icon + trend badge */}
         <div className="flex justify-between items-start mb-4">
-          <div className={cn(
-            "p-2.5 rounded-xl ring-1 transition-all duration-300 group-hover:scale-105",
-            colors.icon,
-            colors.iconRing
-          )}>
-            <Icon className="w-[18px] h-[18px]" strokeWidth={1.75} />
-          </div>
+          <Icon
+            className="w-[22px] h-[22px] transition-all duration-300 group-hover:scale-110"
+            strokeWidth={1.6}
+            style={{
+              color: colors.iconColor,
+              filter: `drop-shadow(0 0 6px ${colors.iconBg})`,
+            }}
+          />
 
           {trend && (
-            <div className={cn(
-              "flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-mono font-medium tracking-wide",
-              trendConfig[trendType].bg,
-              trendConfig[trendType].color
-            )}>
+            <div
+              className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-medium tracking-wide"
+              style={{
+                background: trendConfig[trendType].bg,
+                border: `1px solid ${trendConfig[trendType].border}`,
+                color: trendConfig[trendType].color,
+              }}
+            >
               <TrendIcon className="w-3 h-3" />
               <span>{trend}</span>
             </div>
@@ -152,15 +143,19 @@ export const MetricCard: React.FC<MetricCardProps> = ({
         </div>
 
         {/* Label */}
-        <p className="text-txt-muted text-[11px] font-semibold uppercase tracking-[0.08em] mb-1">{title}</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.5px] mb-1" style={{ color: 'rgba(255,255,255,0.45)' }}>
+          {title}
+        </p>
 
         {/* Value */}
-        <div className="text-[2rem] font-bold text-txt font-display tracking-tight leading-none mb-1 animate-count-up">
+        <div className="text-[28px] font-bold text-white font-display tracking-tight leading-none mb-1 animate-count-up" style={{ fontVariantNumeric: 'tabular-nums' }}>
           {value}
         </div>
 
         {subtitle && (
-          <p className="text-[11px] text-txt-dim leading-relaxed mb-3">{subtitle}</p>
+          <p className="text-[12px] leading-relaxed mb-3" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            {subtitle}
+          </p>
         )}
 
         {/* Sparkline */}

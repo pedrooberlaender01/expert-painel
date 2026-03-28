@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { Loader2, Save, Phone, GitBranch, Clock, ChevronDown, Plus, X, AlertTriangle, Trash2 } from 'lucide-react';
+import { Loader2, Save, GitBranch, Clock, ChevronDown, Plus, X, AlertTriangle, Trash2, MessageSquareText } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { Toast } from '../components/Toast';
 import { MensagemCard } from '../components/mensagens/MensagemCard';
@@ -10,24 +10,36 @@ import { useMensagensFunil, SECOES } from '../hooks/useMensagensFunil';
 import type { MensagemFunil } from '../hooks/useMensagensFunil';
 import { cn } from '../utils/cn';
 import { getStatusLabel } from '../utils/formatters';
+import { MensagensAbertura } from '../components/mensagens/MensagensAbertura';
 
 const SECOES_COM_TEMPO = new Set(['followups', 'boas_vindas']);
 const CENARIOS_EMPTY_ALLOWED = new Set(['outro']);
+const CENARIOS_SEM_TOGGLE_TIPO = new Set([
+  'cadastro_imagem_ok',
+  'cadastro_pedir_print',
+  'confirmacao_precisa_link',
+]);
 
-type TabKey = 'funil' | 'followups';
+type TabKey = 'funil' | 'followups' | 'abertura';
 
 const TABS: { key: TabKey; label: string; icon: typeof GitBranch; secoes: string[] }[] = [
   {
     key: 'funil',
     label: 'Etapas do Funil',
     icon: GitBranch,
-    secoes: ['lead_chegou', 'primeiro_contato', 'convite', 'confirmacao_entrada'],
+    secoes: ['lead_chegou', 'primeiro_contato', 'convite', 'aguardando_cadastro', 'confirmacao_entrada'],
   },
   {
     key: 'followups',
     label: 'Follow-ups & Automáticas',
     icon: Clock,
     secoes: ['followups', 'boas_vindas'],
+  },
+  {
+    key: 'abertura',
+    label: 'Mensagens de Abertura',
+    icon: MessageSquareText,
+    secoes: [],
   },
 ];
 
@@ -45,15 +57,6 @@ const STATUS_OPTIONS = [
   'atendimento_manual',
 ] as const;
 
-const formatPhone = (raw: string): string => {
-  const d = raw.replace(/\D/g, '').slice(0, 13);
-  if (!d) return '';
-  if (d.length <= 2) return `+${d}`;
-  if (d.length <= 4) return `+${d.slice(0, 2)} (${d.slice(2)}`;
-  if (d.length <= 9) return `+${d.slice(0, 2)} (${d.slice(2, 4)}) ${d.slice(4)}`;
-  return `+${d.slice(0, 2)} (${d.slice(2, 4)}) ${d.slice(4, 9)}-${d.slice(9)}`;
-};
-
 // Skeleton loader for cards
 const SkeletonCard: React.FC = () => (
   <div className="card-dark p-5 animate-pulse">
@@ -70,8 +73,8 @@ const SkeletonCard: React.FC = () => (
 
 export const Mensagens: React.FC = () => {
   const {
-    data, loading, telefoneTeste, fetchData,
-    salvarTelefoneTeste, salvarSecao, salvarCard,
+    data, loading, fetchData,
+    salvarSecao, salvarCard,
     criarFollowup, excluirFollowup, reordenarFollowups, toggleAtivo,
   } = useMensagensFunil();
   const { toast, showToast, hideToast } = useToast();
@@ -100,10 +103,6 @@ export const Mensagens: React.FC = () => {
     });
   }, []);
 
-  // Phone input
-  const [phoneInput, setPhoneInput] = useState('');
-  const [savingPhone, setSavingPhone] = useState(false);
-
   // Modal: Novo Follow-up
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [createForm, setCreateForm] = useState({
@@ -124,19 +123,16 @@ export const Mensagens: React.FC = () => {
     if (data.length > 0) {
       const map: Record<string, MensagemFunil> = {};
       data.forEach((m) => {
-        map[m.id] = { ...m, mensagens: [...m.mensagens] };
+        map[m.id] = {
+          ...m,
+          mensagens: [...m.mensagens],
+          variacoes: m.variacoes ? m.variacoes.map(v => [...v]) : null,
+        };
       });
       setEditData(map);
       setModifiedIds(new Set());
     }
   }, [data]);
-
-  // Initialize phone from hook
-  useEffect(() => {
-    if (telefoneTeste) {
-      setPhoneInput(formatPhone(telefoneTeste));
-    }
-  }, [telefoneTeste]);
 
   const updateMensagem = useCallback((id: string, updates: Partial<MensagemFunil>) => {
     setEditData((prev) => ({
@@ -164,34 +160,11 @@ export const Mensagens: React.FC = () => {
     [editData, modifiedIds]
   );
 
-  const handleSavePhone = async () => {
-    const digits = phoneInput.replace(/\D/g, '');
-    if (digits.length < 12) {
-      showToast('error', 'Número incompleto. Use o formato +55 (XX) XXXXX-XXXX');
-      return;
-    }
-    setSavingPhone(true);
-    try {
-      const erro = await salvarTelefoneTeste(digits);
-      if (erro) {
-        showToast('error', erro);
-      } else {
-        showToast('success', 'Telefone de teste salvo!');
-      }
-    } catch (err) {
-      console.error('[handleSavePhone] Erro:', err);
-      showToast('error', 'Erro ao salvar telefone');
-    } finally {
-      setSavingPhone(false);
-    }
-  };
-
   const handleSaveSection = async (secao: string) => {
     const mensagens = getMensagensSecao(secao);
     const modified = mensagens.filter((m) => modifiedIds.has(m.id));
     if (modified.length === 0) return;
 
-    console.log('[handleSaveSection]', secao, 'modificados:', modified.length, modified.map((m) => m.cenario));
     setSavingSections((prev) => new Set(prev).add(secao));
 
     try {
@@ -306,6 +279,11 @@ export const Mensagens: React.FC = () => {
         ...prev,
         [id]: { ...prev[id], ativo: nextActive },
       }));
+      setModifiedIds((prev) => {
+        const next = new Set(prev);
+        next.delete(id);
+        return next;
+      });
     }
   };
 
@@ -351,59 +329,32 @@ export const Mensagens: React.FC = () => {
         isRefreshing={loading}
       />
 
-      {/* Telefone de teste */}
-      <section className="card-dark p-5 mb-8">
-        <div className="flex flex-col sm:flex-row sm:items-end gap-3">
-          <div className="flex-1">
-            <label className="block text-[10px] font-mono font-semibold text-txt-muted mb-2 uppercase tracking-widest">
-              Número de teste
-            </label>
-            <div className="relative">
-              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-txt-dim" />
-              <input
-                type="text"
-                value={phoneInput}
-                onChange={(e) => setPhoneInput(formatPhone(e.target.value))}
-                placeholder="+55 (00) 00000-0000"
-                className="input-dark !pl-10"
-              />
-            </div>
-            <p className="text-[10px] text-txt-dim mt-1.5">
-              As mensagens de teste serão enviadas para este número
-            </p>
-          </div>
-          <button
-            onClick={handleSavePhone}
-            disabled={savingPhone}
-            className="btn-primary flex items-center gap-2 text-[12px] px-5 py-2.5 shrink-0 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-none"
-          >
-            {savingPhone ? (
-              <Loader2 className="w-3.5 h-3.5 animate-spin" />
-            ) : (
-              <Save className="w-3.5 h-3.5" />
-            )}
-            Salvar
-          </button>
-        </div>
-      </section>
-
-      {/* Tabs */}
-      <div className="flex gap-1 p-1 rounded-xl bg-surface-50 border border-surface-300/20 mb-8">
-        {TABS.map((tab) => (
-          <button
-            key={tab.key}
-            onClick={() => setActiveTab(tab.key)}
-            className={cn(
-              'flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-200',
-              activeTab === tab.key
-                ? 'bg-[#004AFF]/10 text-[#004AFF] border-glow shadow-sm'
-                : 'text-txt-muted hover:text-txt hover:bg-surface-200/30'
-            )}
-          >
-            <tab.icon className="w-4 h-4" />
-            {tab.label}
-          </button>
-        ))}
+      {/* Tabs — Glass Pill */}
+      <div
+        className="flex flex-wrap md:inline-flex gap-1 p-1 rounded-[14px] w-full md:w-fit mb-8"
+        style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
+      >
+        {TABS.map((tab) => {
+          const isActive = activeTab === tab.key;
+          const activeStyle = tab.key === 'funil'
+            ? { background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', color: '#60a5fa' }
+            : tab.key === 'abertura'
+            ? { background: 'rgba(250,204,60,0.08)', border: '1px solid rgba(250,204,60,0.2)', color: '#facc3c' }
+            : { background: 'var(--color-primary-bg)', border: '1px solid var(--color-primary-bg)', color: 'var(--color-primary-light)' };
+          return (
+            <button
+              key={tab.key}
+              onClick={() => setActiveTab(tab.key)}
+              className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-3 rounded-[10px] text-[11px] sm:text-[13px] font-medium transition-all duration-250 whitespace-nowrap"
+              style={isActive ? activeStyle : { background: 'transparent', border: '1px solid transparent', color: 'rgba(255,255,255,0.45)' }}
+              onMouseEnter={(e) => { if (!isActive) { e.currentTarget.style.color = 'rgba(255,255,255,0.65)'; e.currentTarget.style.background = 'rgba(255,255,255,0.03)' } }}
+              onMouseLeave={(e) => { if (!isActive) { e.currentTarget.style.color = 'rgba(255,255,255,0.45)'; e.currentTarget.style.background = 'transparent' } }}
+            >
+              <tab.icon className="w-4 h-4" style={{ opacity: isActive ? 1 : 0.5 }} />
+              {tab.label}
+            </button>
+          );
+        })}
       </div>
 
       {/* Loading skeleton */}
@@ -442,27 +393,39 @@ export const Mensagens: React.FC = () => {
                 {/* Header clicável */}
                 <button
                   onClick={() => toggleSection(secao.key)}
-                  className="w-full flex items-center justify-between gap-3 px-6 py-5 rounded-xl border border-surface-300/15 bg-surface-50/50 hover:bg-surface-200/30 hover:border-surface-300/25 transition-all duration-200 group"
+                  className="w-full flex items-center justify-between gap-3 px-6 py-5 transition-all duration-200 group"
+                  style={{
+                    background: isExpanded ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.03)',
+                    border: `1px solid ${isExpanded ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.04)'}`,
+                    borderRadius: '14px',
+                    borderLeft: `4px solid rgba(59,130,246,${isExpanded ? '0.5' : '0.2'})`,
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = isExpanded ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.03)'; e.currentTarget.style.borderColor = isExpanded ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.04)' }}
                 >
                   <div className="text-left">
-                    <h2 className="text-[15px] font-bold text-txt font-display tracking-tight">
+                    <h2 className="text-[14px] font-semibold text-white font-display tracking-tight">
                       {secao.titulo}
                     </h2>
-                    <p className="text-[11px] text-txt-dim font-mono mt-1">
+                    <p className="text-[12px] mt-1" style={{ color: 'rgba(255,255,255,0.35)' }}>
                       {mensagens.length} {mensagens.length === 1 ? 'mensagem' : 'mensagens'} configuradas
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
                     {hasChanges && (
-                      <span className="px-2 py-0.5 text-[10px] font-semibold rounded-md bg-amber-500/10 text-amber-400 ring-1 ring-amber-500/20">
+                      <span
+                        className="px-2 py-0.5 text-[10px] font-semibold rounded-md"
+                        style={{ background: 'rgba(250,204,60,0.12)', color: '#facc3c', border: '1px solid rgba(250,204,60,0.2)' }}
+                      >
                         Alterado
                       </span>
                     )}
                     <ChevronDown
                       className={cn(
-                        'w-5 h-5 text-txt-dim group-hover:text-txt-muted transition-all duration-300',
+                        'w-5 h-5 transition-all duration-300',
                         isExpanded && 'rotate-180'
                       )}
+                      style={{ color: 'rgba(255,255,255,0.3)' }}
                     />
                   </div>
                 </button>
@@ -496,12 +459,13 @@ export const Mensagens: React.FC = () => {
                         .map((msg) => (
                           <MensagemCard
                             key={msg.id}
-                            mensagem={msg}
+                            mensagem={editData[msg.id] || msg}
                             isModified={modifiedIds.has(msg.id)}
-                            telefoneTeste={telefoneTeste}
+                            telefoneTeste=""
                             hasTempoEspera={hasTempoEspera}
                             allowEmptyMessages={CENARIOS_EMPTY_ALLOWED.has(msg.cenario)}
                             showAtivoToggle={hasTempoEspera}
+                            hideTypeToggle={CENARIOS_SEM_TOGGLE_TIPO.has(msg.cenario)}
                             onUpdate={(updates) => updateMensagem(msg.id, updates)}
                             onShowToast={showToast}
                           />
@@ -513,12 +477,13 @@ export const Mensagens: React.FC = () => {
                       <button
                         onClick={() => handleSaveSection(secao.key)}
                         disabled={isSaving || !hasChanges}
-                        className={cn(
-                          'flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200',
-                          hasChanges
-                            ? 'bg-emerald-500 text-white hover:bg-emerald-400 shadow-lg shadow-emerald-500/20'
-                            : 'bg-surface-200/40 text-txt-dim cursor-not-allowed'
-                        )}
+                        className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+                        style={hasChanges
+                          ? { background: 'var(--color-primary-bg)', border: '1px solid var(--color-primary-bg)', color: 'var(--color-primary-light)' }
+                          : { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.25)' }
+                        }
+                        onMouseEnter={(e) => { if (hasChanges) { e.currentTarget.style.background = 'var(--color-primary-bg)'; e.currentTarget.style.boxShadow = '0 0 20px var(--color-primary-bg)' } }}
+                        onMouseLeave={(e) => { if (hasChanges) { e.currentTarget.style.background = 'var(--color-primary-bg)'; e.currentTarget.style.boxShadow = 'none' } }}
                       >
                         {isSaving ? (
                           <Loader2 className="w-4 h-4 animate-spin" />
@@ -555,7 +520,10 @@ export const Mensagens: React.FC = () => {
               </div>
               <button
                 onClick={() => setShowCreateModal(true)}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-[12px] font-semibold bg-emerald-500 text-white hover:bg-emerald-400 transition-all duration-200 shadow-lg shadow-emerald-500/20 shrink-0"
+                className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 shrink-0"
+                style={{ background: 'var(--color-primary-bg)', border: '1px solid var(--color-primary-bg)', color: 'var(--color-primary-light)' }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--color-primary-bg)'; e.currentTarget.style.boxShadow = '0 0 16px var(--color-primary-bg)' }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--color-primary-bg)'; e.currentTarget.style.boxShadow = 'none' }}
               >
                 <Plus className="w-3.5 h-3.5" />
                 Novo Follow-up
@@ -563,10 +531,10 @@ export const Mensagens: React.FC = () => {
             </div>
 
             {followups.length === 0 ? (
-              <div className="card-dark p-8 flex flex-col items-center justify-center gap-2 mt-4">
-                <Clock className="w-8 h-8 text-txt-dim" />
-                <p className="text-[13px] text-txt-muted">Nenhum follow-up configurado</p>
-                <p className="text-[11px] text-txt-dim">Clique em "+ Novo Follow-up" para criar</p>
+              <div className="p-8 flex flex-col items-center justify-center gap-2 mt-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '16px' }}>
+                <Clock className="w-8 h-8" style={{ color: 'rgba(255,255,255,0.15)' }} />
+                <p className="text-[13px]" style={{ color: 'rgba(255,255,255,0.5)' }}>Nenhum follow-up configurado</p>
+                <p className="text-[11px]" style={{ color: 'rgba(255,255,255,0.25)' }}>Clique em "+ Novo Follow-up" para criar</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
@@ -575,7 +543,7 @@ export const Mensagens: React.FC = () => {
                     key={msg.id}
                     mensagem={editData[msg.id] || msg}
                     variant="followup"
-                    telefoneTeste={telefoneTeste}
+                    telefoneTeste=""
                     isModified={modifiedIds.has(msg.id)}
                     isSaving={savingCards.has(msg.id)}
                     isFirst={index === 0}
@@ -605,8 +573,8 @@ export const Mensagens: React.FC = () => {
             </div>
 
             {boasVindas.length === 0 ? (
-              <div className="card-dark p-8 flex flex-col items-center justify-center gap-2 mt-4">
-                <p className="text-[13px] text-txt-muted">Nenhuma mensagem de boas-vindas encontrada</p>
+              <div className="p-8 flex flex-col items-center justify-center gap-2 mt-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '16px' }}>
+                <p className="text-[13px]" style={{ color: 'rgba(255,255,255,0.5)' }}>Nenhuma mensagem de boas-vindas encontrada</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
@@ -615,7 +583,7 @@ export const Mensagens: React.FC = () => {
                     key={msg.id}
                     mensagem={editData[msg.id] || msg}
                     variant="boas_vindas"
-                    telefoneTeste={telefoneTeste}
+                    telefoneTeste=""
                     isModified={modifiedIds.has(msg.id)}
                     isSaving={savingCards.has(msg.id)}
                     isFirst={true}
@@ -633,104 +601,93 @@ export const Mensagens: React.FC = () => {
       )}
 
       {/* ══════════════════════════════════════════════════════════════════
+           ABA: MENSAGENS DE ABERTURA
+         ══════════════════════════════════════════════════════════════════ */}
+      {activeTab === 'abertura' && (
+        <MensagensAbertura showToast={showToast} />
+      )}
+
+      {/* ══════════════════════════════════════════════════════════════════
            MODAL: Criar Follow-up
          ══════════════════════════════════════════════════════════════════ */}
       {showCreateModal && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ background: 'rgba(0, 0, 0, 0.7)', backdropFilter: 'blur(4px)' }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fade-in"
+          style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)' }}
           onClick={() => setShowCreateModal(false)}
         >
           <div
-            className="card-dark-elevated w-full max-w-md p-6 animate-slide-up"
+            className="w-full max-w-md animate-slide-up"
+            style={{ background: 'rgba(20,20,30,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '28px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-5">
-              <h3 className="text-[16px] font-bold text-txt font-display">Novo Follow-up</h3>
+              <h3 className="text-[16px] font-semibold text-white font-display">Novo Follow-up</h3>
               <button
                 onClick={() => setShowCreateModal(false)}
-                className="p-1.5 rounded-lg text-txt-dim hover:text-txt hover:bg-surface-200/30 transition-all"
+                className="w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200"
+                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)' }}
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             <div className="space-y-4">
-              {/* Título */}
-              <div>
-                <label className="block text-[10px] font-mono font-semibold text-txt-muted mb-1.5 uppercase tracking-widest">
-                  Título *
-                </label>
-                <input
-                  type="text"
-                  value={createForm.titulo}
-                  onChange={(e) => setCreateForm((p) => ({ ...p, titulo: e.target.value }))}
-                  placeholder="Ex: Não respondeu primeiro contato"
-                  className="input-dark text-[13px]"
-                />
-              </div>
+              {[
+                { label: 'Título *', value: createForm.titulo, key: 'titulo', placeholder: 'Ex: Não respondeu primeiro contato' },
+                { label: 'Descrição', value: createForm.descricao, key: 'descricao', placeholder: 'Explicação curta do cenário' },
+              ].map((field) => (
+                <div key={field.key}>
+                  <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>{field.label}</label>
+                  <input
+                    type="text"
+                    value={field.value}
+                    onChange={(e) => setCreateForm((p) => ({ ...p, [field.key]: e.target.value }))}
+                    placeholder={field.placeholder}
+                    className="w-full text-white text-[13px] outline-none transition-all duration-200"
+                    style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 14px' }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(59,130,246,0.3)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59,130,246,0.08)' }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.boxShadow = 'none' }}
+                  />
+                </div>
+              ))}
 
-              {/* Descrição */}
               <div>
-                <label className="block text-[10px] font-mono font-semibold text-txt-muted mb-1.5 uppercase tracking-widest">
-                  Descrição
-                </label>
-                <input
-                  type="text"
-                  value={createForm.descricao}
-                  onChange={(e) => setCreateForm((p) => ({ ...p, descricao: e.target.value }))}
-                  placeholder="Explicação curta do cenário"
-                  className="input-dark text-[13px]"
-                />
-              </div>
-
-              {/* Status Alvo */}
-              <div>
-                <label className="block text-[10px] font-mono font-semibold text-txt-muted mb-1.5 uppercase tracking-widest">
-                  Status alvo *
-                </label>
+                <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Status alvo *</label>
                 <select
                   value={createForm.status_alvo}
                   onChange={(e) => setCreateForm((p) => ({ ...p, status_alvo: e.target.value }))}
-                  className="w-full px-4 py-2.5 rounded-xl text-[13px] text-txt bg-surface outline-none border border-surface-200 focus:border-[#004AFF]/30 transition-colors appearance-none cursor-pointer"
-                  style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', background: 'rgba(20, 20, 22, 0.6)' }}
+                  className="w-full text-white text-[13px] outline-none cursor-pointer appearance-none transition-all duration-200"
+                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 36px 10px 14px', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
                 >
                   <option value="" disabled>Selecione o status</option>
                   {STATUS_OPTIONS.map((status) => (
-                    <option key={status} value={status}>
-                      {getStatusLabel(status)}
-                    </option>
+                    <option key={status} value={status}>{getStatusLabel(status)}</option>
                   ))}
                 </select>
               </div>
 
-              {/* Tempo de espera */}
               <div>
-                <label className="block text-[10px] font-mono font-semibold text-txt-muted mb-1.5 uppercase tracking-widest">
-                  Tempo de espera (minutos) *
-                </label>
+                <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Tempo de espera (minutos) *</label>
                 <input
                   type="text"
                   inputMode="numeric"
                   value={createForm.tempo_espera_minutos}
-                  onChange={(e) => {
-                    const raw = e.target.value.replace(/\D/g, '');
-                    setCreateForm((p) => ({ ...p, tempo_espera_minutos: raw === '' ? 0 : parseInt(raw, 10) }));
-                  }}
-                  className="input-dark text-[13px] w-32 text-center"
+                  onChange={(e) => { const raw = e.target.value.replace(/\D/g, ''); setCreateForm((p) => ({ ...p, tempo_espera_minutos: raw === '' ? 0 : parseInt(raw, 10) })); }}
+                  className="text-white text-[13px] text-center outline-none transition-all duration-200 w-32"
+                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 14px' }}
+                  onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(59,130,246,0.3)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59,130,246,0.08)' }}
+                  onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.boxShadow = 'none' }}
                 />
               </div>
 
-              {/* Tipo envio */}
               <div>
-                <label className="block text-[10px] font-mono font-semibold text-txt-muted mb-1.5 uppercase tracking-widest">
-                  Tipo de envio
-                </label>
+                <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Tipo de envio</label>
                 <select
                   value={createForm.tipo_envio}
                   onChange={(e) => setCreateForm((p) => ({ ...p, tipo_envio: e.target.value }))}
-                  className="w-full px-4 py-2.5 rounded-xl text-[13px] text-txt bg-surface outline-none border border-surface-200 focus:border-[#004AFF]/30 transition-colors appearance-none cursor-pointer"
-                  style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', background: 'rgba(20, 20, 22, 0.6)' }}
+                  className="w-full text-white text-[13px] outline-none cursor-pointer appearance-none transition-all duration-200"
+                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 36px 10px 14px', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
                 >
                   <option value="texto">Texto</option>
                   <option value="audio">Áudio</option>
@@ -740,24 +697,21 @@ export const Mensagens: React.FC = () => {
               </div>
             </div>
 
-            {/* Actions */}
-            <div className="flex gap-3 mt-6">
+            <div className="flex gap-3 mt-6" style={{ paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
               <button
                 onClick={() => setShowCreateModal(false)}
-                className="flex-1 py-2.5 rounded-xl text-[13px] font-medium text-txt-muted border border-surface-200 hover:bg-surface-200/30 transition-all"
+                className="flex-1 py-2.5 rounded-[10px] text-[13px] font-medium transition-all duration-200"
+                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
               >
                 Cancelar
               </button>
               <button
                 onClick={handleCreateFollowup}
                 disabled={creating || !createForm.titulo.trim() || !createForm.status_alvo}
-                className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-[13px] font-semibold bg-emerald-500 text-white hover:bg-emerald-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-emerald-500/20"
+                className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-[10px] text-[13px] font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ background: 'var(--color-primary-bg)', border: '1px solid var(--color-primary-bg)', color: 'var(--color-primary-light)' }}
               >
-                {creating ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <Plus className="w-4 h-4" />
-                )}
+                {creating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
                 Criar Follow-up
               </button>
             </div>
@@ -770,44 +724,43 @@ export const Mensagens: React.FC = () => {
          ══════════════════════════════════════════════════════════════════ */}
       {deleteTarget && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ background: 'rgba(0, 0, 0, 0.7)', backdropFilter: 'blur(4px)' }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fade-in"
+          style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)' }}
           onClick={() => setDeleteTarget(null)}
         >
           <div
-            className="card-dark-elevated w-full max-w-sm p-6 animate-slide-up"
+            className="w-full max-w-sm animate-slide-up"
+            style={{ background: 'rgba(20,20,30,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '28px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-rose-500/10 flex items-center justify-center shrink-0">
-                <AlertTriangle className="w-5 h-5 text-rose-400" />
+              <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(248,113,113,0.12)' }}>
+                <AlertTriangle className="w-5 h-5" style={{ color: '#f87171' }} />
               </div>
-              <h3 className="text-[15px] font-bold text-txt font-display">Excluir follow-up</h3>
+              <h3 className="text-[16px] font-semibold text-white font-display">Excluir follow-up</h3>
             </div>
 
-            <p className="text-[13px] text-txt-secondary leading-relaxed mb-6">
+            <p className="text-[13px] leading-relaxed mb-6" style={{ color: 'rgba(255,255,255,0.5)' }}>
               Tem certeza que deseja excluir o follow-up{' '}
-              <span className="font-semibold text-txt">"{deleteTarget.titulo}"</span>?
+              <span className="font-semibold text-white">"{deleteTarget.titulo}"</span>?
               Esta ação não pode ser desfeita.
             </p>
 
-            <div className="flex gap-3">
+            <div className="flex gap-3" style={{ paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
               <button
                 onClick={() => setDeleteTarget(null)}
-                className="flex-1 py-2.5 rounded-xl text-[13px] font-medium text-txt-muted border border-surface-200 hover:bg-surface-200/30 transition-all"
+                className="flex-1 py-2.5 rounded-[10px] text-[13px] font-medium transition-all duration-200"
+                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
               >
                 Cancelar
               </button>
               <button
                 onClick={handleDeleteFollowup}
                 disabled={deleting}
-                className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-[13px] font-semibold bg-rose-500 text-white hover:bg-rose-400 transition-all disabled:opacity-50 shadow-lg shadow-rose-500/20"
+                className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-[10px] text-[13px] font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ background: 'rgba(248,113,113,0.15)', border: '1px solid rgba(248,113,113,0.25)', color: '#f87171' }}
               >
-                {deleting ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <Trash2 className="w-4 h-4" />
-                )}
+                {deleting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
                 Excluir
               </button>
             </div>

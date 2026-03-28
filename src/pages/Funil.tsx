@@ -48,14 +48,14 @@ const COLUMN_COLORS: Record<StatusLead, {
     icon: "text-sky-400/60",
   },
   interessado: {
-    bar: "bg-gradient-to-r from-emerald-400 to-emerald-500",
-    count: "bg-emerald-500/10 text-emerald-400 ring-emerald-500/20",
-    accent: "hover:border-emerald-500/20",
-    dot: "bg-emerald-400",
-    gradient: "from-emerald-500/5 to-transparent",
-    ring: "ring-emerald-500/15",
-    cardHover: "group-hover:bg-emerald-500/[0.03]",
-    icon: "text-emerald-400/60",
+    bar: "bg-gradient-to-r from-primary-light to-primary",
+    count: "bg-primary-bg text-primary-light ring-1 ring-primary-bg",
+    accent: "hover:border-primary-bg",
+    dot: "bg-primary-light",
+    gradient: "from-primary-bg to-transparent",
+    ring: "ring-primary-bg",
+    cardHover: "group-hover:bg-primary-bg",
+    icon: "text-primary-light",
   },
   aguardando_cadastro: {
     bar: "bg-gradient-to-r from-orange-400 to-orange-500",
@@ -88,24 +88,24 @@ const COLUMN_COLORS: Record<StatusLead, {
     icon: "text-blue-400/60",
   },
   no_grupo: {
-    bar: "bg-gradient-to-r from-emerald-400 to-blue-400",
-    count: "bg-emerald-500/12 text-emerald-300 ring-emerald-500/25",
-    accent: "hover:border-emerald-500/20",
-    dot: "bg-emerald-400",
-    gradient: "from-emerald-500/6 to-transparent",
-    ring: "ring-emerald-500/20",
-    cardHover: "group-hover:bg-emerald-500/[0.03]",
-    icon: "text-emerald-400/60",
+    bar: "bg-gradient-to-r from-primary-light to-blue-400",
+    count: "bg-primary-bg text-primary-light ring-1 ring-primary-bg",
+    accent: "hover:border-primary-bg",
+    dot: "bg-primary-light",
+    gradient: "from-primary-bg to-transparent",
+    ring: "ring-primary-bg",
+    cardHover: "group-hover:bg-primary-bg",
+    icon: "text-primary-light",
   },
   entrou_grupo: {
-    bar: "bg-gradient-to-r from-emerald-400 to-blue-400",
-    count: "bg-emerald-500/12 text-emerald-300 ring-emerald-500/25",
-    accent: "hover:border-emerald-500/20",
-    dot: "bg-emerald-400",
-    gradient: "from-emerald-500/6 to-transparent",
-    ring: "ring-emerald-500/20",
-    cardHover: "group-hover:bg-emerald-500/[0.03]",
-    icon: "text-emerald-400/60",
+    bar: "bg-gradient-to-r from-primary-light to-blue-400",
+    count: "bg-primary-bg text-primary-light ring-1 ring-primary-bg",
+    accent: "hover:border-primary-bg",
+    dot: "bg-primary-light",
+    gradient: "from-primary-bg to-transparent",
+    ring: "ring-primary-bg",
+    cardHover: "group-hover:bg-primary-bg",
+    icon: "text-primary-light",
   },
   nao_interessado: {
     bar: "bg-gradient-to-r from-zinc-500 to-zinc-600",
@@ -165,7 +165,7 @@ export const Funil: React.FC = () => {
         isRefreshing={loading}
         rightContent={
           <div className="flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-breathe" />
+            <div className="w-1.5 h-1.5 rounded-full bg-primary-light animate-breathe" />
             <span className="text-[11px] text-txt-dim font-mono mr-2">
               {lastUpdated.toLocaleTimeString()}
             </span>

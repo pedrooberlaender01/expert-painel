@@ -4,6 +4,7 @@ import { PageHeader } from '../components/PageHeader';
 import { Toast } from '../components/Toast';
 import { useToast } from '../hooks/useToast';
 import { supabase } from '../lib/supabase';
+import { WEBHOOKS, fetchWithTimeout } from '../config/webhooks';
 import { InstanciaCard } from '../components/numeros/InstanciaCard';
 import { NovaInstanciaModal } from '../components/numeros/NovaInstanciaModal';
 import { NumeroFormModal } from '../components/numeros/NumeroFormModal';
@@ -165,13 +166,13 @@ const TrophyIcon: React.FC<{ className?: string }> = ({ className }) => (
   <svg viewBox="0 0 40 40" fill="none" className={className}>
     <defs>
       <linearGradient id="trophy-grad" x1="10" y1="2" x2="30" y2="38" gradientUnits="userSpaceOnUse">
-        <stop offset="0%" stopColor="#6ee7b7" />
-        <stop offset="50%" stopColor="#34d399" />
-        <stop offset="100%" stopColor="#047857" />
+        <stop offset="0%" stopColor="var(--color-primary-light)" />
+        <stop offset="50%" stopColor="var(--color-primary)" />
+        <stop offset="100%" stopColor="var(--color-primary-hover)" />
       </linearGradient>
       <radialGradient id="trophy-glow" cx="20" cy="14" r="14" gradientUnits="userSpaceOnUse">
-        <stop offset="0%" stopColor="#34d399" stopOpacity="0.25" />
-        <stop offset="100%" stopColor="#34d399" stopOpacity="0" />
+        <stop offset="0%" stopColor="var(--color-primary-light)" stopOpacity="0.25" />
+        <stop offset="100%" stopColor="var(--color-primary-light)" stopOpacity="0" />
       </radialGradient>
     </defs>
     <circle cx="20" cy="14" r="14" fill="url(#trophy-glow)" />
@@ -258,7 +259,7 @@ const GreensIcon: React.FC<{ className?: string }> = ({ className }) => (
 
 const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
   const cfg: Record<string, string> = {
-    ativo: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20',
+    ativo: 'bg-primary-bg text-primary-light border-primary-bg',
     pausado: 'bg-amber-500/15 text-amber-400 border-amber-500/20',
     encerrado: 'bg-zinc-500/15 text-zinc-400 border-zinc-500/20',
   };
@@ -453,7 +454,7 @@ const EnviarRankingModal: React.FC<EnviarRankingModalProps> = ({ ranking, tornei
     localStorage.setItem('ranking_envio_prefs', JSON.stringify({ numDestino: numDestino.trim(), instancia: instSelecionada }));
 
     try {
-      const res = await fetch('https://n8n-gend.srv1431760.hstgr.cloud/webhook/ranking-torneio', {
+      const res = await fetchWithTimeout(WEBHOOKS.RANKING_TORNEIO, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1055,16 +1056,16 @@ export const Torneios: React.FC = () => {
   const confirmMessages: Record<string, { title: string; message: string; label: string; color?: string }> = {
     encerrar: { title: 'Encerrar Torneio', message: `Deseja encerrar "${confirmAction?.torneio.nome}"? Esta acao nao pode ser desfeita.`, label: 'Encerrar', color: 'bg-rose-500 hover:bg-rose-600' },
     pausar: { title: 'Pausar Torneio', message: `Deseja pausar "${confirmAction?.torneio.nome}"?`, label: 'Pausar', color: 'bg-amber-500 hover:bg-amber-600' },
-    retomar: { title: 'Retomar Torneio', message: `Deseja reativar "${confirmAction?.torneio.nome}"? Se houver outro torneio ativo, ele sera encerrado.`, label: 'Retomar', color: 'bg-emerald-500 hover:bg-emerald-600' },
+    retomar: { title: 'Retomar Torneio', message: `Deseja reativar "${confirmAction?.torneio.nome}"? Se houver outro torneio ativo, ele sera encerrado.`, label: 'Retomar', color: 'bg-primary hover:bg-primary-hover' },
     excluir: { title: 'Excluir Torneio', message: `Deseja excluir "${confirmAction?.torneio.nome}" permanentemente? So e possivel se nao houver greens vinculados.`, label: 'Excluir', color: 'bg-rose-500 hover:bg-rose-600' },
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 overflow-x-hidden">
       <PageHeader title="Torneios" subtitle="Gerencie torneios, rankings e participantes" />
 
       {/* Tabs */}
-      <div className="flex gap-1 p-1 bg-surface-50/80 rounded-xl border border-surface-300/10 w-fit">
+      <div className="grid grid-cols-2 md:flex gap-1 p-1 bg-surface-50/80 rounded-xl border border-surface-300/10 w-full md:w-fit">
         {tabs.map((tab) => (
           <button
             key={tab.key}
@@ -1089,13 +1090,13 @@ export const Torneios: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Card 1 — Torneio Ativo */}
             <div className="card-dark p-5 group transition-all duration-500 relative overflow-hidden hover:scale-[1.01]">
-              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-emerald-400/60 via-emerald-500/30 to-transparent" />
-              <div className="absolute -top-10 -right-10 w-32 h-32 bg-emerald-500/[0.04] rounded-full blur-2xl group-hover:bg-emerald-500/[0.08] transition-all duration-700" />
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(to right, var(--color-primary-bg), transparent)' }} />
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary-bg rounded-full blur-2xl group-hover:bg-primary-bg transition-all duration-700" />
               <div className="relative z-10">
                 <div className="flex justify-between items-start mb-4">
                   <div className="relative">
                     <TrophyIcon className="w-11 h-11" />
-                    <div className="absolute inset-0 bg-emerald-400/10 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute inset-0 bg-primary-bg rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </div>
                   {resumo.torneio && <StatusBadge status={resumo.torneio.status} />}
                 </div>
@@ -1217,8 +1218,8 @@ export const Torneios: React.FC = () => {
 
           {/* Tabela */}
           <div className="card-dark !overflow-visible relative" ref={dropdownRef}>
-            <div className="overflow-visible">
-              <table className="w-full text-left">
+            <div className="overflow-x-auto overflow-y-visible">
+              <table className="w-full min-w-[640px] text-left">
                 <thead>
                   <tr className="border-b border-surface-300/20">
                     <th className="px-5 py-3.5 text-[10px] font-mono font-semibold text-txt-muted uppercase tracking-widest">Nome</th>
@@ -1282,7 +1283,7 @@ export const Torneios: React.FC = () => {
                               {t.status === 'pausado' && (
                                 <button
                                   onClick={() => { setOpenDropdown(null); setConfirmAction({ type: 'retomar', torneio: t }); }}
-                                  className="flex items-center gap-2.5 w-full px-4 py-2 text-[13px] text-emerald-400 hover:bg-surface-200/40 transition-colors"
+                                  className="flex items-center gap-2.5 w-full px-4 py-2 text-[13px] text-primary-light hover:bg-surface-200/40 transition-colors"
                                 >
                                   <Play className="w-3.5 h-3.5" /> Retomar
                                 </button>
@@ -1364,7 +1365,7 @@ export const Torneios: React.FC = () => {
                 />
                 <div className="w-9 h-5 bg-surface-300/40 rounded-full peer peer-checked:bg-[#004AFF]/30 peer-checked:after:translate-x-4 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-txt-dim after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:bg-[#004AFF]"></div>
               </div>
-              {autoRefresh && <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />}
+              {autoRefresh && <span className="w-2 h-2 rounded-full bg-primary-light animate-pulse" />}
             </label>
           </div>
 
@@ -1574,13 +1575,13 @@ export const Torneios: React.FC = () => {
                               )}
                             </td>
                             <td className="px-5 py-3.5 text-center">
-                              <span className="inline-flex items-center justify-center min-w-[28px] px-1.5 py-0.5 rounded-md bg-emerald-500/10 text-[12px] font-semibold text-emerald-400 tabular-nums">{entry.total_greens}</span>
+                              <span className="inline-flex items-center justify-center min-w-[28px] px-1.5 py-0.5 rounded-md bg-primary-bg text-[12px] font-semibold text-primary-light tabular-nums">{entry.total_greens}</span>
                             </td>
                             <td className="px-5 py-3.5 text-right">
                               <span className="text-[13px] font-semibold text-txt font-mono tabular-nums">{fmtBRL(entry.soma_pagamentos)}</span>
                             </td>
                             <td className="px-5 py-3.5 text-right">
-                              <span className={cn('text-[13px] font-semibold font-mono tabular-nums', lucro >= 0 ? 'text-emerald-400' : 'text-rose-400')}>
+                              <span className={cn('text-[13px] font-semibold font-mono tabular-nums', lucro >= 0 ? 'text-primary-light' : 'text-rose-400')}>
                                 {fmtBRL(lucro)}
                               </span>
                             </td>
@@ -1643,16 +1644,16 @@ export const Torneios: React.FC = () => {
               </div>
               {/* Com ID */}
               <div className="p-5 flex items-center gap-4 group">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500/15 to-emerald-500/5 border border-emerald-500/10 flex items-center justify-center shrink-0 group-hover:border-emerald-500/20 transition-colors">
+                <div className="w-12 h-12 rounded-2xl bg-primary-bg border border-primary-bg flex items-center justify-center shrink-0 group-hover:border-primary-bg transition-colors">
                   <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5">
-                    <circle cx="10" cy="10" r="8" stroke="#34d399" strokeWidth="1.5" opacity="0.5" />
-                    <path d="M6.5 10.5l2 2 5-5" stroke="#34d399" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    <circle cx="10" cy="10" r="8" stroke="var(--color-primary-light)" strokeWidth="1.5" opacity="0.5" />
+                    <path d="M6.5 10.5l2 2 5-5" stroke="var(--color-primary-light)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
                 <div>
                   <p className="text-[10px] font-mono font-semibold text-txt-muted uppercase tracking-[0.12em] mb-0.5">Com ID Conta</p>
                   <div className="flex items-baseline gap-2">
-                    <p className="text-2xl font-bold text-emerald-400 font-display tabular-nums">
+                    <p className="text-2xl font-bold text-primary-light font-display tabular-nums">
                       {partLoading ? <span className="inline-block h-7 w-10 bg-surface-200/40 rounded animate-pulse" /> : partResumo.comId}
                     </p>
                     {!partLoading && partResumo.total > 0 && (
@@ -1823,7 +1824,7 @@ export const Torneios: React.FC = () => {
                               )}
                             </td>
                             <td className="px-5 py-3.5 text-center">
-                              <span className="inline-flex items-center justify-center min-w-[28px] px-1.5 py-0.5 rounded-md bg-emerald-500/10 text-[12px] font-semibold text-emerald-400 tabular-nums">
+                              <span className="inline-flex items-center justify-center min-w-[28px] px-1.5 py-0.5 rounded-md bg-primary-bg text-[12px] font-semibold text-primary-light tabular-nums">
                                 {p.total_greens}
                               </span>
                             </td>
@@ -1916,8 +1917,8 @@ export const Torneios: React.FC = () => {
                                                 <td className="px-6 py-2.5 text-[11px] text-txt font-medium">{g.jogo}</td>
                                                 <td className="px-4 py-2.5 text-[10px] text-txt-secondary font-mono">{fmtDate(g.data_hora_aposta)}</td>
                                                 <td className="px-4 py-2.5 text-[11px] text-txt-secondary font-mono text-right tabular-nums">{fmtBRL(Number(g.valor_apostado))}</td>
-                                                <td className="px-4 py-2.5 text-[11px] text-emerald-400 font-mono font-semibold text-right tabular-nums">{fmtBRL(Number(g.valor_green))}</td>
-                                                <td className={cn('px-4 py-2.5 text-[11px] font-mono font-semibold text-right tabular-nums', lucro >= 0 ? 'text-emerald-400' : 'text-rose-400')}>
+                                                <td className="px-4 py-2.5 text-[11px] text-primary-light font-mono font-semibold text-right tabular-nums">{fmtBRL(Number(g.valor_green))}</td>
+                                                <td className={cn('px-4 py-2.5 text-[11px] font-mono font-semibold text-right tabular-nums', lucro >= 0 ? 'text-primary-light' : 'text-rose-400')}>
                                                   {fmtBRL(lucro)}
                                                 </td>
                                                 <td className="px-4 py-2.5 text-[10px] text-txt-dim font-mono truncate max-w-[120px]">{g.id_aposta}</td>
@@ -1972,11 +1973,11 @@ export const Torneios: React.FC = () => {
               {/* Status summary */}
               <div className="card-dark p-4 mb-6 flex items-center gap-4 flex-wrap">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-emerald-500/10">
-                    <Wifi className="w-4 h-4 text-emerald-400" />
+                  <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-primary-bg">
+                    <Wifi className="w-4 h-4 text-primary-light" />
                   </div>
                   <p className="text-[14px] font-semibold text-txt">
-                    <span className="text-emerald-400">{conectadosTorneio}</span>
+                    <span className="text-primary-light">{conectadosTorneio}</span>
                     <span className="text-txt-muted text-[12px] ml-1">conectado{conectadosTorneio !== 1 ? 's' : ''}</span>
                   </p>
                 </div>

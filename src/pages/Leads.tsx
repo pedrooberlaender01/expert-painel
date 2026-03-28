@@ -1,13 +1,153 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import ReactDOM from 'react-dom';
 import { PageHeader } from '../components/PageHeader';
 import { LeadBadge } from '../components/LeadBadge';
 import { useLeads, type LeadFiltro } from '../hooks/useLeads';
 import { formatTelefone, formatRelativeTime, formatDate, formatTempoNoGrupo, getStatusPremiumLabel } from '../utils/formatters';
-import { Search, Filter, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Loader2, MessageCircle, Bot, Crown, Clock, ArrowUp, ArrowDown } from 'lucide-react';
+import { Search, Filter, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Loader2, MessageCircle, Bot, Crown, Clock, ArrowUp, ArrowDown, Activity, Phone, ChevronDown, Check, X } from 'lucide-react';
+import { useFunil } from '../hooks/useFunil';
+import { cn } from '../utils/cn';
+import { getStatusLabel } from '../utils/formatters';
 import type { StatusLead as StatusLeadUI } from '../types';
 import type { StatusPremium } from '../types/database';
 import { supabase } from '../backend/client';
 import type { LeadRow } from '../types/database';
+
+// ─── Custom Dropdown (portal-based to escape overflow:hidden) ───
+const CustomSelect: React.FC<{
+  value: string;
+  onChange: (v: string) => void;
+  options: { value: string; label: string }[];
+  placeholder?: string;
+}> = ({ value, onChange, options, placeholder = 'Selecionar' }) => {
+  const [open, setOpen] = useState(false);
+  const btnRef = useRef<HTMLButtonElement>(null);
+  const dropRef = useRef<HTMLDivElement>(null);
+  const [pos, setPos] = useState({ top: 0, left: 0, width: 0 });
+  const selected = options.find(o => o.value === value);
+
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: MouseEvent) => {
+      if (btnRef.current?.contains(e.target as Node)) return;
+      if (dropRef.current?.contains(e.target as Node)) return;
+      setOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [open]);
+
+  useEffect(() => {
+    if (open && btnRef.current) {
+      const rect = btnRef.current.getBoundingClientRect();
+      const dropWidth = Math.max(rect.width, 200);
+      const left = rect.left + rect.width / 2 - dropWidth / 2;
+      const clampedLeft = Math.max(8, Math.min(left, window.innerWidth - dropWidth - 8));
+      setPos({ top: rect.bottom + 8, left: clampedLeft, width: dropWidth });
+    }
+  }, [open]);
+
+  return (
+    <>
+      <button
+        ref={btnRef}
+        onClick={() => setOpen(!open)}
+        className="relative flex items-center gap-2 text-[13px] font-medium transition-all duration-150"
+        style={{
+          background: open ? 'rgba(59,130,246,0.12)' : 'rgba(22, 27, 34, 0.97)',
+          border: open ? '1px solid rgba(59,130,246,0.25)' : '1px solid rgba(255,255,255,0.1)',
+          color: open ? '#60a5fa' : 'rgba(255,255,255,0.7)',
+          borderRadius: '10px',
+          padding: '8px 32px 8px 12px',
+        }}
+      >
+        {selected?.label || placeholder}
+        <ChevronDown className="w-3.5 h-3.5 absolute right-2.5" style={{ color: '#60a5fa' }} />
+      </button>
+      {open && ReactDOM.createPortal(
+        <div
+          ref={dropRef}
+          className="fixed overflow-y-auto animate-fade-in"
+          style={{
+            top: pos.top,
+            left: pos.left,
+            width: pos.width,
+            maxHeight: '280px',
+            zIndex: 9999,
+            background: 'rgba(22, 27, 34, 0.97)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '14px',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06)',
+          }}
+        >
+          <div className="p-1.5">
+            {options.map(o => {
+              const active = o.value === value;
+              return (
+                <button
+                  key={o.value}
+                  onClick={() => { onChange(o.value); setOpen(false); }}
+                  className="flex items-center justify-between w-full px-3 py-2 rounded-lg text-[12px] transition-all duration-150 text-left"
+                  style={{
+                    background: active ? 'rgba(59,130,246,0.1)' : 'transparent',
+                    color: active ? '#60a5fa' : 'rgba(255,255,255,0.5)',
+                  }}
+                  onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = '#fff'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = active ? 'rgba(59,130,246,0.1)' : 'transparent'; e.currentTarget.style.color = active ? '#60a5fa' : 'rgba(255,255,255,0.5)'; }}
+                >
+                  <span>{o.label}</span>
+                  {active && <Check size={12} className="text-[#60a5fa] flex-shrink-0" />}
+                </button>
+              );
+            })}
+          </div>
+        </div>,
+        document.body
+      )}
+    </>
+  );
+};
+
+// === Funil / Monitoramento constants ===
+const FUNIL_COLUMNS: StatusLeadUI[] = [
+  "primeiro_audio_enviado",
+  "convite_enviado",
+  "aguardando_cadastro",
+  "link_enviado",
+  "aguardando_confirmacao_entrada",
+  "entrou_grupo",
+  "sem_resposta",
+  "atendimento_manual",
+];
+
+// Glassmorphism color system for funnel stages
+const FUNIL_STYLE: Record<string, {
+  color: string; barColor: string;
+  bg: string; border: string; dotShadow: string;
+}> = {
+  primeiro_audio_enviado:         { color: '#eab308', barColor: '#eab308', bg: 'rgba(234,179,8,0.12)',  border: 'rgba(234,179,8,0.2)',  dotShadow: '0 0 6px rgba(234,179,8,0.4)' },
+  convite_enviado:                { color: '#3b82f6', barColor: '#3b82f6', bg: 'rgba(59,130,246,0.12)', border: 'rgba(59,130,246,0.2)', dotShadow: '0 0 6px rgba(59,130,246,0.4)' },
+  aguardando_cadastro:            { color: '#f97316', barColor: '#f97316', bg: 'rgba(249,115,22,0.12)', border: 'rgba(249,115,22,0.2)', dotShadow: '0 0 6px rgba(249,115,22,0.4)' },
+  link_enviado:                   { color: '#60a5fa', barColor: '#60a5fa', bg: 'rgba(96,165,250,0.12)', border: 'rgba(96,165,250,0.2)', dotShadow: '0 0 6px rgba(96,165,250,0.4)' },
+  aguardando_confirmacao_entrada: { color: '#8b5cf6', barColor: '#8b5cf6', bg: 'rgba(139,92,246,0.12)', border: 'rgba(139,92,246,0.2)', dotShadow: '0 0 6px rgba(139,92,246,0.4)' },
+  entrou_grupo:                   { color: 'var(--color-primary)', barColor: 'var(--color-primary)', bg: 'var(--color-primary-bg)', border: 'var(--color-primary-bg)', dotShadow: '0 0 6px var(--color-primary-bg)' },
+  sem_resposta:                   { color: '#f87171', barColor: '#f87171', bg: 'rgba(248,113,113,0.12)',border: 'rgba(248,113,113,0.2)',dotShadow: '0 0 6px rgba(248,113,113,0.4)' },
+  atendimento_manual:             { color: '#a1a1aa', barColor: '#a1a1aa', bg: 'rgba(161,161,170,0.12)',border: 'rgba(161,161,170,0.2)',dotShadow: '0 0 6px rgba(161,161,170,0.3)' },
+};
+
+// Legacy color map kept for non-monitoramento usage (unused keys return safe defaults)
+const FUNIL_COLORS: Record<string, {
+  bar: string; count: string; accent: string; dot: string; gradient: string; ring: string; cardHover: string; icon: string;
+}> = {
+  primeiro_audio_enviado: { bar: "bg-gradient-to-r from-amber-400 to-amber-500", count: "bg-amber-500/10 text-amber-400 ring-amber-500/20", accent: "hover:border-amber-500/20", dot: "bg-amber-400", gradient: "from-amber-500/5 to-transparent", ring: "ring-amber-500/15", cardHover: "group-hover:bg-amber-500/[0.03]", icon: "text-amber-400/60" },
+  convite_enviado: { bar: "bg-gradient-to-r from-sky-400 to-sky-500", count: "bg-sky-500/10 text-sky-400 ring-sky-500/20", accent: "hover:border-sky-500/20", dot: "bg-sky-400", gradient: "from-sky-500/5 to-transparent", ring: "ring-sky-500/15", cardHover: "group-hover:bg-sky-500/[0.03]", icon: "text-sky-400/60" },
+  aguardando_cadastro: { bar: "bg-gradient-to-r from-orange-400 to-orange-500", count: "bg-orange-500/10 text-orange-400 ring-orange-500/20", accent: "hover:border-orange-500/20", dot: "bg-orange-400", gradient: "from-orange-500/5 to-transparent", ring: "ring-orange-500/15", cardHover: "group-hover:bg-orange-500/[0.03]", icon: "text-orange-400/60" },
+  link_enviado: { bar: "bg-gradient-to-r from-violet-400 to-violet-500", count: "bg-violet-500/10 text-violet-400 ring-violet-500/20", accent: "hover:border-violet-500/20", dot: "bg-violet-400", gradient: "from-violet-500/5 to-transparent", ring: "ring-violet-500/15", cardHover: "group-hover:bg-violet-500/[0.03]", icon: "text-violet-400/60" },
+  aguardando_confirmacao_entrada: { bar: "bg-gradient-to-r from-blue-500 to-blue-600", count: "bg-blue-600/10 text-blue-400 ring-blue-600/20", accent: "hover:border-blue-600/20", dot: "bg-blue-400", gradient: "from-blue-600/5 to-transparent", ring: "ring-blue-600/15", cardHover: "group-hover:bg-blue-600/[0.03]", icon: "text-blue-400/60" },
+  entrou_grupo: { bar: "bg-gradient-to-r from-primary-light to-blue-400", count: "bg-primary-bg text-primary-light ring-1 ring-primary-bg", accent: "hover:border-primary-bg", dot: "bg-primary-light", gradient: "from-primary-bg to-transparent", ring: "ring-primary-bg", cardHover: "group-hover:bg-primary-bg", icon: "text-primary-light" },
+  sem_resposta: { bar: "bg-gradient-to-r from-rose-400 to-rose-500", count: "bg-rose-500/10 text-rose-400 ring-rose-500/20", accent: "hover:border-rose-500/20", dot: "bg-rose-400", gradient: "from-rose-500/5 to-transparent", ring: "ring-rose-500/15", cardHover: "group-hover:bg-rose-500/[0.03]", icon: "text-rose-400/60" },
+  atendimento_manual: { bar: "bg-gradient-to-r from-zinc-400 to-zinc-500", count: "bg-zinc-500/10 text-zinc-400 ring-zinc-500/20", accent: "hover:border-zinc-500/15", dot: "bg-zinc-400", gradient: "from-zinc-500/5 to-transparent", ring: "ring-zinc-500/15", cardHover: "group-hover:bg-zinc-500/[0.02]", icon: "text-zinc-400/60" },
+};
 
 /** Garante que o número tenha apenas dígitos e comece com 55 */
 const toWhatsAppNumber = (telefone: string): string => {
@@ -36,7 +176,7 @@ const PREMIUM_STATUS_COLORS: Record<StatusPremium, string> = {
   encerrado: 'bg-zinc-500/10 text-zinc-400 border-zinc-500/20',
 };
 
-type TabKey = 'automatico' | 'premium';
+type TabKey = 'automatico' | 'premium' | 'monitoramento';
 
 function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -150,16 +290,10 @@ const PremiumStatusSelect: React.FC<{ lead: LeadRow; onUpdate: () => void }> = (
       <div className="flex items-center gap-2">
         <PremiumBadge status={lead.status_premium as StatusPremium} />
         <select
-          className="bg-transparent border border-surface-300/20 rounded-md text-[10px] text-txt-muted px-1 py-0.5 cursor-pointer hover:border-surface-300/40 transition-colors appearance-none"
+          className="!text-[10px] !py-0.5 !px-1 !pr-5 !rounded-md"
           value={lead.status_premium}
           onChange={(e) => handleChange(e.target.value as StatusPremium)}
           disabled={updating}
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 24 24' fill='none' stroke='%2371717A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'right 4px center',
-            paddingRight: '16px',
-          }}
         >
           {PREMIUM_STATUS_OPTIONS.map(({ value, label }) => (
             <option key={value} value={value}>{label}</option>
@@ -171,16 +305,10 @@ const PremiumStatusSelect: React.FC<{ lead: LeadRow; onUpdate: () => void }> = (
 
   return (
     <select
-      className="bg-surface-200/30 border border-surface-300/20 rounded-lg text-[11px] text-txt-muted px-2 py-1 cursor-pointer hover:border-[#004AFF]/30 hover:text-txt transition-all appearance-none"
+      className="!text-[11px] !py-1 !px-2"
       value=""
       onChange={(e) => handleChange(e.target.value as StatusPremium)}
       disabled={updating}
-      style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%2371717A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'right 8px center',
-        paddingRight: '24px',
-      }}
     >
       <option value="" disabled>Definir status...</option>
       {PREMIUM_STATUS_OPTIONS.map(({ value, label }) => (
@@ -272,7 +400,7 @@ const Pagination: React.FC<{
               onClick={() => onChange(p)}
               className={`min-w-[32px] h-[32px] flex items-center justify-center rounded-lg text-[11px] font-mono font-medium transition-all duration-150 ${
                 p === current
-                  ? 'bg-[#004AFF]/15 text-[#004AFF] border border-[#004AFF]/30'
+                  ? 'bg-[#3b82f6]/15 text-[#3b82f6] border border-[#3b82f6]/30'
                   : 'border border-surface-300/30 text-txt-muted hover:bg-surface-200/40 hover:border-surface-300/50 hover:text-txt'
               }`}
             >
@@ -360,38 +488,78 @@ export const Leads: React.FC = () => {
 
   const premiumTotalPages = Math.max(1, Math.ceil(premiumTotal / itemsPerPage));
 
+  // === Monitoramento state ===
+  const { columns: funilColumns, totalLeads: funilTotal, loading: funilLoading, lastUpdated: funilLastUpdated, refresh: funilRefresh } = useFunil();
+
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Todos os Leads"
-        subtitle={activeTab === 'automatico' ? `${total} leads encontrados` : `${premiumTotal} leads no grupo`}
-        onRefresh={activeTab === 'automatico' ? refetch : premiumRefetch}
-        isRefreshing={activeTab === 'automatico' ? loading : premiumLoading}
+        title={activeTab === 'monitoramento' ? 'Monitoramento de Funil' : 'Todos os Leads'}
+        subtitle={activeTab === 'automatico' ? `${total} leads encontrados` : activeTab === 'premium' ? `${premiumTotal} leads no grupo` : `${funilTotal} leads no funil`}
+        onRefresh={activeTab === 'automatico' ? refetch : activeTab === 'premium' ? premiumRefetch : funilRefresh}
+        isRefreshing={activeTab === 'automatico' ? loading : activeTab === 'premium' ? premiumLoading : funilLoading}
+        rightContent={activeTab === 'monitoramento' ? (
+          <div
+            className="flex items-center gap-2 px-3.5 py-1.5 rounded-full"
+            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)' }}
+          >
+            <div
+              className="w-2 h-2 rounded-full animate-breathe"
+              style={{ background: 'var(--color-primary-light)', boxShadow: '0 0 8px var(--color-primary-bg)' }}
+            />
+            <span className="text-[12px] font-mono tabular-nums" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              {funilLastUpdated.toLocaleTimeString()}
+            </span>
+          </div>
+        ) : undefined}
       />
 
-      {/* Tabs */}
-      <div className="flex gap-1 p-1 bg-surface-50 rounded-xl border border-surface-300/20 w-fit">
+      {/* Tabs — Glass Pill Selector */}
+      <div
+        className="flex flex-wrap md:inline-flex gap-1 p-1 rounded-[14px] w-full md:w-fit"
+        style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
+      >
         <button
           onClick={() => setActiveTab('automatico')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-200 ${
-            activeTab === 'automatico'
-              ? 'bg-[#004AFF]/10 text-[#004AFF] shadow-sm border border-[#004AFF]/20'
-              : 'text-txt-muted hover:text-txt hover:bg-surface-200/40'
-          }`}
+          className="flex items-center gap-2 px-5 py-2 rounded-[10px] text-[13px] font-medium transition-all duration-250"
+          style={activeTab === 'automatico' ? {
+            background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', color: '#60a5fa',
+          } : {
+            background: 'transparent', border: '1px solid transparent', color: 'rgba(255,255,255,0.45)',
+          }}
+          onMouseEnter={(e) => { if (activeTab !== 'automatico') { e.currentTarget.style.color = 'rgba(255,255,255,0.65)'; e.currentTarget.style.background = 'rgba(255,255,255,0.03)' } }}
+          onMouseLeave={(e) => { if (activeTab !== 'automatico') { e.currentTarget.style.color = 'rgba(255,255,255,0.45)'; e.currentTarget.style.background = 'transparent' } }}
         >
-          <Bot className="w-4 h-4" />
+          <Bot className="w-4 h-4" style={{ opacity: activeTab === 'automatico' ? 1 : 0.45 }} />
           Assistente Automatico
         </button>
         <button
           onClick={() => setActiveTab('premium')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-200 ${
-            activeTab === 'premium'
-              ? 'bg-amber-500/10 text-amber-400 shadow-sm border border-amber-500/20'
-              : 'text-txt-muted hover:text-txt hover:bg-surface-200/40'
-          }`}
+          className="flex items-center gap-2 px-5 py-2 rounded-[10px] text-[13px] font-medium transition-all duration-250"
+          style={activeTab === 'premium' ? {
+            background: 'rgba(234,179,8,0.1)', border: '1px solid rgba(234,179,8,0.2)', color: '#facc3c',
+          } : {
+            background: 'transparent', border: '1px solid transparent', color: 'rgba(255,255,255,0.45)',
+          }}
+          onMouseEnter={(e) => { if (activeTab !== 'premium') { e.currentTarget.style.color = 'rgba(255,255,255,0.65)'; e.currentTarget.style.background = 'rgba(255,255,255,0.03)' } }}
+          onMouseLeave={(e) => { if (activeTab !== 'premium') { e.currentTarget.style.color = 'rgba(255,255,255,0.45)'; e.currentTarget.style.background = 'transparent' } }}
         >
-          <Crown className="w-4 h-4" />
+          <Crown className="w-4 h-4" style={{ opacity: activeTab === 'premium' ? 1 : 0.45 }} />
           Assistente Premium
+        </button>
+        <button
+          onClick={() => setActiveTab('monitoramento')}
+          className="flex items-center gap-2 px-5 py-2 rounded-[10px] text-[13px] font-medium transition-all duration-250"
+          style={activeTab === 'monitoramento' ? {
+            background: 'rgba(167,139,250,0.1)', border: '1px solid rgba(167,139,250,0.2)', color: '#a78bfa',
+          } : {
+            background: 'transparent', border: '1px solid transparent', color: 'rgba(255,255,255,0.45)',
+          }}
+          onMouseEnter={(e) => { if (activeTab !== 'monitoramento') { e.currentTarget.style.color = 'rgba(255,255,255,0.65)'; e.currentTarget.style.background = 'rgba(255,255,255,0.03)' } }}
+          onMouseLeave={(e) => { if (activeTab !== 'monitoramento') { e.currentTarget.style.color = 'rgba(255,255,255,0.45)'; e.currentTarget.style.background = 'transparent' } }}
+        >
+          <Activity className="w-4 h-4" style={{ opacity: activeTab === 'monitoramento' ? 1 : 0.45 }} />
+          Monitoramento
         </button>
       </div>
 
@@ -415,21 +583,11 @@ export const Leads: React.FC = () => {
 
             <div className="flex items-center gap-3 w-full md:w-auto">
               <Filter className="w-4 h-4 text-txt-dim" />
-              <select
-                className="input-dark !w-auto pr-8 text-sm appearance-none cursor-pointer"
+              <CustomSelect
                 value={filtro}
-                onChange={(e) => setFiltro(e.target.value as LeadFiltro)}
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'right 12px center',
-                }}
-              >
-                <option value="all">Todos</option>
-                {FILTER_OPTIONS.map(({ value, label }) => (
-                  <option key={value} value={value}>{label}</option>
-                ))}
-              </select>
+                onChange={(v) => setFiltro(v as LeadFiltro)}
+                options={[{ value: 'all', label: 'Todos' }, ...FILTER_OPTIONS]}
+              />
             </div>
           </div>
 
@@ -437,7 +595,7 @@ export const Leads: React.FC = () => {
           <div className="card-dark overflow-hidden relative">
             {loading && leads.length > 0 && (
               <div className="absolute inset-0 bg-surface/50 z-10 flex items-center justify-center">
-                <Loader2 className="w-5 h-5 animate-spin text-[#004AFF]" />
+                <Loader2 className="w-5 h-5 animate-spin text-[#3b82f6]" />
               </div>
             )}
 
@@ -481,7 +639,7 @@ export const Leads: React.FC = () => {
                   {leads.map((lead) => {
                     let grupoContent: React.ReactNode;
                     if (lead.entrou_no_grupo && !lead.saiu_grupo) {
-                      grupoContent = <span className="text-emerald-400 font-mono text-xs font-semibold">SIM</span>;
+                      grupoContent = <span className="text-primary-light font-mono text-xs font-semibold">SIM</span>;
                     } else if (lead.saiu_grupo) {
                       grupoContent = <span className="text-rose-400 font-mono text-xs font-semibold">SAIU</span>;
                     } else {
@@ -495,7 +653,7 @@ export const Leads: React.FC = () => {
                         </td>
                         <td className="px-5 py-4 whitespace-nowrap">
                           <div className="flex flex-col">
-                            <span className="text-sm font-medium text-txt group-hover:text-[#004AFF] transition-colors">{lead.nome || '-'}</span>
+                            <span className="text-sm font-medium text-txt group-hover:text-[#3b82f6] transition-colors">{lead.nome || '-'}</span>
                             <span className="text-[11px] text-txt-dim font-mono">{formatTelefone(lead.telefone)}</span>
                           </div>
                         </td>
@@ -513,7 +671,7 @@ export const Leads: React.FC = () => {
                             href={`https://wa.me/${toWhatsAppNumber(lead.telefone)}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center w-8 h-8 rounded-lg text-emerald-400 hover:bg-emerald-500/10 hover:text-emerald-300 transition-all duration-200"
+                            className="inline-flex items-center justify-center w-8 h-8 rounded-lg text-primary-light hover:bg-primary-bg hover:text-primary transition-all duration-200"
                             title="Enviar mensagem no WhatsApp"
                           >
                             <MessageCircle className="w-4 h-4" />
@@ -558,22 +716,15 @@ export const Leads: React.FC = () => {
 
             <div className="flex items-center gap-3 w-full md:w-auto">
               <Filter className="w-4 h-4 text-txt-dim" />
-              <select
-                className="input-dark !w-auto pr-8 text-sm appearance-none cursor-pointer"
+              <CustomSelect
                 value={premiumFiltro}
-                onChange={(e) => setPremiumFiltro(e.target.value as StatusPremium | 'all' | 'sem_status')}
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'right 12px center',
-                }}
-              >
-                <option value="all">Todos os Status</option>
-                <option value="sem_status">Sem Status</option>
-                {PREMIUM_STATUS_OPTIONS.map(({ value, label }) => (
-                  <option key={value} value={value}>{label}</option>
-                ))}
-              </select>
+                onChange={(v) => setPremiumFiltro(v as StatusPremium | 'all' | 'sem_status')}
+                options={[
+                  { value: 'all', label: 'Todos os Status' },
+                  { value: 'sem_status', label: 'Sem Status' },
+                  ...PREMIUM_STATUS_OPTIONS,
+                ]}
+              />
             </div>
           </div>
 
@@ -651,7 +802,7 @@ export const Leads: React.FC = () => {
                       </td>
                       <td className="px-5 py-4 whitespace-nowrap">
                         {lead.entrou_no_grupo ? (
-                          <span className="text-[12px] font-mono text-emerald-400 font-semibold">
+                          <span className="text-[12px] font-mono text-primary-light font-semibold">
                             {formatTempoNoGrupo(lead.entrou_no_grupo)}
                           </span>
                         ) : (
@@ -666,7 +817,7 @@ export const Leads: React.FC = () => {
                           href={`https://wa.me/${toWhatsAppNumber(lead.telefone)}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center w-8 h-8 rounded-lg text-emerald-400 hover:bg-emerald-500/10 hover:text-emerald-300 transition-all duration-200"
+                          className="inline-flex items-center justify-center w-8 h-8 rounded-lg text-primary-light hover:bg-primary-bg hover:text-primary transition-all duration-200"
                           title="Enviar mensagem no WhatsApp"
                         >
                           <MessageCircle className="w-4 h-4" />
@@ -687,6 +838,182 @@ export const Leads: React.FC = () => {
               onChange={setPremiumPage}
             />
           </div>
+        </>
+      )}
+
+      {/* ============================================ */}
+      {/* MONITORAMENTO TAB                            */}
+      {/* ============================================ */}
+      {activeTab === 'monitoramento' && (
+        <>
+          {funilLoading && funilTotal === 0 ? (
+            <div className="flex items-center justify-center py-20">
+              <div className="w-6 h-6 border-2 rounded-full animate-spin" style={{ borderColor: 'rgba(59,130,246,0.2)', borderTopColor: '#3b82f6' }} />
+            </div>
+          ) : (
+            <>
+              {/* Summary progress bar */}
+              <div className="flex items-center gap-3 px-1">
+                <div className="flex-1 h-[6px] rounded-[6px] overflow-hidden flex" style={{ background: 'rgba(255,255,255,0.04)' }}>
+                  {FUNIL_COLUMNS.map((status) => {
+                    const col = funilColumns[status];
+                    const percentage = col ? col.percentual : 0;
+                    const style = FUNIL_STYLE[status];
+                    if (!style) return null;
+                    return (
+                      <div
+                        key={status}
+                        className="h-full transition-all duration-700"
+                        style={{ width: `${percentage}%`, background: style.barColor }}
+                        title={`${getStatusLabel(status)}: ${col?.quantidade ?? 0} (${percentage}%)`}
+                      />
+                    );
+                  })}
+                </div>
+                <span
+                  className="text-[12px] font-medium font-mono shrink-0 px-3 py-1 rounded-lg"
+                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.5)' }}
+                >
+                  {funilTotal} leads
+                </span>
+              </div>
+
+              {/* Kanban columns */}
+              <div className="overflow-x-auto pb-4" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.04) transparent' }}>
+                <div className="flex flex-col md:flex-row gap-3 md:min-w-[1200px]" style={{ minHeight: '400px', height: 'auto', maxHeight: 'calc(100vh - 320px)' }}>
+                  {FUNIL_COLUMNS.map((status, colIndex) => {
+                    const col = funilColumns[status];
+                    const colLeads = col?.leads ?? [];
+                    const quantidade = col?.quantidade ?? 0;
+                    const percentage = col?.percentual ?? 0;
+                    const style = FUNIL_STYLE[status];
+                    if (!style) return null;
+                    const isHighVolume = quantidade > 50;
+
+                    return (
+                      <div
+                        key={status}
+                        className={cn(
+                          "flex-1 min-w-0 md:min-w-[200px] flex flex-col max-h-[300px] md:max-h-full animate-slide-up opacity-0 overflow-hidden",
+                          `stagger-${colIndex + 1}`
+                        )}
+                        style={{
+                          background: 'rgba(255, 255, 255, 0.02)',
+                          border: isHighVolume ? `1px solid ${style.border}` : '1px solid rgba(255, 255, 255, 0.04)',
+                          borderRadius: '16px',
+                          boxShadow: isHighVolume ? `0 0 20px ${style.bg}` : 'none',
+                          transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+                          scrollbarWidth: 'thin',
+                          scrollbarColor: 'rgba(255,255,255,0.04) transparent',
+                        }}
+                      >
+                        {/* Column header — sticky */}
+                        <div
+                          className="p-3.5 sticky top-0 z-10"
+                          style={{
+                            background: 'rgba(12, 12, 20, 0.85)',
+                            borderBottom: '1px solid rgba(255, 255, 255, 0.04)',
+                          }}
+                        >
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              <div
+                                className="w-2 h-2 rounded-full shrink-0"
+                                style={{ background: style.color, boxShadow: style.dotShadow }}
+                              />
+                              <h3 className="font-semibold text-white text-[13px] font-display tracking-tight leading-none">
+                                {getStatusLabel(status)}
+                              </h3>
+                            </div>
+                            <span
+                              className="text-[11px] px-2 py-0.5 rounded-lg font-mono font-semibold"
+                              style={{ background: style.bg, color: style.color, border: `1px solid ${style.border}`, minWidth: 24, textAlign: 'center' }}
+                            >
+                              {quantidade}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="flex-1 h-[3px] rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.04)' }}>
+                              <div
+                                className="h-full rounded-full transition-all duration-1000 ease-out"
+                                style={{ width: `${percentage}%`, background: style.color }}
+                              />
+                            </div>
+                            <span className="text-[11px] font-mono tabular-nums shrink-0" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                              {percentage}%
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Cards */}
+                        <div className="p-2 overflow-y-auto flex-1 space-y-2">
+                          {colLeads.map((lead) => {
+                            const hasExited = lead.observacoes?.toLowerCase().includes('saiu');
+                            return (
+                              <div
+                                key={lead.id}
+                                className="p-3 cursor-default group transition-all duration-200"
+                                style={{
+                                  background: 'rgba(255, 255, 255, 0.03)',
+                                  border: '1px solid rgba(255, 255, 255, 0.05)',
+                                  borderRadius: '12px',
+                                  opacity: hasExited ? 0.7 : 1,
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
+                                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+                                  e.currentTarget.style.transform = 'translateY(-1px)';
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.background = 'rgba(255,255,255,0.03)';
+                                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)';
+                                  e.currentTarget.style.transform = 'translateY(0)';
+                                }}
+                              >
+                                <div className="flex justify-between items-start mb-1.5">
+                                  <span className="font-semibold text-white text-[13px] leading-tight">
+                                    {lead.nome || 'Sem nome'}
+                                  </span>
+                                  <div className="flex items-center gap-1" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                                    <Clock className="w-[10px] h-[10px]" style={{ opacity: 0.4 }} />
+                                    <span className="text-[10px] font-mono">
+                                      {lead.ultima_interacao ? formatRelativeTime(lead.ultima_interacao) : '-'}
+                                    </span>
+                                  </div>
+                                </div>
+                                <div className="flex items-center gap-1.5">
+                                  <Phone className="w-[11px] h-[11px]" style={{ color: 'rgba(255,255,255,0.2)' }} />
+                                  <span className="text-[11px] font-mono" style={{ color: 'rgba(255,255,255,0.4)' }}>{formatTelefone(lead.telefone)}</span>
+                                </div>
+                                {lead.observacoes && (
+                                  <div
+                                    className="flex items-center gap-1 mt-1.5 px-2 py-0.5 rounded-md text-[10px] font-medium w-fit"
+                                    style={
+                                      hasExited
+                                        ? { background: 'rgba(248,113,113,0.1)', color: '#f87171', border: '1px solid rgba(248,113,113,0.15)' }
+                                        : { background: 'rgba(96,165,250,0.1)', color: '#93c5fd', border: '1px solid rgba(96,165,250,0.15)' }
+                                    }
+                                  >
+                                    <MessageCircle className="w-2.5 h-2.5 shrink-0" />
+                                    <span className="truncate" style={{ maxWidth: 140 }}>{lead.observacoes}</span>
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                          {colLeads.length === 0 && (
+                            <div className="text-center py-8 text-[12px] italic" style={{ color: 'rgba(255,255,255,0.15)' }}>
+                              Vazio
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </>
+          )}
         </>
       )}
     </div>
