@@ -1,8 +1,9 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { supabase } from '../backend/client';
-import { env } from '../backend/env';
 import type { EnvioMassaLeadRow, EnvioMassaRow, StatusLead } from '../types/database';
 import { EnvioProgresso, EnvioLog } from '../types/envios';
+import { WEBHOOKS, fetchWithTimeout } from '../config/webhooks';
+import { useAuthStore } from '../stores/authStore';
 
 // Lead filtrado com flag tem_nome
 export interface LeadEnvio {
@@ -31,7 +32,7 @@ interface IniciarEnvioParams {
   templateId?: string | null;
 }
 
-const WEBHOOK_URL = env.VITE_N8N_WEBHOOK_URL || '';
+const WEBHOOK_URL = WEBHOOKS.DISPARO_MASSA;
 
 export function useEnvioMassa() {
   const [leads, setLeads] = useState<LeadEnvio[]>([]);
@@ -169,6 +170,23 @@ export function useEnvioMassa() {
     async (params: IniciarEnvioParams) => {
       cancelledRef.current = false;
 
+      // Pre-send limit check (PLAN-06 hard block)
+      const expert = useAuthStore.getState().impersonatedExpert || useAuthStore.getState().user?.expert;
+      if (expert?.plano?.max_envios_mes !== null && expert?.plano?.max_envios_mes !== undefined) {
+        const now = new Date();
+        const firstOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+        const { count } = await supabase
+          .from('mensagens')
+          .select('id', { count: 'exact', head: true })
+          .eq('expert_id', expert.id)
+          .eq('direcao', 'enviada')
+          .gte('created_at', firstOfMonth);
+
+        if (count !== null && count >= expert.plano.max_envios_mes) {
+          throw new Error(`Limite de ${expert.plano.max_envios_mes} envios/mes atingido`);
+        }
+      }
+
       const {
         leads: leadsParaEnviar,
         tipo,
@@ -266,7 +284,7 @@ export function useEnvioMassa() {
           };
 
           try {
-            await fetch(WEBHOOK_URL, {
+            await fetchWithTimeout(WEBHOOK_URL, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(webhookPayload),

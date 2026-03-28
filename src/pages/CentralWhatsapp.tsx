@@ -13,6 +13,8 @@ import { useWhatsappRotacao } from '../hooks/useWhatsappRotacao';
 import type { WhatsappRotacao, WhatsappRotacaoMensagem } from '../hooks/useWhatsappRotacao';
 import { useToast } from '../hooks/useToast';
 import { cn } from '../utils/cn';
+import { usePlanLimits } from '../hooks/usePlanLimits';
+import { PlanLimitBanner } from '../components/PlanLimitBanner';
 
 type TabKey = 'disparadoras' | 'coleta' | 'mensagens';
 
@@ -37,6 +39,7 @@ const SkeletonCard: React.FC = () => (
 );
 
 export const CentralWhatsapp: React.FC = () => {
+  const { instancias: instanciaLimit } = usePlanLimits();
   const {
     instanciasDisparadoras,
     instanciasColeta,
@@ -226,6 +229,14 @@ export const CentralWhatsapp: React.FC = () => {
         isRefreshing={loading}
       />
 
+      <PlanLimitBanner
+        label="instancias"
+        current={instanciaLimit.current}
+        max={instanciaLimit.max}
+        atLimit={instanciaLimit.atLimit}
+        className="mb-4"
+      />
+
       {/* Tabs */}
       <div
         className="grid grid-cols-2 md:flex md:w-fit gap-1 p-1 rounded-[14px] w-full mb-8"
@@ -318,7 +329,12 @@ export const CentralWhatsapp: React.FC = () => {
 
           <button
             onClick={() => setNovaInstanciaModal(true)}
-            className="w-full flex items-center justify-center gap-2 py-4 rounded-xl border-2 border-dashed border-[#004AFF]/30 text-[#004AFF]/70 hover:text-[#004AFF] hover:border-[#004AFF]/50 hover:bg-[#004AFF]/5 transition-all duration-200 text-[13px] font-medium"
+            disabled={instanciaLimit.atLimit}
+            className={cn(
+              'w-full flex items-center justify-center gap-2 py-4 rounded-xl border-2 border-dashed border-[#004AFF]/30 text-[#004AFF]/70 hover:text-[#004AFF] hover:border-[#004AFF]/50 hover:bg-[#004AFF]/5 transition-all duration-200 text-[13px] font-medium',
+              instanciaLimit.atLimit && 'opacity-50 cursor-not-allowed hover:text-[#004AFF]/70 hover:border-[#004AFF]/30 hover:bg-transparent',
+            )}
+            title={instanciaLimit.atLimit ? 'Limite de instancias atingido' : undefined}
           >
             <Plus className="w-4 h-4" />
             Nova Instância Disparadora
@@ -376,7 +392,12 @@ export const CentralWhatsapp: React.FC = () => {
 
           <button
             onClick={() => setNovaColetaModal(true)}
-            className="w-full flex items-center justify-center gap-2 py-4 rounded-xl border-2 border-dashed border-[#004AFF]/30 text-[#004AFF]/70 hover:text-[#004AFF] hover:border-[#004AFF]/50 hover:bg-[#004AFF]/5 transition-all duration-200 text-[13px] font-medium"
+            disabled={instanciaLimit.atLimit}
+            className={cn(
+              'w-full flex items-center justify-center gap-2 py-4 rounded-xl border-2 border-dashed border-[#004AFF]/30 text-[#004AFF]/70 hover:text-[#004AFF] hover:border-[#004AFF]/50 hover:bg-[#004AFF]/5 transition-all duration-200 text-[13px] font-medium',
+              instanciaLimit.atLimit && 'opacity-50 cursor-not-allowed hover:text-[#004AFF]/70 hover:border-[#004AFF]/30 hover:bg-transparent',
+            )}
+            title={instanciaLimit.atLimit ? 'Limite de instancias atingido' : undefined}
           >
             <Plus className="w-4 h-4" />
             Nova Instância de Coleta

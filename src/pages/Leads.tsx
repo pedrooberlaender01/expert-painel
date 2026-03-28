@@ -12,6 +12,8 @@ import type { StatusLead as StatusLeadUI } from '../types';
 import type { StatusPremium } from '../types/database';
 import { supabase } from '../backend/client';
 import type { LeadRow } from '../types/database';
+import { usePlanLimits } from '../hooks/usePlanLimits';
+import { PlanLimitBanner } from '../components/PlanLimitBanner';
 
 // ─── Custom Dropdown (portal-based to escape overflow:hidden) ───
 const CustomSelect: React.FC<{
@@ -433,6 +435,7 @@ const Pagination: React.FC<{
 };
 
 export const Leads: React.FC = () => {
+  const { leads: leadLimit } = usePlanLimits();
   const [activeTab, setActiveTab] = useState<TabKey>('automatico');
 
   // === Assistente Automático state ===
@@ -512,6 +515,14 @@ export const Leads: React.FC = () => {
             </span>
           </div>
         ) : undefined}
+      />
+
+      <PlanLimitBanner
+        label="leads"
+        current={leadLimit.current}
+        max={leadLimit.max}
+        atLimit={leadLimit.atLimit}
+        className="mb-4"
       />
 
       {/* Tabs — Glass Pill Selector */}

@@ -7,6 +7,8 @@ import { Toast } from '../components/Toast';
 import { useToast } from '../hooks/useToast';
 import { supabase } from '../backend/client';
 import { WEBHOOKS, UAZAPI_BASE_URL, fetchWithTimeout } from '../config/webhooks';
+import { usePlanLimits } from '../hooks/usePlanLimits';
+import { PlanLimitBanner } from '../components/PlanLimitBanner';
 
 interface Instancia {
   id: number;
@@ -154,6 +156,7 @@ const InstanciaSelector: React.FC<{
 // ─── Page Component ──────────────────────────────────────────────────────────
 
 export const SimuladorEnvios: React.FC = () => {
+  const { envios: envioLimit } = usePlanLimits();
   const [simTelefone, setSimTelefone] = useState('');
   const [simNome, setSimNome] = useState('');
   const [simToken, setSimToken] = useState('');
@@ -317,6 +320,14 @@ export const SimuladorEnvios: React.FC = () => {
     <div className="space-y-6">
       <PageHeader title="Envios em Massa" subtitle="Dispare mensagens para grupos de leads" />
       <EnviosNav />
+
+      <PlanLimitBanner
+        label="envios este mes"
+        current={envioLimit.current}
+        max={envioLimit.max}
+        atLimit={envioLimit.atLimit}
+        className="mb-4"
+      />
 
       <section className="card-dark p-6">
         <div className="mb-5">
