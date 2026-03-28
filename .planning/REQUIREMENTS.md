@@ -77,16 +77,16 @@
 
 - [x] **N8N-01**: Workflows compartilhados recebem expert_id nos webhooks e filtram queries Supabase por expert_id
 - [x] **N8N-02**: Tabela configuracoes passa a ter expert_id (cada expert tem seus próprios links, tempos de follow-up, etc.)
-- [ ] **N8N-03**: Workflows de envio de mensagem usam tokens UAZAPI do expert correto (não global)
-- [ ] **N8N-04**: Workflow "Boas vindas - Leads Insta" filtra por expert_id do webhook recebido
-- [ ] **N8N-05**: Workflow "Follow up - assistente" processa apenas leads do expert correspondente
-- [ ] **N8N-06**: Workflow "Envio Mensagem - Saas" valida expert_id antes de enviar
+- [x] **N8N-03**: Workflows de envio de mensagem usam tokens UAZAPI do expert correto (não global)
+- [x] **N8N-04**: Workflow "Boas vindas - Leads Insta" filtra por expert_id do webhook recebido
+- [x] **N8N-05**: Workflow "Follow up - assistente" processa apenas leads do expert correspondente
+- [x] **N8N-06**: Workflow "Envio Mensagem - Saas" valida expert_id antes de enviar
 
 ### Voice (Minimax)
 
 - [x] **VOIC-01**: Campo voice_id na tabela experts (preenchido manualmente pelo admin no MVP)
 - [x] **VOIC-02**: Campo voice_settings (JSONB) na tabela experts com speed, pitch, timbre, vol
-- [ ] **VOIC-03**: Workflows de áudio do funil usam voice_id e voice_settings do expert correspondente
+- [x] **VOIC-03**: Workflows de áudio do funil usam voice_id e voice_settings do expert correspondente
 - [x] **VOIC-04**: Se expert não tem voice_id configurado, opções de áudio são desabilitadas (sem fallback)
 
 ## v2 Requirements
@@ -182,13 +182,13 @@
 | WAPP-06 | Phase 5 | Complete |
 | N8N-01 | Phase 5 | Complete |
 | N8N-02 | Phase 5 | Complete |
-| N8N-03 | Phase 5 | Pending |
-| N8N-04 | Phase 5 | Pending |
-| N8N-05 | Phase 5 | Pending |
-| N8N-06 | Phase 5 | Pending |
+| N8N-03 | Phase 5 | Complete |
+| N8N-04 | Phase 5 | Complete |
+| N8N-05 | Phase 5 | Complete |
+| N8N-06 | Phase 5 | Complete |
 | VOIC-01 | Phase 5 | Complete |
 | VOIC-02 | Phase 5 | Complete |
-| VOIC-03 | Phase 5 | Pending |
+| VOIC-03 | Phase 5 | Complete |
 | VOIC-04 | Phase 5 | Complete |
 
 **Coverage:**
