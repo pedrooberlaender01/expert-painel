@@ -22,6 +22,8 @@ import Agendados from './pages/Agendados';
 import GerarCopy from './pages/GerarCopy';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { AdminLayout } from './components/admin/AdminLayout';
+import { AdminExperts } from './pages/admin/AdminExperts';
+import { AdminExpertForm } from './pages/admin/AdminExpertForm';
 import { useAuthStore } from './stores/authStore';
 
 const ProtectedLayout = () => {
@@ -109,9 +111,9 @@ function App() {
           </ProtectedRoute>
         }>
           <Route index element={<div className="text-white text-center mt-20 text-lg">Dashboard Global — Em construcao</div>} />
-          <Route path="experts" element={<div className="text-white text-center mt-20 text-lg">Experts — Em construcao</div>} />
-          <Route path="experts/new" element={<div className="text-white text-center mt-20 text-lg">Novo Expert — Em construcao</div>} />
-          <Route path="experts/:id/edit" element={<div className="text-white text-center mt-20 text-lg">Editar Expert — Em construcao</div>} />
+          <Route path="experts" element={<AdminExperts />} />
+          <Route path="experts/new" element={<AdminExpertForm />} />
+          <Route path="experts/:id/edit" element={<AdminExpertForm />} />
           <Route path="planos" element={<div className="text-white text-center mt-20 text-lg">Planos — Em construcao</div>} />
         </Route>
 
