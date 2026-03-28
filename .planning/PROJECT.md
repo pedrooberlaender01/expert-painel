@@ -40,24 +40,24 @@ Isolamento seguro de dados entre experts — um expert NUNCA pode ver, modificar
 - ✓ Auth customizada multi-tenant (expert_id vinculado ao login, role: expert/admin) — Validated in Phase 2
 - ✓ White-label via CSS Variables (--color-primary, --color-primary-hover, --color-primary-bg) — Validated in Phase 4
 - ✓ Logo e nome da plataforma dinâmicos no sidebar por expert — Validated in Phase 4
-- [ ] Nome da assistente configurável por expert (hoje "Helena") — Deferred to Phase 5 (n8n only)
+- ✓ Nome da assistente configurável por expert (hoje "Helena") — Validated in Phase 5 (n8n migration guide)
 - ✓ Painel admin master em rota /admin dentro do mesmo app React — Validated in Phase 3
 - ✓ Admin master: CRUD de experts (criar, editar, suspender) — Validated in Phase 3
 - ✓ Admin master: Dashboard global com métricas consolidadas de todos experts — Validated in Phase 3
 - ✓ Admin master: Gestão de planos (criar, editar limites e features por plano) — Validated in Phase 3
 - ✓ Admin master: Impersonação de expert (operar como qualquer expert para debug) — Validated in Phase 3
-- [ ] Instâncias UAZAPI por expert (agência provisiona, expert gerencia dentro do limite)
-- [ ] Workflows n8n compartilhados com filtro por expert_id + config por expert
-- [ ] Webhooks n8n validam que expert_id do payload corresponde ao token UAZAPI
+- ✓ Instâncias UAZAPI por expert (agência provisiona, expert gerencia dentro do limite) — Validated in Phase 5
+- ✓ Workflows n8n compartilhados com filtro por expert_id + config por expert — Validated in Phase 5 (migration guides)
+- ✓ Webhooks n8n validam que expert_id do payload corresponde ao token UAZAPI — Validated in Phase 5
 - ✓ Migração dos 1762 leads existentes + dados para expert_id do Allan (Expert #1) — Validated in Phase 1
-- [ ] Voice settings por expert (voice_id Minimax, speed, pitch, timbre, vol como JSONB)
+- ✓ Voice settings por expert (voice_id Minimax, speed, pitch, timbre, vol como JSONB) — Validated in Phase 5
 - ✓ Rate limiting no login (delay progressivo contra brute force) — Validated in Phase 2
 - ✓ Sessão com expiração (24h no localStorage) — Validated in Phase 2
 - ✓ CSP headers via meta tags no index.html — Validated in Phase 2
-- [ ] Console.log removidos no build de produção (esbuild drop)
-- [ ] Inputs sanitizados contra XSS em toda a aplicação
-- [ ] Nenhuma chave sensível exposta no frontend (service_role, tokens UAZAPI, API keys)
-- [ ] Validação server-side nas RPCs (não confiar só no frontend)
+- ✓ Console.log removidos no build de produção (esbuild drop) — Validated in Phase 2
+- ✓ Inputs sanitizados contra XSS em toda a aplicação — Validated in Phase 2 (backend RPCs)
+- ✓ Nenhuma chave sensível exposta no frontend (service_role, tokens UAZAPI, API keys) — Validated in Phase 2
+- ✓ Validação server-side nas RPCs (não confiar só no frontend) — Validated in Phase 2
 - [ ] Enforcement de limites do plano (bloquear ações quando limite atingido)
 
 ### Out of Scope
@@ -162,4 +162,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-28 after Phase 4 completion — White-Label & Plan Enforcement*
+*Last updated: 2026-03-28 after Phase 5 completion — ALL PHASES COMPLETE — Multi-Tenant Transformation Done*
