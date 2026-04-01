@@ -1345,15 +1345,6 @@ export const Torneios: React.FC = () => {
               Atualizar
             </button>
 
-            <button
-              onClick={() => setEnviarRankingOpen(true)}
-              disabled={ranking.length === 0}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-medium bg-[#004AFF]/10 text-[#004AFF] hover:bg-[#004AFF]/20 border border-[#004AFF]/20 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              <Send className="w-3.5 h-3.5" />
-              Enviar Ranking
-            </button>
-
             <label className="flex items-center gap-2 cursor-pointer ml-auto">
               <span className="text-[12px] text-txt-muted">Auto-refresh</span>
               <div className="relative">
@@ -2132,24 +2123,6 @@ export const Torneios: React.FC = () => {
           loading={removePartLoading}
         />
       )}
-
-      {/* Enviar Ranking Modal */}
-      {enviarRankingOpen && (() => {
-        const selTorneioFull = torneios.find(t => t.id === rankTorneioId);
-        const selTorneioOpt: TorneioOption | undefined = selTorneioFull
-          ? { id: selTorneioFull.id, nome: selTorneioFull.nome, status: selTorneioFull.status }
-          : rankTorneios.find(t => t.id === rankTorneioId);
-        return (
-          <EnviarRankingModal
-            ranking={ranking}
-            torneio={selTorneioOpt}
-            dataInicio={selTorneioFull?.data_inicio || ''}
-            dataFim={selTorneioFull?.data_fim || ''}
-            onClose={() => setEnviarRankingOpen(false)}
-            showToast={showToast}
-          />
-        );
-      })()}
 
       {toast && <Toast toast={toast} onClose={hideToast} />}
     </div>
