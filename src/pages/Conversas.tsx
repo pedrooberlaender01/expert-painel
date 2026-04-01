@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { supabase } from '../backend/client'
+import { useAuthStore } from '../stores/authStore'
 import { WEBHOOKS, fetchWithTimeout } from '../config/webhooks'
 import { Search, Phone, X, Play, Pause, Volume2, VolumeX, MessageSquare, Mic, Image as ImageIcon, SlidersHorizontal, Check, Send, Loader2, ArrowLeft } from 'lucide-react'
 
@@ -545,13 +546,16 @@ export default function Conversas() {
 
   // Carregar lista de conversas
   const fetchConversas = useCallback(async () => {
+    const expertId = useAuthStore.getState().getActiveExpertId();
     const { data, error } = await supabase.rpc('get_lista_conversas') as { data: Conversa[] | null; error: unknown }
     if (error || !data) {
       // fallback: query direta
-      const { data: raw } = await supabase
+      let fallbackQuery = supabase
         .from('mensagens')
         .select('*, leads!inner(nome, status, instancia_enviou)')
-        .order('created_at', { ascending: false })
+        .order('created_at', { ascending: false });
+      if (expertId) fallbackQuery = fallbackQuery.eq('expert_id', expertId);
+      const { data: raw } = await fallbackQuery;
       if (raw) {
         // dedup por telefone manualmente
         const seen = new Set<string>()
@@ -582,12 +586,14 @@ export default function Conversas() {
   useEffect(() => {
     if (!selectedTel) return
     setLoadingMsgs(true)
-    supabase
+    const expertId = useAuthStore.getState().getActiveExpertId();
+    let msgsQuery = supabase
       .from('mensagens')
       .select('*')
       .eq('telefone', selectedTel)
-      .order('created_at', { ascending: true })
-      .then(({ data }) => {
+      .order('created_at', { ascending: true });
+    if (expertId) msgsQuery = msgsQuery.eq('expert_id', expertId);
+    msgsQuery.then(({ data }) => {
         setMensagens((data as unknown as Mensagem[]) ?? [])
         setLoadingMsgs(false)
         setUnreadMap(prev => ({ ...prev, [selectedTel]: 0 }))
