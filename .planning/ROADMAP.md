@@ -122,7 +122,7 @@ Plans:
 **UI hint**: yes
 
 Plans:
-- [ ] 06-01-PLAN.md — Database column, types, RPCs, admin form toggle cards UI
+- [x] 06-01-PLAN.md — Database column, types, RPCs, admin form toggle cards UI
 - [ ] 06-02-PLAN.md — Frontend section gating (useSectionGate hook, sidebar integration, route guards)
 
 ## Progress
