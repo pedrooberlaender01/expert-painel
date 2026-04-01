@@ -73,11 +73,6 @@ const ProtectedLayout = () => {
 
   return (
     <div className="flex min-h-screen relative overflow-x-hidden" style={{ background: 'linear-gradient(135deg, #0a0a0f 0%, #0d1117 40%, #0f0a1a 100%)' }}>
-      {/* Ambient lights */}
-      <div className="ambient-light ambient-light--blue" />
-      <div className="ambient-light ambient-light--green" />
-      <div className="ambient-light ambient-light--purple" />
-
       {/* Desktop sidebar */}
       <Sidebar
         collapsed={isSidebarCollapsed}

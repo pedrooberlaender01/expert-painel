@@ -489,16 +489,14 @@ export const Dashboard: React.FC = () => {
   // Show skeleton on initial load
   if (loading && !metricas) {
     return (
-      <div className="space-y-6 mesh-bg">
-      <div className="noise-overlay" />
+      <div className="space-y-6">
       <DashboardSkeleton />
       </div>
     );
   }
 
   return (
-    <div className="space-y-6 mesh-bg">
-      <div className="noise-overlay" />
+    <div className="space-y-6">
       {toast && <Toast toast={toast} onClose={hideToast} />}
 
       <PageHeader
