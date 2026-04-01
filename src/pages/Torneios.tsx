@@ -2027,7 +2027,7 @@ export const Torneios: React.FC = () => {
 
               <button
                 onClick={() => setTorneioInstanciaModal(true)}
-                className="w-full flex items-center justify-center gap-2 py-4 rounded-xl border-2 border-dashed border-[#004AFF]/30 text-[#004AFF]/70 hover:text-[#004AFF] hover:border-[#004AFF]/50 hover:bg-[#004AFF]/5 transition-all duration-200 text-[13px] font-medium"
+                className="w-full flex items-center justify-center gap-2 py-4 rounded-xl border-2 border-dashed border-white/[0.12] text-white/50 hover:text-primary-light hover:border-primary-bg hover:bg-primary-bg transition-all duration-200 text-[13px] font-medium"
               >
                 <Plus className="w-4 h-4" />
                 Nova Instância Torneio
