@@ -49,6 +49,7 @@ const ProtectedLayout = () => {
       const r = parseInt(hex.substring(0, 2), 16);
       const g = parseInt(hex.substring(2, 4), 16);
       const b = parseInt(hex.substring(4, 6), 16);
+      root.style.setProperty('--color-primary-rgb', `${r}, ${g}, ${b}`);
       root.style.setProperty('--color-primary-bg', `rgba(${r}, ${g}, ${b}, 0.12)`);
       root.style.setProperty('--color-primary-light', expert.cor_secundaria);
     }
@@ -57,6 +58,7 @@ const ProtectedLayout = () => {
       const root = document.documentElement;
       root.style.setProperty('--color-primary', '#10b981');
       root.style.setProperty('--color-primary-hover', '#059669');
+      root.style.setProperty('--color-primary-rgb', '16, 185, 129');
       root.style.setProperty('--color-primary-bg', 'rgba(16, 185, 129, 0.12)');
       root.style.setProperty('--color-primary-light', '#34d399');
     };
