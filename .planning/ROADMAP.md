@@ -17,6 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 3: Admin Master Panel** - Expert CRUD, global dashboard, plan management, impersonation, instance assignment
 - [ ] **Phase 4: White-Label & Plan Enforcement** - CSS variables, dynamic branding per expert, plan limit enforcement across the app
 - [ ] **Phase 5: WhatsApp, N8N Workflows & Voice** - Multi-tenant WhatsApp instances, n8n workflow updates, voice settings per expert
+- [ ] **Phase 6: Controle de Secoes por Expert** - Admin controls section visibility per expert via JSONB, sidebar/routes respect config
 
 ## Phase Details
 
@@ -107,10 +108,27 @@ Plans:
 - [x] 05-02-PLAN.md — N8N: Update Boas vindas, Follow up, Envio Mensagem workflows for multi-tenant
 - [x] 05-03-PLAN.md — N8N: Update Coleta, Rotatividade, identificaConexao + configuracoes duplication RPC
 
+### Phase 6: Controle de Secoes por Expert
+**Goal:** Admin pode habilitar/desabilitar secoes individuais (Dashboard, Conversas, Leads Assistente, Grupos, Envios, Torneios, Mensagens, Central WhatsApp) por expert. Coluna JSONB na tabela experts armazena configuracao. Frontend esconde secoes desabilitadas do sidebar e bloqueia rotas.
+**Depends on:** Phase 4
+**Requirements**: SEC-01, SEC-02, SEC-03, SEC-04, SEC-05, SEC-06, SEC-07, SEC-08, SEC-09
+**Success Criteria** (what must be TRUE):
+  1. Coluna secoes_habilitadas (JSONB, DEFAULT NULL) existe na tabela experts
+  2. Admin pode habilitar/desabilitar as 8 secoes via cards com toggle no formulario de expert
+  3. Sidebar mostra secoes desabilitadas com visual cinza + cadeado distinto do bloqueio por plano
+  4. Rotas de secoes desabilitadas redirecionam para /dashboard
+  5. Configuracoes e Notificacoes sempre acessiveis independente da configuracao
+**Plans**: 2 plans
+**UI hint**: yes
+
+Plans:
+- [ ] 06-01-PLAN.md — Database column, types, RPCs, admin form toggle cards UI
+- [ ] 06-02-PLAN.md — Frontend section gating (useSectionGate hook, sidebar integration, route guards)
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -119,3 +137,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 3. Admin Master Panel | 0/3 | Not started | - |
 | 4. White-Label & Plan Enforcement | 0/3 | Not started | - |
 | 5. WhatsApp, N8N Workflows & Voice | 0/3 | Not started | - |
+| 6. Controle de Secoes por Expert | 0/2 | Not started | - |

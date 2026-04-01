@@ -89,6 +89,18 @@
 - [x] **VOIC-03**: Workflows de áudio do funil usam voice_id e voice_settings do expert correspondente
 - [x] **VOIC-04**: Se expert não tem voice_id configurado, opções de áudio são desabilitadas (sem fallback)
 
+### Controle de Secoes
+
+- [ ] **SEC-01**: Coluna `secoes_habilitadas` (JSONB, DEFAULT NULL) na tabela `experts` com chaves: dashboard, conversas, leads, grupos, envios, torneios, mensagens, central_whatsapp
+- [ ] **SEC-02**: NULL em secoes_habilitadas significa todas as secoes habilitadas (consistente com features_permitidas)
+- [ ] **SEC-03**: RPCs admin_create_expert e admin_update_expert aceitam e persistem secoes_habilitadas
+- [ ] **SEC-04**: admin_login e admin_get_expert retornam secoes_habilitadas no perfil do expert
+- [ ] **SEC-05**: Formulario admin de expert tem secao "Secoes do Painel" com 8 cards toggle (apos Plano, antes de Credenciais)
+- [ ] **SEC-06**: Sidebar mostra secoes desabilitadas com visual cinza + cadeado + tooltip "Secao indisponivel" (distinto do bloqueio por plano)
+- [ ] **SEC-07**: Rotas de secoes desabilitadas redirecionam silenciosamente para /dashboard
+- [ ] **SEC-08**: Configuracoes e Notificacoes sempre visiveis (nao controlaveis por secoes_habilitadas)
+- [ ] **SEC-09**: Bloqueio por secao e bloqueio por plano coexistem independentemente (secao controla visibilidade, plano controla acesso a features)
+
 ## v2 Requirements
 
 ### Voice Cloning Self-Service
@@ -190,12 +202,21 @@
 | VOIC-02 | Phase 5 | Complete |
 | VOIC-03 | Phase 5 | Complete |
 | VOIC-04 | Phase 5 | Complete |
+| SEC-01 | Phase 6 | Pending |
+| SEC-02 | Phase 6 | Pending |
+| SEC-03 | Phase 6 | Pending |
+| SEC-04 | Phase 6 | Pending |
+| SEC-05 | Phase 6 | Pending |
+| SEC-06 | Phase 6 | Pending |
+| SEC-07 | Phase 6 | Pending |
+| SEC-08 | Phase 6 | Pending |
+| SEC-09 | Phase 6 | Pending |
 
 **Coverage:**
-- v1 requirements: 60 total
-- Mapped to phases: 60
+- v1 requirements: 69 total
+- Mapped to phases: 69
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-27*
-*Last updated: 2026-03-28 — VOIC-04 updated per D-12 (no fallback, audio disabled when no voice_id)*
+*Last updated: 2026-04-01 — SEC-01 through SEC-09 added for Phase 6 (Controle de Secoes por Expert)*
