@@ -534,7 +534,7 @@ export const Leads: React.FC = () => {
           onClick={() => setActiveTab('automatico')}
           className="flex items-center gap-2 px-5 py-2 rounded-[10px] text-[13px] font-medium transition-all duration-250"
           style={activeTab === 'automatico' ? {
-            background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', color: '#60a5fa',
+            background: 'var(--color-primary-bg)', border: '1px solid var(--color-primary-bg)', color: 'var(--color-primary-light)',
           } : {
             background: 'transparent', border: '1px solid transparent', color: 'rgba(255,255,255,0.45)',
           }}
