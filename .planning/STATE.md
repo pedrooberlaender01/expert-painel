@@ -3,11 +3,11 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: verifying
-stopped_at: Completed 05-02-PLAN.md
-last_updated: "2026-03-28T04:07:48.548Z"
+stopped_at: Phase 6 context gathered
+last_updated: "2026-04-01T14:39:02.352Z"
 last_activity: 2026-03-28
 progress:
-  total_phases: 5
+  total_phases: 6
   completed_phases: 5
   total_plans: 15
   completed_plans: 15
@@ -114,6 +114,10 @@ Recent decisions affecting current work:
 - [Phase 05]: Follow up workflow uses Expert Loop pattern (SplitInBatches over active experts) since schedule trigger has no instance
 - [Phase 05]: buscar_leads_followup_expert RPC as SECURITY DEFINER for n8n service calls bypassing RLS
 
+### Roadmap Evolution
+
+- Phase 6 added: Controle de Seções por Expert — habilitar/desabilitar seções individuais por expert via admin
+
 ### Pending Todos
 
 None yet.
@@ -126,6 +130,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-28T04:03:04.941Z
-Stopped at: Completed 05-02-PLAN.md
-Resume file: None
+Last session: 2026-04-01T14:39:02.348Z
+Stopped at: Phase 6 context gathered
+Resume file: .planning/phases/06-controle-de-secoes-por-expert/06-CONTEXT.md
