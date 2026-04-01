@@ -614,7 +614,7 @@ export const Dashboard: React.FC = () => {
               {[
                 { label: 'Total', color: '#FBBF24' },
                 { label: 'Interessados', color: '#34D399' },
-                { label: 'No Grupo', color: '#3b82f6' },
+                { label: 'No Grupo', color: 'var(--color-primary)' },
               ].map(({ label, color }) => (
                 <div key={label} className="flex items-center gap-1.5 group/legend cursor-default">
                   <div
@@ -642,8 +642,8 @@ export const Dashboard: React.FC = () => {
                       <stop offset="95%" stopColor="#34D399" stopOpacity={0} />
                     </linearGradient>
                     <linearGradient id="gradientGrupo" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.15} />
-                      <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                      <stop offset="0%" stopColor="var(--color-primary)" stopOpacity={0.15} />
+                      <stop offset="95%" stopColor="var(--color-primary)" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid
@@ -702,11 +702,11 @@ export const Dashboard: React.FC = () => {
                     dataKey="no_grupo"
                     name="No Grupo"
                     fill="url(#gradientGrupo)"
-                    stroke="#3b82f6"
+                    stroke="var(--color-primary)"
                     strokeWidth={1.5}
                     strokeOpacity={0.5}
                     dot={false}
-                    activeDot={{ r: 3, fill: '#3b82f6', stroke: '#0A0A0B', strokeWidth: 2 }}
+                    activeDot={{ r: 3, fill: 'var(--color-primary)', stroke: '#0A0A0B', strokeWidth: 2 }}
                     animationDuration={800}
                     animationEasing="ease-out"
                   />
