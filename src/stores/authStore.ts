@@ -115,6 +115,35 @@ export const useAuthStore = create<AuthState>((set: AuthStoreSetter, get) => ({
 
         const user = JSON.parse(stored) as User;
         set({ user, loading: false });
+
+        // Refresh do perfil do expert em background para capturar mudancas feitas pelo admin
+        if (user.role === 'expert' && user.expert_id) {
+          supabase
+            .from('experts')
+            .select('secoes_habilitadas, cor_primaria, cor_secundaria, logo_url, favicon_url, nome_plataforma, nome_assistente, nome, ativo')
+            .eq('id', user.expert_id)
+            .single()
+            .then(({ data }) => {
+              if (data && user.expert) {
+                const updatedUser = {
+                  ...user,
+                  expert: {
+                    ...user.expert,
+                    secoes_habilitadas: data.secoes_habilitadas,
+                    cor_primaria: data.cor_primaria,
+                    cor_secundaria: data.cor_secundaria,
+                    logo_url: data.logo_url,
+                    favicon_url: data.favicon_url,
+                    nome_plataforma: data.nome_plataforma,
+                    nome_assistente: data.nome_assistente,
+                    nome: data.nome,
+                  },
+                };
+                localStorage.setItem(AUTH_KEY, JSON.stringify(updatedUser));
+                set({ user: updatedUser });
+              }
+            });
+        }
       } catch {
         localStorage.removeItem(AUTH_KEY);
         localStorage.removeItem(AUTH_TIMESTAMP_KEY);
