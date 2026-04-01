@@ -553,7 +553,7 @@ export const Dashboard: React.FC = () => {
             value={`${conversionRate}%`}
             subtitle={`${leadsNoGrupo} de ${totalLeads} entraram no grupo`}
             icon={TrendingUp}
-            color="primary"
+            color="green"
             sparklineData={sparkConversao.length > 1 ? sparkConversao : undefined}
           />
         </div>
