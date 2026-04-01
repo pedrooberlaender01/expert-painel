@@ -19,11 +19,13 @@ export interface ExpertFormData {
   cor_primaria: string;
   cor_secundaria: string;
   logo_url: string | null;
+  favicon_url: string | null;
   nome_plataforma: string;
   nome_assistente: string;
   voice_id: string | null;
   plano_id: string | null;
   ativo: boolean;
+  secoes_habilitadas: Record<string, boolean> | null;
   // Credentials (only on create, optional on edit)
   email?: string;
   senha?: string;

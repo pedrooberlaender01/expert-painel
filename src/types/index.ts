@@ -50,6 +50,17 @@ export interface MetricaDiaria {
   no_grupo: number;
 }
 
+export type SecoesHabilitadas = {
+  dashboard: boolean;
+  conversas: boolean;
+  leads: boolean;
+  grupos: boolean;
+  envios: boolean;
+  torneios: boolean;
+  mensagens: boolean;
+  central_whatsapp: boolean;
+} | null;
+
 export interface ExpertProfile {
   id: string;
   nome: string;
@@ -57,10 +68,12 @@ export interface ExpertProfile {
   cor_primaria: string;
   cor_secundaria: string;
   logo_url: string | null;
+  favicon_url: string | null;
   nome_plataforma: string;
   nome_assistente: string;
   voice_id: string | null;
   voice_settings: Record<string, number> | null;
+  secoes_habilitadas: SecoesHabilitadas;
   ativo: boolean;
   plano: {
     id: string;

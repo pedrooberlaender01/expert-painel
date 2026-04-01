@@ -25,6 +25,7 @@ interface UseAdminExpertsReturn {
   error: string | null;
   refresh: () => void;
   toggleExpert: (expertId: string, ativo: boolean) => Promise<{ success: boolean; error?: string }>;
+  deleteExpert: (expertId: string) => Promise<{ success: boolean; error?: string }>;
   createExpert: (data: ExpertFormData) => Promise<{ success: boolean; error?: string; expert_id?: string }>;
   updateExpert: (expertId: string, data: ExpertFormData) => Promise<{ success: boolean; error?: string }>;
   getExpertDetail: (expertId: string) => Promise<{ data: ExpertDetail | null; error: string | null }>;
@@ -63,6 +64,16 @@ export function useAdminExperts(): UseAdminExpertsReturn {
     return result;
   }, [fetchExperts]);
 
+  const deleteExpert = useCallback(async (expertId: string) => {
+    const { data, error: rpcError } = await supabase.rpc('admin_delete_expert', {
+      p_expert_id: expertId,
+    });
+    if (rpcError) return { success: false, error: rpcError.message };
+    const result = data as { success: boolean; error?: string };
+    if (result.success) fetchExperts();
+    return result;
+  }, [fetchExperts]);
+
   const createExpert = useCallback(async (formData: ExpertFormData) => {
     const { data, error: rpcError } = await supabase.rpc('admin_create_expert', {
       p_nome: formData.nome,
@@ -70,10 +81,12 @@ export function useAdminExperts(): UseAdminExpertsReturn {
       p_cor_primaria: formData.cor_primaria,
       p_cor_secundaria: formData.cor_secundaria,
       p_logo_url: formData.logo_url,
+      p_favicon_url: formData.favicon_url,
       p_nome_plataforma: formData.nome_plataforma,
       p_nome_assistente: formData.nome_assistente,
       p_voice_id: formData.voice_id,
       p_plano_id: formData.plano_id,
+      p_secoes_habilitadas: formData.secoes_habilitadas,
       p_email: formData.email || '',
       p_senha: formData.senha || '',
     });
@@ -91,11 +104,13 @@ export function useAdminExperts(): UseAdminExpertsReturn {
       p_cor_primaria: formData.cor_primaria,
       p_cor_secundaria: formData.cor_secundaria,
       p_logo_url: formData.logo_url,
+      p_favicon_url: formData.favicon_url,
       p_nome_plataforma: formData.nome_plataforma,
       p_nome_assistente: formData.nome_assistente,
       p_voice_id: formData.voice_id,
       p_plano_id: formData.plano_id,
       p_ativo: formData.ativo,
+      p_secoes_habilitadas: formData.secoes_habilitadas,
     });
     if (rpcError) return { success: false, error: rpcError.message };
     const result = data as { success: boolean; error?: string };
@@ -126,6 +141,7 @@ export function useAdminExperts(): UseAdminExpertsReturn {
     error,
     refresh: fetchExperts,
     toggleExpert,
+    deleteExpert,
     createExpert,
     updateExpert,
     getExpertDetail,

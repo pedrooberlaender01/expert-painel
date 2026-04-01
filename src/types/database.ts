@@ -277,6 +277,7 @@ export interface ExpertRow {
   nome_assistente: string;
   voice_id: string | null;
   voice_settings: Record<string, number> | null;
+  secoes_habilitadas: Record<string, boolean> | null;
   plano_id: string | null;
   ativo: boolean;
   created_at: string;
