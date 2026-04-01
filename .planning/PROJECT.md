@@ -162,4 +162,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-28 after Phase 5 completion — ALL PHASES COMPLETE — Multi-Tenant Transformation Done*
+*Last updated: 2026-04-01 after Phase 6 completion — Section visibility control per expert added*
