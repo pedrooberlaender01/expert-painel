@@ -545,20 +545,6 @@ export const Leads: React.FC = () => {
           Assistente Automatico
         </button>
         <button
-          onClick={() => setActiveTab('premium')}
-          className="flex items-center gap-2 px-5 py-2 rounded-[10px] text-[13px] font-medium transition-all duration-250"
-          style={activeTab === 'premium' ? {
-            background: 'rgba(234,179,8,0.1)', border: '1px solid rgba(234,179,8,0.2)', color: '#facc3c',
-          } : {
-            background: 'transparent', border: '1px solid transparent', color: 'rgba(255,255,255,0.45)',
-          }}
-          onMouseEnter={(e) => { if (activeTab !== 'premium') { e.currentTarget.style.color = 'rgba(255,255,255,0.65)'; e.currentTarget.style.background = 'rgba(255,255,255,0.03)' } }}
-          onMouseLeave={(e) => { if (activeTab !== 'premium') { e.currentTarget.style.color = 'rgba(255,255,255,0.45)'; e.currentTarget.style.background = 'transparent' } }}
-        >
-          <Crown className="w-4 h-4" style={{ opacity: activeTab === 'premium' ? 1 : 0.45 }} />
-          Assistente Premium
-        </button>
-        <button
           onClick={() => setActiveTab('monitoramento')}
           className="flex items-center gap-2 px-5 py-2 rounded-[10px] text-[13px] font-medium transition-all duration-250"
           style={activeTab === 'monitoramento' ? {
