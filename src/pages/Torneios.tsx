@@ -3,6 +3,7 @@ import { Trophy, BarChart3, Users, Plus, Loader2, X, Pencil, Trash2, Pause, Play
 import { PageHeader } from '../components/PageHeader';
 import { Toast } from '../components/Toast';
 import { useToast } from '../hooks/useToast';
+import { useAuthStore } from '../stores/authStore';
 import { supabase } from '../lib/supabase';
 import { WEBHOOKS, fetchWithTimeout } from '../config/webhooks';
 import { InstanciaCard } from '../components/numeros/InstanciaCard';
@@ -420,11 +421,14 @@ const EnviarRankingModal: React.FC<EnviarRankingModalProps> = ({ ranking, tornei
   useEffect(() => {
     (async () => {
       setLoadingInst(true);
-      const { data } = await supabase
+      const expertId = useAuthStore.getState().getActiveExpertId();
+      let instQuery = supabase
         .from('whatsapp_rotacao')
         .select('id, nome, numero, instancia, token, ativo')
         .eq('ativo', true)
         .order('ordem', { ascending: true });
+      if (expertId) instQuery = instQuery.eq('expert_id', expertId);
+      const { data } = await instQuery;
       const list = (data as InstanciaWpp[]) || [];
       setInstancias(list);
       if (list.length > 0) {
@@ -696,10 +700,13 @@ export const Torneios: React.FC = () => {
     setLoading(true);
     try {
       // Todos os torneios
-      const { data: allTorneios } = await supabase
+      const expertId = useAuthStore.getState().getActiveExpertId();
+      let torneiosQuery = supabase
         .from('torneios')
         .select('*')
         .order('created_at', { ascending: false });
+      if (expertId) torneiosQuery = torneiosQuery.eq('expert_id', expertId);
+      const { data: allTorneios } = await torneiosQuery;
 
       setTorneios((allTorneios as Torneio[]) || []);
 
@@ -753,10 +760,13 @@ export const Torneios: React.FC = () => {
   // ── Ranking fetch ─────────────────────────────────────────────
 
   const fetchRankTorneios = useCallback(async () => {
-    const { data } = await supabase
+    const expertId = useAuthStore.getState().getActiveExpertId();
+    let rankQuery = supabase
       .from('torneios')
       .select('id, nome, status, logica_ganhador')
       .order('created_at', { ascending: false });
+    if (expertId) rankQuery = rankQuery.eq('expert_id', expertId);
+    const { data } = await rankQuery;
     const list = (data as TorneioOption[]) || [];
     setRankTorneios(list);
     // Pre-select active tournament
@@ -817,10 +827,13 @@ export const Torneios: React.FC = () => {
   // ── Participantes fetch ──────────────────────────────────────
 
   const fetchPartTorneios = useCallback(async () => {
-    const { data } = await supabase
+    const expertId = useAuthStore.getState().getActiveExpertId();
+    let partQuery = supabase
       .from('torneios')
       .select('id, nome, status, logica_ganhador')
       .order('created_at', { ascending: false });
+    if (expertId) partQuery = partQuery.eq('expert_id', expertId);
+    const { data } = await partQuery;
     const list = (data as TorneioOption[]) || [];
     setPartTorneios(list);
     if (!partTorneioId || !list.find(t => t.id === partTorneioId)) {
@@ -995,7 +1008,8 @@ export const Torneios: React.FC = () => {
         if (error) throw error;
         showToast('success', 'Torneio atualizado');
       } else {
-        const { error } = await supabase.from('torneios').insert(data);
+        const expertId = useAuthStore.getState().getActiveExpertId();
+        const { error } = await supabase.from('torneios').insert({ ...data, expert_id: expertId });
         if (error) throw error;
         showToast('success', 'Torneio criado');
       }
