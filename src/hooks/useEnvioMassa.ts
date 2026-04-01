@@ -54,11 +54,13 @@ export function useEnvioMassa() {
     try {
       setLoadingLeads(true);
 
+      const expertId = useAuthStore.getState().getActiveExpertId();
       let query = supabase
         .from('leads')
         .select('id, telefone, nome, status')
         .in('status', statusSelecionados)
         .order('data_primeiro_contato', { ascending: false });
+      if (expertId) query = query.eq('expert_id', expertId);
 
       if (periodoInicio) {
         query = query.gte('data_primeiro_contato', `${periodoInicio}T00:00:00`);

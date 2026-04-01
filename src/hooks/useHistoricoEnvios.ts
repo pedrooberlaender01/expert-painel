@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../backend/client';
+import { useAuthStore } from '../stores/authStore';
 import type { EnvioMassaRow, EnvioMassaLeadRow } from '../types/database';
 
 interface UseHistoricoEnviosReturn {
@@ -20,10 +21,13 @@ export function useHistoricoEnvios(): UseHistoricoEnviosReturn {
       if (showLoading) setLoading(true);
       setError(null);
 
-      const { data, error: fetchError } = await supabase
+      const expertId = useAuthStore.getState().getActiveExpertId();
+      let query = supabase
         .from('envios_massa')
         .select('*')
         .order('data_envio', { ascending: false });
+      if (expertId) query = query.eq('expert_id', expertId);
+      const { data, error: fetchError } = await query;
 
       if (fetchError) throw new Error(fetchError.message);
       setEnvios((data as unknown as EnvioMassaRow[]) ?? []);

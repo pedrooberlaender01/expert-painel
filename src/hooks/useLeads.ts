@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '../backend/client';
 import { useVisibilityRefresh } from './useVisibilityRefresh';
+import { useAuthStore } from '../stores/authStore';
 import type { LeadRow } from '../types/database';
 
 export type LeadFiltro =
@@ -49,9 +50,13 @@ export function useLeads({
       const to = from + limite - 1;
 
       // Build query
+      const expertId = useAuthStore.getState().getActiveExpertId();
       let query = supabase
         .from('leads')
         .select('*', { count: 'exact' });
+
+      // Filtro por expert
+      if (expertId) query = query.eq('expert_id', expertId);
 
       // Apenas leads com data_primeiro_contato preenchida
       query = query.not('data_primeiro_contato', 'is', null);

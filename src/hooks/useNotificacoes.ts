@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../backend/client';
 import { useVisibilityRefresh } from './useVisibilityRefresh';
+import { useAuthStore } from '../stores/authStore';
 import type { NotificacaoRow } from '../types/database';
 
 // Notificação com dados do lead (via join)
@@ -29,18 +30,22 @@ export function useNotificacoes(): UseNotificacoesReturn {
       if (showLoading) setLoading(true);
       setError(null);
 
-      const [notifResult, countResult] = await Promise.all([
-        supabase
-          .from('notificacoes')
-          .select('*')
-          .eq('lida', false)
-          .order('created_at', { ascending: false })
-          .limit(50),
-        supabase
-          .from('notificacoes')
-          .select('*', { count: 'exact', head: true })
-          .eq('lida', false),
-      ]);
+      const expertId = useAuthStore.getState().getActiveExpertId();
+      let notifQuery = supabase
+        .from('notificacoes')
+        .select('*')
+        .eq('lida', false)
+        .order('created_at', { ascending: false })
+        .limit(50);
+      let countQuery = supabase
+        .from('notificacoes')
+        .select('*', { count: 'exact', head: true })
+        .eq('lida', false);
+      if (expertId) {
+        notifQuery = notifQuery.eq('expert_id', expertId);
+        countQuery = countQuery.eq('expert_id', expertId);
+      }
+      const [notifResult, countResult] = await Promise.all([notifQuery, countQuery]);
 
       if (notifResult.error) throw new Error(notifResult.error.message);
       if (countResult.error) throw new Error(countResult.error.message);

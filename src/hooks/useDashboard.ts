@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '../backend/client';
 import { useVisibilityRefresh } from './useVisibilityRefresh';
+import { useAuthStore } from '../stores/authStore';
 import type { LeadRow } from '../types/database';
 
 // --- Types ---
@@ -95,12 +96,15 @@ async function fetchMetricasPeriodo(dias: number): Promise<MetricaPeriodo[]> {
 
   // Busca apenas leads com data_primeiro_contato preenchida no periodo
   // Usa limites convertidos para UTC para respeitar o fuso do usuario
-  const { data, error } = await supabase
+  const expertId = useAuthStore.getState().getActiveExpertId();
+  let query = supabase
     .from('leads')
     .select('data_primeiro_contato, resposta_comunidade, entrou_no_grupo')
     .not('data_primeiro_contato', 'is', null)
     .gte('data_primeiro_contato', localStartOfDayUTC(inicioStr))
     .lte('data_primeiro_contato', localEndOfDayUTC(hojeStr));
+  if (expertId) query = query.eq('expert_id', expertId);
+  const { data, error } = await query;
 
   if (error) throw new Error(error.message);
   if (!data) return [];
@@ -144,13 +148,16 @@ async function fetchMetricasPeriodo(dias: number): Promise<MetricaPeriodo[]> {
 }
 
 async function fetchLeadsPeriodo(inicio: string, fim: string): Promise<LeadRow[]> {
-  const { data, error } = await supabase
+  const expertId = useAuthStore.getState().getActiveExpertId();
+  let query = supabase
     .from('leads')
     .select('*')
     .not('data_primeiro_contato', 'is', null)
     .gte('data_primeiro_contato', localStartOfDayUTC(inicio))
     .lte('data_primeiro_contato', localEndOfDayUTC(fim))
     .order('data_primeiro_contato', { ascending: false });
+  if (expertId) query = query.eq('expert_id', expertId);
+  const { data, error } = await query;
 
   if (error) throw new Error(error.message);
   return (data as unknown as LeadRow[]) ?? [];

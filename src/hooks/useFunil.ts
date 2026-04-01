@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '../backend/client';
 import { useVisibilityRefresh } from './useVisibilityRefresh';
+import { useAuthStore } from '../stores/authStore';
 import type { LeadRow, StatusLead } from '../types/database';
 
 export interface FunilColumn {
@@ -46,12 +47,15 @@ export function useFunil(): UseFunilReturn {
       setError(null);
 
       // Fetch all leads for the funnel statuses in a single query
-      const { data, error: queryError } = await supabase
+      const expertId = useAuthStore.getState().getActiveExpertId();
+      let query = supabase
         .from('leads')
         .select('id, telefone, nome, status, ultima_interacao, observacoes')
         .in('status', FUNIL_STATUSES)
         .not('data_primeiro_contato', 'is', null)
         .order('ultima_interacao', { ascending: false });
+      if (expertId) query = query.eq('expert_id', expertId);
+      const { data, error: queryError } = await query;
 
       if (queryError) throw new Error(queryError.message);
 

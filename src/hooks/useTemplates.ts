@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../backend/client';
+import { useAuthStore } from '../stores/authStore';
 import type { TemplateMensagemRow } from '../types/database';
 
 export type TemplateData = {
@@ -29,11 +30,14 @@ export function useTemplates(): UseTemplatesReturn {
       if (showLoading) setLoading(true);
       setError(null);
 
-      const { data, error: fetchError } = await supabase
+      const expertId = useAuthStore.getState().getActiveExpertId();
+      let query = supabase
         .from('templates_mensagem')
         .select('*')
         .eq('ativo', true)
         .order('created_at', { ascending: false });
+      if (expertId) query = query.eq('expert_id', expertId);
+      const { data, error: fetchError } = await query;
 
       if (fetchError) throw new Error(fetchError.message);
       setTemplates((data as unknown as TemplateMensagemRow[]) ?? []);
@@ -51,7 +55,10 @@ export function useTemplates(): UseTemplatesReturn {
 
   const criar = useCallback(async (data: TemplateData): Promise<TemplateMensagemRow | null> => {
     try {
+      const expertId = useAuthStore.getState().getActiveExpertId();
+      if (!expertId) throw new Error('Expert não identificado');
       const payload: Omit<TemplateMensagemRow, 'id' | 'created_at' | 'updated_at'> = {
+        expert_id: expertId,
         nome: data.nome,
         tipo: data.tipo,
         mensagem_com_nome: data.mensagem_com_nome,

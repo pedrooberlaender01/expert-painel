@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { supabase } from '../backend/client';
+import { useAuthStore } from '../stores/authStore';
 import type { ConfiguracaoRow, MensagemFunilRow } from '../types/database';
 
 export type MensagemFunil = MensagemFunilRow;
@@ -13,6 +14,7 @@ export const SECOES: SecaoConfig[] = [
   { key: 'lead_chegou', titulo: 'Chegada do Lead' },
   { key: 'primeiro_contato', titulo: 'Primeiro Contato (Coleta de Nome)' },
   { key: 'convite', titulo: 'Convite Comunidade' },
+  { key: 'aguardando_cadastro', titulo: 'Aguardando Cadastro' },
   { key: 'confirmacao_entrada', titulo: 'Confirmação de Entrada' },
   { key: 'followups', titulo: 'Follow-ups Automáticos' },
   { key: 'boas_vindas', titulo: 'Boas-vindas Grupo' },
@@ -27,27 +29,16 @@ export function useMensagensFunil() {
     try {
       setLoading(true);
 
-      const [followupsRes, boasVindasRes, outrasRes] = await Promise.all([
-        supabase
-          .from('mensagens_funil_v2')
-          .select('*')
-          .eq('secao', 'followups')
-          .order('ordem', { ascending: true }),
-        supabase
-          .from('mensagens_funil_v2')
-          .select('*')
-          .eq('secao', 'boas_vindas')
-          .order('ordem', { ascending: true }),
-        supabase
-          .from('mensagens_funil_v2')
-          .select('*')
-          .not('secao', 'in', '(followups,boas_vindas)')
-          .order('ordem', { ascending: true }),
-      ]);
-
-      console.log('[mensagens_funil_v2] followups:', followupsRes);
-      console.log('[mensagens_funil_v2] boas_vindas:', boasVindasRes);
-      console.log('[mensagens_funil_v2] outras secoes:', outrasRes);
+      const expertId = useAuthStore.getState().getActiveExpertId();
+      let followupsQuery = supabase.from('mensagens_funil_v2').select('*').eq('secao', 'followups').order('ordem', { ascending: true });
+      let boasVindasQuery = supabase.from('mensagens_funil_v2').select('*').eq('secao', 'boas_vindas').order('ordem', { ascending: true });
+      let outrasQuery = supabase.from('mensagens_funil_v2').select('*').not('secao', 'in', '(followups,boas_vindas)').order('ordem', { ascending: true });
+      if (expertId) {
+        followupsQuery = followupsQuery.eq('expert_id', expertId);
+        boasVindasQuery = boasVindasQuery.eq('expert_id', expertId);
+        outrasQuery = outrasQuery.eq('expert_id', expertId);
+      }
+      const [followupsRes, boasVindasRes, outrasRes] = await Promise.all([followupsQuery, boasVindasQuery, outrasQuery]);
 
       if (followupsRes.error) throw followupsRes.error;
       if (boasVindasRes.error) throw boasVindasRes.error;
@@ -67,9 +58,24 @@ export function useMensagensFunil() {
         return [];
       };
 
+      const normalizeVariacoes = (raw: unknown): string[][] | null => {
+        if (!raw) return null;
+        if (Array.isArray(raw)) {
+          return raw.map((v) => Array.isArray(v) ? v.map((s) => String(s)) : []);
+        }
+        if (typeof raw === 'string') {
+          try {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) return parsed.map((v: unknown) => Array.isArray(v) ? v.map((s) => String(s)) : []);
+          } catch { /* ignore */ }
+        }
+        return null;
+      };
+
       const normalizeRow = (row: MensagemFunilRow): MensagemFunil => ({
         ...row,
         mensagens: normalizeMensagens(row.mensagens),
+        variacoes: normalizeVariacoes((row as any).variacoes),
       });
 
       const merged = [
@@ -111,7 +117,10 @@ export function useMensagensFunil() {
 
   const salvarTelefoneTeste = useCallback(async (telefone: string): Promise<string | null> => {
     try {
+      const expertId = useAuthStore.getState().getActiveExpertId();
+      if (!expertId) throw new Error('Expert não identificado');
       const payload: Omit<ConfiguracaoRow, 'id' | 'updated_at'> = {
+        expert_id: expertId,
         chave: 'telefone_teste',
         valor: telefone,
         descricao: 'Número para testes de mensagem',
@@ -131,28 +140,22 @@ export function useMensagensFunil() {
   const salvarSecao = useCallback(async (mensagens: MensagemFunil[]): Promise<string | null> => {
     try {
       for (const msg of mensagens) {
-        const payload = {
+        const payload: Record<string, unknown> = {
           tipo_envio: msg.tipo_envio,
           mensagens: msg.mensagens,
+          variacoes: msg.variacoes,
           tempo_espera_minutos: msg.tempo_espera_minutos,
           ativo: msg.ativo,
         };
-        console.log('[salvarSecao] Salvando', msg.cenario, 'id:', msg.id, 'payload:', payload);
-
         const { error } = await supabase
           .from('mensagens_funil_v2')
           .update(payload)
           .eq('id', msg.id);
 
-        if (error) {
-          console.error('[salvarSecao] Erro Supabase:', error);
-          throw error;
-        }
-        console.log('[salvarSecao] Salvo com sucesso:', msg.cenario);
+        if (error) throw error;
       }
       return null;
     } catch (err: any) {
-      console.error('[salvarSecao] Erro geral:', err);
       return err.message || 'Erro ao salvar mensagens';
     }
   }, []);
@@ -164,6 +167,7 @@ export function useMensagensFunil() {
       const payload: Record<string, unknown> = {
         tipo_envio: msg.tipo_envio,
         mensagens: msg.mensagens,
+        variacoes: msg.variacoes,
         tempo_espera_minutos: msg.tempo_espera_minutos,
         ativo: msg.ativo,
         updated_at: new Date().toISOString(),
@@ -175,16 +179,12 @@ export function useMensagensFunil() {
         payload.status_alvo = msg.status_alvo;
       }
 
-      console.log('[salvarCard] Salvando', msg.cenario, 'id:', msg.id, 'payload:', payload);
-
       const { error } = await supabase
         .from('mensagens_funil_v2')
         .update(payload)
         .eq('id', msg.id);
 
       if (error) throw error;
-
-      console.log('[salvarCard] Salvo com sucesso:', msg.cenario);
       await fetchData();
       return null;
     } catch (err: any) {
@@ -218,8 +218,6 @@ export function useMensagensFunil() {
         ativo: true,
       };
 
-      console.log('[criarFollowup] Criando:', payload);
-
       const { error } = await supabase
         .from('mensagens_funil_v2')
         .insert(payload);
@@ -236,8 +234,6 @@ export function useMensagensFunil() {
 
   const excluirFollowup = useCallback(async (id: string, cenario: string): Promise<string | null> => {
     try {
-      console.log('[excluirFollowup] Excluindo:', id, cenario);
-
       // Deletar registros de followups_enviados
       const { error: errEnviados } = await supabase
         .from('followups_enviados')
@@ -266,7 +262,6 @@ export function useMensagensFunil() {
 
   const toggleAtivo = useCallback(async (id: string, ativo: boolean): Promise<string | null> => {
     try {
-      console.log('[toggleAtivo] id:', id, 'ativo:', ativo);
       const { error } = await supabase
         .from('mensagens_funil_v2')
         .update({ ativo, updated_at: new Date().toISOString() })

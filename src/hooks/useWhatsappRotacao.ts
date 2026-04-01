@@ -70,10 +70,14 @@ export function useWhatsappRotacao() {
     try {
       if (showLoading) setLoading(true);
 
-      const [numerosRes, mensagensRes] = await Promise.all([
-        fromLoose('whatsapp_rotacao').select('*').order('ordem', { ascending: true }),
-        fromLoose('whatsapp_rotacao_mensagens').select('*').order('ordem', { ascending: true }),
-      ]);
+      const expertId = useAuthStore.getState().getActiveExpertId();
+      let numerosQuery = supabase.from('whatsapp_rotacao').select('*').order('ordem', { ascending: true });
+      let mensagensQuery = supabase.from('whatsapp_rotacao_mensagens').select('*').order('ordem', { ascending: true });
+      if (expertId) {
+        numerosQuery = numerosQuery.eq('expert_id', expertId);
+        mensagensQuery = mensagensQuery.eq('expert_id', expertId);
+      }
+      const [numerosRes, mensagensRes] = await Promise.all([numerosQuery, mensagensQuery]);
 
       if (numerosRes.error) throw numerosRes.error;
       if (mensagensRes.error) throw mensagensRes.error;
