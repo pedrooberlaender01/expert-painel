@@ -5,6 +5,8 @@ import type { LucideIcon } from 'lucide-react';
 import { useAuthStore } from '../stores/authStore';
 import { useFeatureGates, PATH_FEATURE_MAP } from '../hooks/useFeatureGate';
 import type { FeatureKey } from '../hooks/useFeatureGate';
+import { useSectionGates, SECTION_PATH_MAP } from '../hooks/useSectionGate';
+import type { SectionKey } from '../hooks/useSectionGate';
 import { cn } from '../utils/cn';
 
 interface SidebarProps {
@@ -18,6 +20,7 @@ interface NavItem {
   label: string;
   path: string;
   featureKey?: FeatureKey;
+  sectionKey?: SectionKey;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, isMobile }) => {
@@ -27,15 +30,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, isMobile 
 
   const featureGates = useFeatureGates(['torneio', 'copy_ia', 'moderacao', 'voz_clonada']);
 
+  const sectionGates = useSectionGates(['dashboard', 'conversas', 'leads', 'grupos', 'envios', 'torneios', 'mensagens', 'central_whatsapp']);
+
   const navItems: NavItem[] = [
-    { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
-    { icon: MessagesSquare, label: 'Conversas', path: '/conversas' },
-    { icon: Bot, label: 'Leads Assistente', path: '/leads' },
-    { icon: UsersRound, label: 'Grupos', path: '/grupos' },
-    { icon: Send, label: 'Envios', path: '/envios/agendamentos' },
-    { icon: Trophy, label: 'Torneios', path: '/torneios', featureKey: 'torneio' },
-    { icon: MessageSquare, label: 'Mensagens', path: '/mensagens' },
-    { icon: Phone, label: 'Central WhatsApp', path: '/central-whatsapp' },
+    { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard', sectionKey: 'dashboard' },
+    { icon: MessagesSquare, label: 'Conversas', path: '/conversas', sectionKey: 'conversas' },
+    { icon: Bot, label: 'Leads Assistente', path: '/leads', sectionKey: 'leads' },
+    { icon: UsersRound, label: 'Grupos', path: '/grupos', sectionKey: 'grupos' },
+    { icon: Send, label: 'Envios', path: '/envios/agendamentos', sectionKey: 'envios' },
+    { icon: Trophy, label: 'Torneios', path: '/torneios', featureKey: 'torneio', sectionKey: 'torneios' },
+    { icon: MessageSquare, label: 'Mensagens', path: '/mensagens', sectionKey: 'mensagens' },
+    { icon: Phone, label: 'Central WhatsApp', path: '/central-whatsapp', sectionKey: 'central_whatsapp' },
     { icon: Settings, label: 'Configuracoes', path: '/configuracoes' },
   ];
 
@@ -96,6 +101,38 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, isMobile 
 
       <nav className="flex-1 p-3 space-y-1 overflow-y-auto relative">
         {navItems.map((item) => {
+          // Gating de secao (D-09) — prioridade sobre gating de feature
+          const sectionKey = item.sectionKey || SECTION_PATH_MAP[item.path];
+          const sectionEnabled = sectionKey ? sectionGates[sectionKey] : true;
+
+          if (!sectionEnabled) {
+            return (
+              <div
+                key={item.path}
+                className={cn(
+                  "flex items-center px-3 py-2.5 text-[13px] font-medium relative cursor-not-allowed group",
+                  collapsed && "justify-center px-2",
+                  "text-white/[0.15]"
+                )}
+                title="Secao indisponivel"
+              >
+                <item.icon className={cn("w-[18px] h-[18px] opacity-20", !collapsed && "mr-3")} />
+                {!collapsed && (
+                  <>
+                    <span>{item.label}</span>
+                    <Lock className="w-3 h-3 ml-auto opacity-30" />
+                  </>
+                )}
+                <div
+                  className="absolute left-full ml-2 px-2.5 py-1.5 rounded-lg text-[11px] font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50"
+                  style={{ background: 'rgba(22, 27, 34, 0.97)', border: '1px solid rgba(255, 255, 255, 0.1)' }}
+                >
+                  Secao indisponivel
+                </div>
+              </div>
+            );
+          }
+
           const featureKey = item.featureKey || PATH_FEATURE_MAP[item.path];
           const gate = featureKey ? featureGates[featureKey] : null;
           const isGated = gate && !gate.hasFeature;
@@ -136,19 +173,19 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, isMobile 
                 "flex items-center px-3 py-2.5 text-[13px] font-medium transition-all duration-200 group relative",
                 collapsed && "justify-center px-2",
                 isActive
-                  ? "bg-[rgba(59,130,246,0.12)] text-[#60a5fa] rounded-r-lg rounded-l-none"
+                  ? "bg-primary-bg text-primary-light rounded-r-lg rounded-l-none"
                   : "text-white/[0.45] hover:bg-white/[0.04] hover:text-white/[0.7] rounded-xl"
               )}
             >
               {({ isActive }) => (
                 <>
                   {isActive && (
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 bg-[#3b82f6] rounded-r-full" />
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 bg-primary rounded-r-full" />
                   )}
                   <item.icon className={cn(
                     "w-[18px] h-[18px] transition-all duration-200",
                     !collapsed && "mr-3",
-                    isActive ? "text-[#60a5fa] opacity-90" : "opacity-50 group-hover:opacity-90"
+                    isActive ? "text-primary-light opacity-90" : "opacity-50 group-hover:opacity-90"
                   )} />
                   {!collapsed && <span>{item.label}</span>}
                 </>

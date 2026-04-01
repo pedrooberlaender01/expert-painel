@@ -27,6 +27,7 @@ import { AdminExpertForm } from './pages/admin/AdminExpertForm';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { AdminPlanos } from './pages/admin/AdminPlanos';
 import { useAuthStore } from './stores/authStore';
+import { SectionGuard } from './hooks/useSectionGate';
 
 const ProtectedLayout = () => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -155,21 +156,21 @@ function App() {
           )}
         >
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/leads" element={<Leads />} />
-          <Route path="/funil" element={<Funil />} />
-          <Route path="/conversas" element={<Conversas />} />
-          <Route path="/envios" element={<Envios />} />
-          <Route path="/envios/simulador" element={<SimuladorEnvios />} />
-          <Route path="/envios/historico" element={<HistoricoEnvios />} />
-          <Route path="/envios/templates" element={<Templates />} />
-          <Route path="/envios/agendamentos" element={<Agendamentos />} />
-          <Route path="/envios/agendados" element={<Agendados />} />
-          <Route path="/envios/gerar-copy" element={<GerarCopy />} />
-          <Route path="/grupos" element={<Grupos />} />
-          <Route path="/torneios" element={<Torneios />} />
-          <Route path="/mensagens" element={<Mensagens />} />
-          <Route path="/central-whatsapp" element={<CentralWhatsapp />} />
+          <Route path="/dashboard" element={<SectionGuard section="dashboard"><Dashboard /></SectionGuard>} />
+          <Route path="/leads" element={<SectionGuard section="leads"><Leads /></SectionGuard>} />
+          <Route path="/funil" element={<SectionGuard section="leads"><Funil /></SectionGuard>} />
+          <Route path="/conversas" element={<SectionGuard section="conversas"><Conversas /></SectionGuard>} />
+          <Route path="/envios" element={<SectionGuard section="envios"><Envios /></SectionGuard>} />
+          <Route path="/envios/simulador" element={<SectionGuard section="envios"><SimuladorEnvios /></SectionGuard>} />
+          <Route path="/envios/historico" element={<SectionGuard section="envios"><HistoricoEnvios /></SectionGuard>} />
+          <Route path="/envios/templates" element={<SectionGuard section="envios"><Templates /></SectionGuard>} />
+          <Route path="/envios/agendamentos" element={<SectionGuard section="envios"><Agendamentos /></SectionGuard>} />
+          <Route path="/envios/agendados" element={<SectionGuard section="envios"><Agendados /></SectionGuard>} />
+          <Route path="/envios/gerar-copy" element={<SectionGuard section="envios"><GerarCopy /></SectionGuard>} />
+          <Route path="/grupos" element={<SectionGuard section="grupos"><Grupos /></SectionGuard>} />
+          <Route path="/torneios" element={<SectionGuard section="torneios"><Torneios /></SectionGuard>} />
+          <Route path="/mensagens" element={<SectionGuard section="mensagens"><Mensagens /></SectionGuard>} />
+          <Route path="/central-whatsapp" element={<SectionGuard section="central_whatsapp"><CentralWhatsapp /></SectionGuard>} />
           <Route path="/notificacoes" element={<Notificacoes />} />
           <Route path="/configuracoes" element={<Configuracoes />} />
         </Route>
