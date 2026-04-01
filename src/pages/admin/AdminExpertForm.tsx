@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Loader2, Upload, X, Check, Copy, CheckCheck } from 'lucide-react';
+import { Loader2, Upload, X, Check, Copy, CheckCheck, LayoutDashboard, MessagesSquare, Bot, UsersRound, Send, Trophy, MessageSquare, Phone } from 'lucide-react';
+import { cn } from '../../utils/cn';
 import { PageHeader } from '../../components/PageHeader';
 import { useAdminExperts } from '../../hooks/useAdminExperts';
 import type { ExpertFormData } from '../../types/admin';
@@ -10,11 +11,22 @@ import { N8N_GEND } from '../../config/webhooks';
 
 // --- Color palette ---
 const COLOR_PALETTE = [
-  '#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444',
+  '#10b981', 'var(--color-primary)', '#8b5cf6', '#f59e0b', '#ef4444',
   '#ec4899', '#14b8a6', '#f97316', '#6366f1', '#06b6d4',
 ];
 
-const INPUT_CLASS = 'w-full px-3 py-2.5 rounded-xl text-sm text-white bg-white/[0.04] border border-white/[0.06] focus:border-blue-500/50 focus:outline-none focus:ring-1 focus:ring-blue-500/30 placeholder-white/[0.25] transition-all';
+const INPUT_CLASS = 'w-full px-3 py-2.5 rounded-xl text-sm text-white bg-white/[0.04] border border-white/[0.06] focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 placeholder-white/[0.25] transition-all';
+
+const SECTION_KEYS = [
+  { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { key: 'conversas', label: 'Conversas', icon: MessagesSquare },
+  { key: 'leads', label: 'Leads Assistente', icon: Bot },
+  { key: 'grupos', label: 'Grupos', icon: UsersRound },
+  { key: 'envios', label: 'Envios', icon: Send },
+  { key: 'torneios', label: 'Torneios', icon: Trophy },
+  { key: 'mensagens', label: 'Mensagens', icon: MessageSquare },
+  { key: 'central_whatsapp', label: 'Central WhatsApp', icon: Phone },
+] as const;
 
 // --- Color Picker Component ---
 interface ColorPickerProps {
@@ -64,7 +76,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ label, value, onChange }) => 
           onChange={(e) => handleCustomChange(`#${e.target.value.replace('#', '')}`)}
           placeholder="hex"
           maxLength={7}
-          className="w-28 px-2 py-1.5 rounded-lg text-xs text-white bg-white/[0.04] border border-white/[0.06] focus:border-blue-500/50 focus:outline-none placeholder-white/[0.25]"
+          className="w-28 px-2 py-1.5 rounded-lg text-xs text-white bg-white/[0.04] border border-white/[0.06] focus:border-primary/50 focus:outline-none placeholder-white/[0.25]"
         />
       </div>
     </div>
@@ -81,11 +93,13 @@ export const AdminExpertForm: React.FC = () => {
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [uploadingLogo, setUploadingLogo] = useState(false);
+  const [uploadingFavicon, setUploadingFavicon] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [planos, setPlanos] = useState<PlanoRow[]>([]);
   const [detail, setDetail] = useState<ExpertDetail | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const faviconInputRef = useRef<HTMLInputElement>(null);
   const [copiedLink, setCopiedLink] = useState<string | null>(null);
 
   // Form state
@@ -93,13 +107,15 @@ export const AdminExpertForm: React.FC = () => {
     nome: '',
     slug: '',
     cor_primaria: '#10b981',
-    cor_secundaria: '#3b82f6',
+    cor_secundaria: 'var(--color-primary)',
     logo_url: null,
+    favicon_url: null,
     nome_plataforma: '',
     nome_assistente: 'Helena',
     voice_id: null,
     plano_id: null,
     ativo: true,
+    secoes_habilitadas: null,
     email: '',
     senha: '',
   });
@@ -139,11 +155,13 @@ export const AdminExpertForm: React.FC = () => {
         cor_primaria: data.expert.cor_primaria,
         cor_secundaria: data.expert.cor_secundaria,
         logo_url: data.expert.logo_url,
+        favicon_url: data.expert.favicon_url,
         nome_plataforma: data.expert.nome_plataforma,
         nome_assistente: data.expert.nome_assistente,
         voice_id: data.expert.voice_id,
         plano_id: data.expert.plano_id,
         ativo: data.expert.ativo,
+        secoes_habilitadas: data.expert.secoes_habilitadas || null,
         email: data.credentials?.email || '',
         senha: '',
       });
@@ -181,6 +199,17 @@ export const AdminExpertForm: React.FC = () => {
       setForm((prev) => ({ ...prev, logo_url: url }));
     }
     setUploadingLogo(false);
+  };
+
+  const handleFaviconUpload = async (file: File) => {
+    setUploadingFavicon(true);
+    const { url, error } = await uploadLogo(file);
+    if (error) {
+      setErrorMsg(`Erro no upload: ${error}`);
+    } else if (url) {
+      setForm((prev) => ({ ...prev, favicon_url: url }));
+    }
+    setUploadingFavicon(false);
   };
 
   const handleDrop = (e: React.DragEvent) => {
@@ -226,7 +255,7 @@ export const AdminExpertForm: React.FC = () => {
   if (loadingDetail) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-6 h-6 text-blue-400 animate-spin" />
+        <Loader2 className="w-6 h-6 text-primary-light animate-spin" />
       </div>
     );
   }
@@ -344,10 +373,10 @@ export const AdminExpertForm: React.FC = () => {
             onDrop={handleDrop}
             onDragOver={(e) => e.preventDefault()}
             onClick={() => fileInputRef.current?.click()}
-            className="border-2 border-dashed border-white/[0.08] rounded-xl p-8 text-center cursor-pointer hover:border-blue-500/30 hover:bg-blue-500/[0.02] transition-all"
+            className="border-2 border-dashed border-white/[0.08] rounded-xl p-8 text-center cursor-pointer hover:border-primary/30 hover:bg-primary/[0.02] transition-all"
           >
             {uploadingLogo ? (
-              <Loader2 className="w-6 h-6 text-blue-400 animate-spin mx-auto" />
+              <Loader2 className="w-6 h-6 text-primary-light animate-spin mx-auto" />
             ) : (
               <>
                 <Upload className="w-6 h-6 text-white/30 mx-auto mb-2" />
@@ -363,6 +392,55 @@ export const AdminExpertForm: React.FC = () => {
             onChange={(e) => {
               const file = e.target.files?.[0];
               if (file) handleLogoUpload(file);
+            }}
+          />
+        </div>
+
+        {/* Section 3.5: Favicon */}
+        <div className="glass-card p-5 space-y-4">
+          <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Favicon</h3>
+          <p className="text-[11px] text-white/35">Icone exibido na aba do navegador. Recomendado: imagem quadrada, 32x32 ou 64x64.</p>
+
+          {form.favicon_url && (
+            <div className="flex items-center gap-3">
+              <img
+                src={form.favicon_url}
+                alt="Favicon"
+                className="w-8 h-8 rounded object-cover border border-white/10"
+              />
+              <button
+                type="button"
+                onClick={() => setForm((prev) => ({ ...prev, favicon_url: null }))}
+                className="p-1.5 rounded-lg text-white/40 hover:text-red-400 hover:bg-red-500/10 transition-all"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+
+          <div
+            onDrop={(e) => { e.preventDefault(); const file = e.dataTransfer.files[0]; if (file && file.type.startsWith('image/')) handleFaviconUpload(file); }}
+            onDragOver={(e) => e.preventDefault()}
+            onClick={() => faviconInputRef.current?.click()}
+            className="border-2 border-dashed border-white/[0.08] rounded-xl p-6 text-center cursor-pointer hover:border-primary/30 hover:bg-primary/[0.02] transition-all"
+          >
+            {uploadingFavicon ? (
+              <Loader2 className="w-5 h-5 text-primary-light animate-spin mx-auto" />
+            ) : (
+              <>
+                <Upload className="w-5 h-5 text-white/30 mx-auto mb-2" />
+                <p className="text-xs text-white/40">Arraste ou clique para enviar</p>
+              </>
+            )}
+          </div>
+          <input
+            ref={faviconInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) handleFaviconUpload(file);
             }}
           />
         </div>
@@ -388,6 +466,50 @@ export const AdminExpertForm: React.FC = () => {
               <p>Features: {selectedPlano.features_permitidas.join(', ') || 'Nenhuma'}</p>
             </div>
           )}
+        </div>
+
+        {/* Section 4.5: Secoes do Painel */}
+        <div className="glass-card p-5 space-y-4">
+          <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Secoes do Painel</h3>
+          <p className="text-xs text-white/30">Controle quais secoes este expert pode acessar no painel</p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {SECTION_KEYS.map(({ key, label, icon: Icon }) => {
+              const enabled = form.secoes_habilitadas ? form.secoes_habilitadas[key] !== false : true;
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => {
+                    setForm((prev) => {
+                      const current = prev.secoes_habilitadas || {
+                        dashboard: true, conversas: true, leads: true, grupos: true,
+                        envios: true, torneios: true, mensagens: true, central_whatsapp: true,
+                      };
+                      return { ...prev, secoes_habilitadas: { ...current, [key]: !current[key as keyof typeof current] } };
+                    });
+                  }}
+                  className={cn(
+                    "flex flex-col items-center gap-2 p-3 rounded-xl border transition-colors duration-200",
+                    enabled
+                      ? "bg-white/[0.04] border-primary/30 text-white"
+                      : "bg-white/[0.02] border-white/[0.04] text-white/[0.25]"
+                  )}
+                >
+                  <Icon className={cn("w-5 h-5", enabled ? "text-primary-light" : "opacity-30")} />
+                  <span className="text-[11px] font-medium text-center leading-tight">{label}</span>
+                  <div className={cn(
+                    "w-8 h-4 rounded-full relative transition-colors duration-200",
+                    enabled ? "bg-primary/60" : "bg-white/[0.08]"
+                  )}>
+                    <div className={cn(
+                      "absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all duration-200",
+                      enabled ? "left-4" : "left-0.5"
+                    )} />
+                  </div>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Section 5: Credenciais de Acesso */}
@@ -521,7 +643,7 @@ export const AdminExpertForm: React.FC = () => {
             type="submit"
             disabled={submitting}
             className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-medium text-white transition-all disabled:opacity-50"
-            style={{ background: 'rgba(59,130,246,0.2)', border: '1px solid rgba(59,130,246,0.3)' }}
+            style={{ background: 'rgba(var(--color-primary-rgb),0.2)', border: '1px solid rgba(var(--color-primary-rgb),0.3)' }}
           >
             {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
             {isEditing ? 'Salvar Alteracoes' : 'Criar Expert'}
