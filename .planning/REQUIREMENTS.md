@@ -96,10 +96,10 @@
 - [ ] **SEC-03**: RPCs admin_create_expert e admin_update_expert aceitam e persistem secoes_habilitadas
 - [ ] **SEC-04**: admin_login e admin_get_expert retornam secoes_habilitadas no perfil do expert
 - [ ] **SEC-05**: Formulario admin de expert tem secao "Secoes do Painel" com 8 cards toggle (apos Plano, antes de Credenciais)
-- [ ] **SEC-06**: Sidebar mostra secoes desabilitadas com visual cinza + cadeado + tooltip "Secao indisponivel" (distinto do bloqueio por plano)
-- [ ] **SEC-07**: Rotas de secoes desabilitadas redirecionam silenciosamente para /dashboard
-- [ ] **SEC-08**: Configuracoes e Notificacoes sempre visiveis (nao controlaveis por secoes_habilitadas)
-- [ ] **SEC-09**: Bloqueio por secao e bloqueio por plano coexistem independentemente (secao controla visibilidade, plano controla acesso a features)
+- [x] **SEC-06**: Sidebar mostra secoes desabilitadas com visual cinza + cadeado + tooltip "Secao indisponivel" (distinto do bloqueio por plano)
+- [x] **SEC-07**: Rotas de secoes desabilitadas redirecionam silenciosamente para /dashboard
+- [x] **SEC-08**: Configuracoes e Notificacoes sempre visiveis (nao controlaveis por secoes_habilitadas)
+- [x] **SEC-09**: Bloqueio por secao e bloqueio por plano coexistem independentemente (secao controla visibilidade, plano controla acesso a features)
 
 ## v2 Requirements
 
@@ -207,10 +207,10 @@
 | SEC-03 | Phase 6 | Pending |
 | SEC-04 | Phase 6 | Pending |
 | SEC-05 | Phase 6 | Pending |
-| SEC-06 | Phase 6 | Pending |
-| SEC-07 | Phase 6 | Pending |
-| SEC-08 | Phase 6 | Pending |
-| SEC-09 | Phase 6 | Pending |
+| SEC-06 | Phase 6 | Complete |
+| SEC-07 | Phase 6 | Complete |
+| SEC-08 | Phase 6 | Complete |
+| SEC-09 | Phase 6 | Complete |
 
 **Coverage:**
 - v1 requirements: 69 total

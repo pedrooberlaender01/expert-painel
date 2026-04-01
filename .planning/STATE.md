@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: verifying
-stopped_at: Phase 6 context gathered
-last_updated: "2026-04-01T14:39:02.352Z"
-last_activity: 2026-03-28
+status: executing
+stopped_at: Completed 06-02-PLAN.md
+last_updated: "2026-04-01T15:21:02.108Z"
+last_activity: 2026-04-01
 progress:
   total_phases: 6
-  completed_phases: 5
-  total_plans: 15
-  completed_plans: 15
+  completed_phases: 6
+  total_plans: 17
+  completed_plans: 17
   percent: 13
 ---
 
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-27)
 
 **Core value:** Isolamento seguro de dados entre experts — um expert NUNCA pode ver, modificar ou interagir com dados de outro expert, enquanto a agencia (admin master) tem visibilidade e controle total sobre todos.
-**Current focus:** Phase 05 — whatsapp-n8n-workflows-voice
+**Current focus:** Phase 06 — controle-de-secoes-por-expert
 
 ## Current Position
 
-Phase: 05
-Plan: Not started
-Status: Phase complete — ready for verification
-Last activity: 2026-03-28
+Phase: 06 (controle-de-secoes-por-expert) — EXECUTING
+Plan: 2 of 2
+Status: Ready to execute
+Last activity: 2026-04-01
 
 Progress: [█░░░░░░░░░] 13%
 
@@ -67,6 +67,7 @@ Progress: [█░░░░░░░░░] 13%
 | Phase 05 P01 | 4min | 2 tasks | 5 files |
 | Phase 05 P03 | 4min | 3 tasks | 4 files |
 | Phase 05 P02 | 3min | 2 tasks | 2 files |
+| Phase 06 P02 | 2min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -113,6 +114,8 @@ Recent decisions affecting current work:
 - [Phase 05]: Template expert for configuracoes resolved dynamically by created_at ASC
 - [Phase 05]: Follow up workflow uses Expert Loop pattern (SplitInBatches over active experts) since schedule trigger has no instance
 - [Phase 05]: buscar_leads_followup_expert RPC as SECURITY DEFINER for n8n service calls bypassing RLS
+- [Phase 06]: Section gating prioritized over feature/plan gating in sidebar render order
+- [Phase 06]: SectionGuard route wrapper for silent redirect to /dashboard on disabled sections
 
 ### Roadmap Evolution
 
@@ -130,6 +133,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-01T14:39:02.348Z
-Stopped at: Phase 6 context gathered
-Resume file: .planning/phases/06-controle-de-secoes-por-expert/06-CONTEXT.md
+Last session: 2026-04-01T15:21:02.104Z
+Stopped at: Completed 06-02-PLAN.md
+Resume file: None

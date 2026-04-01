@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 3: Admin Master Panel** - Expert CRUD, global dashboard, plan management, impersonation, instance assignment
 - [ ] **Phase 4: White-Label & Plan Enforcement** - CSS variables, dynamic branding per expert, plan limit enforcement across the app
 - [ ] **Phase 5: WhatsApp, N8N Workflows & Voice** - Multi-tenant WhatsApp instances, n8n workflow updates, voice settings per expert
-- [ ] **Phase 6: Controle de Secoes por Expert** - Admin controls section visibility per expert via JSONB, sidebar/routes respect config
+- [x] **Phase 6: Controle de Secoes por Expert** - Admin controls section visibility per expert via JSONB, sidebar/routes respect config (completed 2026-04-01)
 
 ## Phase Details
 
@@ -123,7 +123,7 @@ Plans:
 
 Plans:
 - [x] 06-01-PLAN.md — Database column, types, RPCs, admin form toggle cards UI
-- [ ] 06-02-PLAN.md — Frontend section gating (useSectionGate hook, sidebar integration, route guards)
+- [x] 06-02-PLAN.md — Frontend section gating (useSectionGate hook, sidebar integration, route guards)
 
 ## Progress
 
@@ -137,4 +137,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 3. Admin Master Panel | 0/3 | Not started | - |
 | 4. White-Label & Plan Enforcement | 0/3 | Not started | - |
 | 5. WhatsApp, N8N Workflows & Voice | 0/3 | Not started | - |
-| 6. Controle de Secoes por Expert | 0/2 | Not started | - |
+| 6. Controle de Secoes por Expert | 2/2 | Complete   | 2026-04-01 |
