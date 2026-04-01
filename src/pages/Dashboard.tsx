@@ -150,14 +150,14 @@ const DayPicker: React.FC<{
                   height: '32px',
                   borderRadius: '8px',
                   fontSize: '13px',
-                  background: isSelected ? '#3b82f6' : 'transparent',
-                  color: isFuture ? 'rgba(255,255,255,0.15)' : isSelected ? '#fff' : isToday ? '#60a5fa' : 'rgba(255,255,255,0.7)',
+                  background: isSelected ? 'var(--color-primary)' : 'transparent',
+                  color: isFuture ? 'rgba(255,255,255,0.15)' : isSelected ? '#fff' : isToday ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.7)',
                   fontWeight: isSelected || isToday ? 600 : 400,
                   cursor: isFuture ? 'not-allowed' : 'pointer',
-                  border: isToday && !isSelected ? '1px solid rgba(59,130,246,0.4)' : '1px solid transparent',
+                  border: isToday && !isSelected ? '1px solid rgba(var(--color-primary-rgb),0.4)' : '1px solid transparent',
                 }}
                 onMouseEnter={(e) => { if (!isFuture && !isSelected) { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#fff'; } }}
-                onMouseLeave={(e) => { if (!isFuture && !isSelected) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = isToday ? '#60a5fa' : 'rgba(255,255,255,0.7)'; } }}
+                onMouseLeave={(e) => { if (!isFuture && !isSelected) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = isToday ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.7)'; } }}
               >
                 {day}
               </button>
@@ -190,12 +190,12 @@ const PeriodSelector: React.FC<{
             className={cn(
               "px-3 py-1.5 rounded-full text-[11px] font-medium font-display transition-all duration-300",
               activePreset === key
-                ? "text-[#60a5fa]"
+                ? "text-[var(--color-primary-light)]"
                 : "text-white/[0.4] hover:text-white/[0.6] bg-transparent"
             )}
             style={activePreset === key ? {
-              background: 'rgba(59,130,246,0.15)',
-              border: '1px solid rgba(59,130,246,0.3)',
+              background: 'rgba(var(--color-primary-rgb),0.15)',
+              border: '1px solid rgba(var(--color-primary-rgb),0.3)',
             } : {
               border: '1px solid transparent',
             }}
@@ -219,7 +219,7 @@ const PeriodSelector: React.FC<{
             className={cn(
               "px-2 py-1 rounded-lg transition-all duration-200 tabular-nums",
               startPickerOpen
-                ? "bg-[#3b82f6]/10 text-[#60a5fa] border border-[#3b82f6]/20"
+                ? "bg-primary-bg text-primary-light border border-primary-bg"
                 : "text-txt-secondary hover:text-txt hover:bg-white/[0.03] border border-transparent"
             )}
           >
@@ -246,7 +246,7 @@ const PeriodSelector: React.FC<{
             className={cn(
               "px-2 py-1 rounded-lg transition-all duration-200 tabular-nums",
               endPickerOpen
-                ? "bg-[#3b82f6]/10 text-[#60a5fa] border border-[#3b82f6]/20"
+                ? "bg-primary-bg text-primary-light border border-primary-bg"
                 : "text-txt-secondary hover:text-txt hover:bg-white/[0.03] border border-transparent"
             )}
           >
@@ -287,7 +287,7 @@ const KpiDateRangePicker: React.FC<{
           className={cn(
             "px-2 py-1 rounded-lg transition-all duration-200 tabular-nums",
             startPickerOpen
-              ? "bg-[#3b82f6]/10 text-[#60a5fa] border border-[#3b82f6]/20"
+              ? "bg-primary-bg text-primary-light border border-primary-bg"
               : "text-txt-secondary hover:text-txt hover:bg-white/[0.03] border border-transparent"
           )}
         >
@@ -314,7 +314,7 @@ const KpiDateRangePicker: React.FC<{
           className={cn(
             "px-2 py-1 rounded-lg transition-all duration-200 tabular-nums",
             endPickerOpen
-              ? "bg-[#3b82f6]/10 text-[#60a5fa] border border-[#3b82f6]/20"
+              ? "bg-primary-bg text-primary-light border border-primary-bg"
               : "text-txt-secondary hover:text-txt hover:bg-white/[0.03] border border-transparent"
           )}
         >
@@ -518,7 +518,7 @@ export const Dashboard: React.FC = () => {
                 <span className={cn(
                   "absolute -top-1 -right-1 h-4 text-white text-[9px] font-mono font-bold flex items-center justify-center rounded-full",
                   contadorNaoLidas > 99 ? "min-w-5 px-1" : "w-4"
-                )} style={{ background: 'rgba(59,130,246,0.9)', backdropFilter: 'blur(4px)' }}>
+                )} style={{ background: 'rgba(var(--color-primary-rgb),0.9)', backdropFilter: 'blur(4px)' }}>
                   {contadorNaoLidas > 99 ? '99+' : contadorNaoLidas}
                 </span>
               </>
@@ -579,8 +579,8 @@ export const Dashboard: React.FC = () => {
           {/* Chart header row 1: Title + Period summary */}
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2.5">
-              <div className="p-1.5 rounded-xl" style={{ background: 'rgba(59,130,246,0.12)' }}>
-                <Activity className="w-3.5 h-3.5 text-[#60a5fa]" />
+              <div className="p-1.5 rounded-xl" style={{ background: 'rgba(var(--color-primary-rgb),0.12)' }}>
+                <Activity className="w-3.5 h-3.5 text-[var(--color-primary-light)]" />
               </div>
               <h3 className="text-sm font-semibold text-white font-display">{chartTitle}</h3>
             </div>
@@ -730,7 +730,7 @@ export const Dashboard: React.FC = () => {
             <h3 className="text-sm font-semibold text-white font-display">
               {kpiIsToday ? 'Leads de Hoje' : kpiIsSingleDay ? `Leads - ${format(kpiRange.start, 'dd/MM')}` : 'Leads do Periodo'}
             </h3>
-            <span className="text-[10px] text-[#60a5fa] font-mono font-semibold px-2.5 py-1 rounded-lg" style={{ background: 'rgba(59,130,246,0.10)', border: '1px solid rgba(59,130,246,0.20)' }}>
+            <span className="text-[10px] text-[var(--color-primary-light)] font-mono font-semibold px-2.5 py-1 rounded-lg" style={{ background: 'rgba(var(--color-primary-rgb),0.10)', border: '1px solid rgba(var(--color-primary-rgb),0.20)' }}>
               {leadsPeriodo.length}
             </span>
           </div>
@@ -747,7 +747,7 @@ export const Dashboard: React.FC = () => {
                     {(lead.nome || '?')[0].toUpperCase()}
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[13px] font-medium text-white group-hover:text-[#60a5fa] transition-colors duration-300">{lead.nome || 'Sem nome'}</span>
+                    <span className="text-[13px] font-medium text-white group-hover:text-[var(--color-primary-light)] transition-colors duration-300">{lead.nome || 'Sem nome'}</span>
                     <span className="text-[10px] font-mono" style={{ color: 'rgba(255,255,255,0.35)' }}>{formatTelefone(lead.telefone)}</span>
                   </div>
                 </div>
@@ -770,7 +770,7 @@ export const Dashboard: React.FC = () => {
           <div className="mt-4 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
             <button
               onClick={() => navigate('/leads')}
-              className="flex items-center justify-center w-full text-xs text-[#60a5fa] font-medium hover:underline transition-colors duration-300 group py-1"
+              className="flex items-center justify-center w-full text-xs text-[var(--color-primary-light)] font-medium hover:underline transition-colors duration-300 group py-1"
             >
               Ver todos <ArrowRight className="w-3.5 h-3.5 ml-1.5 group-hover:translate-x-1 transition-transform duration-300" />
             </button>
@@ -789,12 +789,12 @@ export const Dashboard: React.FC = () => {
             <div className="card-dark-elevated overflow-hidden flex flex-col max-h-[70vh] animate-slide-up">
               <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.04]">
                 <div className="flex items-center gap-2.5">
-                  <div className="p-1.5 rounded-lg bg-[#3b82f6]/10 ring-1 ring-[#3b82f6]/20">
-                    <Bell className="w-4 h-4 text-[#60a5fa]" />
+                  <div className="p-1.5 rounded-lg bg-primary-bg ring-1 ring-primary-bg">
+                    <Bell className="w-4 h-4 text-[var(--color-primary-light)]" />
                   </div>
                   <span className="text-sm font-semibold text-txt font-display">Notificacoes</span>
                   {contadorNaoLidas > 0 && (
-                    <span className="text-[10px] text-[#60a5fa] font-mono font-semibold bg-[#3b82f6]/8 px-2 py-0.5 rounded-lg ring-1 ring-[#3b82f6]/15">
+                    <span className="text-[10px] text-primary-light font-mono font-semibold bg-primary-bg px-2 py-0.5 rounded-lg ring-1 ring-primary-bg">
                       {contadorNaoLidas}
                     </span>
                   )}
@@ -803,7 +803,7 @@ export const Dashboard: React.FC = () => {
                   {notificacoes.length > 0 && (
                     <button
                       onClick={marcarTodasComoLidas}
-                      className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] text-[#60a5fa] hover:text-blue-300 font-medium transition-colors rounded-lg hover:bg-[#3b82f6]/5"
+                      className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] text-primary-light hover:text-white/70 font-medium transition-colors rounded-lg hover:bg-primary-bg"
                     >
                       <CheckCheck className="w-3.5 h-3.5" />
                       Marcar todas como lidas
