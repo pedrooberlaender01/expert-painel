@@ -343,7 +343,7 @@ export const Mensagens: React.FC = () => {
         {TABS.map((tab) => {
           const isActive = activeTab === tab.key;
           const activeStyle = tab.key === 'funil'
-            ? { background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', color: '#60a5fa' }
+            ? { background: 'rgba(var(--color-primary-rgb),0.1)', border: '1px solid rgba(var(--color-primary-rgb),0.2)', color: 'var(--color-primary-light)' }
             : tab.key === 'abertura'
             ? { background: 'rgba(250,204,60,0.08)', border: '1px solid rgba(250,204,60,0.2)', color: '#facc3c' }
             : { background: 'var(--color-primary-bg)', border: '1px solid var(--color-primary-bg)', color: 'var(--color-primary-light)' };
@@ -404,7 +404,7 @@ export const Mensagens: React.FC = () => {
                     background: isExpanded ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.03)',
                     border: `1px solid ${isExpanded ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.04)'}`,
                     borderRadius: '14px',
-                    borderLeft: `4px solid rgba(59,130,246,${isExpanded ? '0.5' : '0.2'})`,
+                    borderLeft: `4px solid rgba(var(--color-primary-rgb),${isExpanded ? '0.5' : '0.2'})`,
                   }}
                   onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)' }}
                   onMouseLeave={(e) => { e.currentTarget.style.background = isExpanded ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.03)'; e.currentTarget.style.borderColor = isExpanded ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.04)' }}
@@ -655,7 +655,7 @@ export const Mensagens: React.FC = () => {
                     placeholder={field.placeholder}
                     className="w-full text-white text-[13px] outline-none transition-all duration-200"
                     style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 14px' }}
-                    onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(59,130,246,0.3)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59,130,246,0.08)' }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(var(--color-primary-rgb),0.08)' }}
                     onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.boxShadow = 'none' }}
                   />
                 </div>
@@ -685,7 +685,7 @@ export const Mensagens: React.FC = () => {
                   onChange={(e) => { const raw = e.target.value.replace(/\D/g, ''); setCreateForm((p) => ({ ...p, tempo_espera_minutos: raw === '' ? 0 : parseInt(raw, 10) })); }}
                   className="text-white text-[13px] text-center outline-none transition-all duration-200 w-32"
                   style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 14px' }}
-                  onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(59,130,246,0.3)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59,130,246,0.08)' }}
+                  onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(var(--color-primary-rgb),0.08)' }}
                   onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.boxShadow = 'none' }}
                 />
               </div>
