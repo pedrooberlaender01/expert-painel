@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-03-27)
 Phase: 06
 Plan: Not started
 Status: Ready to execute
-Last activity: 2026-04-01
+Last activity: 2026-04-27 - Completed quick task 260427-e1x: Desempate manual ranking torneios
 
 Progress: [█░░░░░░░░░] 13%
 
@@ -124,6 +124,13 @@ Recent decisions affecting current work:
 ### Pending Todos
 
 None yet.
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260406-luw | Fix modal Adicionar Grupo - fetch timeout, expert_id, modal close, lista reload | 2026-04-06 | pending | [260406-luw-fix-modal-adicionar-grupo-fetch-timeout-](./quick/260406-luw-fix-modal-adicionar-grupo-fetch-timeout-/) |
+| 260427-e1x | Adicionar campo posicao_desempate na tabela participantes e botoes de reordenacao manual para empates no ranking de torneios | 2026-04-27 | d33b4bb | [260427-e1x-adicionar-campo-posicao-desempate-na-tab](./quick/260427-e1x-adicionar-campo-posicao-desempate-na-tab/) |
 
 ### Blockers/Concerns
 
