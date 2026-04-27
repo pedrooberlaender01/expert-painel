@@ -837,6 +837,7 @@ export const Torneios: React.FC = () => {
   const partDropdownRef = useRef<HTMLDivElement>(null);
   const [removePartConfirm, setRemovePartConfirm] = useState<RankingEntry | null>(null);
   const [removePartLoading, setRemovePartLoading] = useState(false);
+  const [swapLoading, setSwapLoading] = useState<string | null>(null);
   const [editGreensModal, setEditGreensModal] = useState<RankingEntry | null>(null);
   const [editGreensVal, setEditGreensVal] = useState('');
   const [editGreensSaving, setEditGreensSaving] = useState(false);
@@ -1358,6 +1359,29 @@ export const Torneios: React.FC = () => {
     return sorted;
   })();
 
+  // Mapeia participante_id -> { prevId, nextId, isTied } com base em grupos de empate por total_greens
+  const tieGroups = (() => {
+    const map = new Map<string, { prevId: string | null; nextId: string | null; isTied: boolean }>();
+    const sorted = filteredParticipantes;
+    let i = 0;
+    while (i < sorted.length) {
+      let j = i;
+      while (j + 1 < sorted.length && sorted[j + 1].total_greens === sorted[i].total_greens) j++;
+      const groupSize = j - i + 1;
+      if (groupSize >= 2) {
+        for (let k = i; k <= j; k++) {
+          map.set(sorted[k].participante_id, {
+            prevId: k > i ? sorted[k - 1].participante_id : null,
+            nextId: k < j ? sorted[k + 1].participante_id : null,
+            isTied: true,
+          });
+        }
+      }
+      i = j + 1;
+    }
+    return map;
+  })();
+
   const partResumo = {
     total: participantes.length,
     comId: participantes.filter(p => p.id_conta && p.id_conta.trim()).length,
@@ -1366,6 +1390,47 @@ export const Torneios: React.FC = () => {
 
   const handlePartSort = (col: string) => {
     setPartSort(prev => prev.col === col ? { col, asc: !prev.asc } : { col, asc: false });
+  };
+
+  // Troca posicao_desempate entre dois participantes empatados.
+  // direction='up' -> currentId sobe (recebe valor menor); 'down' -> desce (recebe valor maior).
+  const handleSwapDesempate = async (currentId: string, otherId: string, direction: 'up' | 'down') => {
+    if (!currentId || !otherId || swapLoading) return;
+    const a = participantes.find(p => p.participante_id === currentId);
+    const b = participantes.find(p => p.participante_id === otherId);
+    if (!a || !b) return;
+    setSwapLoading(currentId);
+    try {
+      const ap = a.posicao_desempate;
+      const bp = b.posicao_desempate;
+      let newA: number;
+      let newB: number;
+      if (ap != null && bp != null) {
+        newA = bp;
+        newB = ap;
+      } else if (ap == null && bp == null) {
+        newA = direction === 'up' ? 1 : 2;
+        newB = direction === 'up' ? 2 : 1;
+      } else if (ap == null) {
+        // current sem valor, other com valor
+        newA = direction === 'up' ? (bp as number) - 1 : (bp as number) + 1;
+        newB = bp as number;
+      } else {
+        // current com valor, other sem valor
+        newA = ap as number;
+        newB = direction === 'up' ? (ap as number) + 1 : (ap as number) - 1;
+      }
+      const { error: e1 } = await supabase.from('participantes').update({ posicao_desempate: newA }).eq('id', currentId);
+      if (e1) throw e1;
+      const { error: e2 } = await supabase.from('participantes').update({ posicao_desempate: newB }).eq('id', otherId);
+      if (e2) throw e2;
+      showToast('success', 'Ordem de desempate atualizada');
+      await fetchParticipantes();
+    } catch (err: any) {
+      showToast('error', err?.message || 'Erro ao trocar ordem');
+    } finally {
+      setSwapLoading(null);
+    }
   };
 
   const SortIcon: React.FC<{ col: string }> = ({ col }) => {
@@ -2354,6 +2419,42 @@ export const Torneios: React.FC = () => {
                                     <span className="text-[10px] text-txt-dim font-mono block">{fmtPhone(p.telefone_whatsapp)}</span>
                                   )}
                                 </div>
+                                {(() => {
+                                  const tie = tieGroups.get(p.participante_id);
+                                  if (!tie?.isTied) return null;
+                                  const upDisabled = !tie.prevId || swapLoading === p.participante_id;
+                                  const downDisabled = !tie.nextId || swapLoading === p.participante_id;
+                                  return (
+                                    <div className="flex flex-col gap-0.5 ml-1" onClick={(e) => e.stopPropagation()}>
+                                      <button
+                                        type="button"
+                                        disabled={upDisabled}
+                                        onClick={() => tie.prevId && handleSwapDesempate(p.participante_id, tie.prevId, 'up')}
+                                        className={cn(
+                                          'w-5 h-5 flex items-center justify-center rounded-md border border-white/[0.08] bg-white/[0.04] text-txt-muted',
+                                          'hover:bg-[var(--color-primary)]/15 hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]/30',
+                                          'disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white/[0.04] disabled:hover:text-txt-muted disabled:hover:border-white/[0.08]'
+                                        )}
+                                        title="Subir desempate"
+                                      >
+                                        <ChevronUp className="w-3 h-3" />
+                                      </button>
+                                      <button
+                                        type="button"
+                                        disabled={downDisabled}
+                                        onClick={() => tie.nextId && handleSwapDesempate(p.participante_id, tie.nextId, 'down')}
+                                        className={cn(
+                                          'w-5 h-5 flex items-center justify-center rounded-md border border-white/[0.08] bg-white/[0.04] text-txt-muted',
+                                          'hover:bg-[var(--color-primary)]/15 hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]/30',
+                                          'disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white/[0.04] disabled:hover:text-txt-muted disabled:hover:border-white/[0.08]'
+                                        )}
+                                        title="Descer desempate"
+                                      >
+                                        <ChevronDown className="w-3 h-3" />
+                                      </button>
+                                    </div>
+                                  );
+                                })()}
                               </div>
                             </td>
                             <td className="px-5 py-3.5 text-[11px] text-txt-secondary font-mono">{!p.participante_nome ? '' : fmtPhone(p.telefone_whatsapp)}</td>
