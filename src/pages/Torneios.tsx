@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Trophy, BarChart3, Users, Plus, Loader2, X, Pencil, Trash2, Pause, Play, XCircle, MoreHorizontal, RefreshCw, Crown, Search, ChevronDown, ChevronUp, AlertTriangle, Send, Smartphone, Wifi, WifiOff } from 'lucide-react';
+import { Trophy, BarChart3, Users, Plus, Loader2, X, Pencil, Trash2, Pause, Play, XCircle, MoreHorizontal, RefreshCw, Crown, Search, ChevronDown, ChevronUp, AlertTriangle, Send, Smartphone, Wifi, WifiOff, Lock, FileText, Check } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { Toast } from '../components/Toast';
 import { useToast } from '../hooks/useToast';
@@ -13,6 +13,9 @@ import { ConfirmDeleteNumeroModal } from '../components/numeros/ConfirmDeleteNum
 import { useWhatsappRotacao } from '../hooks/useWhatsappRotacao';
 import type { WhatsappRotacao } from '../hooks/useWhatsappRotacao';
 import { cn } from '../utils/cn';
+import { useSectionGate } from '../hooks/useSectionGate';
+import type { SectionState } from '../types';
+import { TorneioCopyTab } from '../components/torneios/TorneioCopyTab';
 
 // ── Types ──────────────────────────────────────────────────────────
 
@@ -23,7 +26,7 @@ interface Torneio {
   data_fim: string;
   status: 'ativo' | 'encerrado' | 'pausado';
   created_at: string;
-  logica_ganhador?: 'quantidade' | 'lucro' | null;
+  logica_ganhador?: 'quantidade' | 'lucro' | 'sequencia' | null;
 }
 
 interface ResumoAtivo {
@@ -45,13 +48,16 @@ interface RankingEntry {
   soma_lucro_liquido: number;
   primeiro_green: string | null;
   ultimo_green: string | null;
+  posicao_desempate?: number | null;
 }
 
 interface TorneioOption {
   id: string;
   nome: string;
   status: string;
-  logica_ganhador?: 'quantidade' | 'lucro' | null;
+  data_inicio: string;
+  data_fim: string;
+  logica_ganhador?: 'quantidade' | 'lucro' | 'sequencia' | null;
 }
 
 interface GreenEntry {
@@ -82,6 +88,7 @@ const tabs = [
   { key: 'torneios', label: 'Torneios', icon: Trophy },
   { key: 'ranking', label: 'Ranking', icon: BarChart3 },
   { key: 'participantes', label: 'Participantes', icon: Users },
+  { key: 'copy', label: 'Copy', icon: FileText },
   { key: 'instancia', label: 'Instância', icon: Smartphone },
 ] as const;
 
@@ -99,14 +106,22 @@ function fmtBRL(val: number) {
   return val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
-function calcCountdown(dataFim: string) {
-  const diff = new Date(dataFim).getTime() - Date.now();
+function calcCountdown(targetDate: string) {
+  const diff = new Date(targetDate).getTime() - Date.now();
   if (diff <= 0) return null;
   const d = Math.floor(diff / 86400000);
   const h = Math.floor((diff % 86400000) / 3600000);
   const m = Math.floor((diff % 3600000) / 60000);
   const s = Math.floor((diff % 60000) / 1000);
   return { d, h, m, s };
+}
+
+// Status visual derivado: se DB diz 'ativo' mas data_inicio ainda nao chegou, exibe 'agendado'
+function getDisplayStatus(torneio: { status: string; data_inicio: string; data_fim: string }): string {
+  if (torneio.status === 'ativo' && new Date(torneio.data_inicio).getTime() > Date.now()) {
+    return 'agendado';
+  }
+  return torneio.status;
 }
 
 function fmtPhone(phone: string) {
@@ -260,6 +275,7 @@ const GreensIcon: React.FC<{ className?: string }> = ({ className }) => (
 
 const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
   const cfg: Record<string, string> = {
+    agendado: 'bg-cyan-500/15 text-cyan-400 border-cyan-500/20',
     ativo: 'bg-primary-bg text-primary-light border-primary-bg',
     pausado: 'bg-amber-500/15 text-amber-400 border-amber-500/20',
     encerrado: 'bg-zinc-500/15 text-zinc-400 border-zinc-500/20',
@@ -276,27 +292,165 @@ const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
 interface ModalProps {
   torneio?: Torneio | null;
   onClose: () => void;
-  onSave: (data: { nome: string; data_inicio: string; data_fim: string; status: 'ativo' | 'pausado'; logica_ganhador: 'quantidade' | 'lucro' }) => Promise<void>;
+  onSave: (data: { nome: string; data_inicio: string; data_fim: string; status: 'ativo' | 'pausado'; logica_ganhador: 'quantidade' | 'lucro' | 'sequencia' }) => Promise<void>;
   saving: boolean;
 }
 
+// Scroll-picker col (glass dropdown style)
+const ScrollCol: React.FC<{
+  value: string;
+  options: { value: string; label: string }[];
+  onChange: (v: string) => void;
+  width?: string;
+  placeholder?: string;
+}> = ({ value, options, onChange, width = '52px', placeholder = '—' }) => {
+  const [open, setOpen] = React.useState(false);
+  const ref = React.useRef<HTMLDivElement>(null);
+  const listRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (!open) return;
+    const handler = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false); };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [open]);
+
+  React.useEffect(() => {
+    if (open && listRef.current && value) {
+      const el = listRef.current.querySelector(`[data-value="${value}"]`) as HTMLElement | null;
+      if (el) el.scrollIntoView({ block: 'center' });
+    }
+  }, [open, value]);
+
+  const selected = options.find((o) => o.value === value);
+
+  return (
+    <div ref={ref} className="relative" style={{ width }}>
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-center gap-0.5 font-mono text-[13px] tabular-nums transition-all duration-200 outline-none"
+        style={{
+          background: 'rgba(255,255,255,0.04)',
+          border: open ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid rgba(255,255,255,0.06)',
+          borderRadius: '10px',
+          padding: '8px 4px',
+          color: selected ? '#fff' : 'rgba(255,255,255,0.3)',
+          boxShadow: open ? '0 0 0 3px rgba(var(--color-primary-rgb),0.08)' : 'none',
+        }}
+      >
+        {selected?.label ?? placeholder}
+        <ChevronDown className="w-3 h-3 shrink-0 transition-transform duration-200" style={{ color: 'rgba(255,255,255,0.25)', transform: open ? 'rotate(180deg)' : 'none' }} />
+      </button>
+      {open && (
+        <div className="absolute z-50 mt-1 left-1/2 -translate-x-1/2 animate-fade-in" style={{ background: 'rgba(16,16,28,0.97)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', boxShadow: '0 12px 40px rgba(0,0,0,0.5)', width: Math.max(parseInt(width), 56), overflow: 'hidden' }}>
+          <div ref={listRef} className="overflow-y-auto py-1" style={{ maxHeight: '180px', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.1) transparent' }}>
+            {options.map((opt) => {
+              const isSel = opt.value === value;
+              return (
+                <button
+                  key={opt.value}
+                  type="button"
+                  data-value={opt.value}
+                  onClick={() => { onChange(opt.value); setOpen(false); }}
+                  className="w-full text-center px-3 py-1.5 text-[13px] font-mono tabular-nums transition-all duration-100 outline-none"
+                  style={{ background: isSel ? 'rgba(var(--color-primary-rgb),0.15)' : 'transparent', color: isSel ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.6)', fontWeight: isSel ? 600 : 400 }}
+                  onMouseEnter={(e) => { if (!isSel) { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = '#fff' } }}
+                  onMouseLeave={(e) => { if (!isSel) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.6)' } }}
+                >
+                  {opt.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const DAYS_OPT = Array.from({ length: 31 }, (_, i) => { const v = String(i + 1).padStart(2, '0'); return { value: v, label: v }; });
+const MONTHS_OPT = Array.from({ length: 12 }, (_, i) => { const v = String(i + 1).padStart(2, '0'); return { value: v, label: v }; });
+const HOURS_OPT = Array.from({ length: 24 }, (_, i) => { const v = String(i).padStart(2, '0'); return { value: v, label: v }; });
+const MINUTES_OPT = Array.from({ length: 60 }, (_, i) => { const v = String(i).padStart(2, '0'); return { value: v, label: v }; });
+
 const TorneioModal: React.FC<ModalProps> = ({ torneio, onClose, onSave, saving }) => {
   const [nome, setNome] = useState(torneio?.nome || '');
-  const [dataInicio, setDataInicio] = useState(torneio?.data_inicio ? torneio.data_inicio.slice(0, 16) : '');
-  const [dataFim, setDataFim] = useState(torneio?.data_fim ? torneio.data_fim.slice(0, 16) : '');
   const [status, setStatus] = useState<'ativo' | 'pausado'>(torneio?.status === 'pausado' ? 'pausado' : 'ativo');
-  const [logica, setLogica] = useState<'quantidade' | 'lucro'>(torneio?.logica_ganhador === 'quantidade' ? 'quantidade' : 'lucro');
+  const [logica, setLogica] = useState<'quantidade' | 'lucro' | 'sequencia'>(torneio?.logica_ganhador || 'lucro');
+  const [logicaOpen, setLogicaOpen] = useState(false);
+  const logicaRef = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    if (!logicaOpen) return;
+    const handler = (e: MouseEvent) => { if (logicaRef.current && !logicaRef.current.contains(e.target as Node)) setLogicaOpen(false); };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [logicaOpen]);
+
+  // Parse dates into parts
+  const parseDate = (iso?: string) => {
+    if (!iso) return { dd: '', mm: '', yyyy: '', hh: '', min: '' };
+    const d = new Date(iso);
+    return {
+      dd: String(d.getDate()).padStart(2, '0'),
+      mm: String(d.getMonth() + 1).padStart(2, '0'),
+      yyyy: String(d.getFullYear()),
+      hh: String(d.getHours()).padStart(2, '0'),
+      min: String(d.getMinutes()).padStart(2, '0'),
+    };
+  };
+
+  const [inicio, setInicio] = useState(parseDate(torneio?.data_inicio));
+  const [fim, setFim] = useState(parseDate(torneio?.data_fim));
+
+  const hoje = new Date();
+  const YEARS_OPT = Array.from({ length: 3 }, (_, i) => { const v = String(hoje.getFullYear() + i); return { value: v, label: v }; });
+
+  const buildISO = (p: typeof inicio) => {
+    if (!p.dd || !p.mm || !p.yyyy || !p.hh || !p.min) return '';
+    return new Date(parseInt(p.yyyy), parseInt(p.mm) - 1, parseInt(p.dd), parseInt(p.hh), parseInt(p.min)).toISOString();
+  };
+
+  const canSave = nome.trim() && inicio.dd && inicio.mm && inicio.yyyy && inicio.hh && inicio.min && fim.dd && fim.mm && fim.yyyy && fim.hh && fim.min;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!nome.trim() || !dataInicio || !dataFim) return;
-    onSave({ nome: nome.trim(), data_inicio: new Date(dataInicio).toISOString(), data_fim: new Date(dataFim).toISOString(), status, logica_ganhador: logica });
+    if (!canSave) return;
+    onSave({ nome: nome.trim(), data_inicio: buildISO(inicio), data_fim: buildISO(fim), status, logica_ganhador: logica });
   };
+
+  const sep = <span className="font-bold text-[14px]" style={{ color: 'rgba(255,255,255,0.15)' }}>/</span>;
+  const timeSep = <span className="font-bold text-[14px]" style={{ color: 'rgba(255,255,255,0.15)' }}>:</span>;
+
+  const renderDateTimePicker = (parts: typeof inicio, setParts: React.Dispatch<React.SetStateAction<typeof inicio>>, label: string) => (
+    <div>
+      <label className="block text-[10px] font-mono font-semibold text-txt-muted mb-2.5 uppercase tracking-widest">{label}</label>
+      <div className="flex items-center gap-3">
+        {/* Data dd/mm/yyyy */}
+        <div className="flex items-center gap-1">
+          <ScrollCol value={parts.dd} options={DAYS_OPT} onChange={(v) => setParts(p => ({ ...p, dd: v }))} placeholder="DD" />
+          {sep}
+          <ScrollCol value={parts.mm} options={MONTHS_OPT} onChange={(v) => setParts(p => ({ ...p, mm: v }))} placeholder="MM" />
+          {sep}
+          <ScrollCol value={parts.yyyy} options={YEARS_OPT} onChange={(v) => setParts(p => ({ ...p, yyyy: v }))} width="64px" placeholder="AAAA" />
+        </div>
+
+        <div className="w-px h-6" style={{ background: 'rgba(255,255,255,0.06)' }} />
+
+        {/* Hora hh:mm */}
+        <div className="flex items-center gap-1">
+          <ScrollCol value={parts.hh} options={HOURS_OPT} onChange={(v) => setParts(p => ({ ...p, hh: v }))} placeholder="HH" />
+          {timeSep}
+          <ScrollCol value={parts.min} options={MINUTES_OPT} onChange={(v) => setParts(p => ({ ...p, min: v }))} placeholder="mm" />
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative card-dark-elevated w-full max-w-md animate-slide-up">
+      <div className="relative card-dark-elevated w-full max-w-lg animate-slide-up">
         <div className="flex items-center justify-between p-5 border-b border-surface-300/20">
           <h2 className="text-[15px] font-semibold text-txt font-display">
             {torneio ? 'Editar Torneio' : 'Novo Torneio'}
@@ -306,42 +460,109 @@ const TorneioModal: React.FC<ModalProps> = ({ torneio, onClose, onSave, saving }
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-5 space-y-4">
+        <form onSubmit={handleSubmit} className="p-5 space-y-5">
           <div>
             <label className="block text-[10px] font-mono font-semibold text-txt-muted mb-2 uppercase tracking-widest">Nome do Torneio *</label>
             <input type="text" value={nome} onChange={e => setNome(e.target.value)} placeholder="Ex: Torneio Semanal #1" className="input-dark w-full" required />
           </div>
-          <div>
-            <label className="block text-[10px] font-mono font-semibold text-txt-muted mb-2 uppercase tracking-widest">Data e Hora Inicio *</label>
-            <input type="datetime-local" value={dataInicio} onChange={e => setDataInicio(e.target.value)} className="input-dark w-full" required />
-          </div>
-          <div>
-            <label className="block text-[10px] font-mono font-semibold text-txt-muted mb-2 uppercase tracking-widest">Data e Hora Fim *</label>
-            <input type="datetime-local" value={dataFim} onChange={e => setDataFim(e.target.value)} className="input-dark w-full" required />
-          </div>
-          <div>
-            <label className="block text-[10px] font-mono font-semibold text-txt-muted mb-2 uppercase tracking-widest">Status</label>
-            <select value={status} onChange={e => setStatus(e.target.value as 'ativo' | 'pausado')} className="input-dark w-full">
-              <option value="ativo">Ativo</option>
-              <option value="pausado">Pausado</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-[10px] font-mono font-semibold text-txt-muted mb-2 uppercase tracking-widest">Lógica de ganhador</label>
-            <select value={logica} onChange={e => setLogica(e.target.value as 'quantidade' | 'lucro')} className="input-dark w-full">
-              <option value="quantidade">Maior quantidade de greens</option>
-              <option value="lucro">Maior lucro (soma dos greens)</option>
-            </select>
+
+          {renderDateTimePicker(inicio, setInicio, 'Data e Hora Início *')}
+          {renderDateTimePicker(fim, setFim, 'Data e Hora Fim *')}
+
+          <div className="grid grid-cols-2 gap-4">
+            {/* Status — segment control */}
+            <div>
+              <label className="block text-[10px] font-mono font-semibold text-txt-muted mb-2.5 uppercase tracking-widest">Status</label>
+              <div className="flex gap-1.5 p-1 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}>
+                {([
+                  { value: 'ativo' as const, label: 'Ativo', color: '#34d399', bg: 'rgba(52,211,153,0.12)', border: 'rgba(52,211,153,0.25)' },
+                  { value: 'pausado' as const, label: 'Pausado', color: '#fbbf24', bg: 'rgba(251,191,36,0.12)', border: 'rgba(251,191,36,0.25)' },
+                ]).map((opt) => {
+                  const active = status === opt.value;
+                  return (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      onClick={() => setStatus(opt.value)}
+                      className="flex-1 py-2 rounded-lg text-[12px] font-semibold transition-all duration-200"
+                      style={{
+                        background: active ? opt.bg : 'transparent',
+                        border: `1px solid ${active ? opt.border : 'transparent'}`,
+                        color: active ? opt.color : 'rgba(255,255,255,0.35)',
+                      }}
+                    >
+                      {opt.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Lógica — glass dropdown */}
+            <div ref={logicaRef} className="relative">
+              <label className="block text-[10px] font-mono font-semibold text-txt-muted mb-2.5 uppercase tracking-widest">Lógica de ganhador</label>
+              <button
+                type="button"
+                onClick={() => setLogicaOpen(!logicaOpen)}
+                className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200"
+                style={{
+                  background: 'rgba(255,255,255,0.04)',
+                  border: logicaOpen ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid rgba(255,255,255,0.06)',
+                  color: '#fff',
+                  boxShadow: logicaOpen ? '0 0 0 3px rgba(var(--color-primary-rgb),0.08)' : 'none',
+                }}
+              >
+                <span>{{ quantidade: 'Maior Quantidade de Greens', lucro: 'Maior Lucro', sequencia: 'Maior Sequência de Greens' }[logica]}</span>
+                <ChevronDown className="w-3.5 h-3.5 shrink-0 transition-transform duration-200" style={{ color: 'rgba(255,255,255,0.3)', transform: logicaOpen ? 'rotate(180deg)' : 'none' }} />
+              </button>
+
+              {logicaOpen && (
+                <div
+                  className="absolute z-50 bottom-full mb-1.5 w-full animate-fade-in"
+                  style={{ background: 'rgba(16,16,28,0.97)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', boxShadow: '0 -12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04) inset', overflow: 'hidden' }}
+                >
+                  <div className="py-1">
+                    {([
+                      { value: 'quantidade' as const, label: 'Maior Quantidade de Greens', desc: 'Quem fizer mais greens vence' },
+                      { value: 'lucro' as const, label: 'Maior Lucro', desc: 'Quem tiver maior soma de lucro vence' },
+                      { value: 'sequencia' as const, label: 'Maior Sequência de Greens', desc: 'Quem fizer mais greens seguidos vence' },
+                    ]).map((opt) => {
+                      const active = logica === opt.value;
+                      return (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onClick={() => { setLogica(opt.value); setLogicaOpen(false); }}
+                          className="w-full text-left px-3.5 py-2.5 transition-colors duration-100"
+                          style={{
+                            background: active ? 'rgba(var(--color-primary-rgb),0.1)' : 'transparent',
+                            color: active ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.7)',
+                          }}
+                          onMouseEnter={(e) => { if (!active) { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = '#fff' } }}
+                          onMouseLeave={(e) => { if (!active) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)' } }}
+                        >
+                          <p className="text-[13px] font-medium">{opt.label}</p>
+                          <p className="text-[10px] mt-0.5" style={{ color: active ? 'rgba(var(--color-primary-rgb),0.6)' : 'rgba(255,255,255,0.25)' }}>{opt.desc}</p>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="flex justify-end gap-3 pt-2">
-            <button type="button" onClick={onClose} className="px-4 py-2 text-[13px] font-medium text-txt-muted hover:text-txt hover:bg-surface-200/40 rounded-xl transition-colors">
+            <button type="button" onClick={onClose} className="px-4 py-2.5 text-[13px] font-medium text-txt-muted hover:text-txt hover:bg-surface-200/40 rounded-xl transition-colors">
               Cancelar
             </button>
             <button
               type="submit"
-              disabled={saving || !nome.trim() || !dataInicio || !dataFim}
-              className="flex items-center gap-2 px-5 py-2 rounded-xl text-[13px] font-semibold text-white bg-[#004AFF] hover:bg-[#004AFF]/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={saving || !canSave}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+              style={{ background: 'rgba(var(--color-primary-rgb),0.15)', border: '1px solid rgba(var(--color-primary-rgb),0.3)', color: 'var(--color-primary-light)' }}
+              onMouseEnter={(e) => { if (canSave) { e.currentTarget.style.background = 'rgba(var(--color-primary-rgb),0.25)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(var(--color-primary-rgb),0.15)' } }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(var(--color-primary-rgb),0.15)'; e.currentTarget.style.boxShadow = 'none' }}
             >
               {saving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
               {torneio ? 'Salvar' : 'Criar Torneio'}
@@ -563,6 +784,8 @@ const EnviarRankingModal: React.FC<EnviarRankingModalProps> = ({ ranking, tornei
 export const Torneios: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabKey>('torneios');
   const { toast, showToast, hideToast } = useToast();
+  const gTorneiosInstancia = useSectionGate('torneios_instancia');
+  const gTorneiosCopy = useSectionGate('torneios_copy');
 
   // Data
   const [torneios, setTorneios] = useState<Torneio[]>([]);
@@ -592,6 +815,8 @@ export const Torneios: React.FC = () => {
   const [rankLoading, setRankLoading] = useState(false);
   const [autoRefresh, setAutoRefresh] = useState(false);
   const autoRefreshRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [rankSelectorOpen, setRankSelectorOpen] = useState(false);
+  const rankSelectorRef = useRef<HTMLDivElement>(null);
 
   // Participantes state
   const [partTorneioId, setPartTorneioId] = useState<string>('');
@@ -600,6 +825,8 @@ export const Torneios: React.FC = () => {
   const [partLoading, setPartLoading] = useState(false);
   const [partBusca, setPartBusca] = useState('');
   const [partSort, setPartSort] = useState<{ col: string; asc: boolean }>({ col: 'soma_lucro_liquido', asc: false });
+  const [partSelectorOpen, setPartSelectorOpen] = useState(false);
+  const partSelectorRef = useRef<HTMLDivElement>(null);
   const [expandedPart, setExpandedPart] = useState<string | null>(null);
   const [expandedGreens, setExpandedGreens] = useState<GreenEntry[]>([]);
   const [expandedLoading, setExpandedLoading] = useState(false);
@@ -610,6 +837,14 @@ export const Torneios: React.FC = () => {
   const partDropdownRef = useRef<HTMLDivElement>(null);
   const [removePartConfirm, setRemovePartConfirm] = useState<RankingEntry | null>(null);
   const [removePartLoading, setRemovePartLoading] = useState(false);
+  const [editGreensModal, setEditGreensModal] = useState<RankingEntry | null>(null);
+  const [editGreensVal, setEditGreensVal] = useState('');
+  const [editGreensSaving, setEditGreensSaving] = useState(false);
+  const [addPartModal, setAddPartModal] = useState(false);
+  const [addPartNome, setAddPartNome] = useState('');
+  const [addPartTelefone, setAddPartTelefone] = useState('');
+  const [addPartIdConta, setAddPartIdConta] = useState('');
+  const [addPartSaving, setAddPartSaving] = useState(false);
 
   // Enviar Ranking modal
   const [enviarRankingOpen, setEnviarRankingOpen] = useState(false);
@@ -737,10 +972,14 @@ export const Torneios: React.FC = () => {
 
   useEffect(() => { fetchData(); }, [fetchData]);
 
-  // Countdown timer
+  // Countdown timer — usa data_inicio se agendado, data_fim se ativo
   useEffect(() => {
     if (!resumo.torneio) { setCountdown(null); return; }
-    const tick = () => setCountdown(calcCountdown(resumo.torneio!.data_fim));
+    const tick = () => {
+      const display = getDisplayStatus(resumo.torneio!);
+      const target = display === 'agendado' ? resumo.torneio!.data_inicio : resumo.torneio!.data_fim;
+      setCountdown(calcCountdown(target));
+    };
     tick();
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
@@ -757,13 +996,29 @@ export const Torneios: React.FC = () => {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
+  // Close ranking selector on outside click
+  useEffect(() => {
+    if (!rankSelectorOpen) return;
+    const handler = (e: MouseEvent) => { if (rankSelectorRef.current && !rankSelectorRef.current.contains(e.target as Node)) setRankSelectorOpen(false); };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [rankSelectorOpen]);
+
+  // Close participantes selector on outside click
+  useEffect(() => {
+    if (!partSelectorOpen) return;
+    const handler = (e: MouseEvent) => { if (partSelectorRef.current && !partSelectorRef.current.contains(e.target as Node)) setPartSelectorOpen(false); };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [partSelectorOpen]);
+
   // ── Ranking fetch ─────────────────────────────────────────────
 
   const fetchRankTorneios = useCallback(async () => {
     const expertId = useAuthStore.getState().getActiveExpertId();
     let rankQuery = supabase
       .from('torneios')
-      .select('id, nome, status, logica_ganhador')
+      .select('id, nome, status, data_inicio, data_fim, logica_ganhador')
       .order('created_at', { ascending: false });
     if (expertId) rankQuery = rankQuery.eq('expert_id', expertId);
     const { data } = await rankQuery;
@@ -783,12 +1038,23 @@ export const Torneios: React.FC = () => {
     setRankLoading(true);
     try {
       const torneio = rankTorneios.find(t => t.id === tid);
-      const orderColumn = torneio?.logica_ganhador === 'quantidade' ? 'total_greens' : 'soma_lucro_liquido';
-      const { data } = await supabase
-        .from('ranking_torneio')
-        .select('*')
-        .eq('torneio_id', tid)
-        .order(orderColumn, { ascending: false });
+      // Modos 'quantidade' e 'sequencia' priorizam total_greens; 'lucro' (e fallback) prioriza soma_lucro_liquido.
+      // Tiebreaker: posicao_desempate ASC NULLS LAST permite ordem manual entre empatados;
+      // sem ordem manual, cai para a chave secundaria.
+      const useGreens = torneio?.logica_ganhador === 'quantidade' || torneio?.logica_ganhador === 'sequencia';
+      let query = supabase.from('ranking_torneio').select('*').eq('torneio_id', tid);
+      if (useGreens) {
+        query = query
+          .order('total_greens', { ascending: false })
+          .order('posicao_desempate', { ascending: true, nullsFirst: false })
+          .order('soma_lucro_liquido', { ascending: false });
+      } else {
+        query = query
+          .order('soma_lucro_liquido', { ascending: false })
+          .order('posicao_desempate', { ascending: true, nullsFirst: false })
+          .order('total_greens', { ascending: false });
+      }
+      const { data } = await query;
       setRanking((data as RankingEntry[]) || []);
     } catch {
       showToast('error', 'Erro ao carregar ranking');
@@ -820,7 +1086,9 @@ export const Torneios: React.FC = () => {
     if (!partTorneioId) return;
     const torneio = partTorneios.find(t => t.id === partTorneioId);
     if (!torneio) return;
-    const col = torneio.logica_ganhador === 'quantidade' ? 'total_greens' : 'soma_lucro_liquido';
+    // Modos 'quantidade' e 'sequencia' usam total_greens como coluna de ordenacao default.
+    const useGreens = torneio.logica_ganhador === 'quantidade' || torneio.logica_ganhador === 'sequencia';
+    const col = useGreens ? 'total_greens' : 'soma_lucro_liquido';
     setPartSort(prev => (prev.col === col ? prev : { col, asc: false }));
   }, [partTorneioId, partTorneios]);
 
@@ -830,7 +1098,7 @@ export const Torneios: React.FC = () => {
     const expertId = useAuthStore.getState().getActiveExpertId();
     let partQuery = supabase
       .from('torneios')
-      .select('id, nome, status, logica_ganhador')
+      .select('id, nome, status, data_inicio, data_fim, logica_ganhador')
       .order('created_at', { ascending: false });
     if (expertId) partQuery = partQuery.eq('expert_id', expertId);
     const { data } = await partQuery;
@@ -849,12 +1117,22 @@ export const Torneios: React.FC = () => {
     setPartLoading(true);
     try {
       const torneio = partTorneios.find(t => t.id === tid);
-      const orderColumn = torneio?.logica_ganhador === 'quantidade' ? 'total_greens' : 'soma_lucro_liquido';
-      const { data } = await supabase
-        .from('ranking_torneio')
-        .select('*')
-        .eq('torneio_id', tid)
-        .order(orderColumn, { ascending: false });
+      // Modos 'quantidade' e 'sequencia' priorizam total_greens; 'lucro' (e fallback) prioriza soma_lucro_liquido.
+      // Tiebreaker: posicao_desempate ASC NULLS LAST permite ordem manual entre empatados.
+      const useGreens = torneio?.logica_ganhador === 'quantidade' || torneio?.logica_ganhador === 'sequencia';
+      let query = supabase.from('ranking_torneio').select('*').eq('torneio_id', tid);
+      if (useGreens) {
+        query = query
+          .order('total_greens', { ascending: false })
+          .order('posicao_desempate', { ascending: true, nullsFirst: false })
+          .order('soma_lucro_liquido', { ascending: false });
+      } else {
+        query = query
+          .order('soma_lucro_liquido', { ascending: false })
+          .order('posicao_desempate', { ascending: true, nullsFirst: false })
+          .order('total_greens', { ascending: false });
+      }
+      const { data } = await query;
       setParticipantes((data as RankingEntry[]) || []);
     } catch {
       showToast('error', 'Erro ao carregar participantes');
@@ -932,16 +1210,113 @@ export const Torneios: React.FC = () => {
     }
   };
 
+  const handleEditGreens = async () => {
+    if (!editGreensModal || !partTorneioId) return;
+    const novoTotal = parseInt(editGreensVal, 10);
+    if (isNaN(novoTotal) || novoTotal < 0) return;
+    const atual = editGreensModal.total_greens;
+    if (novoTotal === atual) { setEditGreensModal(null); return; }
+
+    setEditGreensSaving(true);
+    try {
+      const expertId = useAuthStore.getState().getActiveExpertId();
+      if (novoTotal > atual) {
+        // Inserir greens extras
+        const novos = Array.from({ length: novoTotal - atual }, (_, i) => ({
+          torneio_id: partTorneioId,
+          participante_id: editGreensModal.participante_id,
+          id_aposta: `manual-${Date.now()}-${i}`,
+          data_hora_aposta: new Date().toISOString(),
+          valor_apostado: 0,
+          valor_green: 0,
+          expert_id: expertId,
+        }));
+        const { error } = await supabase.from('greens').insert(novos);
+        if (error) throw error;
+      } else {
+        // Remover greens mais recentes
+        const { data: greensExistentes } = await supabase
+          .from('greens')
+          .select('id')
+          .eq('torneio_id', partTorneioId)
+          .eq('participante_id', editGreensModal.participante_id)
+          .order('created_at', { ascending: false })
+          .limit(atual - novoTotal);
+        if (greensExistentes && greensExistentes.length > 0) {
+          const ids = greensExistentes.map((g: any) => g.id);
+          const { error } = await supabase.from('greens').delete().in('id', ids);
+          if (error) throw error;
+        }
+      }
+      showToast('success', 'Greens atualizados');
+      setEditGreensModal(null);
+      fetchParticipantes();
+    } catch (err: any) {
+      showToast('error', err.message || 'Erro ao atualizar greens');
+    } finally {
+      setEditGreensSaving(false);
+    }
+  };
+
+  const handleAddParticipante = async () => {
+    if (!partTorneioId || !addPartTelefone.trim()) return;
+    setAddPartSaving(true);
+    try {
+      const expertId = useAuthStore.getState().getActiveExpertId();
+      const telefone = addPartTelefone.replace(/\D/g, '');
+      // Verificar se ja existe neste torneio
+      const { data: existe } = await supabase
+        .from('participantes')
+        .select('id')
+        .eq('torneio_id', partTorneioId)
+        .eq('telefone_whatsapp', telefone)
+        .maybeSingle();
+      if (existe) {
+        showToast('error', 'Participante ja existe neste torneio');
+        setAddPartSaving(false);
+        return;
+      }
+      const { error } = await supabase.from('participantes').insert({
+        torneio_id: partTorneioId,
+        telefone_whatsapp: telefone,
+        nome: addPartNome.trim() || null,
+        id_conta: addPartIdConta.trim() || null,
+        expert_id: expertId,
+      });
+      if (error) throw error;
+      showToast('success', 'Participante adicionado');
+      setAddPartModal(false);
+      setAddPartNome('');
+      setAddPartTelefone('');
+      setAddPartIdConta('');
+      fetchParticipantes();
+    } catch (err: any) {
+      showToast('error', err.message || 'Erro ao adicionar participante');
+    } finally {
+      setAddPartSaving(false);
+    }
+  };
+
   const handleRemoveParticipante = async () => {
     if (!removePartConfirm || !partTorneioId) return;
     setRemovePartLoading(true);
     try {
-      const { error } = await supabase
+      // Deletar greens do participante neste torneio
+      const { error: errGreens } = await supabase
         .from('greens')
         .delete()
         .eq('torneio_id', partTorneioId)
         .eq('participante_id', removePartConfirm.participante_id);
-      if (error) throw error;
+      if (errGreens) throw errGreens;
+
+      // Deletar o participante do torneio
+      const { error: errPart } = await supabase
+        .from('participantes')
+        .delete()
+        .eq('torneio_id', partTorneioId)
+        .eq('id', removePartConfirm.participante_id);
+      if (errPart) throw errPart;
+
       showToast('success', 'Participante removido do torneio');
       setRemovePartConfirm(null);
       setExpandedPart(null);
@@ -968,8 +1343,17 @@ export const Torneios: React.FC = () => {
       const col = partSort.col as keyof RankingEntry;
       const av = a[col] ?? '';
       const bv = b[col] ?? '';
-      if (typeof av === 'number' && typeof bv === 'number') return partSort.asc ? av - bv : bv - av;
-      return partSort.asc ? String(av).localeCompare(String(bv)) : String(bv).localeCompare(String(av));
+      let primary = 0;
+      if (typeof av === 'number' && typeof bv === 'number') primary = partSort.asc ? av - bv : bv - av;
+      else primary = partSort.asc ? String(av).localeCompare(String(bv)) : String(bv).localeCompare(String(av));
+      if (primary !== 0) return primary;
+      // Tiebreaker: posicao_desempate ASC NULLS LAST
+      const ap = a.posicao_desempate;
+      const bp = b.posicao_desempate;
+      if (ap == null && bp == null) return 0;
+      if (ap == null) return 1;
+      if (bp == null) return -1;
+      return ap - bp;
     });
     return sorted;
   })();
@@ -991,7 +1375,7 @@ export const Torneios: React.FC = () => {
 
   // ── Actions ────────────────────────────────────────────────────
 
-  const handleSave = async (data: { nome: string; data_inicio: string; data_fim: string; status: 'ativo' | 'pausado'; logica_ganhador: 'quantidade' | 'lucro' }) => {
+  const handleSave = async (data: { nome: string; data_inicio: string; data_fim: string; status: 'ativo' | 'pausado'; logica_ganhador: 'quantidade' | 'lucro' | 'sequencia' }) => {
     setSaving(true);
     try {
       // Se vai ativar, checar se já existe outro ativo
@@ -1080,22 +1464,37 @@ export const Torneios: React.FC = () => {
 
       {/* Tabs */}
       <div className="grid grid-cols-2 md:flex gap-1 p-1 bg-surface-50/80 rounded-xl border border-surface-300/10 w-full md:w-fit">
-        {tabs.map((tab) => (
-          <button
-            key={tab.key}
-            onClick={() => setActiveTab(tab.key)}
-            className={cn(
-              'flex items-center gap-2 px-4 py-2 rounded-lg text-[13px] font-medium transition-all duration-200',
-              activeTab === tab.key
-                ? 'shadow-sm'
-                : 'text-[#A8A8B3] hover:text-[#D4D4DB] hover:bg-surface-200/20'
-            )}
-            style={activeTab === tab.key ? { background: 'var(--color-primary-bg)', color: 'var(--color-primary-light)' } : undefined}
-          >
-            <tab.icon className="w-3.5 h-3.5" />
-            {tab.label}
-          </button>
-        ))}
+        {tabs
+          .filter((tab) => {
+            if (tab.key === 'instancia' && gTorneiosInstancia === 'hidden') return false;
+            if (tab.key === 'copy' && gTorneiosCopy === 'hidden') return false;
+            return true;
+          })
+          .map((tab) => {
+            const isBlocked = (tab.key === 'instancia' && gTorneiosInstancia === 'disabled') || (tab.key === 'copy' && gTorneiosCopy === 'disabled');
+            return (
+              <button
+                key={tab.key}
+                onClick={() => {
+                  if (isBlocked) { showToast('error', 'Funcionalidade não disponível no seu plano'); return; }
+                  setActiveTab(tab.key);
+                }}
+                className={cn(
+                  'flex items-center gap-2 px-4 py-2 rounded-lg text-[13px] font-medium transition-all duration-200',
+                  activeTab === tab.key
+                    ? 'shadow-sm'
+                    : isBlocked
+                    ? 'text-white/20 cursor-not-allowed'
+                    : 'text-[#A8A8B3] hover:text-[#D4D4DB] hover:bg-surface-200/20'
+                )}
+                style={activeTab === tab.key ? { background: 'var(--color-primary-bg)', color: 'var(--color-primary-light)' } : undefined}
+              >
+                <tab.icon className="w-3.5 h-3.5" />
+                {tab.label}
+                {isBlocked && <Lock className="w-3 h-3" style={{ color: '#facc15', opacity: 0.6 }} />}
+              </button>
+            );
+          })}
       </div>
 
       {/* ─── Aba Torneios ───────────────────────────────────── */}
@@ -1113,9 +1512,11 @@ export const Torneios: React.FC = () => {
                     <TrophyIcon className="w-11 h-11" />
                     <div className="absolute inset-0 bg-primary-bg rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </div>
-                  {resumo.torneio && <StatusBadge status={resumo.torneio.status} />}
+                  {resumo.torneio && <StatusBadge status={getDisplayStatus(resumo.torneio)} />}
                 </div>
-                <p className="text-txt-muted text-[10px] font-mono font-semibold uppercase tracking-[0.12em] mb-1.5">Torneio Ativo</p>
+                <p className="text-txt-muted text-[10px] font-mono font-semibold uppercase tracking-[0.12em] mb-1.5">
+                  {resumo.torneio && getDisplayStatus(resumo.torneio) === 'agendado' ? 'Torneio Agendado' : 'Torneio Ativo'}
+                </p>
                 <div className="text-lg font-bold text-txt font-display tracking-tight leading-tight">
                   {loading ? (
                     <div className="h-5 w-32 bg-surface-200/40 rounded animate-pulse" />
@@ -1142,7 +1543,9 @@ export const Torneios: React.FC = () => {
                     <div className="absolute inset-0 bg-blue-500/10 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </div>
                 </div>
-                <p className="text-txt-muted text-[10px] font-mono font-semibold uppercase tracking-[0.12em] mb-1.5">Tempo Restante</p>
+                <p className="text-txt-muted text-[10px] font-mono font-semibold uppercase tracking-[0.12em] mb-1.5">
+                  {resumo.torneio && getDisplayStatus(resumo.torneio) === 'agendado' ? 'Começa em' : 'Tempo Restante'}
+                </p>
                 {loading ? (
                   <div className="h-8 w-40 bg-surface-200/40 rounded animate-pulse" />
                 ) : !resumo.torneio ? (
@@ -1224,7 +1627,14 @@ export const Torneios: React.FC = () => {
             <h3 className="text-sm font-semibold text-txt font-display">Todos os Torneios</h3>
             <button
               onClick={() => { setEditando(null); setModalOpen(true); }}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-semibold text-white bg-[#004AFF] hover:bg-[#004AFF]/80 transition-colors"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200"
+              style={{
+                background: 'rgba(var(--color-primary-rgb),0.12)',
+                border: '1px solid rgba(var(--color-primary-rgb),0.25)',
+                color: 'var(--color-primary-light)',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(var(--color-primary-rgb),0.22)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(var(--color-primary-rgb),0.15)' }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(var(--color-primary-rgb),0.12)'; e.currentTarget.style.boxShadow = 'none' }}
             >
               <Plus className="w-3.5 h-3.5" />
               Novo Torneio
@@ -1233,7 +1643,7 @@ export const Torneios: React.FC = () => {
 
           {/* Tabela */}
           <div className="card-dark !overflow-visible relative" ref={dropdownRef}>
-            <div className="overflow-x-auto overflow-y-visible">
+            <div className="overflow-visible">
               <table className="w-full min-w-[640px] text-left">
                 <thead>
                   <tr className="border-b border-surface-300/20">
@@ -1265,7 +1675,7 @@ export const Torneios: React.FC = () => {
                         <td className="px-5 py-4 text-sm font-medium text-txt group-hover:text-[#004AFF] transition-colors">{t.nome}</td>
                         <td className="px-5 py-4 text-[12px] text-txt-secondary font-mono">{fmtDate(t.data_inicio)}</td>
                         <td className="px-5 py-4 text-[12px] text-txt-secondary font-mono">{fmtDate(t.data_fim)}</td>
-                        <td className="px-5 py-4"><StatusBadge status={t.status} /></td>
+                        <td className="px-5 py-4"><StatusBadge status={getDisplayStatus(t)} /></td>
                         <td className="px-5 py-4 text-right relative">
                           <button
                             onClick={() => setOpenDropdown(openDropdown === t.id ? null : t.id)}
@@ -1284,7 +1694,7 @@ export const Torneios: React.FC = () => {
                                 <Pencil className="w-3.5 h-3.5" /> Editar
                               </button>
 
-                              {/* Pausar — só se ativo */}
+                              {/* Pausar — só se ativo (inclui agendado, pois no DB é 'ativo') */}
                               {t.status === 'ativo' && (
                                 <button
                                   onClick={() => { setOpenDropdown(null); setConfirmAction({ type: 'pausar', torneio: t }); }}
@@ -1339,17 +1749,75 @@ export const Torneios: React.FC = () => {
         <>
           {/* Seletor + controles */}
           <div className="flex flex-wrap items-center gap-3">
-            <select
-              value={rankTorneioId}
-              onChange={e => setRankTorneioId(e.target.value)}
-              className="input-dark min-w-[220px]"
-            >
-              {rankTorneios.map(t => (
-                <option key={t.id} value={t.id}>
-                  {t.nome} {t.status === 'ativo' ? '(Ativo)' : t.status === 'pausado' ? '(Pausado)' : ''}
-                </option>
-              ))}
-            </select>
+            {/* Custom selector */}
+            <div ref={rankSelectorRef} className="relative min-w-[280px]">
+              {(() => {
+                const sel = rankTorneios.find(t => t.id === rankTorneioId);
+                const selDs = sel ? getDisplayStatus(sel) : '';
+                const statusColors: Record<string, string> = { agendado: '#22d3ee', ativo: '#34d399', pausado: '#fbbf24', encerrado: 'rgba(255,255,255,0.35)' };
+                const statusLabels: Record<string, string> = { agendado: 'Agendado', ativo: 'Ativo', pausado: 'Pausado', encerrado: 'Encerrado' };
+                return (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => setRankSelectorOpen(!rankSelectorOpen)}
+                      className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200"
+                      style={{
+                        background: 'rgba(255,255,255,0.03)',
+                        border: rankSelectorOpen ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid rgba(255,255,255,0.06)',
+                        boxShadow: rankSelectorOpen ? '0 0 0 3px rgba(var(--color-primary-rgb),0.06)' : 'none',
+                      }}
+                    >
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'rgba(var(--color-primary-rgb),0.1)', border: '1px solid rgba(var(--color-primary-rgb),0.15)' }}>
+                        <Trophy className="w-4 h-4" style={{ color: 'var(--color-primary-light)' }} />
+                      </div>
+                      <div className="flex-1 min-w-0 text-left">
+                        <p className="text-[13px] font-semibold text-white truncate">{sel?.nome || 'Selecione...'}</p>
+                        {sel && (
+                          <p className="text-[10px] text-white/25 font-mono mt-0.5">
+                            <span className="font-semibold mr-1.5" style={{ color: statusColors[selDs] || statusColors.encerrado }}>{statusLabels[selDs] || selDs}</span>
+                            {fmtDate(sel.data_inicio)} — {fmtDate(sel.data_fim)}
+                          </p>
+                        )}
+                      </div>
+                      <ChevronDown className="w-4 h-4 shrink-0 transition-transform duration-200" style={{ color: 'rgba(255,255,255,0.3)', transform: rankSelectorOpen ? 'rotate(180deg)' : 'rotate(0)' }} />
+                    </button>
+                    {rankSelectorOpen && (
+                      <div
+                        className="absolute z-50 mt-2 w-full animate-fade-in"
+                        style={{ background: 'rgba(16,16,28,0.97)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '16px', boxShadow: '0 16px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset', overflow: 'hidden' }}
+                      >
+                        <div className="overflow-y-auto py-1.5" style={{ maxHeight: '280px', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.1) transparent' }}>
+                          {rankTorneios.map(t => {
+                            const ds = getDisplayStatus(t);
+                            const isSelected = t.id === rankTorneioId;
+                            const color = statusColors[ds] || statusColors.encerrado;
+                            return (
+                              <button
+                                key={t.id}
+                                type="button"
+                                onClick={() => { setRankTorneioId(t.id); setRankSelectorOpen(false); }}
+                                className="w-full flex items-center gap-3 px-4 py-3 text-left transition-colors duration-100"
+                                style={{ background: isSelected ? 'rgba(var(--color-primary-rgb),0.08)' : 'transparent' }}
+                                onMouseEnter={e => { if (!isSelected) e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; }}
+                                onMouseLeave={e => { if (!isSelected) e.currentTarget.style.background = 'transparent'; }}
+                              >
+                                <span className="w-2 h-2 rounded-full shrink-0" style={{ background: color, boxShadow: ds === 'ativo' ? `0 0 6px ${color}60` : 'none' }} />
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-[13px] font-semibold truncate" style={{ color: isSelected ? 'var(--color-primary-light)' : '#fff' }}>{t.nome}</p>
+                                  <p className="text-[10px] text-white/25 font-mono mt-0.5">{statusLabels[ds] || ds} · {fmtDate(t.data_inicio)} — {fmtDate(t.data_fim)}</p>
+                                </div>
+                                {isSelected && <Check className="w-4 h-4 shrink-0" style={{ color: 'var(--color-primary-light)' }} />}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </>
+                );
+              })()}
+            </div>
 
             <button
               onClick={() => fetchRanking()}
@@ -1608,17 +2076,75 @@ export const Torneios: React.FC = () => {
         <>
           {/* Toolbar */}
           <div className="flex flex-wrap items-center gap-3">
-            <select
-              value={partTorneioId}
-              onChange={e => setPartTorneioId(e.target.value)}
-              className="input-dark min-w-[220px]"
-            >
-              {partTorneios.map(t => (
-                <option key={t.id} value={t.id}>
-                  {t.nome} {t.status === 'ativo' ? '(Ativo)' : t.status === 'pausado' ? '(Pausado)' : ''}
-                </option>
-              ))}
-            </select>
+            {/* Custom selector */}
+            <div ref={partSelectorRef} className="relative min-w-[280px]">
+              {(() => {
+                const sel = partTorneios.find(t => t.id === partTorneioId);
+                const selDs = sel ? getDisplayStatus(sel) : '';
+                const statusColors: Record<string, string> = { agendado: '#22d3ee', ativo: '#34d399', pausado: '#fbbf24', encerrado: 'rgba(255,255,255,0.35)' };
+                const statusLabels: Record<string, string> = { agendado: 'Agendado', ativo: 'Ativo', pausado: 'Pausado', encerrado: 'Encerrado' };
+                return (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => setPartSelectorOpen(!partSelectorOpen)}
+                      className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200"
+                      style={{
+                        background: 'rgba(255,255,255,0.03)',
+                        border: partSelectorOpen ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid rgba(255,255,255,0.06)',
+                        boxShadow: partSelectorOpen ? '0 0 0 3px rgba(var(--color-primary-rgb),0.06)' : 'none',
+                      }}
+                    >
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'rgba(var(--color-primary-rgb),0.1)', border: '1px solid rgba(var(--color-primary-rgb),0.15)' }}>
+                        <Trophy className="w-4 h-4" style={{ color: 'var(--color-primary-light)' }} />
+                      </div>
+                      <div className="flex-1 min-w-0 text-left">
+                        <p className="text-[13px] font-semibold text-white truncate">{sel?.nome || 'Selecione...'}</p>
+                        {sel && (
+                          <p className="text-[10px] text-white/25 font-mono mt-0.5">
+                            <span className="font-semibold mr-1.5" style={{ color: statusColors[selDs] || statusColors.encerrado }}>{statusLabels[selDs] || selDs}</span>
+                            {fmtDate(sel.data_inicio)} — {fmtDate(sel.data_fim)}
+                          </p>
+                        )}
+                      </div>
+                      <ChevronDown className="w-4 h-4 shrink-0 transition-transform duration-200" style={{ color: 'rgba(255,255,255,0.3)', transform: partSelectorOpen ? 'rotate(180deg)' : 'rotate(0)' }} />
+                    </button>
+                    {partSelectorOpen && (
+                      <div
+                        className="absolute z-50 mt-2 w-full animate-fade-in"
+                        style={{ background: 'rgba(16,16,28,0.97)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '16px', boxShadow: '0 16px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset', overflow: 'hidden' }}
+                      >
+                        <div className="overflow-y-auto py-1.5" style={{ maxHeight: '280px', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.1) transparent' }}>
+                          {partTorneios.map(t => {
+                            const ds = getDisplayStatus(t);
+                            const isSelected = t.id === partTorneioId;
+                            const color = statusColors[ds] || statusColors.encerrado;
+                            return (
+                              <button
+                                key={t.id}
+                                type="button"
+                                onClick={() => { setPartTorneioId(t.id); setPartSelectorOpen(false); }}
+                                className="w-full flex items-center gap-3 px-4 py-3 text-left transition-colors duration-100"
+                                style={{ background: isSelected ? 'rgba(var(--color-primary-rgb),0.08)' : 'transparent' }}
+                                onMouseEnter={e => { if (!isSelected) e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; }}
+                                onMouseLeave={e => { if (!isSelected) e.currentTarget.style.background = 'transparent'; }}
+                              >
+                                <span className="w-2 h-2 rounded-full shrink-0" style={{ background: color, boxShadow: ds === 'ativo' ? `0 0 6px ${color}60` : 'none' }} />
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-[13px] font-semibold truncate" style={{ color: isSelected ? 'var(--color-primary-light)' : '#fff' }}>{t.nome}</p>
+                                  <p className="text-[10px] text-white/25 font-mono mt-0.5">{statusLabels[ds] || ds} · {fmtDate(t.data_inicio)} — {fmtDate(t.data_fim)}</p>
+                                </div>
+                                {isSelected && <Check className="w-4 h-4 shrink-0" style={{ color: 'var(--color-primary-light)' }} />}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </>
+                );
+              })()}
+            </div>
             <button
               onClick={() => fetchParticipantes()}
               disabled={partLoading}
@@ -1626,6 +2152,18 @@ export const Torneios: React.FC = () => {
             >
               <RefreshCw className={cn('w-3.5 h-3.5', partLoading && 'animate-spin')} />
               Atualizar
+            </button>
+            <div className="flex-1" />
+            <button
+              onClick={() => { setAddPartNome(''); setAddPartTelefone(''); setAddPartIdConta(''); setAddPartModal(true); }}
+              disabled={!partTorneioId}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[13px] font-semibold transition-colors border disabled:opacity-50"
+              style={{ background: 'rgba(var(--color-primary-rgb),0.12)', borderColor: 'rgba(var(--color-primary-rgb),0.25)', color: 'var(--color-primary-light)' }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(var(--color-primary-rgb),0.2)'; e.currentTarget.style.boxShadow = '0 0 20px rgba(var(--color-primary-rgb),0.15)' }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(var(--color-primary-rgb),0.12)'; e.currentTarget.style.boxShadow = 'none' }}
+            >
+              <Plus className="w-3.5 h-3.5" />
+              Adicionar Participante
             </button>
           </div>
 
@@ -1757,7 +2295,7 @@ export const Torneios: React.FC = () => {
                 </span>
               </div>
 
-              <div className="overflow-x-auto overflow-y-visible">
+              <div className="overflow-visible">
                 <table className="w-full text-left">
                   <thead>
                     <tr className="border-b border-surface-300/20">
@@ -1769,7 +2307,7 @@ export const Torneios: React.FC = () => {
                         ID Conta <SortIcon col="id_conta" />
                       </th>
                       <th onClick={() => handlePartSort('total_greens')} className="px-5 py-3 text-[10px] font-mono font-semibold text-txt-muted uppercase tracking-widest text-center cursor-pointer hover:text-txt-secondary transition-colors select-none">
-                        Greens <SortIcon col="total_greens" />
+                        {partTorneios.find(t => t.id === partTorneioId)?.logica_ganhador === 'sequencia' ? 'Sequência' : 'Greens'} <SortIcon col="total_greens" />
                       </th>
                       <th onClick={() => handlePartSort('soma_pagamentos')} className="px-5 py-3 text-[10px] font-mono font-semibold text-txt-muted uppercase tracking-widest text-right cursor-pointer hover:text-txt-secondary transition-colors select-none">
                         Total Pag. <SortIcon col="soma_pagamentos" />
@@ -1857,6 +2395,12 @@ export const Torneios: React.FC = () => {
                                     className="flex items-center gap-2.5 w-full px-4 py-2 text-[13px] text-txt-secondary hover:bg-surface-200/40 hover:text-txt transition-colors"
                                   >
                                     <BarChart3 className="w-3.5 h-3.5" /> Ver greens
+                                  </button>
+                                  <button
+                                    onClick={() => { setPartDropdown(null); setEditGreensVal(String(p.total_greens)); setEditGreensModal(p); }}
+                                    className="flex items-center gap-2.5 w-full px-4 py-2 text-[13px] text-txt-secondary hover:bg-surface-200/40 hover:text-txt transition-colors"
+                                  >
+                                    <Pencil className="w-3.5 h-3.5" /> Editar greens
                                   </button>
                                   <button
                                     onClick={() => { setPartDropdown(null); setEditIdContaVal(p.id_conta || ''); setEditIdContaModal(p); }}
@@ -1951,6 +2495,11 @@ export const Torneios: React.FC = () => {
       )}
 
       {/* ─── Aba Instância ──────────────────────────────────── */}
+      {/* ─── Aba Copy ─────────────────────────────────────── */}
+      {activeTab === 'copy' && (
+        <TorneioCopyTab showToast={showToast} />
+      )}
+
       {activeTab === 'instancia' && (
         <>
           {wppLoading ? (
@@ -2118,6 +2667,115 @@ export const Torneios: React.FC = () => {
                   className="flex items-center gap-2 px-5 py-2 rounded-xl text-[13px] font-semibold text-white bg-[#004AFF] hover:bg-[#004AFF]/80 transition-colors disabled:opacity-50"
                 >
                   {editIdContaSaving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                  Salvar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Participante Modal */}
+      {addPartModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setAddPartModal(false)} />
+          <div className="relative card-dark-elevated w-full max-w-sm animate-slide-up">
+            <div className="flex items-center justify-between p-5 border-b border-surface-300/20">
+              <h2 className="text-[15px] font-semibold text-txt font-display">Adicionar Participante</h2>
+              <button onClick={() => setAddPartModal(false)} className="p-1.5 text-txt-muted hover:text-txt hover:bg-surface-200/40 rounded-lg transition-colors">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="p-5 space-y-4">
+              <div>
+                <label className="block text-[10px] font-mono font-semibold text-txt-muted mb-2 uppercase tracking-widest">Telefone WhatsApp *</label>
+                <input
+                  type="text"
+                  value={addPartTelefone}
+                  onChange={e => setAddPartTelefone(e.target.value)}
+                  placeholder="Ex: 5511999998888"
+                  className="input-dark w-full"
+                  autoFocus
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-mono font-semibold text-txt-muted mb-2 uppercase tracking-widest">Nome</label>
+                <input
+                  type="text"
+                  value={addPartNome}
+                  onChange={e => setAddPartNome(e.target.value)}
+                  placeholder="Ex: João Silva"
+                  className="input-dark w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-mono font-semibold text-txt-muted mb-2 uppercase tracking-widest">ID Conta</label>
+                <input
+                  type="text"
+                  value={addPartIdConta}
+                  onChange={e => setAddPartIdConta(e.target.value)}
+                  placeholder="Ex: 123456789"
+                  className="input-dark w-full"
+                />
+              </div>
+              <div className="flex justify-end gap-3 pt-2">
+                <button onClick={() => setAddPartModal(false)} className="px-4 py-2 text-[13px] font-medium text-txt-muted hover:text-txt hover:bg-surface-200/40 rounded-xl transition-colors">
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleAddParticipante}
+                  disabled={addPartSaving || !addPartTelefone.trim()}
+                  className="flex items-center gap-2 px-5 py-2 rounded-xl text-[13px] font-semibold text-white bg-[#004AFF] hover:bg-[#004AFF]/80 transition-colors disabled:opacity-50"
+                >
+                  {addPartSaving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                  Adicionar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Greens Modal */}
+      {editGreensModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setEditGreensModal(null)} />
+          <div className="relative card-dark-elevated w-full max-w-sm animate-slide-up">
+            <div className="flex items-center justify-between p-5 border-b border-surface-300/20">
+              <h2 className="text-[15px] font-semibold text-txt font-display">Editar Greens</h2>
+              <button onClick={() => setEditGreensModal(null)} className="p-1.5 text-txt-muted hover:text-txt hover:bg-surface-200/40 rounded-lg transition-colors">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="p-5 space-y-4">
+              <p className="text-[13px] text-txt-secondary">
+                Participante: <span className="text-txt font-medium">{displayName(editGreensModal)}</span>
+              </p>
+              <div>
+                <label className="block text-[10px] font-mono font-semibold text-txt-muted mb-2 uppercase tracking-widest">
+                  {partTorneios.find(t => t.id === partTorneioId)?.logica_ganhador === 'sequencia' ? 'Sequência de Greens' : 'Quantidade de Greens'}
+                </label>
+                <input
+                  type="number"
+                  min="0"
+                  value={editGreensVal}
+                  onChange={e => setEditGreensVal(e.target.value)}
+                  placeholder="0"
+                  className="input-dark w-full"
+                  autoFocus
+                />
+                <p className="text-[10px] text-txt-dim mt-1.5 font-mono">Atual: {editGreensModal.total_greens}</p>
+              </div>
+              <div className="flex justify-end gap-3 pt-2">
+                <button onClick={() => setEditGreensModal(null)} className="px-4 py-2 text-[13px] font-medium text-txt-muted hover:text-txt hover:bg-surface-200/40 rounded-xl transition-colors">
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleEditGreens}
+                  disabled={editGreensSaving}
+                  className="flex items-center gap-2 px-5 py-2 rounded-xl text-[13px] font-semibold text-white bg-[#004AFF] hover:bg-[#004AFF]/80 transition-colors disabled:opacity-50"
+                >
+                  {editGreensSaving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                   Salvar
                 </button>
               </div>
