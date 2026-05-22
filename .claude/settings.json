@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \":*)",
+      "Bash(python -c \":*)",
+      "Bash(ls \"c:\\\\Users\\\\pedro\\\\OneDrive\\\\Área de Trabalho\\\\Allan\\\\Dashboard - Leads\\\\src\\\\backend\\\\client\"*)",
+      "Bash(ls \"c:\\\\Users\\\\pedro\\\\OneDrive\\\\Área de Trabalho\\\\Allan\\\\Dashboard - Leads\\\\src\\\\lib\\\\supabase\"*)",
+      "Read(//c/Users/pedro/OneDrive/Área de Trabalho/Allan/Dashboard - Leads/$HOME/.claude/projects/c--Users-pedro-OneDrive--rea-de-Trabalho-Allan-Dashboard---Leads/c287d48b-3de4-48dc-8980-81d8e6aaacf7/tool-results/**)",
+      "Bash(jq -r .[0].text)"
+    ]
+  },
+  "enabledPlugins": {
+    "superpowers@claude-plugins-official": true
+  }
+}

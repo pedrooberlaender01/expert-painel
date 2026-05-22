@@ -1,0 +1,1 @@
+{"nodes": [{"id": "page_Agendados", "label": "Agendados Page", "file_type": "code", "source_file": "src/pages/Agendados.tsx"}], "edges": [{"source": "page_Agendados", "target": "useToast_hook", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "src/pages/Agendados.tsx", "weight": 0.6}], "hyperedges": []}

@@ -204,6 +204,8 @@ export interface MensagemFunilRow {
   status_alvo: string | null;
   ordem: number;
   ativo: boolean;
+  position_x: number | null;
+  position_y: number | null;
   created_at: string;
   updated_at: string;
 }
@@ -277,7 +279,7 @@ export interface ExpertRow {
   nome_assistente: string;
   voice_id: string | null;
   voice_settings: Record<string, number> | null;
-  secoes_habilitadas: Record<string, boolean> | null;
+  secoes_habilitadas: Record<string, string | boolean> | null;
   plano_id: string | null;
   ativo: boolean;
   created_at: string;

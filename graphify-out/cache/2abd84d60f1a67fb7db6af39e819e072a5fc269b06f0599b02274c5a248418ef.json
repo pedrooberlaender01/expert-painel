@@ -1,0 +1,1 @@
+{"nodes": [{"id": "page_GerarCopy", "label": "GerarCopy Page", "file_type": "code", "source_file": "src/pages/GerarCopy.tsx"}], "edges": [{"source": "page_GerarCopy", "target": "useToast_hook", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "src/pages/GerarCopy.tsx", "weight": 0.6}], "hyperedges": []}

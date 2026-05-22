@@ -67,7 +67,7 @@ Each task was committed atomically:
 
 1. **Task 1: Create planos and experts tables with seed data** - `529bb4a` (feat)
 
-**Plan metadata:** [pending] (docs: complete plan)
+**Plan metadata:** `d82be62` (docs: complete plan)
 
 ## Files Created/Modified
 - `supabase/migrations/20260327_01_01_create_planos_and_experts_tables.sql` - DDL + seed data for planos and experts tables

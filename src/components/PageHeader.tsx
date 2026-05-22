@@ -42,9 +42,9 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
               border: '1px solid rgba(255,255,255,0.04)',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.color = '#60a5fa';
-              e.currentTarget.style.borderColor = 'rgba(59,130,246,0.3)';
-              e.currentTarget.style.background = 'rgba(59,130,246,0.08)';
+              e.currentTarget.style.color = 'var(--color-primary-light)';
+              e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)';
+              e.currentTarget.style.background = 'rgba(var(--color-primary-rgb),0.08)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.color = 'rgba(255,255,255,0.5)';

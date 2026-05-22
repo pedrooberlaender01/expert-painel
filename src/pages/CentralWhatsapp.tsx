@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Smartphone, MessageCircle, Plus, Wifi, WifiOff, Radio } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Smartphone, MessageCircle, Plus, Wifi, WifiOff, Radio, Bell, Loader2, Save } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { Toast } from '../components/Toast';
 import { InstanciaCard } from '../components/numeros/InstanciaCard';
@@ -14,14 +14,15 @@ import type { WhatsappRotacao, WhatsappRotacaoMensagem } from '../hooks/useWhats
 import { useToast } from '../hooks/useToast';
 import { cn } from '../utils/cn';
 import { usePlanLimits } from '../hooks/usePlanLimits';
+import { supabase } from '../lib/supabase';
+import { useAuthStore } from '../stores/authStore';
 import { PlanLimitBanner } from '../components/PlanLimitBanner';
 
-type TabKey = 'disparadoras' | 'coleta' | 'mensagens';
+type TabKey = 'disparadoras' | 'coleta';
 
 const TABS: { key: TabKey; label: string; icon: typeof Smartphone }[] = [
   { key: 'disparadoras', label: 'Instâncias Disparadoras', icon: Smartphone },
   { key: 'coleta', label: 'Instâncias Coleta Eventos', icon: Radio },
-  { key: 'mensagens', label: 'Mensagens de Abertura', icon: MessageCircle },
 ];
 
 const SkeletonCard: React.FC = () => (
@@ -59,7 +60,58 @@ export const CentralWhatsapp: React.FC = () => {
     trocarOrdemMensagem,
   } = useWhatsappRotacao();
   const { toast, showToast, hideToast } = useToast();
+  const getActiveExpertId = useAuthStore((s) => s.getActiveExpertId);
   const [activeTab, setActiveTab] = useState<TabKey>('disparadoras');
+
+  // ── Número de alerta ──
+  const [numeroAlerta, setNumeroAlerta] = useState('');
+  const [numeroAlertaOriginal, setNumeroAlertaOriginal] = useState('');
+  const [salvandoAlerta, setSalvandoAlerta] = useState(false);
+  const [erroAlerta, setErroAlerta] = useState('');
+
+  const fetchNumeroAlerta = useCallback(async () => {
+    const expertId = getActiveExpertId();
+    if (!expertId) return;
+    const { data } = await supabase
+      .from('configuracoes')
+      .select('valor')
+      .eq('chave', 'numero_alerta')
+      .eq('expert_id', expertId)
+      .maybeSingle();
+    if (data?.valor) {
+      setNumeroAlerta(data.valor);
+      setNumeroAlertaOriginal(data.valor);
+    }
+  }, [getActiveExpertId]);
+
+  useEffect(() => {
+    fetchNumeroAlerta();
+  }, [fetchNumeroAlerta]);
+
+  const handleSalvarAlerta = async () => {
+    const limpo = numeroAlerta.replace(/\D/g, '');
+    if (limpo.length !== 13) {
+      setErroAlerta('O número deve ter 13 dígitos. Certifique-se de incluir o código 55 antes do número (ex: 5524999999999)');
+      return;
+    }
+    setErroAlerta('');
+    setSalvandoAlerta(true);
+    const expertId = getActiveExpertId();
+    const { error } = await supabase
+      .from('configuracoes')
+      .upsert(
+        { chave: 'numero_alerta', valor: limpo, expert_id: expertId },
+        { onConflict: 'chave,expert_id' }
+      );
+    setSalvandoAlerta(false);
+    if (error) {
+      showToast('error', error.message);
+    } else {
+      setNumeroAlerta(limpo);
+      setNumeroAlertaOriginal(limpo);
+      showToast('success', 'Número de alerta salvo!');
+    }
+  };
 
   // Instâncias disparadoras modal state
   const [editFormModal, setEditFormModal] = useState<{ open: boolean; numero: WhatsappRotacao | null }>({ open: false, numero: null });
@@ -224,7 +276,7 @@ export const CentralWhatsapp: React.FC = () => {
     <div className="overflow-x-hidden">
       <PageHeader
         title="Central WhatsApp"
-        subtitle="Gerencie instâncias, conexões e mensagens de abertura"
+        subtitle="Gerencie instâncias e conexões WhatsApp"
         onRefresh={fetchData}
         isRefreshing={loading}
       />
@@ -236,6 +288,50 @@ export const CentralWhatsapp: React.FC = () => {
         atLimit={instanciaLimit.atLimit}
         className="mb-4"
       />
+
+      {/* Configurações de Alerta */}
+      <div
+        className="card-dark p-5 mb-6"
+      >
+        <div className="flex items-center gap-2.5 mb-3">
+          <Bell className="w-[22px] h-[22px]" strokeWidth={1.6} style={{ color: '#facc3c' }} />
+          <div>
+            <h3 className="text-white text-[14px] font-semibold">Configurações de Alerta</h3>
+            <p className="text-white/40 text-[11px]">Notificações de desconexão de instâncias</p>
+          </div>
+        </div>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <div className="flex-1">
+            <label className="text-white/50 text-[11px] mb-1.5 block">Número para alertas de desconexão</label>
+            <input
+              type="text"
+              value={numeroAlerta}
+              onChange={(e) => { setNumeroAlerta(e.target.value.replace(/\D/g, '')); setErroAlerta(''); }}
+              placeholder="Ex: 5524999999999"
+              className="w-full text-white text-[13px] outline-none transition-all duration-200"
+              style={{ background: 'rgba(255,255,255,0.04)', border: erroAlerta ? '1px solid rgba(239,68,68,0.5)' : '1px solid rgba(255,255,255,0.06)', borderRadius: '10px', padding: '9px 14px' }}
+              onFocus={(e) => { if (!erroAlerta) e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)' }}
+              onBlur={(e) => { if (!erroAlerta) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)' }}
+            />
+            {erroAlerta ? (
+              <p className="text-red-400 text-[11px] mt-1">{erroAlerta}</p>
+            ) : (
+              <p className="text-white/30 text-[11px] mt-1">Esse número receberá uma mensagem no WhatsApp sempre que uma instância desconectar</p>
+            )}
+          </div>
+          <div className="flex items-start pt-[22px]">
+            <button
+              onClick={handleSalvarAlerta}
+              disabled={salvandoAlerta || numeroAlerta === numeroAlertaOriginal}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-[12px] font-medium transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+              style={{ background: 'rgba(var(--color-primary-rgb),0.12)', border: '1px solid rgba(var(--color-primary-rgb),0.25)', color: 'var(--color-primary-light)' }}
+            >
+              {salvandoAlerta ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
+              Salvar
+            </button>
+          </div>
+        </div>
+      </div>
 
       {/* Tabs */}
       <div
@@ -250,7 +346,7 @@ export const CentralWhatsapp: React.FC = () => {
               onClick={() => setActiveTab(tab.key)}
               className="flex items-center justify-center gap-2 px-3 md:px-5 py-2.5 rounded-[10px] text-[12px] md:text-[13px] font-medium transition-all duration-200"
               style={isActive
-                ? { background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', color: '#60a5fa' }
+                ? { background: 'rgba(var(--color-primary-rgb),0.1)', border: '1px solid rgba(var(--color-primary-rgb),0.2)', color: 'var(--color-primary-light)' }
                 : { background: 'transparent', border: '1px solid transparent', color: 'rgba(255,255,255,0.45)' }
               }
             >
@@ -281,11 +377,11 @@ export const CentralWhatsapp: React.FC = () => {
           {/* Status summary */}
           <div className="card-dark p-4 mb-6 flex items-center gap-4 flex-wrap">
             <div className="flex items-center gap-2.5">
-              <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-primary-bg">
-                <Wifi className="w-4 h-4 text-primary-light" />
+              <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-emerald-500/10">
+                <Wifi className="w-4 h-4 text-emerald-400" />
               </div>
               <p className="text-[14px] font-semibold text-txt">
-                <span className="text-primary-light">{conectadosDisp}</span>
+                <span className="text-emerald-400">{conectadosDisp}</span>
                 <span className="text-txt-muted text-[12px] ml-1">conectado{conectadosDisp !== 1 ? 's' : ''}</span>
               </p>
             </div>
@@ -331,8 +427,8 @@ export const CentralWhatsapp: React.FC = () => {
             onClick={() => setNovaInstanciaModal(true)}
             disabled={instanciaLimit.atLimit}
             className={cn(
-              'w-full flex items-center justify-center gap-2 py-4 rounded-xl border-2 border-dashed border-[#004AFF]/30 text-[#004AFF]/70 hover:text-[#004AFF] hover:border-[#004AFF]/50 hover:bg-[#004AFF]/5 transition-all duration-200 text-[13px] font-medium',
-              instanciaLimit.atLimit && 'opacity-50 cursor-not-allowed hover:text-[#004AFF]/70 hover:border-[#004AFF]/30 hover:bg-transparent',
+              'w-full flex items-center justify-center gap-2 py-4 rounded-xl border-2 border-dashed border-primary/30 text-primary/70 hover:text-primary hover:border-primary/50 hover:bg-primary/5 transition-all duration-200 text-[13px] font-medium',
+              instanciaLimit.atLimit && 'opacity-50 cursor-not-allowed hover:text-primary/70 hover:border-primary/30 hover:bg-transparent',
             )}
             title={instanciaLimit.atLimit ? 'Limite de instancias atingido' : undefined}
           >
@@ -348,11 +444,11 @@ export const CentralWhatsapp: React.FC = () => {
           {/* Status summary */}
           <div className="card-dark p-4 mb-6 flex items-center gap-4 flex-wrap">
             <div className="flex items-center gap-2.5">
-              <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-primary-bg">
-                <Wifi className="w-4 h-4 text-primary-light" />
+              <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-emerald-500/10">
+                <Wifi className="w-4 h-4 text-emerald-400" />
               </div>
               <p className="text-[14px] font-semibold text-txt">
-                <span className="text-primary-light">{conectadosColeta}</span>
+                <span className="text-emerald-400">{conectadosColeta}</span>
                 <span className="text-txt-muted text-[12px] ml-1">conectado{conectadosColeta !== 1 ? 's' : ''}</span>
               </p>
             </div>
@@ -394,59 +490,13 @@ export const CentralWhatsapp: React.FC = () => {
             onClick={() => setNovaColetaModal(true)}
             disabled={instanciaLimit.atLimit}
             className={cn(
-              'w-full flex items-center justify-center gap-2 py-4 rounded-xl border-2 border-dashed border-[#004AFF]/30 text-[#004AFF]/70 hover:text-[#004AFF] hover:border-[#004AFF]/50 hover:bg-[#004AFF]/5 transition-all duration-200 text-[13px] font-medium',
-              instanciaLimit.atLimit && 'opacity-50 cursor-not-allowed hover:text-[#004AFF]/70 hover:border-[#004AFF]/30 hover:bg-transparent',
+              'w-full flex items-center justify-center gap-2 py-4 rounded-xl border-2 border-dashed border-primary/30 text-primary/70 hover:text-primary hover:border-primary/50 hover:bg-primary/5 transition-all duration-200 text-[13px] font-medium',
+              instanciaLimit.atLimit && 'opacity-50 cursor-not-allowed hover:text-primary/70 hover:border-primary/30 hover:bg-transparent',
             )}
             title={instanciaLimit.atLimit ? 'Limite de instancias atingido' : undefined}
           >
             <Plus className="w-4 h-4" />
             Nova Instância de Coleta
-          </button>
-        </>
-      )}
-
-      {/* Tab: Mensagens de Abertura */}
-      {activeTab === 'mensagens' && !loading && (
-        <>
-          {/* Resumo */}
-          <div className="card-dark p-4 mb-6 flex items-center gap-3">
-            <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-primary-bg">
-              <MessageCircle className="w-4 h-4 text-primary-light" />
-            </div>
-            <p className="text-[14px] font-semibold text-txt">
-              <span className="text-primary-light">{mensagensAtivas}</span>
-              {' '}mensagen{mensagensAtivas !== 1 ? 's' : ''} ativa{mensagensAtivas !== 1 ? 's' : ''} de{' '}
-              <span className="text-txt-secondary">{mensagens.length}</span> total
-            </p>
-          </div>
-
-          <p className="text-sm text-white mb-5">
-            Mensagens rotativas enviadas quando o lead clica no link para chamar no WhatsApp. Cada lead recebe uma mensagem diferente, gerando rotatividade e evitando repetição.
-          </p>
-
-          {/* Lista */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-            {mensagens.map((msg, idx) => (
-              <MensagemAberturaCard
-                key={msg.id}
-                mensagem={msg}
-                isFirst={idx === 0}
-                isLast={idx === mensagens.length - 1}
-                onToggleAtivo={handleToggleAtivoMsg}
-                onEdit={(m) => setMsgFormModal({ open: true, mensagem: m })}
-                onDelete={(m) => setMsgDeleteModal(m)}
-                onMoveUp={handleMoveUpMsg}
-                onMoveDown={handleMoveDownMsg}
-              />
-            ))}
-          </div>
-
-          <button
-            onClick={() => setMsgFormModal({ open: true, mensagem: null })}
-            className="w-full flex items-center justify-center gap-2 py-4 rounded-xl border-2 border-dashed border-[#004AFF]/30 text-[#004AFF]/70 hover:text-[#004AFF] hover:border-[#004AFF]/50 hover:bg-[#004AFF]/5 transition-all duration-200 text-[13px] font-medium"
-          >
-            <Plus className="w-4 h-4" />
-            Adicionar Mensagem
           </button>
         </>
       )}

@@ -1,0 +1,1 @@
+{"nodes": [{"id": "mockData", "label": "Mock Data (Leads, Notificacoes, Metricas)", "file_type": "code", "source_file": "src/data/mockData.ts"}], "edges": [{"source": "mockData", "target": "table_leads", "relation": "semantically_similar_to", "confidence": "INFERRED", "confidence_score": 0.9, "source_file": "src/data/mockData.ts", "weight": 0.7}], "hyperedges": []}

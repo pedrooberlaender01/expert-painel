@@ -1,0 +1,1 @@
+{"nodes": [{"id": "env_envConfig", "label": "Environment Config", "file_type": "code", "source_file": "src/backend/env.ts"}], "edges": [{"source": "env_envConfig", "target": "supabase_lib", "relation": "shares_data_with", "confidence": "INFERRED", "confidence_score": 0.85, "source_file": "src/backend/env.ts", "weight": 0.8}], "hyperedges": []}

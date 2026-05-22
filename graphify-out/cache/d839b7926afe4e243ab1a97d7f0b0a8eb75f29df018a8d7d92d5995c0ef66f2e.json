@@ -1,0 +1,1 @@
+{"nodes": [{"id": "filtroperiodo", "label": "FiltroPeriodo", "file_type": "code", "source_file": "src/components/envios/FiltroPeriodo.tsx"}], "edges": [{"source": "filtroperiodo", "target": "util_cn", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "src/components/envios/FiltroPeriodo.tsx", "weight": 0.6}], "hyperedges": []}

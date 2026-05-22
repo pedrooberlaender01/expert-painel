@@ -1,0 +1,1 @@
+{"nodes": [{"id": "PageHeader_PageHeader", "label": "PageHeader", "file_type": "code", "source_file": "src/components/PageHeader.tsx"}], "edges": [{"source": "PageHeader_PageHeader", "target": "cn_utility", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "src/components/PageHeader.tsx", "weight": 0.7}], "hyperedges": []}

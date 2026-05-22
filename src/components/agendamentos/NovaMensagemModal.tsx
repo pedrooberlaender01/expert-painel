@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, MessageSquare, Mic, Image, Video, Upload, Loader2, File, Megaphone } from 'lucide-react';
+import { X, MessageSquare, Mic, Image, Video, Upload, Loader2, File, Megaphone, BookPlus } from 'lucide-react';
 import type { AgendamentoMensagem } from '../../hooks/useAgendamentos';
 import { cn } from '../../utils/cn';
+import { AdicionarExemploModal } from '../copy/AdicionarExemploModal';
 
 const TIPOS = [
   { key: 'texto' as const, label: 'Texto', icon: MessageSquare },
@@ -28,6 +29,8 @@ interface NovaMensagemModalProps {
   onSave: (dados: { nome: string; tipo: string; conteudo?: string; file?: File; mencionar_todos?: boolean }) => Promise<void>;
   editando?: AgendamentoMensagem | null;
   loading: boolean;
+  onAddExemplo?: (dados: { categoria: string; conteudo: string; contexto?: string; qualidade?: number }) => Promise<void>;
+  showToast?: (type: 'success' | 'error', msg: string) => void;
 }
 
 export const NovaMensagemModal: React.FC<NovaMensagemModalProps> = ({
@@ -36,12 +39,15 @@ export const NovaMensagemModal: React.FC<NovaMensagemModalProps> = ({
   onSave,
   editando,
   loading,
+  onAddExemplo,
+  showToast,
 }) => {
   const [nome, setNome] = useState('');
   const [tipo, setTipo] = useState<AgendamentoMensagem['tipo']>('texto');
   const [conteudo, setConteudo] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [mencionarTodos, setMencionarTodos] = useState(false);
+  const [showExemploModal, setShowExemploModal] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -151,9 +157,29 @@ export const NovaMensagemModal: React.FC<NovaMensagemModalProps> = ({
           {/* Conteúdo texto */}
           {tipo === 'texto' && (
             <div>
-              <label className="block text-[12px] font-medium text-txt-muted mb-1.5">
-                Conteúdo
-              </label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-[12px] font-medium text-txt-muted">
+                  Conteúdo
+                </label>
+                {onAddExemplo && conteudo.trim().length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setShowExemploModal(true)}
+                    className="flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-lg transition-all duration-200"
+                    style={{
+                      background: 'rgba(var(--color-primary-rgb), 0.08)',
+                      border: '1px solid rgba(var(--color-primary-rgb), 0.18)',
+                      color: 'var(--color-primary-light)',
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(var(--color-primary-rgb), 0.14)'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(var(--color-primary-rgb), 0.08)'; }}
+                    title="Salvar esta mensagem como exemplo para o Gerar Copy IA"
+                  >
+                    <BookPlus className="w-3 h-3" />
+                    Adicionar à base de conhecimento
+                  </button>
+                )}
+              </div>
               <textarea
                 value={conteudo}
                 onChange={(e) => setConteudo(e.target.value)}
@@ -313,6 +339,24 @@ export const NovaMensagemModal: React.FC<NovaMensagemModalProps> = ({
           </button>
         </div>
       </div>
+
+      {/* Modal secundario: Adicionar a Base de Conhecimento */}
+      {onAddExemplo && (
+        <AdicionarExemploModal
+          isOpen={showExemploModal}
+          onClose={() => setShowExemploModal(false)}
+          onAdd={async (dados) => {
+            try {
+              await onAddExemplo(dados);
+              showToast?.('success', 'Adicionado a base de conhecimento');
+            } catch {
+              showToast?.('error', 'Erro ao adicionar a base');
+              throw new Error('Falha');
+            }
+          }}
+          initialConteudo={conteudo}
+        />
+      )}
     </div>
   );
 };

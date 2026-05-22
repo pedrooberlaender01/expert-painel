@@ -108,8 +108,8 @@ export const ExpertPerfilSidebar: React.FC<ExpertPerfilSidebarProps> = ({
   };
 
   const focusInput = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    e.currentTarget.style.borderColor = 'rgba(59,130,246,0.3)';
-    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59,130,246,0.08)';
+    e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)';
+    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(var(--color-primary-rgb),0.08)';
     e.currentTarget.style.background = 'rgba(255,255,255,0.07)';
   };
   const blurInput = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -134,8 +134,8 @@ export const ExpertPerfilSidebar: React.FC<ExpertPerfilSidebarProps> = ({
         >
           <ChevronRight className="w-4 h-4" />
         </button>
-        <div className="w-8 h-8 rounded-full flex items-center justify-center mb-3" style={{ background: 'rgba(59,130,246,0.12)' }}>
-          <span className="text-[11px] font-bold" style={{ color: '#60a5fa' }}>
+        <div className="w-8 h-8 rounded-full flex items-center justify-center mb-3" style={{ background: 'rgba(var(--color-primary-rgb),0.12)' }}>
+          <span className="text-[11px] font-bold" style={{ color: 'var(--color-primary-light)' }}>
             {(nomeExpert || 'E').charAt(0).toUpperCase()}
           </span>
         </div>
@@ -183,7 +183,7 @@ export const ExpertPerfilSidebar: React.FC<ExpertPerfilSidebarProps> = ({
       <div className="flex-1 overflow-y-auto px-5 py-5 space-y-5" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.04) transparent' }}>
         {loading ? (
           <div className="flex items-center justify-center py-12">
-            <div className="w-5 h-5 border-2 rounded-full animate-spin" style={{ borderColor: 'rgba(59,130,246,0.2)', borderTopColor: '#3b82f6' }} />
+            <div className="w-5 h-5 border-2 rounded-full animate-spin" style={{ borderColor: 'rgba(var(--color-primary-rgb),0.2)', borderTopColor: 'var(--color-primary)' }} />
           </div>
         ) : (
           <>
@@ -224,7 +224,7 @@ export const ExpertPerfilSidebar: React.FC<ExpertPerfilSidebarProps> = ({
                     onClick={() => setTomVoz(key)}
                     className="px-3.5 py-1.5 rounded-lg text-[12px] font-medium transition-all duration-200"
                     style={tomVoz === key
-                      ? { background: 'rgba(59,130,246,0.15)', border: '1px solid rgba(59,130,246,0.3)', color: '#60a5fa' }
+                      ? { background: 'rgba(var(--color-primary-rgb),0.15)', border: '1px solid rgba(var(--color-primary-rgb),0.3)', color: 'var(--color-primary-light)' }
                       : { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.45)' }
                     }
                     onMouseEnter={(e) => { if (tomVoz !== key) { e.currentTarget.style.background = 'rgba(255,255,255,0.07)'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)' } }}

@@ -46,18 +46,29 @@ export function useConfiguracoes(): UseConfiguracoesReturn {
 
   const alterarSenha = useCallback(async (novaSenha: string): Promise<string | null> => {
     if (novaSenha.length < 6) return 'A senha deve ter pelo menos 6 caracteres';
+    if (!user) return 'Usuário não autenticado';
 
     try {
       setSaving(true);
 
-      return 'Alteração de senha indisponível nesta versão';
+      const { data, error } = await supabase.rpc('solicitar_alteracao_senha', {
+        p_admin_user_id: user.id,
+        p_nova_senha: novaSenha,
+      });
+      if (error) throw error;
+
+      const result = data as { success: boolean; error?: string };
+      if (!result.success) return result.error || 'Erro ao solicitar alteração';
+
+      // Retornar null = sucesso (sem erro)
+      return null;
     } catch (err: any) {
-      console.error('Erro ao alterar senha:', err);
-      return err.message || 'Erro ao alterar senha';
+      console.error('Erro ao solicitar alteração de senha:', err);
+      return err.message || 'Erro ao solicitar alteração';
     } finally {
       setSaving(false);
     }
-  }, []);
+  }, [user]);
 
   return { saving, salvarPreferencias, alterarSenha };
 }

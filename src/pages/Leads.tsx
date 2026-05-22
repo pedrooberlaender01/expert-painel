@@ -66,10 +66,11 @@ const CustomSelect: React.FC<{
         {selected?.label || placeholder}
         <ChevronDown className="w-3.5 h-3.5 absolute right-2.5" style={{ color: '#60a5fa' }} />
       </button>
+      {/* Desktop dropdown */}
       {open && ReactDOM.createPortal(
         <div
           ref={dropRef}
-          className="fixed overflow-y-auto animate-fade-in"
+          className="hidden md:block fixed overflow-y-auto animate-fade-in"
           style={{
             top: pos.top,
             left: pos.left,
@@ -102,6 +103,63 @@ const CustomSelect: React.FC<{
                 </button>
               );
             })}
+          </div>
+        </div>,
+        document.body
+      )}
+
+      {/* Mobile bottom sheet */}
+      {open && ReactDOM.createPortal(
+        <div className="md:hidden fixed inset-0 z-[100] flex items-end animate-fade-in">
+          <div
+            className="absolute inset-0 bg-black/60"
+            style={{ backdropFilter: 'blur(4px)' }}
+            onClick={() => setOpen(false)}
+          />
+          <div
+            ref={dropRef}
+            className="relative w-full rounded-t-3xl border-t border-white/10 animate-slide-up"
+            style={{
+              background: 'rgba(22,27,34,0.98)',
+              maxHeight: '80vh',
+              boxShadow: '0 -20px 60px rgba(0,0,0,0.6)',
+            }}
+          >
+            <div className="flex justify-center pt-3 pb-1">
+              <div className="w-10 h-1 rounded-full bg-white/15" />
+            </div>
+            <div className="flex items-center justify-between px-5 py-3 border-b border-white/5">
+              <h4 className="text-[14px] font-semibold text-white font-display">{placeholder}</h4>
+              <button
+                onClick={() => setOpen(false)}
+                className="w-8 h-8 rounded-lg flex items-center justify-center bg-white/5 text-white/40 hover:text-white hover:bg-white/10 transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <div
+              className="overflow-y-auto p-2 space-y-1"
+              style={{ maxHeight: 'calc(80vh - 80px)', paddingBottom: 'calc(env(safe-area-inset-bottom) + 12px)' }}
+            >
+              {options.map(o => {
+                const active = o.value === value;
+                return (
+                  <button
+                    key={o.value}
+                    onClick={() => { onChange(o.value); setOpen(false); }}
+                    className="flex items-center justify-between w-full px-4 py-3.5 rounded-xl text-[13px] font-medium transition-all duration-150 text-left"
+                    style={{
+                      background: active ? 'rgba(59,130,246,0.12)' : 'rgba(255,255,255,0.03)',
+                      border: active ? '1px solid rgba(59,130,246,0.3)' : '1px solid rgba(255,255,255,0.05)',
+                      color: active ? '#60a5fa' : 'rgba(255,255,255,0.7)',
+                    }}
+                  >
+                    <span>{o.label}</span>
+                    {active && <Check size={14} className="text-[#60a5fa] flex-shrink-0" />}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>,
         document.body
@@ -363,19 +421,19 @@ const Pagination: React.FC<{
   const pages = getPageNumbers(current, totalPages);
 
   return (
-    <div className="px-5 py-4 border-t border-surface-300/20 flex items-center justify-between">
-      <span className="text-[11px] text-txt-muted font-mono">
+    <div className="px-3 md:px-5 py-3 md:py-4 border-t border-surface-300/20 flex flex-col gap-2.5 md:flex-row md:items-center md:justify-between md:gap-0">
+      <span className="text-[11px] text-txt-muted font-mono whitespace-nowrap text-center md:text-left">
         {total === 0
           ? '0 de 0'
           : `${(current - 1) * itemsPerPage + 1}-${Math.min(current * itemsPerPage, total)} de ${total}`
         }
       </span>
-      <div className="flex items-center gap-1">
-        {/* First page */}
+      <div className="flex items-center justify-center gap-1 flex-nowrap">
+        {/* First page (desktop only) */}
         <button
           onClick={() => onChange(1)}
           disabled={current === 1}
-          className="p-1.5 border border-surface-300/30 rounded-lg hover:bg-surface-200/40 hover:border-surface-300/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-txt-muted hover:text-txt"
+          className="hidden md:flex p-1.5 border border-surface-300/30 rounded-lg hover:bg-surface-200/40 hover:border-surface-300/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-txt-muted hover:text-txt"
           title="Primeira página"
         >
           <ChevronsLeft className="w-3.5 h-3.5" />
@@ -391,25 +449,38 @@ const Pagination: React.FC<{
         </button>
 
         {/* Page numbers */}
-        {pages.map((p, idx) =>
-          p === '...' ? (
-            <span key={`dots-${idx}`} className="px-1.5 text-[11px] text-txt-dim font-mono select-none">
-              ...
-            </span>
-          ) : (
+        {pages.map((p, idx) => {
+          // Em mobile mostra so paginas adjacentes (current-1, current, current+1) + atual sempre
+          const showOnMobile = p === '...' || p === current || p === current - 1 || p === current + 1;
+          if (p === '...') {
+            return (
+              <span
+                key={`dots-${idx}`}
+                className={cn(
+                  "px-1.5 text-[11px] text-txt-dim font-mono select-none",
+                  !showOnMobile && "hidden md:inline"
+                )}
+              >
+                ...
+              </span>
+            );
+          }
+          return (
             <button
               key={p}
               onClick={() => onChange(p)}
-              className={`min-w-[32px] h-[32px] flex items-center justify-center rounded-lg text-[11px] font-mono font-medium transition-all duration-150 ${
+              className={cn(
+                "min-w-[32px] h-[32px] flex items-center justify-center rounded-lg text-[11px] font-mono font-medium transition-all duration-150",
+                !showOnMobile && "hidden md:flex",
                 p === current
                   ? 'bg-[#3b82f6]/15 text-[#3b82f6] border border-[#3b82f6]/30'
                   : 'border border-surface-300/30 text-txt-muted hover:bg-surface-200/40 hover:border-surface-300/50 hover:text-txt'
-              }`}
+              )}
             >
               {p}
             </button>
-          )
-        )}
+          );
+        })}
 
         {/* Next */}
         <button
@@ -420,11 +491,11 @@ const Pagination: React.FC<{
         >
           <ChevronRight className="w-3.5 h-3.5" />
         </button>
-        {/* Last page */}
+        {/* Last page (desktop only) */}
         <button
           onClick={() => onChange(totalPages)}
           disabled={current === totalPages}
-          className="p-1.5 border border-surface-300/30 rounded-lg hover:bg-surface-200/40 hover:border-surface-300/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-txt-muted hover:text-txt"
+          className="hidden md:flex p-1.5 border border-surface-300/30 rounded-lg hover:bg-surface-200/40 hover:border-surface-300/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-txt-muted hover:text-txt"
           title="Última página"
         >
           <ChevronsRight className="w-3.5 h-3.5" />
@@ -493,6 +564,12 @@ export const Leads: React.FC = () => {
 
   // === Monitoramento state ===
   const { columns: funilColumns, totalLeads: funilTotal, loading: funilLoading, lastUpdated: funilLastUpdated, refresh: funilRefresh } = useFunil();
+  const [expandedFunilCols, setExpandedFunilCols] = useState<Set<string>>(new Set());
+  const toggleFunilCol = (status: string) => setExpandedFunilCols((prev) => {
+    const next = new Set(prev);
+    if (next.has(status)) next.delete(status); else next.add(status);
+    return next;
+  });
 
   return (
     <div className="space-y-6">
@@ -527,12 +604,12 @@ export const Leads: React.FC = () => {
 
       {/* Tabs — Glass Pill Selector */}
       <div
-        className="flex flex-wrap md:inline-flex gap-1 p-1 rounded-[14px] w-full md:w-fit"
+        className="grid grid-cols-2 md:inline-flex gap-1 p-1 rounded-[14px] w-full md:w-fit"
         style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
       >
         <button
           onClick={() => setActiveTab('automatico')}
-          className="flex items-center gap-2 px-5 py-2 rounded-[10px] text-[13px] font-medium transition-all duration-250"
+          className="flex items-center justify-center md:justify-start gap-1.5 md:gap-2 px-3 md:px-5 py-2 rounded-[10px] text-[12px] md:text-[13px] font-medium transition-all duration-250 whitespace-nowrap"
           style={activeTab === 'automatico' ? {
             background: 'var(--color-primary-bg)', border: '1px solid var(--color-primary-bg)', color: 'var(--color-primary-light)',
           } : {
@@ -541,12 +618,13 @@ export const Leads: React.FC = () => {
           onMouseEnter={(e) => { if (activeTab !== 'automatico') { e.currentTarget.style.color = 'rgba(255,255,255,0.65)'; e.currentTarget.style.background = 'rgba(255,255,255,0.03)' } }}
           onMouseLeave={(e) => { if (activeTab !== 'automatico') { e.currentTarget.style.color = 'rgba(255,255,255,0.45)'; e.currentTarget.style.background = 'transparent' } }}
         >
-          <Bot className="w-4 h-4" style={{ opacity: activeTab === 'automatico' ? 1 : 0.45 }} />
-          Assistente Automatico
+          <Bot className="w-4 h-4 shrink-0" style={{ opacity: activeTab === 'automatico' ? 1 : 0.45 }} />
+          <span className="md:hidden">Assistente</span>
+          <span className="hidden md:inline">Assistente Automatico</span>
         </button>
         <button
           onClick={() => setActiveTab('monitoramento')}
-          className="flex items-center gap-2 px-5 py-2 rounded-[10px] text-[13px] font-medium transition-all duration-250"
+          className="flex items-center justify-center md:justify-start gap-1.5 md:gap-2 px-3 md:px-5 py-2 rounded-[10px] text-[12px] md:text-[13px] font-medium transition-all duration-250 whitespace-nowrap"
           style={activeTab === 'monitoramento' ? {
             background: 'rgba(167,139,250,0.1)', border: '1px solid rgba(167,139,250,0.2)', color: '#a78bfa',
           } : {
@@ -555,7 +633,7 @@ export const Leads: React.FC = () => {
           onMouseEnter={(e) => { if (activeTab !== 'monitoramento') { e.currentTarget.style.color = 'rgba(255,255,255,0.65)'; e.currentTarget.style.background = 'rgba(255,255,255,0.03)' } }}
           onMouseLeave={(e) => { if (activeTab !== 'monitoramento') { e.currentTarget.style.color = 'rgba(255,255,255,0.45)'; e.currentTarget.style.background = 'transparent' } }}
         >
-          <Activity className="w-4 h-4" style={{ opacity: activeTab === 'monitoramento' ? 1 : 0.45 }} />
+          <Activity className="w-4 h-4 shrink-0" style={{ opacity: activeTab === 'monitoramento' ? 1 : 0.45 }} />
           Monitoramento
         </button>
       </div>
@@ -876,8 +954,8 @@ export const Leads: React.FC = () => {
               </div>
 
               {/* Kanban columns */}
-              <div className="overflow-x-auto pb-4" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.04) transparent' }}>
-                <div className="flex flex-col md:flex-row gap-3 md:min-w-[1200px]" style={{ minHeight: '400px', height: 'auto', maxHeight: 'calc(100vh - 320px)' }}>
+              <div className="md:overflow-x-auto pb-4" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.04) transparent' }}>
+                <div className="flex flex-col md:flex-row gap-3 md:min-w-[1200px]" style={{ height: 'auto' }}>
                   {FUNIL_COLUMNS.map((status, colIndex) => {
                     const col = funilColumns[status];
                     const colLeads = col?.leads ?? [];
@@ -886,12 +964,13 @@ export const Leads: React.FC = () => {
                     const style = FUNIL_STYLE[status];
                     if (!style) return null;
                     const isHighVolume = quantidade > 50;
+                    const isExpanded = expandedFunilCols.has(status);
 
                     return (
                       <div
                         key={status}
                         className={cn(
-                          "flex-1 min-w-0 md:min-w-[200px] flex flex-col max-h-[300px] md:max-h-full animate-slide-up opacity-0 overflow-hidden",
+                          "flex-1 min-w-0 md:min-w-[200px] flex flex-col md:max-h-full animate-slide-up opacity-0 overflow-hidden",
                           `stagger-${colIndex + 1}`
                         )}
                         style={{
@@ -904,30 +983,42 @@ export const Leads: React.FC = () => {
                           scrollbarColor: 'rgba(255,255,255,0.04) transparent',
                         }}
                       >
-                        {/* Column header — sticky */}
-                        <div
-                          className="p-3.5 sticky top-0 z-10"
+                        {/* Column header — clickable on mobile, sticky on desktop */}
+                        <button
+                          type="button"
+                          onClick={() => toggleFunilCol(status)}
+                          className="p-3.5 md:sticky md:top-0 md:z-10 md:cursor-default text-left w-full"
                           style={{
                             background: 'rgba(12, 12, 20, 0.85)',
                             borderBottom: '1px solid rgba(255, 255, 255, 0.04)',
                           }}
                         >
                           <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 min-w-0">
                               <div
                                 className="w-2 h-2 rounded-full shrink-0"
                                 style={{ background: style.color, boxShadow: style.dotShadow }}
                               />
-                              <h3 className="font-semibold text-white text-[13px] font-display tracking-tight leading-none">
+                              <h3 className="font-semibold text-white text-[13px] font-display tracking-tight leading-none truncate">
                                 {getStatusLabel(status)}
                               </h3>
                             </div>
-                            <span
-                              className="text-[11px] px-2 py-0.5 rounded-lg font-mono font-semibold"
-                              style={{ background: style.bg, color: style.color, border: `1px solid ${style.border}`, minWidth: 24, textAlign: 'center' }}
-                            >
-                              {quantidade}
-                            </span>
+                            <div className="flex items-center gap-2 shrink-0">
+                              <span
+                                className="text-[11px] px-2 py-0.5 rounded-lg font-mono font-semibold"
+                                style={{ background: style.bg, color: style.color, border: `1px solid ${style.border}`, minWidth: 24, textAlign: 'center' }}
+                              >
+                                {quantidade}
+                              </span>
+                              {/* Chevron (mobile only) */}
+                              <ChevronDown
+                                className={cn(
+                                  "w-4 h-4 md:hidden transition-transform duration-200",
+                                  isExpanded && "rotate-180"
+                                )}
+                                style={{ color: 'rgba(255,255,255,0.4)' }}
+                              />
+                            </div>
                           </div>
                           <div className="flex items-center gap-2">
                             <div className="flex-1 h-[3px] rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.04)' }}>
@@ -940,10 +1031,13 @@ export const Leads: React.FC = () => {
                               {percentage}%
                             </span>
                           </div>
-                        </div>
+                        </button>
 
-                        {/* Cards */}
-                        <div className="p-2 overflow-y-auto flex-1 space-y-2">
+                        {/* Cards — collapsed on mobile by default; always visible on desktop */}
+                        <div className={cn(
+                          "p-2 overflow-y-auto flex-1 space-y-2",
+                          !isExpanded && "hidden md:block"
+                        )}>
                           {colLeads.map((lead) => {
                             const hasExited = lead.observacoes?.toLowerCase().includes('saiu');
                             return (

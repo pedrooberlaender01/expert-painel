@@ -20,7 +20,7 @@ export const LeadPreviewItem: React.FC<LeadPreviewItemProps> = ({ lead }) => {
         className={cn(
           'w-9 h-9 rounded-xl flex items-center justify-center text-[13px] font-bold shrink-0',
           hasName
-            ? 'bg-[#004AFF]/10 text-[#004AFF] border border-[#004AFF]/20'
+            ? 'bg-primary/10 text-primary border border-primary/20'
             : 'bg-surface-200/40 text-txt-muted border border-surface-300/20'
         )}
       >

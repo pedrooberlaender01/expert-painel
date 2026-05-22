@@ -9,7 +9,7 @@ interface MetricCardProps {
   trend?: string;
   trendType?: 'positive' | 'negative' | 'neutral';
   icon: LucideIcon;
-  color?: 'primary' | 'cyan' | 'amber' | 'rose';
+  color?: 'primary' | 'cyan' | 'amber' | 'rose' | 'green';
   sparklineData?: number[];
 }
 
@@ -24,13 +24,13 @@ const colorMap = {
     badgeText: 'var(--color-primary-light)',
   },
   cyan: {
-    iconBg: 'rgba(59, 130, 246, 0.12)',
-    iconColor: '#60a5fa',
-    sparkline: '#3b82f6',
-    sparklineFill: 'rgba(59, 130, 246, 0.08)',
-    badgeBg: 'rgba(59, 130, 246, 0.10)',
-    badgeBorder: 'rgba(59, 130, 246, 0.20)',
-    badgeText: '#60a5fa',
+    iconBg: 'rgba(var(--color-primary-rgb), 0.12)',
+    iconColor: 'var(--color-primary-light)',
+    sparkline: 'var(--color-primary)',
+    sparklineFill: 'rgba(var(--color-primary-rgb), 0.08)',
+    badgeBg: 'rgba(var(--color-primary-rgb), 0.10)',
+    badgeBorder: 'rgba(var(--color-primary-rgb), 0.20)',
+    badgeText: 'var(--color-primary-light)',
   },
   amber: {
     iconBg: 'rgba(250, 204, 60, 0.12)',
@@ -50,12 +50,22 @@ const colorMap = {
     badgeBorder: 'rgba(244, 63, 94, 0.20)',
     badgeText: '#fb7185',
   },
+  green: {
+    iconBg: 'rgba(52, 211, 153, 0.12)',
+    iconColor: '#34d399',
+    sparkline: '#10b981',
+    sparklineFill: 'rgba(52, 211, 153, 0.08)',
+    badgeBg: 'rgba(52, 211, 153, 0.10)',
+    badgeBorder: 'rgba(52, 211, 153, 0.20)',
+    badgeText: '#34d399',
+  },
 };
 
-const Sparkline: React.FC<{ data: number[]; color: string; fill: string }> = ({ data, color, fill }) => {
+const Sparkline: React.FC<{ data: number[]; color: string; fill: string; colorKey: string }> = ({ data, color, fill, colorKey }) => {
   const width = 100;
   const height = 32;
   const padding = 2;
+  const gradientId = `spark-fill-${colorKey}`;
 
   const points = useMemo(() => {
     const max = Math.max(...data);
@@ -73,12 +83,12 @@ const Sparkline: React.FC<{ data: number[]; color: string; fill: string }> = ({ 
   return (
     <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-8" preserveAspectRatio="none">
       <defs>
-        <linearGradient id={`spark-fill-${color}`} x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor={fill} stopOpacity="1" />
           <stop offset="100%" stopColor={fill} stopOpacity="0" />
         </linearGradient>
       </defs>
-      <path d={areaPath} fill={`url(#spark-fill-${color})`} />
+      <path d={areaPath} fill={`url(#${gradientId})`} />
       <path d={linePath} fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       <circle cx={points[points.length - 1].x} cy={points[points.length - 1].y} r="2" fill={color} />
     </svg>
@@ -90,6 +100,7 @@ const defaultSparklines: Record<string, number[]> = {
   cyan: [8, 10, 9, 12, 11, 15, 14, 13, 16, 15, 18],
   amber: [3, 2, 4, 3, 5, 4, 3, 5, 4, 6, 3],
   rose: [5, 4, 6, 5, 3, 4, 5, 3, 4, 3, 2],
+  green: [4, 6, 5, 8, 7, 9, 10, 8, 12, 11, 13],
 };
 
 export const MetricCard: React.FC<MetricCardProps> = ({
@@ -106,7 +117,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   const data = sparklineData || defaultSparklines[color];
 
   const trendConfig = {
-    positive: { color: 'var(--color-primary-light)', icon: TrendingUp, bg: 'var(--color-primary-bg)', border: 'var(--color-primary-bg)' },
+    positive: { color: '#34d399', icon: TrendingUp, bg: 'rgba(52, 211, 153, 0.10)', border: 'rgba(52, 211, 153, 0.20)' },
     negative: { color: '#fb7185', icon: TrendingDown, bg: 'rgba(244, 63, 94, 0.10)', border: 'rgba(244, 63, 94, 0.20)' },
     neutral: { color: 'rgba(255,255,255,0.5)', icon: Minus, bg: 'rgba(255, 255, 255, 0.05)', border: 'rgba(255, 255, 255, 0.04)' },
   };
@@ -161,7 +172,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
         {/* Sparkline */}
         <div className="mt-auto pt-3">
           <div className="sparkline-container">
-            <Sparkline data={data} color={colors.sparkline} fill={colors.sparklineFill} />
+            <Sparkline data={data} color={colors.sparkline} fill={colors.sparklineFill} colorKey={color} />
           </div>
         </div>
       </div>

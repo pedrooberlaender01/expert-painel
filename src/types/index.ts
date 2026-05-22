@@ -50,16 +50,13 @@ export interface MetricaDiaria {
   no_grupo: number;
 }
 
-export type SecoesHabilitadas = {
-  dashboard: boolean;
-  conversas: boolean;
-  leads: boolean;
-  grupos: boolean;
-  envios: boolean;
-  torneios: boolean;
-  mensagens: boolean;
-  central_whatsapp: boolean;
-} | null;
+// Estado de visibilidade de secao: enabled (visivel), disabled (cadeado/cinza), hidden (oculta)
+export type SectionState = 'enabled' | 'disabled' | 'hidden';
+
+// Formato novo: Record<string, SectionState>
+// Retrocompatibilidade: Record<string, boolean> (true = enabled, false = disabled)
+// null = todas enabled
+export type SecoesHabilitadas = Record<string, SectionState | boolean> | null;
 
 export interface ExpertProfile {
   id: string;

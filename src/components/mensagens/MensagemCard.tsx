@@ -190,7 +190,7 @@ export const MensagemCard: React.FC<MensagemCardProps> = ({
       )}
       style={{
         background: 'rgba(255,255,255,0.04)',
-        border: isModified && !disabled ? '1px solid rgba(59,130,246,0.3)' : '1px solid rgba(255,255,255,0.04)',
+        border: isModified && !disabled ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid rgba(255,255,255,0.04)',
         borderRadius: '16px',
       }}
     >
@@ -345,7 +345,7 @@ export const MensagemCard: React.FC<MensagemCardProps> = ({
                 border: '1px solid rgba(255,255,255,0.04)',
                 minHeight: '80px',
               }}
-              onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(59,130,246,0.3)' }}
+              onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)' }}
               onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)' }}
             />
 
@@ -357,7 +357,7 @@ export const MensagemCard: React.FC<MensagemCardProps> = ({
                       key={v}
                       onClick={() => insertVariable(index, v)}
                       className="px-2 py-0.5 text-[10px] font-mono rounded-md transition-colors"
-                      style={{ background: 'rgba(59,130,246,0.12)', color: '#60a5fa', border: '1px solid rgba(59,130,246,0.2)' }}
+                      style={{ background: 'rgba(var(--color-primary-rgb),0.12)', color: 'var(--color-primary-light)', border: '1px solid rgba(var(--color-primary-rgb),0.2)' }}
                     >
                       {v}
                     </button>
@@ -387,9 +387,7 @@ export const MensagemCard: React.FC<MensagemCardProps> = ({
         <button
           onClick={addMessage}
           className="flex items-center gap-1.5 text-[12px] font-medium transition-all mb-5 px-3 py-2 rounded-lg w-full justify-center"
-          style={{ color: 'var(--color-primary-bg)', border: '1px dashed var(--color-primary-bg)' }}
-          onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-primary-light)'; e.currentTarget.style.borderColor = 'var(--color-primary-bg)' }}
-          onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-primary-bg)'; e.currentTarget.style.borderColor = 'var(--color-primary-bg)' }}
+          style={{ color: 'var(--color-primary)', border: '1px dashed var(--color-primary)', background: 'var(--color-primary-bg)' }}
         >
           <Plus className="w-3.5 h-3.5" />
           Adicionar mensagem
@@ -412,7 +410,7 @@ export const MensagemCard: React.FC<MensagemCardProps> = ({
         disabled={disabled || testing || !currentMessages.some((m) => m.trim())}
         className="flex items-center justify-center gap-2 w-full py-2 rounded-xl text-[12px] font-medium transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
         style={{ color: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.04)' }}
-        onMouseEnter={(e) => { if (!disabled && !testing) { e.currentTarget.style.color = '#60a5fa'; e.currentTarget.style.borderColor = 'rgba(59,130,246,0.3)'; e.currentTarget.style.background = 'rgba(59,130,246,0.04)' } }}
+        onMouseEnter={(e) => { if (!disabled && !testing) { e.currentTarget.style.color = 'var(--color-primary-light)'; e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)'; e.currentTarget.style.background = 'rgba(var(--color-primary-rgb),0.04)' } }}
         onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.5)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)'; e.currentTarget.style.background = 'transparent' }}
       >
         {testing ? (

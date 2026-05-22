@@ -45,8 +45,8 @@ export const NovaInstanciaModal: React.FC<NovaInstanciaModalProps> = ({
       <div className="relative card-dark-elevated w-full max-w-md animate-slide-up">
         <div className="flex items-center justify-between p-5 border-b border-surface-300/20">
           <div className="flex items-center gap-2.5">
-            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#004AFF]/10">
-              <Smartphone className="w-4 h-4 text-[#004AFF]" />
+            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10">
+              <Smartphone className="w-4 h-4 text-primary" />
             </div>
             <h2 className="text-[15px] font-semibold text-txt font-display">
               Nova Instância
@@ -142,8 +142,8 @@ export const NovaInstanciaModal: React.FC<NovaInstanciaModalProps> = ({
                   </div>
                 )}
 
-                <div className="px-3 py-2.5 rounded-lg bg-[#004AFF]/5 border border-[#004AFF]/10">
-                  <p className="text-[12px] text-[#004AFF]/80 leading-relaxed">
+                <div className="px-3 py-2.5 rounded-lg bg-primary/5 border border-primary/10">
+                  <p className="text-[12px] text-primary/80 leading-relaxed">
                     Abra o WhatsApp no aparelho, vá em <strong>Dispositivos Conectados</strong> e
                     selecione <strong>Conectar com número de telefone</strong>. Insira o código acima.
                   </p>
@@ -172,7 +172,7 @@ export const NovaInstanciaModal: React.FC<NovaInstanciaModalProps> = ({
                 <div className="flex gap-3">
                   <button
                     onClick={() => setResultado(null)}
-                    className="flex-1 px-4 py-2 text-[13px] font-medium text-[#004AFF] bg-[#004AFF]/10 hover:bg-[#004AFF]/15 rounded-xl border border-[#004AFF]/20 transition-all"
+                    className="flex-1 px-4 py-2 text-[13px] font-medium text-primary bg-primary/10 hover:bg-primary/15 rounded-xl border border-primary/20 transition-all"
                   >
                     Tentar novamente
                   </button>

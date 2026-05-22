@@ -1,0 +1,719 @@
+{
+  "nodes": [
+    {
+      "id": "NovaMensagemModal",
+      "label": "NovaMensagemModal",
+      "file_type": "code",
+      "source_file": "src/components/agendamentos/NovaMensagemModal.tsx"
+    },
+    {
+      "id": "AdicionarBotModal",
+      "label": "AdicionarBotModal",
+      "file_type": "code",
+      "source_file": "src/components/bots/AdicionarBotModal.tsx"
+    },
+    {
+      "id": "AdicionarGrupoModal",
+      "label": "AdicionarGrupoModal",
+      "file_type": "code",
+      "source_file": "src/components/bots/AdicionarGrupoModal.tsx"
+    },
+    {
+      "id": "BotInstanciaTab",
+      "label": "BotInstanciaTab",
+      "file_type": "code",
+      "source_file": "src/components/bots/BotInstanciaTab.tsx"
+    },
+    {
+      "id": "ConfigWppModal",
+      "label": "ConfigWppModal",
+      "file_type": "code",
+      "source_file": "src/components/bots/ConfigWppModal.tsx"
+    },
+    {
+      "id": "ConhecimentoTab",
+      "label": "ConhecimentoTab",
+      "file_type": "code",
+      "source_file": "src/components/bots/ConhecimentoTab.tsx"
+    },
+    {
+      "id": "GruposAtivosTab",
+      "label": "GruposAtivosTab",
+      "file_type": "code",
+      "source_file": "src/components/bots/GruposAtivosTab.tsx"
+    },
+    {
+      "id": "MetricasTab_bots",
+      "label": "MetricasTab (Bots)",
+      "file_type": "code",
+      "source_file": "src/components/bots/MetricasTab.tsx"
+    },
+    {
+      "id": "PersonaFormModal",
+      "label": "PersonaFormModal",
+      "file_type": "code",
+      "source_file": "src/components/bots/PersonaFormModal.tsx"
+    },
+    {
+      "id": "PersonasTab",
+      "label": "PersonasTab",
+      "file_type": "code",
+      "source_file": "src/components/bots/PersonasTab.tsx"
+    },
+    {
+      "id": "TagInput_bots",
+      "label": "TagInput (Bots)",
+      "file_type": "code",
+      "source_file": "src/components/bots/TagInput.tsx"
+    },
+    {
+      "id": "AdicionarExemploModal",
+      "label": "AdicionarExemploModal",
+      "file_type": "code",
+      "source_file": "src/components/copy/AdicionarExemploModal.tsx"
+    },
+    {
+      "id": "BaseConhecimento",
+      "label": "BaseConhecimento",
+      "file_type": "code",
+      "source_file": "src/components/copy/BaseConhecimento.tsx"
+    },
+    {
+      "id": "CopyResultCard",
+      "label": "CopyResultCard",
+      "file_type": "code",
+      "source_file": "src/components/copy/CopyResultCard.tsx"
+    },
+    {
+      "id": "ExpertPerfilSidebar",
+      "label": "ExpertPerfilSidebar",
+      "file_type": "code",
+      "source_file": "src/components/copy/ExpertPerfilSidebar.tsx"
+    },
+    {
+      "id": "OpcoesExtras",
+      "label": "OpcoesExtras",
+      "file_type": "code",
+      "source_file": "src/components/copy/OpcoesExtras.tsx"
+    },
+    {
+      "id": "QualidadeStars",
+      "label": "QualidadeStars",
+      "file_type": "code",
+      "source_file": "src/components/copy/QualidadeStars.tsx"
+    },
+    {
+      "id": "SalvarBibliotecaPopover",
+      "label": "SalvarBibliotecaPopover",
+      "file_type": "code",
+      "source_file": "src/components/copy/SalvarBibliotecaPopover.tsx"
+    },
+    {
+      "id": "TagInput_copy",
+      "label": "TagInput (Copy)",
+      "file_type": "code",
+      "source_file": "src/components/copy/TagInput.tsx"
+    },
+    {
+      "id": "TamanhoSelector",
+      "label": "TamanhoSelector",
+      "file_type": "code",
+      "source_file": "src/components/copy/TamanhoSelector.tsx"
+    },
+    {
+      "id": "TipoCopySelector",
+      "label": "TipoCopySelector",
+      "file_type": "code",
+      "source_file": "src/components/copy/TipoCopySelector.tsx"
+    },
+    {
+      "id": "ConfirmDeleteModal_envios",
+      "label": "ConfirmDeleteModal (Envios)",
+      "file_type": "code",
+      "source_file": "src/components/envios/ConfirmDeleteModal.tsx"
+    },
+    {
+      "id": "DelaySlider",
+      "label": "DelaySlider",
+      "file_type": "code",
+      "source_file": "src/components/envios/DelaySlider.tsx"
+    },
+    {
+      "id": "useAgendamentos",
+      "label": "useAgendamentos Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useAgendamentos.ts"
+    },
+    {
+      "id": "useBotGrupos",
+      "label": "useBotGrupos Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useBotGrupos.ts"
+    },
+    {
+      "id": "useBotConhecimento",
+      "label": "useBotConhecimento Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useBotConhecimento.ts"
+    },
+    {
+      "id": "useBotMetricas",
+      "label": "useBotMetricas Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useBotMetricas.ts"
+    },
+    {
+      "id": "useBotPersonas",
+      "label": "useBotPersonas Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useBotPersonas.ts"
+    },
+    {
+      "id": "useWhatsappRotacao",
+      "label": "useWhatsappRotacao Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useWhatsappRotacao.ts"
+    },
+    {
+      "id": "useGerarCopy",
+      "label": "useGerarCopy Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useGerarCopy.ts"
+    },
+    {
+      "id": "MetricCard",
+      "label": "MetricCard",
+      "file_type": "code",
+      "source_file": "src/components/MetricCard.tsx"
+    },
+    {
+      "id": "InstanciaCard",
+      "label": "InstanciaCard",
+      "file_type": "code",
+      "source_file": "src/components/numeros/InstanciaCard.tsx"
+    },
+    {
+      "id": "NovaInstanciaModal",
+      "label": "NovaInstanciaModal",
+      "file_type": "code",
+      "source_file": "src/components/numeros/NovaInstanciaModal.tsx"
+    },
+    {
+      "id": "ConfirmDeleteNumeroModal",
+      "label": "ConfirmDeleteNumeroModal",
+      "file_type": "code",
+      "source_file": "src/components/numeros/ConfirmDeleteNumeroModal.tsx"
+    },
+    {
+      "id": "NumeroFormModal",
+      "label": "NumeroFormModal",
+      "file_type": "code",
+      "source_file": "src/components/numeros/NumeroFormModal.tsx"
+    },
+    {
+      "id": "supabase_client",
+      "label": "Supabase Client",
+      "file_type": "code",
+      "source_file": "src/lib/supabase.ts"
+    },
+    {
+      "id": "authStore",
+      "label": "Auth Store (Zustand)",
+      "file_type": "code",
+      "source_file": "src/stores/authStore.ts"
+    },
+    {
+      "id": "cn_util",
+      "label": "cn Utility",
+      "file_type": "code",
+      "source_file": "src/utils/cn.ts"
+    },
+    {
+      "id": "table_whatsapp_rotacao",
+      "label": "whatsapp_rotacao Table",
+      "file_type": "database",
+      "source_file": "supabase/whatsapp_rotacao"
+    },
+    {
+      "id": "table_bot_grupo_personas",
+      "label": "bot_grupo_personas Table",
+      "file_type": "database",
+      "source_file": "supabase/bot_grupo_personas"
+    }
+  ],
+  "edges": [
+    {
+      "source": "NovaMensagemModal",
+      "target": "useAgendamentos",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/agendamentos/NovaMensagemModal.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "AdicionarBotModal",
+      "target": "useBotGrupos",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/AdicionarBotModal.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "AdicionarGrupoModal",
+      "target": "useBotGrupos",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/AdicionarGrupoModal.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "BotInstanciaTab",
+      "target": "useWhatsappRotacao",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/BotInstanciaTab.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "BotInstanciaTab",
+      "target": "InstanciaCard",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/BotInstanciaTab.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "BotInstanciaTab",
+      "target": "NovaInstanciaModal",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/BotInstanciaTab.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "BotInstanciaTab",
+      "target": "ConfirmDeleteNumeroModal",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/BotInstanciaTab.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "BotInstanciaTab",
+      "target": "NumeroFormModal",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/BotInstanciaTab.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "ConfigWppModal",
+      "target": "supabase_client",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/ConfigWppModal.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "ConfigWppModal",
+      "target": "authStore",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/ConfigWppModal.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "ConfigWppModal",
+      "target": "table_whatsapp_rotacao",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/ConfigWppModal.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "ConhecimentoTab",
+      "target": "useBotConhecimento",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/ConhecimentoTab.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "GruposAtivosTab",
+      "target": "useBotGrupos",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/GruposAtivosTab.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "GruposAtivosTab",
+      "target": "AdicionarGrupoModal",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/GruposAtivosTab.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "GruposAtivosTab",
+      "target": "AdicionarBotModal",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/GruposAtivosTab.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "MetricasTab_bots",
+      "target": "useBotMetricas",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/MetricasTab.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "MetricasTab_bots",
+      "target": "MetricCard",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/MetricasTab.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "PersonaFormModal",
+      "target": "TagInput_bots",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/PersonaFormModal.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "PersonaFormModal",
+      "target": "useBotPersonas",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/PersonaFormModal.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "PersonasTab",
+      "target": "useBotPersonas",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/PersonasTab.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "PersonasTab",
+      "target": "PersonaFormModal",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/PersonasTab.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "PersonasTab",
+      "target": "ConfigWppModal",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/PersonasTab.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "PersonasTab",
+      "target": "supabase_client",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/PersonasTab.tsx",
+      "weight": 0.7
+    },
+    {
+      "source": "PersonasTab",
+      "target": "table_bot_grupo_personas",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/bots/PersonasTab.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "AdicionarExemploModal",
+      "target": "QualidadeStars",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/copy/AdicionarExemploModal.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "BaseConhecimento",
+      "target": "QualidadeStars",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/copy/BaseConhecimento.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "BaseConhecimento",
+      "target": "AdicionarExemploModal",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/copy/BaseConhecimento.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "BaseConhecimento",
+      "target": "useGerarCopy",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/copy/BaseConhecimento.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "CopyResultCard",
+      "target": "SalvarBibliotecaPopover",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/copy/CopyResultCard.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "ExpertPerfilSidebar",
+      "target": "TagInput_copy",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/copy/ExpertPerfilSidebar.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "ExpertPerfilSidebar",
+      "target": "useGerarCopy",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/copy/ExpertPerfilSidebar.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "TagInput_bots",
+      "target": "TagInput_copy",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "src/components/bots/TagInput.tsx",
+      "weight": 0.7
+    },
+    {
+      "source": "BotInstanciaTab",
+      "target": "PersonasTab",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source_file": "src/components/bots/BotInstanciaTab.tsx",
+      "weight": 0.5
+    },
+    {
+      "source": "ConfigWppModal",
+      "target": "PersonasTab",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "src/components/bots/PersonasTab.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "NovaMensagemModal",
+      "target": "ConfirmDeleteModal_envios",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "src/components/agendamentos/NovaMensagemModal.tsx",
+      "weight": 0.4
+    },
+    {
+      "source": "TipoCopySelector",
+      "target": "TamanhoSelector",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "src/components/copy/TipoCopySelector.tsx",
+      "weight": 0.6
+    },
+    {
+      "source": "OpcoesExtras",
+      "target": "TipoCopySelector",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source_file": "src/components/copy/OpcoesExtras.tsx",
+      "weight": 0.5
+    },
+    {
+      "source": "AdicionarBotModal",
+      "target": "GruposAtivosTab",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "src/components/bots/GruposAtivosTab.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "AdicionarGrupoModal",
+      "target": "GruposAtivosTab",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "src/components/bots/GruposAtivosTab.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "QualidadeStars",
+      "target": "BaseConhecimento",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/components/copy/BaseConhecimento.tsx",
+      "weight": 0.7
+    },
+    {
+      "source": "SalvarBibliotecaPopover",
+      "target": "CopyResultCard",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/components/copy/CopyResultCard.tsx",
+      "weight": 0.7
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "bots_feature_module",
+      "label": "Bots Feature Module",
+      "nodes": [
+        "BotInstanciaTab",
+        "ConhecimentoTab",
+        "GruposAtivosTab",
+        "MetricasTab_bots",
+        "PersonasTab",
+        "PersonaFormModal",
+        "AdicionarBotModal",
+        "AdicionarGrupoModal",
+        "ConfigWppModal",
+        "TagInput_bots"
+      ],
+      "relation": "form",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source_file": "src/components/bots/"
+    },
+    {
+      "id": "copy_generation_module",
+      "label": "Copy Generation Module",
+      "nodes": [
+        "AdicionarExemploModal",
+        "BaseConhecimento",
+        "CopyResultCard",
+        "ExpertPerfilSidebar",
+        "OpcoesExtras",
+        "QualidadeStars",
+        "SalvarBibliotecaPopover",
+        "TagInput_copy",
+        "TamanhoSelector",
+        "TipoCopySelector"
+      ],
+      "relation": "form",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source_file": "src/components/copy/"
+    },
+    {
+      "id": "bots_hooks_data_layer",
+      "label": "Bots Hooks Data Layer",
+      "nodes": [
+        "useBotGrupos",
+        "useBotConhecimento",
+        "useBotMetricas",
+        "useBotPersonas",
+        "useWhatsappRotacao"
+      ],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.9,
+      "source_file": "src/hooks/"
+    },
+    {
+      "id": "whatsapp_instance_management",
+      "label": "WhatsApp Instance Management (Bot Context)",
+      "nodes": [
+        "BotInstanciaTab",
+        "InstanciaCard",
+        "NovaInstanciaModal",
+        "ConfirmDeleteNumeroModal",
+        "NumeroFormModal",
+        "useWhatsappRotacao"
+      ],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.9,
+      "source_file": "src/components/bots/BotInstanciaTab.tsx"
+    },
+    {
+      "id": "persona_lifecycle",
+      "label": "Persona CRUD Lifecycle",
+      "nodes": [
+        "PersonasTab",
+        "PersonaFormModal",
+        "ConfigWppModal",
+        "useBotPersonas",
+        "TagInput_bots"
+      ],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.9,
+      "source_file": "src/components/bots/PersonasTab.tsx"
+    },
+    {
+      "id": "copy_rag_pipeline",
+      "label": "Copy RAG Pipeline UI",
+      "nodes": [
+        "BaseConhecimento",
+        "AdicionarExemploModal",
+        "QualidadeStars",
+        "useGerarCopy"
+      ],
+      "relation": "implement",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/components/copy/BaseConhecimento.tsx"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

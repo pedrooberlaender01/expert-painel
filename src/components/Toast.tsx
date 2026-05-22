@@ -13,7 +13,7 @@ export const Toast: React.FC<ToastProps> = ({ toast, onClose }) => {
     <div className={cn(
       'fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-xl shadow-2xl border animate-slide-up',
       toast.type === 'success'
-        ? 'bg-[#004AFF]/10 border-[#004AFF]/20 text-[#004AFF]'
+        ? 'bg-primary/10 border-primary/20 text-primary'
         : 'bg-rose-500/10 border-rose-500/20 text-rose-400'
     )} style={{
       background: toast.type === 'success'

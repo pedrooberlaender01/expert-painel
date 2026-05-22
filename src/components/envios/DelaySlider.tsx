@@ -16,7 +16,7 @@ export const DelaySlider: React.FC<DelaySliderProps> = ({ value, onChange }) => 
           <Timer className="w-3.5 h-3.5 text-txt-muted" />
           <span className="text-[13px] text-txt-secondary">Intervalo entre envios</span>
         </div>
-        <span className="text-[13px] font-mono text-[#004AFF] font-semibold">{value}s</span>
+        <span className="text-[13px] font-mono text-primary font-semibold">{value}s</span>
       </div>
 
       <div className="relative">
@@ -29,7 +29,7 @@ export const DelaySlider: React.FC<DelaySliderProps> = ({ value, onChange }) => 
           onChange={(e) => onChange(Number(e.target.value))}
           className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
           style={{
-            background: `linear-gradient(to right, #004AFF 0%, #004AFF ${pct}%, rgba(63,63,70,0.4) ${pct}%, rgba(63,63,70,0.4) 100%)`,
+            background: `linear-gradient(to right, var(--color-primary) 0%, var(--color-primary) ${pct}%, rgba(63,63,70,0.4) ${pct}%, rgba(63,63,70,0.4) 100%)`,
           }}
         />
       </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Pencil, Eye, Pause, Play, Loader2, AlertCircle, Users } from 'lucide-react';
+import { Plus, Pencil, Eye, Pause, Play, Trash2, Loader2, AlertCircle, Users } from 'lucide-react';
 import { PageHeader } from '../../components/PageHeader';
 import { useAdminExperts } from '../../hooks/useAdminExperts';
 import { useAuthStore } from '../../stores/authStore';
@@ -9,15 +9,28 @@ import type { ExpertProfile } from '../../types/index';
 
 export const AdminExperts: React.FC = () => {
   const navigate = useNavigate();
-  const { experts, loading, error, refresh, toggleExpert, getExpertDetail } = useAdminExperts();
+  const { experts, loading, error, refresh, toggleExpert, deleteExpert, getExpertDetail } = useAdminExperts();
   const startImpersonation = useAuthStore((s) => s.startImpersonation);
   const [togglingId, setTogglingId] = useState<string | null>(null);
   const [impersonatingId, setImpersonatingId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
   const handleToggle = async (expert: AdminExpertListItem) => {
     setTogglingId(expert.id);
     await toggleExpert(expert.id, !expert.ativo);
     setTogglingId(null);
+  };
+
+  const handleDelete = async (expert: AdminExpertListItem) => {
+    if (confirmDeleteId !== expert.id) {
+      setConfirmDeleteId(expert.id);
+      return;
+    }
+    setDeletingId(expert.id);
+    setConfirmDeleteId(null);
+    await deleteExpert(expert.id);
+    setDeletingId(null);
   };
 
   const handleImpersonate = async (expert: AdminExpertListItem) => {
@@ -31,6 +44,7 @@ export const AdminExperts: React.FC = () => {
         cor_primaria: data.expert.cor_primaria,
         cor_secundaria: data.expert.cor_secundaria,
         logo_url: data.expert.logo_url,
+        favicon_url: data.expert.favicon_url,
         nome_plataforma: data.expert.nome_plataforma,
         nome_assistente: data.expert.nome_assistente,
         ativo: data.expert.ativo,
@@ -53,7 +67,7 @@ export const AdminExperts: React.FC = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-6 h-6 text-blue-400 animate-spin" />
+        <Loader2 className="w-6 h-6 text-primary-light animate-spin" />
       </div>
     );
   }
@@ -85,12 +99,12 @@ export const AdminExperts: React.FC = () => {
           <button
             onClick={() => navigate('/admin/experts/new')}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-white transition-all"
-            style={{ background: 'rgba(59,130,246,0.15)', border: '1px solid rgba(59,130,246,0.3)' }}
+            style={{ background: 'rgba(var(--color-primary-rgb),0.15)', border: '1px solid rgba(var(--color-primary-rgb),0.3)' }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(59,130,246,0.25)';
+              e.currentTarget.style.background = 'rgba(var(--color-primary-rgb),0.25)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(59,130,246,0.15)';
+              e.currentTarget.style.background = 'rgba(var(--color-primary-rgb),0.15)';
             }}
           >
             <Plus className="w-4 h-4" />
@@ -105,8 +119,8 @@ export const AdminExperts: React.FC = () => {
           <p className="text-sm text-white/40">Nenhum expert cadastrado</p>
           <button
             onClick={() => navigate('/admin/experts/new')}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm text-blue-400 transition-all"
-            style={{ background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.2)' }}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm text-primary-light transition-all"
+            style={{ background: 'rgba(var(--color-primary-rgb),0.08)', border: '1px solid rgba(var(--color-primary-rgb),0.2)' }}
           >
             <Plus className="w-4 h-4" />
             Criar primeiro expert
@@ -178,7 +192,7 @@ export const AdminExperts: React.FC = () => {
                         {/* Edit */}
                         <button
                           onClick={() => navigate(`/admin/experts/${expert.id}/edit`)}
-                          className="p-2 rounded-lg text-white/40 hover:text-blue-400 hover:bg-blue-500/10 transition-all"
+                          className="p-2 rounded-lg text-white/40 hover:text-primary-light hover:bg-primary-bg transition-all"
                           title="Editar"
                         >
                           <Pencil className="w-4 h-4" />
@@ -217,6 +231,27 @@ export const AdminExperts: React.FC = () => {
                             <Play className="w-4 h-4" />
                           )}
                         </button>
+
+                        {/* Delete (apenas quando suspenso) */}
+                        {!expert.ativo && (
+                          <button
+                            onClick={() => handleDelete(expert)}
+                            onBlur={() => setConfirmDeleteId(null)}
+                            disabled={deletingId === expert.id}
+                            className={`p-2 rounded-lg transition-all disabled:opacity-50 ${
+                              confirmDeleteId === expert.id
+                                ? 'text-red-400 bg-red-500/15'
+                                : 'text-white/40 hover:text-red-400 hover:bg-red-500/10'
+                            }`}
+                            title={confirmDeleteId === expert.id ? 'Clique novamente para confirmar' : 'Excluir expert'}
+                          >
+                            {deletingId === expert.id ? (
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                            ) : (
+                              <Trash2 className="w-4 h-4" />
+                            )}
+                          </button>
+                        )}
                       </div>
                     </td>
                   </tr>

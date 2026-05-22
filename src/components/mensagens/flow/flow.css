@@ -1,0 +1,154 @@
+/* ── React Flow dark theme overrides ──
+   Segue o design system do SaaS: superficies escuras, bordas sutis, accent via --color-primary
+*/
+
+/* Esconde atribuicao do React Flow */
+.react-flow__attribution {
+  display: none !important;
+}
+
+/* ── Controls default (escondidos — usamos FlowControls customizado) ── */
+.react-flow__controls {
+  display: none !important;
+}
+
+/* ── MiniMap ── */
+.react-flow__minimap {
+  background: rgba(13, 17, 23, 0.95) !important;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+.react-flow__minimap-mask {
+  fill: rgba(10, 10, 15, 0.6);
+}
+
+.react-flow__minimap-node {
+  stroke: none;
+}
+
+/* ── Panel (background) ── */
+.react-flow__panel {
+  margin: 12px;
+}
+
+/* ── Edges — dash flowing animation ── */
+@keyframes dashFlow {
+  to {
+    stroke-dashoffset: -16;
+  }
+}
+
+.react-flow__edge-path {
+  stroke: rgba(255, 255, 255, 0.2);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+  animation: dashFlow 0.8s linear infinite;
+}
+
+.react-flow__edge.selected .react-flow__edge-path,
+.react-flow__edge:hover .react-flow__edge-path {
+  stroke: var(--color-primary, #3b82f6);
+  stroke-width: 2;
+}
+
+/* ── Canvas selection ── */
+.react-flow__selection {
+  background: rgba(var(--color-primary-rgb, 59, 130, 246), 0.08);
+  border: 1px solid rgba(var(--color-primary-rgb, 59, 130, 246), 0.3);
+  border-radius: 4px;
+}
+
+/* ── Etapa node — cor primaria do expert via color-mix ── */
+.flow-etapa-bg {
+  background: rgba(16, 185, 129, 0.06);
+  background: color-mix(in srgb, var(--color-primary) 6%, transparent);
+}
+
+.flow-etapa-border {
+  border-color: rgba(16, 185, 129, 0.22);
+  border-color: color-mix(in srgb, var(--color-primary) 22%, transparent);
+}
+
+.flow-etapa-border-hover {
+  border-color: rgba(16, 185, 129, 0.35);
+  border-color: color-mix(in srgb, var(--color-primary) 35%, transparent);
+}
+
+.flow-etapa-border-selected {
+  border-color: rgba(16, 185, 129, 0.7);
+  border-color: color-mix(in srgb, var(--color-primary) 70%, transparent);
+}
+
+.flow-etapa-ring-selected {
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 10%, transparent);
+}
+
+.flow-etapa-circle {
+  background: var(--color-primary, #10b981);
+}
+
+.flow-etapa-label {
+  color: var(--color-primary, #10b981);
+}
+
+.flow-etapa-dot {
+  background: color-mix(in srgb, var(--color-primary, #10b981) 80%, white 20%);
+  box-shadow: 0 0 4px color-mix(in srgb, var(--color-primary, #10b981) 50%, transparent);
+}
+
+.flow-etapa-badge {
+  background: color-mix(in srgb, var(--color-primary, #10b981) 60%, black 40%);
+}
+
+.flow-etapa-handle {
+  background: var(--color-primary, #10b981) !important;
+}
+
+/* ── Drawer — etapa accent via cor primaria ── */
+.flow-drawer-tab-active {
+  background: rgba(16, 185, 129, 0.15);
+  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+  color: var(--color-primary, #10b981);
+}
+
+.flow-drawer-tipo-active {
+  background: rgba(16, 185, 129, 0.12);
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  border-color: rgba(16, 185, 129, 0.35);
+  border-color: color-mix(in srgb, var(--color-primary) 35%, transparent);
+  color: var(--color-primary, #10b981);
+}
+
+.flow-drawer-var-active {
+  background: rgba(16, 185, 129, 0.15);
+  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+  border-color: rgba(16, 185, 129, 0.3);
+  border-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  color: var(--color-primary, #10b981);
+}
+
+.flow-drawer-save-ready {
+  background: rgba(16, 185, 129, 0.15);
+  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+  border-color: rgba(16, 185, 129, 0.3);
+  border-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  color: var(--color-primary, #10b981);
+}
+
+.flow-drawer-toggle-on {
+  background: rgba(16, 185, 129, 0.3);
+  background: color-mix(in srgb, var(--color-primary) 30%, transparent);
+}
+
+.flow-drawer-toggle-dot-on {
+  background: var(--color-primary, #10b981);
+}
+
+.flow-drawer-focus-border:focus {
+  border-color: rgba(16, 185, 129, 0.4);
+  border-color: color-mix(in srgb, var(--color-primary) 40%, transparent);
+}

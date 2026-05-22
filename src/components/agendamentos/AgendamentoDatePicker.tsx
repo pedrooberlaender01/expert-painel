@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useLayoutEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { ChevronDown } from 'lucide-react';
 import type { RegraRecorrencia } from '../../hooks/useAgendamentos';
 import { cn } from '../../utils/cn';
@@ -13,12 +14,6 @@ const DIAS_SEMANA = [
   { value: 6, label: 'Sáb' },
 ];
 
-const TIPOS_RECORRENCIA = [
-  { value: 'diario' as const, label: 'Diário' },
-  { value: 'semanal' as const, label: 'Semanal' },
-  { value: 'personalizado' as const, label: 'Personalizado' },
-];
-
 // ─── Glass Dropdown ────────────────────────────────────────────────────
 
 const GlassDropdown: React.FC<{
@@ -27,23 +22,60 @@ const GlassDropdown: React.FC<{
   placeholder?: string;
   onChange: (val: string) => void;
   className?: string;
-}> = ({ value, options, placeholder, onChange, className }) => {
+  accentColor?: string;
+  accentRgb?: string;
+}> = ({ value, options, placeholder, onChange, className, accentColor = '#34d399', accentRgb = '52,211,153' }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
+  const popRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
+  const [pos, setPos] = useState<{ top: number; left: number; placement: 'top' | 'bottom' }>({ top: 0, left: 0, placement: 'bottom' });
 
   const close = useCallback(() => setOpen(false), []);
+
+  // Calcula posição do popover (portal). Flip para cima quando faltar espaço.
+  const updatePosition = useCallback(() => {
+    if (!btnRef.current) return;
+    const rect = btnRef.current.getBoundingClientRect();
+    const POP_WIDTH = 56;
+    const POP_HEIGHT = 200;
+    const GAP = 4;
+    const buttonCenter = rect.left + rect.width / 2;
+    const left = Math.min(
+      Math.max(8, buttonCenter - POP_WIDTH / 2),
+      window.innerWidth - POP_WIDTH - 8,
+    );
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const placement: 'top' | 'bottom' = spaceBelow < POP_HEIGHT + GAP + 8 && rect.top > POP_HEIGHT + GAP + 8 ? 'top' : 'bottom';
+    const top = placement === 'bottom' ? rect.bottom + GAP : rect.top - GAP - POP_HEIGHT;
+    setPos({ top, left, placement });
+  }, []);
+
+  useLayoutEffect(() => {
+    if (!open) return;
+    updatePosition();
+  }, [open, updatePosition]);
 
   useEffect(() => {
     if (!open) return;
     const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) close();
+      const target = e.target as Node;
+      if (ref.current?.contains(target)) return;
+      if (popRef.current?.contains(target)) return;
+      close();
     };
+    const onScrollOrResize = () => updatePosition();
     document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, [open, close]);
+    window.addEventListener('scroll', onScrollOrResize, true);
+    window.addEventListener('resize', onScrollOrResize);
+    return () => {
+      document.removeEventListener('mousedown', handler);
+      window.removeEventListener('scroll', onScrollOrResize, true);
+      window.removeEventListener('resize', onScrollOrResize);
+    };
+  }, [open, close, updatePosition]);
 
-  // Scroll to selected item when opened
   useEffect(() => {
     if (open && listRef.current && value) {
       const el = listRef.current.querySelector(`[data-value="${value}"]`) as HTMLElement | null;
@@ -58,16 +90,17 @@ const GlassDropdown: React.FC<{
   return (
     <div ref={ref} className={cn('relative', className)}>
       <button
+        ref={btnRef}
         type="button"
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-center gap-1 font-mono text-[13px] transition-all duration-200 outline-none"
         style={{
-          background: open ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.04)',
-          border: open ? '1px solid rgba(59,130,246,0.3)' : '1px solid rgba(255,255,255,0.04)',
+          background: 'rgba(255,255,255,0.04)',
+          border: open ? `1px solid rgba(${accentRgb},0.35)` : '1px solid rgba(255,255,255,0.04)',
           borderRadius: '10px',
           padding: '8px 6px',
           color: selected ? '#fff' : 'rgba(255,255,255,0.35)',
-          boxShadow: open ? '0 0 0 3px rgba(59,130,246,0.08)' : 'none',
+          boxShadow: open ? `0 0 0 3px rgba(${accentRgb},0.1)` : 'none',
         }}
       >
         <span className="tabular-nums">{selected?.label ?? placeholder ?? '—'}</span>
@@ -77,15 +110,20 @@ const GlassDropdown: React.FC<{
         />
       </button>
 
-      {open && (
+      {open && createPortal(
         <div
-          className="absolute z-50 mt-1 left-1/2 -translate-x-1/2 animate-fade-in"
+          ref={popRef}
+          className="animate-fade-in"
           style={{
+            position: 'fixed',
+            top: pos.top,
+            left: pos.left,
+            width: '56px',
+            zIndex: 9999,
             background: 'rgba(16,16,28,0.97)',
             border: '1px solid rgba(255,255,255,0.12)',
             borderRadius: '12px',
             boxShadow: '0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04) inset',
-            width: '56px',
             overflow: 'hidden',
           }}
         >
@@ -104,8 +142,8 @@ const GlassDropdown: React.FC<{
                   onClick={() => { onChange(opt.value); close(); }}
                   className="w-full text-center px-4 py-1.5 text-[13px] font-mono tabular-nums transition-all duration-150 outline-none"
                   style={{
-                    background: isSelected ? 'rgba(59,130,246,0.15)' : 'transparent',
-                    color: isSelected ? '#60a5fa' : 'rgba(255,255,255,0.6)',
+                    background: isSelected ? `rgba(${accentRgb},0.15)` : 'transparent',
+                    color: isSelected ? accentColor : 'rgba(255,255,255,0.6)',
                     fontWeight: isSelected ? 600 : 400,
                   }}
                   onMouseEnter={(e) => { if (!isSelected) { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = '#fff' } }}
@@ -116,7 +154,8 @@ const GlassDropdown: React.FC<{
               );
             })}
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </div>
   );
@@ -140,6 +179,35 @@ const MINUTES = Array.from({ length: 60 }, (_, i) => {
   const v = String(i).padStart(2, '0');
   return { value: v, label: v };
 });
+
+// ─── Calcula proximo data_envio para recorrencia ───────────────────────
+
+export function calcularProximoEnvio(diasSemana: number[], horario: string): string {
+  if (diasSemana.length === 0 || !horario) return '';
+
+  const agora = new Date();
+  const [hh, mm] = horario.split(':').map(Number);
+
+  // Tenta encontrar o proximo dia valido nos proximos 8 dias
+  for (let offset = 0; offset <= 7; offset++) {
+    const candidato = new Date(agora);
+    candidato.setDate(candidato.getDate() + offset);
+    candidato.setHours(hh, mm, 0, 0);
+
+    const diaSemana = candidato.getDay();
+    if (!diasSemana.includes(diaSemana)) continue;
+
+    // Se for hoje, so vale se ainda nao passou o horario
+    if (offset === 0 && candidato.getTime() <= agora.getTime()) continue;
+
+    const y = candidato.getFullYear();
+    const m = String(candidato.getMonth() + 1).padStart(2, '0');
+    const d = String(candidato.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }
+
+  return '';
+}
 
 // ─── Main Component ────────────────────────────────────────────────────
 
@@ -177,18 +245,20 @@ export const AgendamentoDatePicker: React.FC<AgendamentoDatePickerProps> = ({
 
   const handleRecorrenteToggle = (checked: boolean) => {
     onRecorrenteChange(checked);
-    if (checked && !regraRecorrencia) {
-      onRegraChange({ tipo: 'diario', dias_semana: [], horario: horario || '09:00', data_fim: null });
-    } else if (!checked) {
+    if (checked) {
+      const hr = horario || '09:00';
+      const regra: RegraRecorrencia = {
+        tipo: 'diario',
+        dias_semana: [],
+        horario: hr,
+        data_fim: null,
+      };
+      onRegraChange(regra);
+    } else {
       onRegraChange(null);
+      // Restaura data de hoje se estava vazia
+      if (!dataEnvio) onDataChange(hoje);
     }
-  };
-
-  const handleTipoChange = (tipo: RegraRecorrencia['tipo']) => {
-    onRegraChange({
-      ...(regraRecorrencia ?? { dias_semana: [], horario: horario || '09:00', data_fim: null }),
-      tipo,
-    });
   };
 
   const handleDiaSemanaToggle = (dia: number) => {
@@ -196,19 +266,40 @@ export const AgendamentoDatePicker: React.FC<AgendamentoDatePickerProps> = ({
     const dias = regraRecorrencia.dias_semana.includes(dia)
       ? regraRecorrencia.dias_semana.filter((d) => d !== dia)
       : [...regraRecorrencia.dias_semana, dia].sort();
-    onRegraChange({ ...regraRecorrencia, dias_semana: dias });
+
+    // tipo automatico: todos os 7 dias = diario, senao semanal
+    const tipo = dias.length === 7 ? 'diario' : 'semanal';
+
+    const novaRegra: RegraRecorrencia = { ...regraRecorrencia, dias_semana: dias, tipo };
+    onRegraChange(novaRegra);
+
+    // Recalcula data_envio automaticamente
+    const hr = regraRecorrencia.horario || horario;
+    if (dias.length > 0 && hr) {
+      const proximaData = calcularProximoEnvio(dias, hr);
+      if (proximaData) onDataChange(proximaData);
+    }
   };
 
-  const handleDataFimChange = (dataFim: string | null) => {
-    if (!regraRecorrencia) return;
-    onRegraChange({ ...regraRecorrencia, data_fim: dataFim });
-  };
+  const handleHorarioRecorrente = (novoHorario: string) => {
+    onHorarioChange(novoHorario);
+    if (regraRecorrencia) {
+      const novaRegra = { ...regraRecorrencia, horario: novoHorario };
+      onRegraChange(novaRegra);
 
-  const showDiasSemana =
-    regraRecorrencia &&
-    (regraRecorrencia.tipo === 'semanal' || regraRecorrencia.tipo === 'personalizado');
+      // Recalcula data_envio
+      if (regraRecorrencia.dias_semana.length > 0) {
+        const proximaData = calcularProximoEnvio(regraRecorrencia.dias_semana, novoHorario);
+        if (proximaData) onDataChange(proximaData);
+      }
+    }
+  };
 
   const [dParts, hParts] = [dataEnvio.split('-'), horario.split(':')];
+
+  const accentColor = isTelegram ? '#38bdf8' : '#34d399';
+  const accentBg = isTelegram ? 'rgba(56,189,248,' : 'rgba(52,211,153,';
+  const accentRgb = isTelegram ? '56,189,248' : '52,211,153';
 
   return (
     <div
@@ -220,247 +311,196 @@ export const AgendamentoDatePicker: React.FC<AgendamentoDatePickerProps> = ({
         <div className="flex items-center gap-3 mb-5">
           <span
             className="inline-flex items-center justify-center w-6 h-6 rounded-lg text-[11px] font-bold font-mono"
-            style={{ background: isTelegram ? 'rgba(56,189,248,0.15)' : 'var(--color-primary-bg)', color: isTelegram ? '#38bdf8' : 'var(--color-primary-light)' }}
+            style={{ background: `${accentBg}0.15)`, color: accentColor }}
           >
             2
           </span>
           <h3 className="text-[14px] font-semibold text-white font-display">Agendamento</h3>
         </div>
 
-        {/* Date + Time */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-          <div>
-            <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-2" style={{ color: 'rgba(255,255,255,0.4)' }}>Data</label>
-            <div className="flex items-center gap-1.5">
-              <GlassDropdown
-                value={dParts[2] ?? ''}
-                options={DAYS}
-                placeholder="DD"
-                onChange={(v) => {
-                  const [y, m] = dParts;
-                  onDataChange(`${y || hojePartes[0]}-${m || hojePartes[1]}-${v}`);
-                }}
-                className="flex-1"
-              />
-              <span className="font-bold text-[14px]" style={{ color: 'rgba(255,255,255,0.2)' }}>/</span>
-              <GlassDropdown
-                value={dParts[1] ?? ''}
-                options={MONTHS}
-                placeholder="MM"
-                onChange={(v) => {
-                  const [y, , d] = dParts;
-                  onDataChange(`${y || hojePartes[0]}-${v}-${d || '01'}`);
-                }}
-                className="flex-1"
-              />
-              <span className="font-bold text-[14px]" style={{ color: 'rgba(255,255,255,0.2)' }}>/</span>
-              <GlassDropdown
-                value={dParts[0] ?? ''}
-                options={YEARS}
-                placeholder="AAAA"
-                onChange={(v) => {
-                  const [, m, d] = dParts;
-                  onDataChange(`${v}-${m || hojePartes[1]}-${d || hojePartes[2]}`);
-                }}
-                className="flex-[1.3]"
-              />
+        <div className="space-y-4">
+          {/* Data + Horario — quando NAO recorrente */}
+          {!recorrente && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-2" style={{ color: 'rgba(255,255,255,0.4)' }}>Data</label>
+                <div className="flex items-center gap-1.5">
+                  <GlassDropdown
+                    value={dParts[2] ?? ''}
+                    options={DAYS}
+                    placeholder="DD"
+                    onChange={(v) => {
+                      const [y, m] = dParts;
+                      onDataChange(`${y || hojePartes[0]}-${m || hojePartes[1]}-${v}`);
+                    }}
+                    className="flex-1"
+                    accentColor={accentColor}
+                    accentRgb={accentRgb}
+                  />
+                  <span className="font-bold text-[14px]" style={{ color: 'rgba(255,255,255,0.2)' }}>/</span>
+                  <GlassDropdown
+                    value={dParts[1] ?? ''}
+                    options={MONTHS}
+                    placeholder="MM"
+                    onChange={(v) => {
+                      const [y, , d] = dParts;
+                      onDataChange(`${y || hojePartes[0]}-${v}-${d || '01'}`);
+                    }}
+                    className="flex-1"
+                    accentColor={accentColor}
+                    accentRgb={accentRgb}
+                  />
+                  <span className="font-bold text-[14px]" style={{ color: 'rgba(255,255,255,0.2)' }}>/</span>
+                  <GlassDropdown
+                    value={dParts[0] ?? ''}
+                    options={YEARS}
+                    placeholder="AAAA"
+                    onChange={(v) => {
+                      const [, m, d] = dParts;
+                      onDataChange(`${v}-${m || hojePartes[1]}-${d || hojePartes[2]}`);
+                    }}
+                    className="flex-[1.3]"
+                    accentColor={accentColor}
+                    accentRgb={accentRgb}
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-2" style={{ color: 'rgba(255,255,255,0.4)' }}>Horário</label>
+                <div className="flex items-center gap-1.5">
+                  <GlassDropdown
+                    value={hParts[0] ?? ''}
+                    options={HOURS}
+                    placeholder="HH"
+                    onChange={(v) => {
+                      const min = hParts[1] ?? '00';
+                      onHorarioChange(`${v}:${min}`);
+                    }}
+                    className="flex-1"
+                    accentColor={accentColor}
+                    accentRgb={accentRgb}
+                  />
+                  <span className="font-bold text-[14px]" style={{ color: 'rgba(255,255,255,0.2)' }}>:</span>
+                  <GlassDropdown
+                    value={hParts[1] ?? ''}
+                    options={MINUTES}
+                    placeholder="mm"
+                    onChange={(v) => {
+                      const hr = hParts[0] ?? '00';
+                      onHorarioChange(`${hr}:${v}`);
+                    }}
+                    className="flex-1"
+                    accentColor={accentColor}
+                    accentRgb={accentRgb}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-          <div>
-            <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-2" style={{ color: 'rgba(255,255,255,0.4)' }}>Horário</label>
-            <div className="flex items-center gap-1.5">
-              <GlassDropdown
-                value={hParts[0] ?? ''}
-                options={HOURS}
-                placeholder="HH"
-                onChange={(v) => {
-                  const min = hParts[1] ?? '00';
-                  onHorarioChange(`${v}:${min}`);
-                }}
-                className="flex-1"
-              />
-              <span className="font-bold text-[14px]" style={{ color: 'rgba(255,255,255,0.2)' }}>:</span>
-              <GlassDropdown
-                value={hParts[1] ?? ''}
-                options={MINUTES}
-                placeholder="mm"
-                onChange={(v) => {
-                  const hr = hParts[0] ?? '00';
-                  onHorarioChange(`${hr}:${v}`);
-                }}
-                className="flex-1"
-              />
-            </div>
-          </div>
-        </div>
+          )}
 
-        {/* Recorrente toggle */}
-        <label
-          className="flex items-center gap-3 p-3 rounded-xl cursor-pointer group transition-all"
-          style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
-        >
-          <div className="relative">
-            <input
-              type="checkbox"
-              checked={recorrente}
-              onChange={(e) => handleRecorrenteToggle(e.target.checked)}
-              className="sr-only peer"
-            />
-            <div
-              className="w-[44px] h-[24px] rounded-full transition-all duration-300"
-              style={{
-                background: recorrente
-                  ? (isTelegram ? 'rgba(56,189,248,0.35)' : 'var(--color-primary-bg)')
-                  : 'rgba(255,255,255,0.1)',
-                border: recorrente
-                  ? (isTelegram ? '1px solid rgba(56,189,248,0.5)' : '1px solid var(--color-primary-bg)')
-                  : '1px solid rgba(255,255,255,0.15)',
-              }}
-            />
-            <div
-              className="absolute top-[3px] w-[18px] h-[18px] rounded-full bg-white transition-transform duration-300"
-              style={{
-                transform: recorrente ? 'translateX(22px)' : 'translateX(2px)',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
-              }}
-            />
-          </div>
-          <span className="text-[12px] font-medium transition-colors" style={{ color: recorrente ? '#fff' : 'rgba(255,255,255,0.5)' }}>
-            Horários recorrentes
-          </span>
-        </label>
-
-        {/* Recurrence options */}
-        {recorrente && regraRecorrencia && (
-          <div className="mt-4 space-y-4 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
-            {/* Tipo */}
+          {/* Horario — quando recorrente */}
+          {recorrente && (
             <div>
               <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-2" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                Frequência
+                Horário do envio
               </label>
-              <div className="grid grid-cols-3 gap-1.5">
-                {TIPOS_RECORRENCIA.map((t) => {
-                  const isActive = regraRecorrencia.tipo === t.value;
+              <div className="flex items-center gap-1.5" style={{ maxWidth: '160px' }}>
+                <GlassDropdown
+                  value={hParts[0] ?? ''}
+                  options={HOURS}
+                  placeholder="HH"
+                  onChange={(v) => {
+                    const min = hParts[1] ?? '00';
+                    handleHorarioRecorrente(`${v}:${min}`);
+                  }}
+                  className="flex-1"
+                  accentColor={accentColor}
+                  accentRgb={accentRgb}
+                />
+                <span className="font-bold text-[14px]" style={{ color: 'rgba(255,255,255,0.2)' }}>:</span>
+                <GlassDropdown
+                  value={hParts[1] ?? ''}
+                  options={MINUTES}
+                  placeholder="mm"
+                  onChange={(v) => {
+                    const hr = hParts[0] ?? '00';
+                    handleHorarioRecorrente(`${hr}:${v}`);
+                  }}
+                  className="flex-1"
+                  accentColor={accentColor}
+                  accentRgb={accentRgb}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Recorrente toggle */}
+          <label
+            className="flex items-center gap-3 p-3 rounded-xl cursor-pointer group transition-colors"
+            style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
+          >
+            <div className="relative">
+              <input
+                type="checkbox"
+                checked={recorrente}
+                onChange={(e) => handleRecorrenteToggle(e.target.checked)}
+                className="sr-only peer"
+              />
+              <div
+                className="w-[44px] h-[24px] rounded-full transition-colors duration-300"
+                style={{
+                  background: recorrente ? `${accentBg}0.35)` : 'rgba(255,255,255,0.1)',
+                  border: recorrente ? `1px solid ${accentBg}0.5)` : '1px solid rgba(255,255,255,0.15)',
+                }}
+              />
+              <div
+                className="absolute top-[3px] w-[18px] h-[18px] rounded-full bg-white transition-transform duration-300"
+                style={{
+                  transform: recorrente ? 'translateX(22px)' : 'translateX(2px)',
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                }}
+              />
+            </div>
+            <span className="text-[12px] font-medium transition-colors" style={{ color: recorrente ? '#fff' : 'rgba(255,255,255,0.5)' }}>
+              Horários recorrentes
+            </span>
+          </label>
+
+          {/* Dias da semana — visivel apenas quando recorrente */}
+          {recorrente && (
+            <div style={{ borderTop: '1px solid rgba(255,255,255,0.04)', paddingTop: '16px' }}>
+              <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-2.5" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                Dias da semana
+              </label>
+              <div className="flex gap-1.5">
+                {DIAS_SEMANA.map((d) => {
+                  const isActive = regraRecorrencia?.dias_semana.includes(d.value) ?? false;
                   return (
                     <button
-                      key={t.value}
-                      onClick={() => handleTipoChange(t.value)}
-                      className="px-3 py-2 rounded-xl text-[11px] font-medium transition-all duration-200"
+                      key={d.value}
+                      type="button"
+                      onClick={() => handleDiaSemanaToggle(d.value)}
+                      className="flex-1 py-2.5 rounded-lg text-[11px] font-semibold transition-colors duration-200"
                       style={isActive
                         ? {
-                            background: isTelegram ? 'rgba(56,189,248,0.12)' : 'var(--color-primary-bg)',
-                            border: isTelegram ? '1px solid rgba(56,189,248,0.25)' : '1px solid var(--color-primary-bg)',
-                            color: isTelegram ? '#38bdf8' : 'var(--color-primary-light)',
+                            background: isTelegram ? 'rgba(56,189,248,0.25)' : 'rgba(16,185,129,0.6)',
+                            color: '#fff',
+                            boxShadow: `0 0 12px ${accentBg}0.2)`,
                           }
-                        : { background: 'rgba(255,255,255,0.04)', border: '1px solid transparent', color: 'rgba(255,255,255,0.35)' }
+                        : {
+                            background: 'rgba(255,255,255,0.04)',
+                            color: 'rgba(255,255,255,0.4)',
+                          }
                       }
                     >
-                      {t.label}
+                      {d.label}
                     </button>
                   );
                 })}
               </div>
             </div>
-
-            {/* Dias da semana */}
-            {showDiasSemana && (
-              <div>
-                <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-2" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                  Dias da semana
-                </label>
-                <div className="flex gap-1">
-                  {DIAS_SEMANA.map((d) => {
-                    const isActive = regraRecorrencia.dias_semana.includes(d.value);
-                    return (
-                      <button
-                        key={d.value}
-                        onClick={() => handleDiaSemanaToggle(d.value)}
-                        className="flex-1 py-2 rounded-lg text-[10px] font-semibold transition-all duration-200"
-                        style={isActive
-                          ? {
-                              background: isTelegram ? 'rgba(56,189,248,0.15)' : 'rgba(52,211,153,0.15)',
-                              border: isTelegram ? '1px solid rgba(56,189,248,0.25)' : '1px solid var(--color-primary-bg)',
-                              color: isTelegram ? '#38bdf8' : 'var(--color-primary-light)',
-                            }
-                          : { background: 'rgba(255,255,255,0.04)', border: '1px solid transparent', color: 'rgba(255,255,255,0.35)' }
-                        }
-                      >
-                        {d.label}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {/* Data fim */}
-            <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-2" style={{ color: 'rgba(255,255,255,0.4)' }}>Até</label>
-              <div className="space-y-2">
-                <label className="flex items-center gap-2.5 cursor-pointer group">
-                  <input
-                    type="radio"
-                    name="data_fim"
-                    checked={regraRecorrencia.data_fim === null}
-                    onChange={() => handleDataFimChange(null)}
-                    className={cn('w-3.5 h-3.5', isTelegram ? 'accent-sky-500' : 'accent-primary')}
-                  />
-                  <span className="text-[12px] transition-colors" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                    Sem data fim
-                  </span>
-                </label>
-                <label className="flex items-center gap-2.5 cursor-pointer group">
-                  <input
-                    type="radio"
-                    name="data_fim"
-                    checked={regraRecorrencia.data_fim !== null}
-                    onChange={() => handleDataFimChange(hoje)}
-                    className={cn('w-3.5 h-3.5', isTelegram ? 'accent-sky-500' : 'accent-primary')}
-                  />
-                  <span className="text-[12px] transition-colors" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                    Data específica
-                  </span>
-                </label>
-                {regraRecorrencia.data_fim !== null && (() => {
-                  const fParts = (regraRecorrencia.data_fim ?? hoje).split('-');
-                  return (
-                    <div className="flex items-center gap-1.5 ml-6">
-                      <GlassDropdown
-                        value={fParts[2] ?? ''}
-                        options={DAYS}
-                        placeholder="DD"
-                        onChange={(v) => {
-                          handleDataFimChange(`${fParts[0]}-${fParts[1]}-${v}`);
-                        }}
-                        className="flex-1"
-                      />
-                      <span className="font-bold text-[14px]" style={{ color: 'rgba(255,255,255,0.2)' }}>/</span>
-                      <GlassDropdown
-                        value={fParts[1] ?? ''}
-                        options={MONTHS}
-                        placeholder="MM"
-                        onChange={(v) => {
-                          handleDataFimChange(`${fParts[0]}-${v}-${fParts[2]}`);
-                        }}
-                        className="flex-1"
-                      />
-                      <span className="font-bold text-[14px]" style={{ color: 'rgba(255,255,255,0.2)' }}>/</span>
-                      <GlassDropdown
-                        value={fParts[0] ?? ''}
-                        options={YEARS}
-                        placeholder="AAAA"
-                        onChange={(v) => {
-                          handleDataFimChange(`${v}-${fParts[1]}-${fParts[2]}`);
-                        }}
-                        className="flex-[1.3]"
-                      />
-                    </div>
-                  );
-                })()}
-              </div>
-            </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

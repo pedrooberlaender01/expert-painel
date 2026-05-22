@@ -120,11 +120,12 @@ export const useAuthStore = create<AuthState>((set: AuthStoreSetter, get) => ({
         if (user.role === 'expert' && user.expert_id) {
           supabase
             .from('experts')
-            .select('secoes_habilitadas, cor_primaria, cor_secundaria, logo_url, favicon_url, nome_plataforma, nome_assistente, nome, ativo')
+            .select('secoes_habilitadas, cor_primaria, cor_secundaria, logo_url, favicon_url, nome_plataforma, nome_assistente, nome, ativo, planos(id, nome, max_leads, max_instancias, max_envios_mes, features_permitidas)')
             .eq('id', user.expert_id)
             .single()
             .then(({ data }) => {
               if (data && user.expert) {
+                const planoData = data.planos as Record<string, unknown> | null;
                 const updatedUser = {
                   ...user,
                   expert: {
@@ -137,6 +138,7 @@ export const useAuthStore = create<AuthState>((set: AuthStoreSetter, get) => ({
                     nome_plataforma: data.nome_plataforma,
                     nome_assistente: data.nome_assistente,
                     nome: data.nome,
+                    ...(planoData ? { plano: planoData } : {}),
                   },
                 };
                 localStorage.setItem(AUTH_KEY, JSON.stringify(updatedUser));

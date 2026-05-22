@@ -80,7 +80,7 @@ export const HistoricoEnvios: React.FC = () => {
   const statusColor = (s: string) => {
     switch (s) {
       case 'em_andamento': return 'text-amber-400';
-      case 'concluido': return 'text-[#004AFF]';
+      case 'concluido': return 'text-primary';
       case 'cancelado': return 'text-txt-muted';
       case 'erro': return 'text-rose-400';
       default: return 'text-txt-muted';
@@ -147,7 +147,7 @@ export const HistoricoEnvios: React.FC = () => {
       <div className="card-dark overflow-hidden">
         {loading ? (
           <div className="flex items-center justify-center py-16">
-            <Loader2 className="w-5 h-5 text-[#004AFF] animate-spin mr-3" />
+            <Loader2 className="w-5 h-5 text-primary animate-spin mr-3" />
             <span className="text-[13px] text-txt-muted">Carregando histórico...</span>
           </div>
         ) : (
@@ -190,11 +190,11 @@ export const HistoricoEnvios: React.FC = () => {
                         <div className="flex items-center gap-1.5">
                           {envio.tipo === 'audio'
                             ? <Mic className="w-3.5 h-3.5 text-violet-400" />
-                            : <MessageSquareText className="w-3.5 h-3.5 text-[#004AFF]" />
+                            : <MessageSquareText className="w-3.5 h-3.5 text-primary" />
                           }
                           <span className={cn(
                             'text-[12px] font-medium',
-                            envio.tipo === 'audio' ? 'text-violet-400' : 'text-[#004AFF]'
+                            envio.tipo === 'audio' ? 'text-violet-400' : 'text-primary'
                           )}>
                             {envio.tipo === 'audio' ? 'Áudio' : 'Texto'}
                           </span>
@@ -247,7 +247,7 @@ export const HistoricoEnvios: React.FC = () => {
                       <td className="px-5 py-3.5 text-center">
                         <button
                           onClick={() => setDetalheEnvio(toHistoricoEnvio(envio))}
-                          className="p-2 text-txt-muted hover:text-[#004AFF] hover:bg-[#004AFF]/10 rounded-lg transition-all"
+                          className="p-2 text-txt-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-all"
                           title="Ver detalhes"
                         >
                           <Eye className="w-4 h-4" />

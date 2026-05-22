@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { Loader2, Save, GitBranch, Clock, ChevronDown, Plus, X, AlertTriangle, Trash2, MessageSquareText } from 'lucide-react';
+import { Loader2, Save, GitBranch, Clock, ChevronDown, Plus, X, AlertTriangle, Trash2, MessageSquareText, Lock, UserPlus } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { Toast } from '../components/Toast';
 import { MensagemCard } from '../components/mensagens/MensagemCard';
@@ -12,6 +12,14 @@ import { cn } from '../utils/cn';
 import { getStatusLabel } from '../utils/formatters';
 import { MensagensAbertura } from '../components/mensagens/MensagensAbertura';
 import { useAuthStore } from '../stores/authStore';
+import { useSectionGates } from '../hooks/useSectionGate';
+import type { SectionKey } from '../hooks/useSectionGate';
+import { MensagensFunilFlow } from '../components/mensagens/flow';
+import { useMediaQuery } from '../hooks/useMediaQuery';
+
+// Flag de rollback — mantém o legacy acessível se precisar reverter rápido.
+// Em produção fica true. Para debug, trocar para false manualmente.
+const USE_FLOW_BUILDER = true;
 
 const SECOES_COM_TEMPO = new Set(['followups', 'boas_vindas']);
 const CENARIOS_EMPTY_ALLOWED = new Set(['outro']);
@@ -21,26 +29,36 @@ const CENARIOS_SEM_TOGGLE_TIPO = new Set([
   'confirmacao_precisa_link',
 ]);
 
-type TabKey = 'funil' | 'followups' | 'abertura';
+type TabKey = 'funil' | 'followups' | 'boas_vindas' | 'abertura';
 
-const TABS: { key: TabKey; label: string; icon: typeof GitBranch; secoes: string[] }[] = [
+const TABS: { key: TabKey; label: string; icon: typeof GitBranch; secoes: string[]; sectionKey: SectionKey }[] = [
   {
     key: 'funil',
     label: 'Etapas do Funil',
     icon: GitBranch,
     secoes: ['lead_chegou', 'primeiro_contato', 'convite', 'aguardando_cadastro', 'confirmacao_entrada'],
+    sectionKey: 'mensagens_funil',
   },
   {
     key: 'followups',
     label: 'Follow-ups & Automáticas',
     icon: Clock,
-    secoes: ['followups', 'boas_vindas'],
+    secoes: ['followups'],
+    sectionKey: 'mensagens_followups',
+  },
+  {
+    key: 'boas_vindas',
+    label: 'Boas-vindas',
+    icon: UserPlus,
+    secoes: ['boas_vindas'],
+    sectionKey: 'mensagens_boas_vindas',
   },
   {
     key: 'abertura',
     label: 'Mensagens de Abertura',
     icon: MessageSquareText,
     secoes: [],
+    sectionKey: 'mensagens_abertura',
   },
 ];
 
@@ -73,6 +91,9 @@ const SkeletonCard: React.FC = () => (
 );
 
 export const Mensagens: React.FC = () => {
+  const isMobile = useMediaQuery('(max-width: 767px)');
+  const useFlow = USE_FLOW_BUILDER && !isMobile;
+
   const {
     data, loading, fetchData,
     salvarSecao, salvarCard,
@@ -91,8 +112,23 @@ export const Mensagens: React.FC = () => {
   const [savingSections, setSavingSections] = useState<Set<string>>(new Set());
   const [savingCards, setSavingCards] = useState<Set<string>>(new Set());
 
+  // Section gates para abas de mensagens
+  const sectionStates = useSectionGates(['mensagens_funil', 'mensagens_followups', 'mensagens_boas_vindas', 'mensagens_abertura']);
+  const visibleTabs = useMemo(
+    () => TABS.filter((t) => sectionStates[t.sectionKey] !== 'hidden'),
+    [sectionStates]
+  );
+
   // Tabs
   const [activeTab, setActiveTab] = useState<TabKey>('funil');
+
+  // Se a tab ativa foi ocultada (hidden), volta para a primeira visivel habilitada
+  useEffect(() => {
+    if (visibleTabs.length > 0 && !visibleTabs.some((t) => t.key === activeTab)) {
+      const firstEnabled = visibleTabs.find((t) => sectionStates[t.sectionKey] === 'enabled');
+      setActiveTab(firstEnabled ? firstEnabled.key : visibleTabs[0].key);
+    }
+  }, [visibleTabs, activeTab, sectionStates]);
 
   // Seções do funil colapsáveis (começam minimizadas)
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
@@ -340,24 +376,31 @@ export const Mensagens: React.FC = () => {
         className="flex flex-wrap md:inline-flex gap-1 p-1 rounded-[14px] w-full md:w-fit mb-8"
         style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
       >
-        {TABS.map((tab) => {
+        {visibleTabs.map((tab) => {
           const isActive = activeTab === tab.key;
+          const isDisabled = sectionStates[tab.sectionKey] === 'disabled';
           const activeStyle = tab.key === 'funil'
             ? { background: 'rgba(var(--color-primary-rgb),0.1)', border: '1px solid rgba(var(--color-primary-rgb),0.2)', color: 'var(--color-primary-light)' }
             : tab.key === 'abertura'
             ? { background: 'rgba(250,204,60,0.08)', border: '1px solid rgba(250,204,60,0.2)', color: '#facc3c' }
+            : tab.key === 'boas_vindas'
+            ? { background: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.2)', color: '#34d399' }
             : { background: 'var(--color-primary-bg)', border: '1px solid var(--color-primary-bg)', color: 'var(--color-primary-light)' };
           return (
             <button
               key={tab.key}
-              onClick={() => setActiveTab(tab.key)}
+              onClick={() => {
+                if (isDisabled) { showToast('error', 'Funcionalidade não disponível no seu plano'); return; }
+                setActiveTab(tab.key);
+              }}
               className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-3 rounded-[10px] text-[11px] sm:text-[13px] font-medium transition-all duration-250 whitespace-nowrap"
-              style={isActive ? activeStyle : { background: 'transparent', border: '1px solid transparent', color: 'rgba(255,255,255,0.45)' }}
-              onMouseEnter={(e) => { if (!isActive) { e.currentTarget.style.color = 'rgba(255,255,255,0.65)'; e.currentTarget.style.background = 'rgba(255,255,255,0.03)' } }}
-              onMouseLeave={(e) => { if (!isActive) { e.currentTarget.style.color = 'rgba(255,255,255,0.45)'; e.currentTarget.style.background = 'transparent' } }}
+              style={isActive && !isDisabled ? activeStyle : { background: 'transparent', border: '1px solid transparent', color: isDisabled ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.45)' }}
+              onMouseEnter={(e) => { if (!isActive) { e.currentTarget.style.color = isDisabled ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.65)'; e.currentTarget.style.background = 'rgba(255,255,255,0.03)' } }}
+              onMouseLeave={(e) => { if (!isActive) { e.currentTarget.style.color = isDisabled ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.45)'; e.currentTarget.style.background = 'transparent' } }}
             >
-              <tab.icon className="w-4 h-4" style={{ opacity: isActive ? 1 : 0.5 }} />
+              <tab.icon className="w-4 h-4" style={{ opacity: isActive && !isDisabled ? 1 : 0.45 }} />
               {tab.label}
+              {isDisabled && <Lock className="w-3 h-3" style={{ color: '#facc15', opacity: 0.6 }} />}
             </button>
           );
         })}
@@ -383,7 +426,12 @@ export const Mensagens: React.FC = () => {
       {/* ══════════════════════════════════════════════════════════════════
            ABA: ETAPAS DO FUNIL
          ══════════════════════════════════════════════════════════════════ */}
-      {!loading && activeTab === 'funil' && (
+      {!loading && activeTab === 'funil' && useFlow && (
+        <MensagensFunilFlow />
+      )}
+
+      {/* Legacy: Etapas do Funil (mobile ou flag USE_FLOW_BUILDER = false) */}
+      {!loading && activeTab === 'funil' && !useFlow && (
         <div className="space-y-4">
           {visibleSecoes.map((secao) => {
             const mensagens = getMensagensSecao(secao.key);
@@ -568,44 +616,81 @@ export const Mensagens: React.FC = () => {
               </div>
             )}
           </section>
+        </div>
+      )}
 
-          {/* ── Seção: Boas-vindas ── */}
-          <section>
-            <div className="mb-2">
-              <h2 className="text-[15px] font-bold text-txt font-display tracking-tight">
-                Boas-vindas no Grupo
-              </h2>
-              <p className="text-[11px] text-txt-dim font-mono mt-0.5">
-                Mensagem enviada quando o lead entra no grupo da comunidade
+      {/* ══════════════════════════════════════════════════════════════════
+           ABA: BOAS-VINDAS
+         ══════════════════════════════════════════════════════════════════ */}
+      {!loading && activeTab === 'boas_vindas' && (
+        <div className="space-y-6">
+          {/* Header com accent verde */}
+          <div
+            className="relative overflow-hidden rounded-2xl p-6"
+            style={{
+              background: 'linear-gradient(135deg, rgba(52,211,153,0.06) 0%, rgba(16,185,129,0.02) 100%)',
+              border: '1px solid rgba(52,211,153,0.1)',
+            }}
+          >
+            <div className="flex items-start gap-4">
+              <div
+                className="flex items-center justify-center w-11 h-11 rounded-xl shrink-0"
+                style={{ background: 'rgba(52,211,153,0.1)', border: '1px solid rgba(52,211,153,0.15)' }}
+              >
+                <UserPlus className="w-5 h-5" style={{ color: '#34d399' }} />
+              </div>
+              <div>
+                <h2 className="text-[15px] font-bold text-white tracking-tight">
+                  Boas-vindas no Grupo
+                </h2>
+                <p className="text-[12px] mt-1" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                  Mensagem automática enviada quando um novo membro entra no grupo pela primeira vez.
+                  Configure mensagens diferentes para o dia e para a noite.
+                </p>
+              </div>
+            </div>
+            {/* Glow decorativo */}
+            <div
+              className="absolute -top-12 -right-12 w-32 h-32 rounded-full pointer-events-none"
+              style={{ background: 'radial-gradient(circle, rgba(52,211,153,0.08) 0%, transparent 70%)' }}
+            />
+          </div>
+
+          {/* Cards */}
+          {boasVindas.length === 0 ? (
+            <div
+              className="p-10 flex flex-col items-center justify-center gap-3"
+              style={{ background: 'rgba(255,255,255,0.02)', border: '1px dashed rgba(52,211,153,0.15)', borderRadius: '16px' }}
+            >
+              <UserPlus className="w-9 h-9" style={{ color: 'rgba(52,211,153,0.25)' }} />
+              <p className="text-[13px] font-medium" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                Nenhuma mensagem de boas-vindas configurada
+              </p>
+              <p className="text-[11px]" style={{ color: 'rgba(255,255,255,0.25)' }}>
+                As mensagens de boas-vindas são criadas automaticamente para cada expert
               </p>
             </div>
-
-            {boasVindas.length === 0 ? (
-              <div className="p-8 flex flex-col items-center justify-center gap-2 mt-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '16px' }}>
-                <p className="text-[13px]" style={{ color: 'rgba(255,255,255,0.5)' }}>Nenhuma mensagem de boas-vindas encontrada</p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
-                {boasVindas.map((msg) => (
-                  <FollowupCard
-                    key={msg.id}
-                    mensagem={editData[msg.id] || msg}
-                    variant="boas_vindas"
-                    telefoneTeste=""
-                    isModified={modifiedIds.has(msg.id)}
-                    isSaving={savingCards.has(msg.id)}
-                    isFirst={true}
-                    isLast={true}
-                    onUpdate={(updates) => updateMensagem(msg.id, updates)}
-                    onSave={() => handleSaveCard(msg.id, false)}
-                    onToggleActive={(nextActive) => handleToggleAtivo(msg.id, nextActive)}
-                    onShowToast={showToast}
-                    voiceEnabled={hasVoiceId}
-                  />
-                ))}
-              </div>
-            )}
-          </section>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+              {boasVindas.map((msg) => (
+                <FollowupCard
+                  key={msg.id}
+                  mensagem={editData[msg.id] || msg}
+                  variant="boas_vindas"
+                  telefoneTeste=""
+                  isModified={modifiedIds.has(msg.id)}
+                  isSaving={savingCards.has(msg.id)}
+                  isFirst={true}
+                  isLast={true}
+                  onUpdate={(updates) => updateMensagem(msg.id, updates)}
+                  onSave={() => handleSaveCard(msg.id, false)}
+                  onToggleActive={(nextActive) => handleToggleAtivo(msg.id, nextActive)}
+                  onShowToast={showToast}
+                  voiceEnabled={hasVoiceId}
+                />
+              ))}
+            </div>
+          )}
         </div>
       )}
 

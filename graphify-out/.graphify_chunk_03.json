@@ -1,0 +1,747 @@
+{
+  "nodes": [
+    {
+      "id": "detalhesenviomodal",
+      "label": "DetalhesEnvioModal",
+      "file_type": "code",
+      "source_file": "src/components/envios/DetalhesEnvioModal.tsx"
+    },
+    {
+      "id": "enviosnav",
+      "label": "EnviosNav",
+      "file_type": "code",
+      "source_file": "src/components/envios/EnviosNav.tsx"
+    },
+    {
+      "id": "filtroperiodo",
+      "label": "FiltroPeriodo",
+      "file_type": "code",
+      "source_file": "src/components/envios/FiltroPeriodo.tsx"
+    },
+    {
+      "id": "filtrostatus",
+      "label": "FiltroStatus",
+      "file_type": "code",
+      "source_file": "src/components/envios/FiltroStatus.tsx"
+    },
+    {
+      "id": "leadpreviewitem",
+      "label": "LeadPreviewItem",
+      "file_type": "code",
+      "source_file": "src/components/envios/LeadPreviewItem.tsx"
+    },
+    {
+      "id": "leadpreviewlist",
+      "label": "LeadPreviewList",
+      "file_type": "code",
+      "source_file": "src/components/envios/LeadPreviewList.tsx"
+    },
+    {
+      "id": "mensagemeditor",
+      "label": "MensagemEditor",
+      "file_type": "code",
+      "source_file": "src/components/envios/MensagemEditor.tsx"
+    },
+    {
+      "id": "progressoenviomodal",
+      "label": "ProgressoEnvioModal",
+      "file_type": "code",
+      "source_file": "src/components/envios/ProgressoEnvioModal.tsx"
+    },
+    {
+      "id": "salvartemplatemodal",
+      "label": "SalvarTemplateModal",
+      "file_type": "code",
+      "source_file": "src/components/envios/SalvarTemplateModal.tsx"
+    },
+    {
+      "id": "templatecard",
+      "label": "TemplateCard",
+      "file_type": "code",
+      "source_file": "src/components/envios/TemplateCard.tsx"
+    },
+    {
+      "id": "templateformmodal",
+      "label": "TemplateFormModal",
+      "file_type": "code",
+      "source_file": "src/components/envios/TemplateFormModal.tsx"
+    },
+    {
+      "id": "templateselector",
+      "label": "TemplateSelector",
+      "file_type": "code",
+      "source_file": "src/components/envios/TemplateSelector.tsx"
+    },
+    {
+      "id": "tipoenivoselector",
+      "label": "TipoEnvioSelector",
+      "file_type": "code",
+      "source_file": "src/components/envios/TipoEnvioSelector.tsx"
+    },
+    {
+      "id": "delayslider",
+      "label": "DelaySlider",
+      "file_type": "code",
+      "source_file": "src/components/envios/DelaySlider.tsx"
+    },
+    {
+      "id": "followupcard",
+      "label": "FollowupCard",
+      "file_type": "code",
+      "source_file": "src/components/mensagens/FollowupCard.tsx"
+    },
+    {
+      "id": "gatilhocard",
+      "label": "GatilhoCard",
+      "file_type": "code",
+      "source_file": "src/components/mensagens/GatilhoCard.tsx"
+    },
+    {
+      "id": "mensagemcard",
+      "label": "MensagemCard",
+      "file_type": "code",
+      "source_file": "src/components/mensagens/MensagemCard.tsx"
+    },
+    {
+      "id": "mensagensabertura",
+      "label": "MensagensAbertura",
+      "file_type": "code",
+      "source_file": "src/components/mensagens/MensagensAbertura.tsx"
+    },
+    {
+      "id": "coletainstanciacard",
+      "label": "ColetaInstanciaCard",
+      "file_type": "code",
+      "source_file": "src/components/numeros/ColetaInstanciaCard.tsx"
+    },
+    {
+      "id": "confirmdeletenumeromodal",
+      "label": "ConfirmDeleteNumeroModal",
+      "file_type": "code",
+      "source_file": "src/components/numeros/ConfirmDeleteNumeroModal.tsx"
+    },
+    {
+      "id": "instanciacard",
+      "label": "InstanciaCard",
+      "file_type": "code",
+      "source_file": "src/components/numeros/InstanciaCard.tsx"
+    },
+    {
+      "id": "mensagemaberturacard",
+      "label": "MensagemAberturaCard",
+      "file_type": "code",
+      "source_file": "src/components/numeros/MensagemAberturaCard.tsx"
+    },
+    {
+      "id": "mensagemaberturaformmodal",
+      "label": "MensagemAberturaFormModal",
+      "file_type": "code",
+      "source_file": "src/components/numeros/MensagemAberturaFormModal.tsx"
+    },
+    {
+      "id": "novainstanciamodal",
+      "label": "NovaInstanciaModal",
+      "file_type": "code",
+      "source_file": "src/components/numeros/NovaInstanciaModal.tsx"
+    },
+    {
+      "id": "type_historicoenvio",
+      "label": "HistoricoEnvio Type",
+      "file_type": "code",
+      "source_file": "src/types/envios.ts"
+    },
+    {
+      "id": "type_envioprogresso",
+      "label": "EnvioProgresso Type",
+      "file_type": "code",
+      "source_file": "src/types/envios.ts"
+    },
+    {
+      "id": "type_template",
+      "label": "Template Type",
+      "file_type": "code",
+      "source_file": "src/types/envios.ts"
+    },
+    {
+      "id": "type_statuslead",
+      "label": "StatusLead Type",
+      "file_type": "code",
+      "source_file": "src/types/index.ts"
+    },
+    {
+      "id": "type_leadenvio",
+      "label": "LeadEnvio Type",
+      "file_type": "code",
+      "source_file": "src/hooks/useEnvioMassa.ts"
+    },
+    {
+      "id": "type_mensagemfunil",
+      "label": "MensagemFunil Type",
+      "file_type": "code",
+      "source_file": "src/hooks/useMensagensFunil.ts"
+    },
+    {
+      "id": "type_whatsapprotacao",
+      "label": "WhatsappRotacao Type",
+      "file_type": "code",
+      "source_file": "src/hooks/useWhatsappRotacao.ts"
+    },
+    {
+      "id": "type_whatsapprotacaomensagem",
+      "label": "WhatsappRotacaoMensagem Type",
+      "file_type": "code",
+      "source_file": "src/hooks/useWhatsappRotacao.ts"
+    },
+    {
+      "id": "util_formatters",
+      "label": "Formatters Utility",
+      "file_type": "code",
+      "source_file": "src/utils/formatters.ts"
+    },
+    {
+      "id": "util_cn",
+      "label": "cn Utility",
+      "file_type": "code",
+      "source_file": "src/utils/cn.ts"
+    },
+    {
+      "id": "component_leadbadge",
+      "label": "LeadBadge Component",
+      "file_type": "code",
+      "source_file": "src/components/LeadBadge.tsx"
+    },
+    {
+      "id": "config_webhooks",
+      "label": "Webhooks Config",
+      "file_type": "code",
+      "source_file": "src/config/webhooks.ts"
+    },
+    {
+      "id": "store_authstore",
+      "label": "Auth Store",
+      "file_type": "code",
+      "source_file": "src/stores/authStore.ts"
+    },
+    {
+      "id": "backend_client",
+      "label": "Supabase Client",
+      "file_type": "code",
+      "source_file": "src/backend/client.ts"
+    },
+    {
+      "id": "table_whatsapp_rotacao_mensagens",
+      "label": "whatsapp_rotacao_mensagens Table",
+      "file_type": "code",
+      "source_file": "src/components/mensagens/MensagensAbertura.tsx"
+    }
+  ],
+  "edges": [
+    {
+      "source": "detalhesenviomodal",
+      "target": "type_historicoenvio",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/envios/DetalhesEnvioModal.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "detalhesenviomodal",
+      "target": "component_leadbadge",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/envios/DetalhesEnvioModal.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "detalhesenviomodal",
+      "target": "type_statuslead",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/envios/DetalhesEnvioModal.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "detalhesenviomodal",
+      "target": "util_formatters",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/envios/DetalhesEnvioModal.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "filtroperiodo",
+      "target": "util_cn",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/envios/FiltroPeriodo.tsx",
+      "weight": 0.6
+    },
+    {
+      "source": "filtrostatus",
+      "target": "type_statuslead",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/envios/FiltroStatus.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "filtrostatus",
+      "target": "util_formatters",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/envios/FiltroStatus.tsx",
+      "weight": 0.7
+    },
+    {
+      "source": "leadpreviewitem",
+      "target": "component_leadbadge",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/envios/LeadPreviewItem.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "leadpreviewitem",
+      "target": "util_formatters",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/envios/LeadPreviewItem.tsx",
+      "weight": 0.7
+    },
+    {
+      "source": "leadpreviewitem",
+      "target": "type_leadenvio",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/envios/LeadPreviewItem.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "leadpreviewlist",
+      "target": "leadpreviewitem",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/envios/LeadPreviewList.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "leadpreviewlist",
+      "target": "type_leadenvio",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/envios/LeadPreviewList.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "progressoenviomodal",
+      "target": "type_envioprogresso",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/envios/ProgressoEnvioModal.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "progressoenviomodal",
+      "target": "util_formatters",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/envios/ProgressoEnvioModal.tsx",
+      "weight": 0.7
+    },
+    {
+      "source": "templatecard",
+      "target": "type_template",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/envios/TemplateCard.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "templatecard",
+      "target": "util_formatters",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/envios/TemplateCard.tsx",
+      "weight": 0.7
+    },
+    {
+      "source": "templateformmodal",
+      "target": "type_template",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/envios/TemplateFormModal.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "templateformmodal",
+      "target": "tipoenivoselector",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/envios/TemplateFormModal.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "templateformmodal",
+      "target": "mensagemeditor",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/envios/TemplateFormModal.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "templateselector",
+      "target": "type_template",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/envios/TemplateSelector.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "followupcard",
+      "target": "type_mensagemfunil",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/mensagens/FollowupCard.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "followupcard",
+      "target": "config_webhooks",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/mensagens/FollowupCard.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "followupcard",
+      "target": "util_formatters",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/mensagens/FollowupCard.tsx",
+      "weight": 0.7
+    },
+    {
+      "source": "gatilhocard",
+      "target": "type_mensagemfunil",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/mensagens/GatilhoCard.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "mensagemcard",
+      "target": "type_mensagemfunil",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/mensagens/MensagemCard.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "mensagemcard",
+      "target": "config_webhooks",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/mensagens/MensagemCard.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "mensagensabertura",
+      "target": "backend_client",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/mensagens/MensagensAbertura.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "mensagensabertura",
+      "target": "store_authstore",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/mensagens/MensagensAbertura.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "mensagensabertura",
+      "target": "config_webhooks",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/mensagens/MensagensAbertura.tsx",
+      "weight": 0.7
+    },
+    {
+      "source": "mensagensabertura",
+      "target": "table_whatsapp_rotacao_mensagens",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/mensagens/MensagensAbertura.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "coletainstanciacard",
+      "target": "type_whatsapprotacao",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/numeros/ColetaInstanciaCard.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "instanciacard",
+      "target": "type_whatsapprotacao",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/numeros/InstanciaCard.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "mensagemaberturacard",
+      "target": "type_whatsapprotacaomensagem",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/numeros/MensagemAberturaCard.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "mensagemaberturaformmodal",
+      "target": "type_whatsapprotacaomensagem",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/numeros/MensagemAberturaFormModal.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "coletainstanciacard",
+      "target": "instanciacard",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "src/components/numeros/ColetaInstanciaCard.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "followupcard",
+      "target": "mensagemcard",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/components/mensagens/FollowupCard.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "mensagemaberturacard",
+      "target": "mensagemaberturaformmodal",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "src/components/numeros/MensagemAberturaCard.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "salvartemplatemodal",
+      "target": "templateformmodal",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source_file": "src/components/envios/SalvarTemplateModal.tsx",
+      "weight": 0.7
+    },
+    {
+      "source": "templatecard",
+      "target": "templateformmodal",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "src/components/envios/TemplateCard.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "templatecard",
+      "target": "templateselector",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/components/envios/TemplateCard.tsx",
+      "weight": 0.7
+    },
+    {
+      "source": "novainstanciamodal",
+      "target": "instanciacard",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/components/numeros/NovaInstanciaModal.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "confirmdeletenumeromodal",
+      "target": "instanciacard",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/components/numeros/ConfirmDeleteNumeroModal.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "mensagensabertura",
+      "target": "mensagemaberturacard",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source_file": "src/components/mensagens/MensagensAbertura.tsx",
+      "weight": 0.6
+    },
+    {
+      "source": "filtrostatus",
+      "target": "filtroperiodo",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "src/components/envios/FiltroStatus.tsx",
+      "weight": 0.7
+    },
+    {
+      "source": "delayslider",
+      "target": "leadpreviewlist",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.65,
+      "source_file": "src/components/envios/DelaySlider.tsx",
+      "weight": 0.5
+    },
+    {
+      "source": "gatilhocard",
+      "target": "followupcard",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "src/components/mensagens/GatilhoCard.tsx",
+      "weight": 0.7
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "envio_massa_ui_components",
+      "label": "Envio em Massa UI Components",
+      "nodes": [
+        "filtroperiodo",
+        "filtrostatus",
+        "leadpreviewlist",
+        "leadpreviewitem",
+        "mensagemeditor",
+        "tipoenivoselector",
+        "delayslider",
+        "progressoenviomodal",
+        "detalhesenviomodal"
+      ],
+      "relation": "form",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "src/components/envios/"
+    },
+    {
+      "id": "template_management_components",
+      "label": "Template Management Components",
+      "nodes": [
+        "templatecard",
+        "templateformmodal",
+        "templateselector",
+        "salvartemplatemodal"
+      ],
+      "relation": "form",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "src/components/envios/"
+    },
+    {
+      "id": "funil_mensagens_components",
+      "label": "Funil Mensagens Components",
+      "nodes": [
+        "followupcard",
+        "gatilhocard",
+        "mensagemcard",
+        "mensagensabertura"
+      ],
+      "relation": "form",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "src/components/mensagens/"
+    },
+    {
+      "id": "whatsapp_numeros_management",
+      "label": "WhatsApp Numeros Management Components",
+      "nodes": [
+        "instanciacard",
+        "coletainstanciacard",
+        "confirmdeletenumeromodal",
+        "novainstanciamodal",
+        "mensagemaberturacard",
+        "mensagemaberturaformmodal"
+      ],
+      "relation": "form",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "src/components/numeros/"
+    },
+    {
+      "id": "webhook_test_message_pattern",
+      "label": "Webhook Test Message Pattern",
+      "nodes": [
+        "followupcard",
+        "mensagemcard",
+        "config_webhooks"
+      ],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/mensagens/"
+    },
+    {
+      "id": "whatsapp_connection_lifecycle",
+      "label": "WhatsApp Connection Lifecycle (Pairing/QR/Reconnect)",
+      "nodes": [
+        "instanciacard",
+        "coletainstanciacard",
+        "novainstanciamodal"
+      ],
+      "relation": "implement",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "src/components/numeros/"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

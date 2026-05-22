@@ -6,7 +6,7 @@ import type { PlanoRow } from '../../types/database';
 
 const KNOWN_FEATURES = ['agendamento', 'torneio', 'copy_ia', 'moderacao', 'voz_clonada'];
 
-const INPUT_CLASS = 'w-full px-2 py-1.5 rounded-lg text-sm text-white bg-white/[0.06] border border-white/[0.08] focus:border-blue-500/50 focus:outline-none transition-all';
+const INPUT_CLASS = 'w-full px-2 py-1.5 rounded-lg text-sm text-white bg-white/[0.06] border border-white/[0.08] focus:border-primary/50 focus:outline-none transition-all';
 
 interface EditData {
   nome: string;
@@ -136,7 +136,7 @@ export const AdminPlanos: React.FC = () => {
           <button
             onClick={refresh}
             className="px-4 py-2 rounded-lg text-sm font-medium text-white"
-            style={{ background: 'rgba(59,130,246,0.2)', border: '1px solid rgba(59,130,246,0.3)' }}
+            style={{ background: 'rgba(var(--color-primary-rgb),0.2)', border: '1px solid rgba(var(--color-primary-rgb),0.3)' }}
           >
             Tentar novamente
           </button>
@@ -160,9 +160,9 @@ export const AdminPlanos: React.FC = () => {
             <button
               onClick={startNew}
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-white transition-all"
-              style={{ background: 'rgba(59,130,246,0.2)', border: '1px solid rgba(59,130,246,0.3)' }}
-              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(59,130,246,0.3)'; }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(59,130,246,0.2)'; }}
+              style={{ background: 'rgba(var(--color-primary-rgb),0.2)', border: '1px solid rgba(var(--color-primary-rgb),0.3)' }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(var(--color-primary-rgb),0.3)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(var(--color-primary-rgb),0.2)'; }}
             >
               <Plus className="w-4 h-4" />
               Novo Plano
@@ -198,7 +198,7 @@ export const AdminPlanos: React.FC = () => {
                       key={plano?.id || '__new__'}
                       style={{
                         borderBottom: '1px solid rgba(255,255,255,0.04)',
-                        background: 'rgba(59,130,246,0.04)',
+                        background: 'rgba(var(--color-primary-rgb),0.04)',
                       }}
                     >
                       <td className="px-5 py-3">
@@ -247,9 +247,9 @@ export const AdminPlanos: React.FC = () => {
                               onClick={() => toggleFeature(f)}
                               className="text-[11px] px-2 py-1 rounded-md font-medium transition-all"
                               style={{
-                                background: editData.features_permitidas.includes(f) ? 'rgba(59,130,246,0.2)' : 'rgba(255,255,255,0.04)',
-                                border: `1px solid ${editData.features_permitidas.includes(f) ? 'rgba(59,130,246,0.4)' : 'rgba(255,255,255,0.06)'}`,
-                                color: editData.features_permitidas.includes(f) ? '#60a5fa' : 'rgba(255,255,255,0.4)',
+                                background: editData.features_permitidas.includes(f) ? 'rgba(var(--color-primary-rgb),0.2)' : 'rgba(255,255,255,0.04)',
+                                border: `1px solid ${editData.features_permitidas.includes(f) ? 'rgba(var(--color-primary-rgb),0.4)' : 'rgba(255,255,255,0.06)'}`,
+                                color: editData.features_permitidas.includes(f) ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.4)',
                               }}
                             >
                               {f}
@@ -331,7 +331,7 @@ export const AdminPlanos: React.FC = () => {
                           <span
                             key={f}
                             className="text-[11px] px-2 py-0.5 rounded-md font-medium"
-                            style={{ background: 'rgba(59,130,246,0.1)', color: '#60a5fa', border: '1px solid rgba(59,130,246,0.2)' }}
+                            style={{ background: 'rgba(var(--color-primary-rgb),0.1)', color: 'var(--color-primary-light)', border: '1px solid rgba(var(--color-primary-rgb),0.2)' }}
                           >
                             {f}
                           </span>
@@ -356,7 +356,7 @@ export const AdminPlanos: React.FC = () => {
                         disabled={!!editingId}
                         className="p-1.5 rounded-lg transition-all disabled:opacity-30"
                         style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
-                        onMouseEnter={e => { if (!editingId) { e.currentTarget.style.background = 'rgba(59,130,246,0.15)'; e.currentTarget.style.borderColor = 'rgba(59,130,246,0.3)'; } }}
+                        onMouseEnter={e => { if (!editingId) { e.currentTarget.style.background = 'rgba(var(--color-primary-rgb),0.15)'; e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)'; } }}
                         onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; }}
                         title="Editar"
                       >

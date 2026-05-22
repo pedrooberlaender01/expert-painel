@@ -2,13 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Remove spinners de inputs numericos */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 @layer base {
   :root {
     --color-primary: #10b981;
     --color-primary-hover: #059669;
+    --color-primary-rgb: 16, 185, 129;
     --color-primary-bg: rgba(16, 185, 129, 0.12);
     --color-primary-light: #34d399;
     transition: --color-primary 0.3s ease, --color-primary-hover 0.3s ease, --color-primary-bg 0.3s ease, --color-primary-light 0.3s ease;
+  }
+
+  /* Forca verde estatico em secoes que nao seguem cor do expert */
+  .force-green {
+    --color-primary: #10b981;
+    --color-primary-hover: #059669;
+    --color-primary-rgb: 16, 185, 129;
+    --color-primary-bg: rgba(16, 185, 129, 0.12);
+    --color-primary-light: #34d399;
   }
 
   *:focus-visible {
@@ -202,8 +222,8 @@
   }
 
   .input-dark:focus {
-    border-color: rgba(59, 130, 246, 0.4);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08), 0 0 20px rgba(59, 130, 246, 0.05);
+    border-color: rgba(var(--color-primary-rgb), 0.4);
+    box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.08), 0 0 20px rgba(var(--color-primary-rgb), 0.05);
   }
 
   /* Force dark dropdowns for select elements */
@@ -233,8 +253,8 @@
 
   select:focus {
     outline: none;
-    border-color: rgba(59, 130, 246, 0.4);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08);
+    border-color: rgba(var(--color-primary-rgb), 0.4);
+    box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.08);
     color: #fff;
   }
 
@@ -245,8 +265,8 @@
   }
 
   select option:checked {
-    background: rgba(59, 130, 246, 0.2);
-    color: #60a5fa;
+    background: rgba(var(--color-primary-rgb), 0.2);
+    color: var(--color-primary-light);
   }
 
   select.input-dark {
@@ -257,13 +277,13 @@
   /* ── Button Primary ── */
   .btn-primary {
     @apply px-6 py-2.5 font-semibold rounded-xl transition-all duration-300 relative overflow-hidden;
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
     color: #FFFFFF;
-    box-shadow: 0 2px 12px rgba(59, 130, 246, 0.2);
+    box-shadow: 0 2px 12px rgba(var(--color-primary-rgb), 0.2);
   }
 
   .btn-primary:hover {
-    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3), 0 0 40px rgba(59, 130, 246, 0.1);
+    box-shadow: 0 4px 20px rgba(var(--color-primary-rgb), 0.3), 0 0 40px rgba(var(--color-primary-rgb), 0.1);
     transform: translateY(-1px);
   }
 
@@ -285,7 +305,7 @@
     height: 600px;
     top: -100px;
     left: -100px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(var(--color-primary-rgb), 0.06) 0%, transparent 70%);
   }
 
   .ambient-light--green {
@@ -326,7 +346,7 @@
     inset: 0;
     pointer-events: none;
     background:
-      radial-gradient(ellipse 600px 400px at 15% 30%, rgba(59, 130, 246, 0.04) 0%, transparent 70%),
+      radial-gradient(ellipse 600px 400px at 15% 30%, rgba(var(--color-primary-rgb), 0.04) 0%, transparent 70%),
       radial-gradient(ellipse 500px 350px at 85% 60%, var(--color-primary-bg) 0%, transparent 70%),
       radial-gradient(ellipse 400px 300px at 50% 90%, rgba(139, 92, 246, 0.02) 0%, transparent 70%);
     z-index: 0;
@@ -402,6 +422,56 @@
     cursor: pointer;
     border: 2px solid #0a0a0f;
     box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+  }
+
+  /* ── Reactivity Slider (Reatividade) ── */
+  .reactivity-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-primary, #3b82f6);
+    cursor: pointer;
+    border: 2.5px solid #111118;
+    box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb, 59,130,246), 0.15), 0 2px 8px rgba(0,0,0,0.4);
+    transition: box-shadow 0.2s, transform 0.15s;
+  }
+  .reactivity-slider::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 0 5px rgba(var(--color-primary-rgb, 59,130,246), 0.2), 0 2px 12px rgba(0,0,0,0.5);
+    transform: scale(1.1);
+  }
+  .reactivity-slider::-webkit-slider-thumb:active {
+    transform: scale(0.95);
+  }
+  .reactivity-slider::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 3px;
+    background: transparent;
+  }
+  .reactivity-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-primary, #3b82f6);
+    cursor: pointer;
+    border: 2.5px solid #111118;
+    box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb, 59,130,246), 0.15), 0 2px 8px rgba(0,0,0,0.4);
+  }
+  .reactivity-slider::-moz-range-track {
+    height: 6px;
+    border-radius: 3px;
+    background: transparent;
+  }
+
+  /* ── Glow Pulse (Suporte embeddings pendentes) ── */
+  @keyframes glow-pulse-amber {
+    0%, 100% { box-shadow: 0 0 0 1px rgba(250,204,21,0.25), 0 0 8px rgba(250,204,21,0.06); }
+    50% { box-shadow: 0 0 0 1.5px rgba(250,204,21,0.45), 0 0 16px rgba(250,204,21,0.12); }
+  }
+  .glow-pulse-amber {
+    animation: glow-pulse-amber 2.5s ease-in-out infinite;
+    border-radius: 16px;
   }
 
   /* ── Glassmorphism Sidebar ── */

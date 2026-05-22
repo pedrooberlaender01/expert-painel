@@ -2360,7 +2360,7 @@ export const Torneios: React.FC = () => {
                 </span>
               </div>
 
-              <div className="overflow-visible">
+              <div className="hidden md:block overflow-visible">
                 <table className="w-full text-left">
                   <thead>
                     <tr className="border-b border-surface-300/20">
@@ -2589,6 +2589,176 @@ export const Torneios: React.FC = () => {
                     })}
                   </tbody>
                 </table>
+              </div>
+
+              {/* ─── Mobile: lista em cards ─────────────────────── */}
+              <div className="md:hidden divide-y divide-surface-300/10">
+                {filteredParticipantes.map((p, idx) => {
+                  const isExpanded = expandedPart === p.participante_id;
+                  const pendingId = !p.id_conta || !p.id_conta.trim();
+                  const tie = tieGroups.get(p.participante_id);
+                  return (
+                    <React.Fragment key={p.participante_id}>
+                      <div
+                        onClick={() => handleExpandParticipante(p.participante_id)}
+                        className={cn(
+                          'p-4 transition-colors cursor-pointer',
+                          isExpanded ? 'bg-[#004AFF]/[0.04]' : pendingId ? 'hover:bg-amber-500/[0.03]' : 'hover:bg-surface-200/20'
+                        )}
+                      >
+                        {/* Top row: avatar + nome/tel + tie buttons + 3-dot */}
+                        <div className="flex items-start gap-3">
+                          <div className={cn(
+                            'w-9 h-9 rounded-full flex items-center justify-center shrink-0 text-[12px] font-bold font-display border',
+                            pendingId
+                              ? 'bg-amber-500/10 text-amber-400 border-amber-500/15'
+                              : 'bg-[#004AFF]/10 text-[#004AFF] border-[#004AFF]/15'
+                          )}>
+                            {(p.participante_nome || fmtPhone(p.telefone_whatsapp)).charAt(0).toUpperCase()}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-[13px] font-medium text-txt truncate">
+                              {p.participante_nome || fmtPhone(p.telefone_whatsapp)}
+                            </p>
+                            {p.participante_nome && (
+                              <p className="text-[11px] text-txt-dim font-mono mt-0.5">{fmtPhone(p.telefone_whatsapp)}</p>
+                            )}
+                          </div>
+                          {tie?.isTied && (
+                            <div className="flex flex-col gap-0.5 shrink-0" onClick={(e) => e.stopPropagation()}>
+                              <button
+                                type="button"
+                                disabled={!tie.prevId || swapLoading === p.participante_id}
+                                onClick={() => tie.prevId && handleSwapDesempate(p.participante_id, tie.prevId, 'up')}
+                                className="w-5 h-5 flex items-center justify-center rounded-md border border-white/[0.08] bg-white/[0.04] text-txt-muted disabled:opacity-30"
+                                title="Subir desempate"
+                              >
+                                <ChevronUp className="w-3 h-3" />
+                              </button>
+                              <button
+                                type="button"
+                                disabled={!tie.nextId || swapLoading === p.participante_id}
+                                onClick={() => tie.nextId && handleSwapDesempate(p.participante_id, tie.nextId, 'down')}
+                                className="w-5 h-5 flex items-center justify-center rounded-md border border-white/[0.08] bg-white/[0.04] text-txt-muted disabled:opacity-30"
+                                title="Descer desempate"
+                              >
+                                <ChevronDown className="w-3 h-3" />
+                              </button>
+                            </div>
+                          )}
+                          <div className="relative shrink-0" onClick={(e) => e.stopPropagation()}>
+                            <button
+                              onClick={() => setPartDropdown(partDropdown === p.participante_id ? null : p.participante_id)}
+                              className="p-1.5 text-txt-muted hover:text-txt hover:bg-surface-200/40 rounded-lg transition-colors"
+                            >
+                              <MoreHorizontal className="w-4 h-4" />
+                            </button>
+                            {partDropdown === p.participante_id && (
+                              <div className={cn(
+                                'absolute right-0 z-50 w-48 py-1.5 rounded-xl border border-surface-300/20 bg-surface-50 shadow-2xl animate-slide-up',
+                                idx >= filteredParticipantes.length - 2 ? 'bottom-full mb-2' : 'top-full mt-1'
+                              )}>
+                                <button onClick={() => { setPartDropdown(null); handleExpandParticipante(p.participante_id); }} className="flex items-center gap-2.5 w-full px-4 py-2 text-[13px] text-txt-secondary hover:bg-surface-200/40 hover:text-txt transition-colors">
+                                  <BarChart3 className="w-3.5 h-3.5" /> Ver greens
+                                </button>
+                                <button onClick={() => { setPartDropdown(null); setEditGreensVal(String(p.total_greens)); setEditGreensModal(p); }} className="flex items-center gap-2.5 w-full px-4 py-2 text-[13px] text-txt-secondary hover:bg-surface-200/40 hover:text-txt transition-colors">
+                                  <Pencil className="w-3.5 h-3.5" /> Editar greens
+                                </button>
+                                <button onClick={() => { setPartDropdown(null); setEditIdContaVal(p.id_conta || ''); setEditIdContaModal(p); }} className="flex items-center gap-2.5 w-full px-4 py-2 text-[13px] text-txt-secondary hover:bg-surface-200/40 hover:text-txt transition-colors">
+                                  <Pencil className="w-3.5 h-3.5" /> Editar ID Conta
+                                </button>
+                                <div className="h-px bg-surface-300/15 my-1" />
+                                <button onClick={() => { setPartDropdown(null); setRemovePartConfirm(p); }} className="flex items-center gap-2.5 w-full px-4 py-2 text-[13px] text-rose-400 hover:bg-surface-200/40 transition-colors">
+                                  <Trash2 className="w-3.5 h-3.5" /> Remover do torneio
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Stats row */}
+                        <div className="mt-3 flex items-center flex-wrap gap-2">
+                          {/* ID Conta */}
+                          {pendingId ? (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/15">
+                              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                              Pendente
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-mono bg-surface-200/30 text-txt-secondary border border-surface-300/20">
+                              ID: {p.id_conta}
+                            </span>
+                          )}
+                          {/* Greens */}
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold bg-primary-bg text-primary-light border border-primary-bg/40">
+                            <span className="font-mono tabular-nums">{p.total_greens}</span>
+                            <span className="text-[9px] uppercase tracking-wider opacity-70">
+                              {partTorneios.find(t => t.id === partTorneioId)?.logica_ganhador === 'sequencia' ? 'seq' : 'greens'}
+                            </span>
+                          </span>
+                          {/* Pagamentos */}
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold font-mono tabular-nums bg-emerald-500/10 text-emerald-400 border border-emerald-500/15">
+                            {fmtBRL(p.soma_pagamentos)}
+                          </span>
+                          {/* Atividade */}
+                          <span className="text-[10px] text-txt-dim font-mono ml-auto">
+                            {p.ultimo_green ? fmtRelative(p.ultimo_green) : '—'}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Expanded greens (mobile) */}
+                      {isExpanded && (
+                        <div className="bg-[#004AFF]/[0.02] animate-slide-up">
+                          <div className="px-4 py-2 border-b border-surface-300/8 flex items-center justify-between">
+                            <span className="text-[10px] font-mono font-semibold text-[#004AFF]/70 uppercase tracking-[0.12em]">
+                              Histórico de Greens
+                            </span>
+                            {!expandedLoading && (
+                              <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold text-txt-dim bg-surface-200/30">
+                                {expandedGreens.length}
+                              </span>
+                            )}
+                          </div>
+                          {expandedLoading ? (
+                            <div className="flex items-center gap-2 py-6 justify-center">
+                              <Loader2 className="w-4 h-4 animate-spin text-[#004AFF]" />
+                              <span className="text-[12px] text-txt-muted font-mono">Carregando...</span>
+                            </div>
+                          ) : expandedGreens.length === 0 ? (
+                            <p className="text-[12px] text-txt-muted text-center py-6 font-mono">Nenhum green encontrado</p>
+                          ) : (
+                            <div className="divide-y divide-surface-300/8">
+                              {expandedGreens.map(g => {
+                                const lucro = Number(g.valor_green) - Number(g.valor_apostado);
+                                return (
+                                  <div key={g.id} className="px-4 py-2.5">
+                                    <div className="flex items-start justify-between gap-2 mb-1">
+                                      <p className="text-[12px] text-txt font-medium truncate">{g.jogo}</p>
+                                      <span className={cn('text-[11px] font-mono font-semibold tabular-nums shrink-0', lucro >= 0 ? 'text-primary-light' : 'text-rose-400')}>
+                                        {fmtBRL(lucro)}
+                                      </span>
+                                    </div>
+                                    <div className="flex items-center justify-between gap-2 text-[10px] font-mono">
+                                      <span className="text-txt-dim">{fmtDate(g.data_hora_aposta)}</span>
+                                      <div className="flex items-center gap-2 text-txt-secondary">
+                                        <span>Aposta: {fmtBRL(Number(g.valor_apostado))}</span>
+                                        <span className="text-primary-light font-semibold">→ {fmtBRL(Number(g.valor_green))}</span>
+                                      </div>
+                                    </div>
+                                    {g.id_aposta && (
+                                      <p className="text-[9px] text-txt-dim font-mono truncate mt-1">ID: {g.id_aposta}</p>
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </React.Fragment>
+                  );
+                })}
               </div>
             </div>
           )}

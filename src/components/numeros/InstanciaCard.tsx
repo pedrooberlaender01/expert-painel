@@ -14,6 +14,8 @@ import {
   AlertCircle,
   Copy,
   Check,
+  Shield,
+  ShieldAlert,
 } from 'lucide-react';
 import type { WhatsappRotacao } from '../../hooks/useWhatsappRotacao';
 import { cn } from '../../utils/cn';
@@ -90,10 +92,10 @@ function CountdownTimer({ expiresAt }: { expiresAt: string }) {
 const STATUS_CONFIG = {
   connected: {
     label: 'Conectado',
-    bg: 'bg-primary-bg',
-    text: 'text-primary-light',
-    ring: 'ring-primary-bg',
-    dot: 'bg-primary-light',
+    bg: 'bg-emerald-500/10',
+    text: 'text-emerald-400',
+    ring: 'ring-emerald-500/25',
+    dot: 'bg-emerald-400',
     icon: Wifi,
   },
   disconnected: {
@@ -190,7 +192,7 @@ export const InstanciaCard: React.FC<InstanciaCardProps> = ({
       {/* Subtle status glow on the left edge */}
       <div className={cn(
         'absolute left-0 top-0 bottom-0 w-[3px] rounded-r-full transition-colors duration-300',
-        status === 'connected' && 'bg-primary-bg',
+        status === 'connected' && 'bg-emerald-500/40',
         status === 'disconnected' && 'bg-red-500/40',
         status === 'connecting' && 'bg-amber-500/60 animate-pulse',
       )} />
@@ -198,7 +200,7 @@ export const InstanciaCard: React.FC<InstanciaCardProps> = ({
       {/* Header: ordem + nome + status badge + toggle */}
       <div className="flex items-start justify-between mb-3 gap-3">
         <div className="flex items-center gap-3 min-w-0">
-          <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#004AFF]/10 text-[#004AFF] text-[13px] font-bold font-mono shrink-0">
+          <span className={cn("flex items-center justify-center w-8 h-8 rounded-lg text-[13px] font-bold font-mono shrink-0", config.bg, config.text)}>
             #{numero.ordem}
           </span>
           <div className="min-w-0">
@@ -212,6 +214,18 @@ export const InstanciaCard: React.FC<InstanciaCardProps> = ({
                 <span className={cn('w-1.5 h-1.5 rounded-full shrink-0', config.dot, status === 'connecting' && 'animate-pulse')} />
                 {config.label}
               </span>
+              {numero.tipo === 'seguranca' && (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-md bg-cyan-500/10 text-cyan-400 ring-1 ring-cyan-500/20">
+                  <Shield className="w-3 h-3" />
+                  Segurança
+                </span>
+              )}
+              {numero.tipo === 'antihack' && (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-md bg-amber-500/10 text-amber-400 ring-1 ring-amber-500/20">
+                  <ShieldAlert className="w-3 h-3" />
+                  Anti-Hack
+                </span>
+              )}
               {!numero.ativo && (
                 <span className="inline-block px-2 py-0.5 text-[10px] font-semibold rounded-md bg-rose-500/10 text-rose-400 ring-1 ring-rose-500/20">
                   Desativado
@@ -226,7 +240,7 @@ export const InstanciaCard: React.FC<InstanciaCardProps> = ({
           onClick={() => onToggleAtivo(numero.id, !numero.ativo)}
           className={cn(
             'relative w-11 h-6 rounded-full transition-colors duration-200 shrink-0 mt-1',
-            numero.ativo ? 'bg-primary' : 'bg-surface-300/40'
+            numero.ativo ? 'bg-emerald-500' : 'bg-surface-300/40'
           )}
         >
           <span className={cn(
@@ -250,9 +264,9 @@ export const InstanciaCard: React.FC<InstanciaCardProps> = ({
 
       {/* Connection status info */}
       {status === 'connected' && numero.last_connected_at && (
-        <div className="flex items-center gap-2 mb-3 px-3 py-2 rounded-lg bg-primary-bg border border-primary-bg">
-          <StatusIcon className="w-3.5 h-3.5 text-primary-light shrink-0" />
-          <span className="text-[12px] text-primary-light/90 font-medium">
+        <div className="flex items-center gap-2 mb-3 px-3 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+          <StatusIcon className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+          <span className="text-[12px] text-emerald-400/90 font-medium">
             Conectado {formatTimeSince(numero.last_connected_at)}
           </span>
         </div>
@@ -270,7 +284,7 @@ export const InstanciaCard: React.FC<InstanciaCardProps> = ({
               onClick={() => handleCopyCode(pairingCode)}
               className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 text-[11px] font-medium text-zinc-400 hover:text-white bg-zinc-700/50 hover:bg-zinc-700/80 rounded-lg transition-all"
             >
-              {copied ? <Check className="w-3 h-3 text-primary-light" /> : <Copy className="w-3 h-3" />}
+              {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
               {copied ? 'Copiado!' : 'Copiar código'}
             </button>
             {numero.pairing_code_expires_at && (
@@ -324,8 +338,8 @@ export const InstanciaCard: React.FC<InstanciaCardProps> = ({
             disabled={reconectando}
             className={cn(
               'w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-[12px] font-semibold transition-all duration-200',
-              'bg-[#004AFF]/10 text-[#004AFF] border border-[#004AFF]/20',
-              'hover:bg-[#004AFF]/15 hover:border-[#004AFF]/30 hover:shadow-[0_0_20px_rgba(0,74,255,0.08)]',
+              'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20',
+              'hover:bg-emerald-500/15 hover:border-emerald-500/30 hover:shadow-[0_0_20px_rgba(16,185,129,0.08)]',
               'disabled:opacity-50 disabled:cursor-not-allowed',
             )}
           >
@@ -368,8 +382,8 @@ export const InstanciaCard: React.FC<InstanciaCardProps> = ({
             disabled={reconectando}
             className={cn(
               'w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-[12px] font-semibold transition-all duration-200',
-              'bg-[#004AFF]/10 text-[#004AFF] border border-[#004AFF]/20',
-              'hover:bg-[#004AFF]/15 hover:border-[#004AFF]/30 hover:shadow-[0_0_20px_rgba(0,74,255,0.08)]',
+              'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20',
+              'hover:bg-emerald-500/15 hover:border-emerald-500/30 hover:shadow-[0_0_20px_rgba(16,185,129,0.08)]',
               'disabled:opacity-50 disabled:cursor-not-allowed',
             )}
           >
@@ -390,7 +404,7 @@ export const InstanciaCard: React.FC<InstanciaCardProps> = ({
           <button
             onClick={() => onMoveUp(numero)}
             disabled={isFirst}
-            className="p-1.5 text-txt-muted hover:text-[#004AFF] hover:bg-[#004AFF]/10 rounded-lg transition-all disabled:opacity-20 disabled:cursor-not-allowed disabled:hover:text-txt-muted disabled:hover:bg-transparent"
+            className="p-1.5 text-txt-muted hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition-all disabled:opacity-20 disabled:cursor-not-allowed disabled:hover:text-txt-muted disabled:hover:bg-transparent"
             title="Mover para cima"
           >
             <ChevronUp className="w-4 h-4" />
@@ -398,7 +412,7 @@ export const InstanciaCard: React.FC<InstanciaCardProps> = ({
           <button
             onClick={() => onMoveDown(numero)}
             disabled={isLast}
-            className="p-1.5 text-txt-muted hover:text-[#004AFF] hover:bg-[#004AFF]/10 rounded-lg transition-all disabled:opacity-20 disabled:cursor-not-allowed disabled:hover:text-txt-muted disabled:hover:bg-transparent"
+            className="p-1.5 text-txt-muted hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition-all disabled:opacity-20 disabled:cursor-not-allowed disabled:hover:text-txt-muted disabled:hover:bg-transparent"
             title="Mover para baixo"
           >
             <ChevronDown className="w-4 h-4" />

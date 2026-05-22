@@ -20,7 +20,7 @@ const CATEGORIAS = [
 const CAT_COLORS: Record<string, { bg: string; text: string }> = {
   live: { bg: 'bg-red-500/10', text: 'text-red-400' },
   bom_dia: { bg: 'bg-amber-500/10', text: 'text-amber-400' },
-  cadastro: { bg: 'bg-blue-500/10', text: 'text-blue-400' },
+  cadastro: { bg: 'bg-primary-bg', text: 'text-primary-light' },
   aviso: { bg: 'bg-orange-500/10', text: 'text-orange-400' },
   normal: { bg: 'bg-zinc-500/10', text: 'text-zinc-400' },
   resultado: { bg: 'bg-primary-bg', text: 'text-primary-light' },
@@ -249,7 +249,7 @@ export const BaseConhecimento: React.FC<BaseConhecimentoProps> = ({
                   onClick={() => setPage(p)}
                   className={`min-w-[32px] h-[32px] flex items-center justify-center rounded-lg text-[11px] font-mono font-medium transition-all duration-150 ${
                     p === page
-                      ? 'bg-[#3b82f6]/15 text-[#3b82f6] border border-[#3b82f6]/30'
+                      ? 'bg-primary/15 text-primary border border-primary/30'
                       : 'border border-[#1e1e22] text-[#6b7280] hover:bg-[#1a1a1e] hover:border-[#2a2a2e] hover:text-[#9ca3af]'
                   }`}
                 >

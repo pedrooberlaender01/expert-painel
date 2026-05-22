@@ -25,7 +25,7 @@ export interface ExpertFormData {
   voice_id: string | null;
   plano_id: string | null;
   ativo: boolean;
-  secoes_habilitadas: Record<string, boolean> | null;
+  secoes_habilitadas: Record<string, string | boolean> | null;
   // Credentials (only on create, optional on edit)
   email?: string;
   senha?: string;

@@ -78,17 +78,17 @@ const COLUMN_COLORS: Record<StatusLead, {
     icon: "text-violet-400/60",
   },
   aguardando_confirmacao_entrada: {
-    bar: "bg-gradient-to-r from-blue-500 to-blue-600",
-    count: "bg-blue-600/10 text-blue-400 ring-blue-600/20",
-    accent: "hover:border-blue-600/20",
-    dot: "bg-blue-400",
-    gradient: "from-blue-600/5 to-transparent",
-    ring: "ring-blue-600/15",
-    cardHover: "group-hover:bg-blue-600/[0.03]",
-    icon: "text-blue-400/60",
+    bar: "bg-gradient-to-r from-primary to-primary",
+    count: "bg-primary-bg text-primary-light ring-primary-bg",
+    accent: "hover:border-primary-bg",
+    dot: "bg-primary-light",
+    gradient: "from-primary/5 to-transparent",
+    ring: "ring-primary/15",
+    cardHover: "group-hover:bg-primary/[0.03]",
+    icon: "text-primary-light/60",
   },
   no_grupo: {
-    bar: "bg-gradient-to-r from-primary-light to-blue-400",
+    bar: "bg-gradient-to-r from-primary-light to-primary-light",
     count: "bg-primary-bg text-primary-light ring-1 ring-primary-bg",
     accent: "hover:border-primary-bg",
     dot: "bg-primary-light",
@@ -98,7 +98,7 @@ const COLUMN_COLORS: Record<StatusLead, {
     icon: "text-primary-light",
   },
   entrou_grupo: {
-    bar: "bg-gradient-to-r from-primary-light to-blue-400",
+    bar: "bg-gradient-to-r from-primary-light to-primary-light",
     count: "bg-primary-bg text-primary-light ring-1 ring-primary-bg",
     accent: "hover:border-primary-bg",
     dot: "bg-primary-light",
@@ -145,18 +145,18 @@ export const Funil: React.FC = () => {
   // Skeleton for initial load
   if (loading && totalLeads === 0) {
     return (
-      <div className="h-[calc(100vh-2rem)] flex flex-col mesh-bg">
+      <div className="h-[calc(100vh-2rem)] flex flex-col">
         <div className="noise-overlay" />
         <PageHeader title="Monitoramento de Funil" />
         <div className="flex items-center justify-center flex-1">
-          <Loader2 className="w-6 h-6 animate-spin text-[#004AFF]" />
+          <Loader2 className="w-6 h-6 animate-spin text-primary" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="h-[calc(100vh-2rem)] flex flex-col mesh-bg">
+    <div className="h-[calc(100vh-2rem)] flex flex-col">
       <div className="noise-overlay" />
 
       <PageHeader

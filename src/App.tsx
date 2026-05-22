@@ -20,6 +20,8 @@ import { Grupos } from './pages/Grupos';
 import Agendamentos from './pages/Agendamentos';
 import Agendados from './pages/Agendados';
 import GerarCopy from './pages/GerarCopy';
+import { Premiacoes } from './pages/Premiacoes';
+import { Suporte } from './pages/Suporte';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { AdminLayout } from './components/admin/AdminLayout';
 import { AdminExperts } from './pages/admin/AdminExperts';
@@ -158,16 +160,18 @@ function App() {
           <Route path="/funil" element={<SectionGuard section="leads"><Funil /></SectionGuard>} />
           <Route path="/conversas" element={<SectionGuard section="conversas"><Conversas /></SectionGuard>} />
           <Route path="/envios" element={<SectionGuard section="envios"><Envios /></SectionGuard>} />
-          <Route path="/envios/simulador" element={<SectionGuard section="envios"><SimuladorEnvios /></SectionGuard>} />
+          <Route path="/envios/simulador" element={<SectionGuard section="envios"><SectionGuard section="envios_simulador"><SimuladorEnvios /></SectionGuard></SectionGuard>} />
           <Route path="/envios/historico" element={<SectionGuard section="envios"><HistoricoEnvios /></SectionGuard>} />
           <Route path="/envios/templates" element={<SectionGuard section="envios"><Templates /></SectionGuard>} />
-          <Route path="/envios/agendamentos" element={<SectionGuard section="envios"><Agendamentos /></SectionGuard>} />
-          <Route path="/envios/agendados" element={<SectionGuard section="envios"><Agendados /></SectionGuard>} />
-          <Route path="/envios/gerar-copy" element={<SectionGuard section="envios"><GerarCopy /></SectionGuard>} />
+          <Route path="/envios/agendamentos" element={<SectionGuard section="envios"><SectionGuard section="envios_novo_agendamento"><Agendamentos /></SectionGuard></SectionGuard>} />
+          <Route path="/envios/agendados" element={<SectionGuard section="envios"><SectionGuard section="envios_agendados"><Agendados /></SectionGuard></SectionGuard>} />
+          <Route path="/envios/gerar-copy" element={<SectionGuard section="envios"><SectionGuard section="envios_gerar_copy"><GerarCopy /></SectionGuard></SectionGuard>} />
           <Route path="/grupos" element={<SectionGuard section="grupos"><Grupos /></SectionGuard>} />
           <Route path="/torneios" element={<SectionGuard section="torneios"><Torneios /></SectionGuard>} />
           <Route path="/mensagens" element={<SectionGuard section="mensagens"><Mensagens /></SectionGuard>} />
           <Route path="/central-whatsapp" element={<SectionGuard section="central_whatsapp"><CentralWhatsapp /></SectionGuard>} />
+          <Route path="/premiacoes" element={<SectionGuard section="premiacoes"><Premiacoes /></SectionGuard>} />
+          <Route path="/suporte" element={<SectionGuard section="suporte"><Suporte /></SectionGuard>} />
           <Route path="/notificacoes" element={<Notificacoes />} />
           <Route path="/configuracoes" element={<Configuracoes />} />
         </Route>

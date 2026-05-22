@@ -30,8 +30,14 @@ export function useFeatureGate(feature: FeatureKey): FeatureGateResult {
   const { user, impersonatedExpert } = useAuthStore();
   const expert = impersonatedExpert || user?.expert;
 
-  if (!expert || !expert.plano) {
-    return { hasFeature: false, requiredPlan: FEATURE_PLAN_MAP[feature] };
+  // Sem expert = sem gating (admin)
+  if (!expert) {
+    return { hasFeature: true, requiredPlan: FEATURE_PLAN_MAP[feature] };
+  }
+
+  // Sem plano atribuido = sem restricoes de feature
+  if (!expert.plano) {
+    return { hasFeature: true, requiredPlan: FEATURE_PLAN_MAP[feature] };
   }
 
   const features = expert.plano.features_permitidas;
@@ -56,7 +62,7 @@ export function useFeatureGates(features: FeatureKey[]): Record<FeatureKey, Feat
 
   for (const feature of features) {
     if (!expert || !expert.plano) {
-      result[feature] = { hasFeature: false, requiredPlan: FEATURE_PLAN_MAP[feature] };
+      result[feature] = { hasFeature: true, requiredPlan: FEATURE_PLAN_MAP[feature] };
       continue;
     }
 

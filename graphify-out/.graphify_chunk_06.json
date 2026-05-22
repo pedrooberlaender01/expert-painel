@@ -1,0 +1,941 @@
+{
+  "nodes": [
+    {
+      "id": "HistoricoEnvios_page",
+      "label": "HistoricoEnvios Page",
+      "file_type": "code",
+      "source_file": "src/pages/HistoricoEnvios.tsx"
+    },
+    {
+      "id": "Leads_page",
+      "label": "Leads Page",
+      "file_type": "code",
+      "source_file": "src/pages/Leads.tsx"
+    },
+    {
+      "id": "Login_page",
+      "label": "Login Page",
+      "file_type": "code",
+      "source_file": "src/pages/Login.tsx"
+    },
+    {
+      "id": "Mensagens_page",
+      "label": "Mensagens Page",
+      "file_type": "code",
+      "source_file": "src/pages/Mensagens.tsx"
+    },
+    {
+      "id": "Notificacoes_page",
+      "label": "Notificacoes Page",
+      "file_type": "code",
+      "source_file": "src/pages/Notificacoes.tsx"
+    },
+    {
+      "id": "Numeros_page",
+      "label": "Numeros Page",
+      "file_type": "code",
+      "source_file": "src/pages/Numeros.tsx"
+    },
+    {
+      "id": "Premiacoes_page",
+      "label": "Premiacoes Page",
+      "file_type": "code",
+      "source_file": "src/pages/Premiacoes.tsx"
+    },
+    {
+      "id": "SimuladorEnvios_page",
+      "label": "SimuladorEnvios Page",
+      "file_type": "code",
+      "source_file": "src/pages/SimuladorEnvios.tsx"
+    },
+    {
+      "id": "Templates_page",
+      "label": "Templates Page",
+      "file_type": "code",
+      "source_file": "src/pages/Templates.tsx"
+    },
+    {
+      "id": "Torneios_page",
+      "label": "Torneios Page",
+      "file_type": "code",
+      "source_file": "src/pages/Torneios.tsx"
+    },
+    {
+      "id": "AdminDashboard_page",
+      "label": "AdminDashboard Page",
+      "file_type": "code",
+      "source_file": "src/pages/admin/AdminDashboard.tsx"
+    },
+    {
+      "id": "AdminExpertForm_page",
+      "label": "AdminExpertForm Page",
+      "file_type": "code",
+      "source_file": "src/pages/admin/AdminExpertForm.tsx"
+    },
+    {
+      "id": "AdminExperts_page",
+      "label": "AdminExperts Page",
+      "file_type": "code",
+      "source_file": "src/pages/admin/AdminExperts.tsx"
+    },
+    {
+      "id": "AdminPlanos_page",
+      "label": "AdminPlanos Page",
+      "file_type": "code",
+      "source_file": "src/pages/admin/AdminPlanos.tsx"
+    },
+    {
+      "id": "authStore_store",
+      "label": "Auth Store (Zustand)",
+      "file_type": "code",
+      "source_file": "src/stores/authStore.ts"
+    },
+    {
+      "id": "admin_types",
+      "label": "Admin Types",
+      "file_type": "code",
+      "source_file": "src/types/admin.ts"
+    },
+    {
+      "id": "database_types",
+      "label": "Database Types",
+      "file_type": "code",
+      "source_file": "src/types/database.ts"
+    },
+    {
+      "id": "envios_types",
+      "label": "Envios Types",
+      "file_type": "code",
+      "source_file": "src/types/envios.ts"
+    },
+    {
+      "id": "index_types",
+      "label": "Index Types (User, ExpertProfile, Lead)",
+      "file_type": "code",
+      "source_file": "src/types/index.ts"
+    },
+    {
+      "id": "cn_util",
+      "label": "cn() Utility (clsx + tailwind-merge)",
+      "file_type": "code",
+      "source_file": "src/utils/cn.ts"
+    },
+    {
+      "id": "formatters_util",
+      "label": "Formatters Utility",
+      "file_type": "code",
+      "source_file": "src/utils/formatters.ts"
+    },
+    {
+      "id": "retry_util",
+      "label": "Retry Utility (withRetry)",
+      "file_type": "code",
+      "source_file": "src/utils/retry.ts"
+    },
+    {
+      "id": "assinatura_svg",
+      "label": "Assinatura-A SVG Logo",
+      "file_type": "asset",
+      "source_file": "src/assets/Assinatura-A.svg"
+    },
+    {
+      "id": "StatusLead_type",
+      "label": "StatusLead Union Type",
+      "file_type": "code",
+      "source_file": "src/types/index.ts"
+    },
+    {
+      "id": "ExpertProfile_type",
+      "label": "ExpertProfile Interface",
+      "file_type": "code",
+      "source_file": "src/types/index.ts"
+    },
+    {
+      "id": "User_type",
+      "label": "User Interface",
+      "file_type": "code",
+      "source_file": "src/types/index.ts"
+    },
+    {
+      "id": "Database_type",
+      "label": "Database Type (Supabase schema)",
+      "file_type": "code",
+      "source_file": "src/types/database.ts"
+    },
+    {
+      "id": "LeadRow_type",
+      "label": "LeadRow Interface",
+      "file_type": "code",
+      "source_file": "src/types/database.ts"
+    },
+    {
+      "id": "ExpertRow_type",
+      "label": "ExpertRow Interface",
+      "file_type": "code",
+      "source_file": "src/types/database.ts"
+    },
+    {
+      "id": "PlanoRow_type",
+      "label": "PlanoRow Interface",
+      "file_type": "code",
+      "source_file": "src/types/database.ts"
+    },
+    {
+      "id": "EnvioMassaRow_type",
+      "label": "EnvioMassaRow Interface",
+      "file_type": "code",
+      "source_file": "src/types/database.ts"
+    },
+    {
+      "id": "AdminExpertListItem_type",
+      "label": "AdminExpertListItem Interface",
+      "file_type": "code",
+      "source_file": "src/types/admin.ts"
+    },
+    {
+      "id": "ExpertFormData_type",
+      "label": "ExpertFormData Interface",
+      "file_type": "code",
+      "source_file": "src/types/admin.ts"
+    },
+    {
+      "id": "AdminDashboardMetrics_type",
+      "label": "AdminDashboardMetrics Interface",
+      "file_type": "code",
+      "source_file": "src/types/admin.ts"
+    },
+    {
+      "id": "ExpertBreakdownRow_type",
+      "label": "ExpertBreakdownRow Interface",
+      "file_type": "code",
+      "source_file": "src/types/admin.ts"
+    },
+    {
+      "id": "NotificacoesList_component",
+      "label": "NotificacoesList Component",
+      "file_type": "code",
+      "source_file": "src/pages/Notificacoes.tsx"
+    },
+    {
+      "id": "toHistoricoEnvio_adapter",
+      "label": "toHistoricoEnvio Adapter Function",
+      "file_type": "code",
+      "source_file": "src/pages/HistoricoEnvios.tsx"
+    },
+    {
+      "id": "brute_force_protection",
+      "label": "Brute Force Protection (progressive delays)",
+      "file_type": "code",
+      "source_file": "src/stores/authStore.ts"
+    },
+    {
+      "id": "impersonation_system",
+      "label": "Admin Impersonation System",
+      "file_type": "code",
+      "source_file": "src/stores/authStore.ts"
+    },
+    {
+      "id": "session_management",
+      "label": "Session Management (24h TTL localStorage)",
+      "file_type": "code",
+      "source_file": "src/stores/authStore.ts"
+    },
+    {
+      "id": "solicitacoes_senha",
+      "label": "Solicitacoes de Senha (Password Change Requests)",
+      "file_type": "code",
+      "source_file": "src/pages/admin/AdminDashboard.tsx"
+    },
+    {
+      "id": "secoes_habilitadas",
+      "label": "Secoes Habilitadas (Section Visibility)",
+      "file_type": "code",
+      "source_file": "src/types/index.ts"
+    }
+  ],
+  "edges": [
+    {
+      "source": "authStore_store",
+      "target": "User_type",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/stores/authStore.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "authStore_store",
+      "target": "ExpertProfile_type",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/stores/authStore.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "authStore_store",
+      "target": "brute_force_protection",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/stores/authStore.ts",
+      "weight": 0.9
+    },
+    {
+      "source": "authStore_store",
+      "target": "impersonation_system",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/stores/authStore.ts",
+      "weight": 0.9
+    },
+    {
+      "source": "authStore_store",
+      "target": "session_management",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/stores/authStore.ts",
+      "weight": 0.9
+    },
+    {
+      "source": "authStore_store",
+      "target": "database_types",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/stores/authStore.ts",
+      "weight": 0.7
+    },
+    {
+      "source": "Login_page",
+      "target": "authStore_store",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/Login.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "Login_page",
+      "target": "brute_force_protection",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "src/pages/Login.tsx",
+      "weight": 0.7
+    },
+    {
+      "source": "HistoricoEnvios_page",
+      "target": "EnvioMassaRow_type",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/HistoricoEnvios.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "HistoricoEnvios_page",
+      "target": "toHistoricoEnvio_adapter",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/HistoricoEnvios.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "HistoricoEnvios_page",
+      "target": "formatters_util",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/HistoricoEnvios.tsx",
+      "weight": 0.6
+    },
+    {
+      "source": "HistoricoEnvios_page",
+      "target": "cn_util",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/HistoricoEnvios.tsx",
+      "weight": 0.4
+    },
+    {
+      "source": "Leads_page",
+      "target": "formatters_util",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/Leads.tsx",
+      "weight": 0.6
+    },
+    {
+      "source": "Leads_page",
+      "target": "LeadRow_type",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/Leads.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "Leads_page",
+      "target": "StatusLead_type",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/Leads.tsx",
+      "weight": 0.7
+    },
+    {
+      "source": "Leads_page",
+      "target": "cn_util",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/Leads.tsx",
+      "weight": 0.4
+    },
+    {
+      "source": "Mensagens_page",
+      "target": "authStore_store",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/Mensagens.tsx",
+      "weight": 0.6
+    },
+    {
+      "source": "Mensagens_page",
+      "target": "formatters_util",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/Mensagens.tsx",
+      "weight": 0.5
+    },
+    {
+      "source": "Mensagens_page",
+      "target": "cn_util",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/Mensagens.tsx",
+      "weight": 0.4
+    },
+    {
+      "source": "Notificacoes_page",
+      "target": "formatters_util",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/Notificacoes.tsx",
+      "weight": 0.5
+    },
+    {
+      "source": "Notificacoes_page",
+      "target": "cn_util",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/Notificacoes.tsx",
+      "weight": 0.4
+    },
+    {
+      "source": "Notificacoes_page",
+      "target": "NotificacoesList_component",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/Notificacoes.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "Numeros_page",
+      "target": "cn_util",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/Numeros.tsx",
+      "weight": 0.4
+    },
+    {
+      "source": "SimuladorEnvios_page",
+      "target": "cn_util",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/SimuladorEnvios.tsx",
+      "weight": 0.4
+    },
+    {
+      "source": "SimuladorEnvios_page",
+      "target": "database_types",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/pages/SimuladorEnvios.tsx",
+      "weight": 0.6
+    },
+    {
+      "source": "Templates_page",
+      "target": "envios_types",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source_file": "src/pages/Templates.tsx",
+      "weight": 0.6
+    },
+    {
+      "source": "Torneios_page",
+      "target": "authStore_store",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/Torneios.tsx",
+      "weight": 0.6
+    },
+    {
+      "source": "Torneios_page",
+      "target": "cn_util",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/Torneios.tsx",
+      "weight": 0.4
+    },
+    {
+      "source": "Torneios_page",
+      "target": "secoes_habilitadas",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/Torneios.tsx",
+      "weight": 0.7
+    },
+    {
+      "source": "AdminDashboard_page",
+      "target": "authStore_store",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/admin/AdminDashboard.tsx",
+      "weight": 0.7
+    },
+    {
+      "source": "AdminDashboard_page",
+      "target": "ExpertBreakdownRow_type",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/admin/AdminDashboard.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "AdminDashboard_page",
+      "target": "solicitacoes_senha",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/admin/AdminDashboard.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "AdminExpertForm_page",
+      "target": "ExpertFormData_type",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/admin/AdminExpertForm.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "AdminExpertForm_page",
+      "target": "PlanoRow_type",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/admin/AdminExpertForm.tsx",
+      "weight": 0.7
+    },
+    {
+      "source": "AdminExpertForm_page",
+      "target": "secoes_habilitadas",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/admin/AdminExpertForm.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "AdminExpertForm_page",
+      "target": "cn_util",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/admin/AdminExpertForm.tsx",
+      "weight": 0.4
+    },
+    {
+      "source": "AdminExperts_page",
+      "target": "authStore_store",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/admin/AdminExperts.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "AdminExperts_page",
+      "target": "impersonation_system",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/admin/AdminExperts.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "AdminExperts_page",
+      "target": "AdminExpertListItem_type",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/admin/AdminExperts.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "AdminExperts_page",
+      "target": "ExpertProfile_type",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/admin/AdminExperts.tsx",
+      "weight": 0.7
+    },
+    {
+      "source": "AdminPlanos_page",
+      "target": "PlanoRow_type",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/admin/AdminPlanos.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "admin_types",
+      "target": "ExpertRow_type",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/types/admin.ts",
+      "weight": 0.8
+    },
+    {
+      "source": "admin_types",
+      "target": "PlanoRow_type",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/types/admin.ts",
+      "weight": 0.8
+    },
+    {
+      "source": "database_types",
+      "target": "StatusLead_type",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/types/database.ts",
+      "weight": 0.9
+    },
+    {
+      "source": "index_types",
+      "target": "StatusLead_type",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/types/index.ts",
+      "weight": 0.9
+    },
+    {
+      "source": "index_types",
+      "target": "ExpertProfile_type",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/types/index.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "index_types",
+      "target": "User_type",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/types/index.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "Premiacoes_page",
+      "target": "authStore_store",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/Premiacoes.tsx",
+      "weight": 0.6
+    },
+    {
+      "source": "Premiacoes_page",
+      "target": "cn_util",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/Premiacoes.tsx",
+      "weight": 0.4
+    },
+    {
+      "source": "formatters_util",
+      "target": "StatusLead_type",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "src/utils/formatters.ts",
+      "weight": 0.7
+    },
+    {
+      "source": "HistoricoEnvios_page",
+      "target": "Templates_page",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source_file": "src/pages/HistoricoEnvios.tsx",
+      "weight": 0.5
+    },
+    {
+      "source": "SimuladorEnvios_page",
+      "target": "HistoricoEnvios_page",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "src/pages/SimuladorEnvios.tsx",
+      "weight": 0.5
+    },
+    {
+      "source": "AdminDashboard_page",
+      "target": "AdminExperts_page",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/pages/admin/AdminDashboard.tsx",
+      "weight": 0.6
+    },
+    {
+      "source": "AdminExperts_page",
+      "target": "AdminExpertForm_page",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "src/pages/admin/AdminExperts.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "Torneios_page",
+      "target": "Premiacoes_page",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "src/pages/Torneios.tsx",
+      "weight": 0.7
+    },
+    {
+      "source": "envios_types",
+      "target": "EnvioMassaRow_type",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/types/envios.ts",
+      "weight": 0.7
+    },
+    {
+      "source": "retry_util",
+      "target": "database_types",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "src/utils/retry.ts",
+      "weight": 0.4
+    },
+    {
+      "source": "assinatura_svg",
+      "target": "Login_page",
+      "relation": "conceptually_related_to",
+      "confidence": "AMBIGUOUS",
+      "confidence_score": 0.3,
+      "source_file": "src/assets/Assinatura-A.svg",
+      "weight": 0.3
+    },
+    {
+      "source": "Numeros_page",
+      "target": "SimuladorEnvios_page",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "src/pages/Numeros.tsx",
+      "weight": 0.6
+    },
+    {
+      "source": "ExpertProfile_type",
+      "target": "secoes_habilitadas",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/types/index.ts",
+      "weight": 0.8
+    },
+    {
+      "source": "AdminDashboard_page",
+      "target": "AdminDashboardMetrics_type",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "src/pages/admin/AdminDashboard.tsx",
+      "weight": 0.7
+    },
+    {
+      "source": "database_types",
+      "target": "Database_type",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/types/database.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "Leads_page",
+      "target": "authStore_store",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source_file": "src/pages/Leads.tsx",
+      "weight": 0.5
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "envios_workflow_pages",
+      "label": "Envios Workflow Pages",
+      "nodes": [
+        "HistoricoEnvios_page",
+        "SimuladorEnvios_page",
+        "Templates_page"
+      ],
+      "relation": "form",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.9,
+      "source_file": "src/pages/HistoricoEnvios.tsx"
+    },
+    {
+      "id": "admin_panel_pages",
+      "label": "Admin Panel Pages",
+      "nodes": [
+        "AdminDashboard_page",
+        "AdminExperts_page",
+        "AdminExpertForm_page",
+        "AdminPlanos_page"
+      ],
+      "relation": "form",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source_file": "src/pages/admin/AdminDashboard.tsx"
+    },
+    {
+      "id": "type_system_layer",
+      "label": "Type System Layer",
+      "nodes": [
+        "database_types",
+        "admin_types",
+        "envios_types",
+        "index_types"
+      ],
+      "relation": "form",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source_file": "src/types/database.ts"
+    },
+    {
+      "id": "utility_layer",
+      "label": "Shared Utility Layer",
+      "nodes": [
+        "cn_util",
+        "formatters_util",
+        "retry_util"
+      ],
+      "relation": "form",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.9,
+      "source_file": "src/utils/cn.ts"
+    },
+    {
+      "id": "auth_system",
+      "label": "Auth System (store + session + brute force + impersonation)",
+      "nodes": [
+        "authStore_store",
+        "brute_force_protection",
+        "impersonation_system",
+        "session_management",
+        "Login_page"
+      ],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source_file": "src/stores/authStore.ts"
+    },
+    {
+      "id": "multi_tenant_types",
+      "label": "Multi-Tenant Type Definitions",
+      "nodes": [
+        "ExpertProfile_type",
+        "ExpertRow_type",
+        "PlanoRow_type",
+        "User_type",
+        "secoes_habilitadas"
+      ],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.9,
+      "source_file": "src/types/index.ts"
+    },
+    {
+      "id": "expert_pages_auth_dependent",
+      "label": "Expert Pages That Depend on Auth Store",
+      "nodes": [
+        "Login_page",
+        "Mensagens_page",
+        "Torneios_page",
+        "Premiacoes_page",
+        "AdminDashboard_page",
+        "AdminExperts_page"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.9,
+      "source_file": "src/stores/authStore.ts"
+    },
+    {
+      "id": "torneio_premiacao_flow",
+      "label": "Torneio-Premiacao Feature Flow",
+      "nodes": [
+        "Torneios_page",
+        "Premiacoes_page"
+      ],
+      "relation": "form",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "src/pages/Torneios.tsx"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

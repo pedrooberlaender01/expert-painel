@@ -14,8 +14,8 @@ const CANAIS: { value: Canal; label: string; icon: React.ElementType; accent: st
     value: 'whatsapp',
     label: 'WhatsApp',
     icon: MessageCircle,
-    accent: 'primary',
-    glow: 'var(--color-primary-bg)',
+    accent: 'emerald',
+    glow: 'rgba(52,211,153,0.12)',
   },
   {
     value: 'telegram',
@@ -40,7 +40,7 @@ export const CanalSelector: React.FC<CanalSelectorProps> = ({ canal, onCanalChan
             className={cn(
               'relative flex items-center gap-3 px-5 py-3.5 rounded-2xl border transition-all duration-200 cursor-pointer group overflow-hidden',
               isActive && c.value === 'whatsapp' &&
-                'bg-primary-bg border-primary-bg shadow-[0_0_20px_var(--color-primary-bg)]',
+                'bg-emerald-500/[0.06] border-emerald-500/30 shadow-[0_0_20px_rgba(52,211,153,0.08)]',
               isActive && c.value === 'telegram' &&
                 'bg-sky-500/[0.06] border-sky-500/30 shadow-[0_0_20px_rgba(56,189,248,0.08)]',
               !isActive &&
@@ -58,7 +58,7 @@ export const CanalSelector: React.FC<CanalSelectorProps> = ({ canal, onCanalChan
             <div
               className={cn(
                 'relative flex items-center justify-center w-9 h-9 rounded-xl transition-all duration-200',
-                isActive && c.value === 'whatsapp' && 'bg-primary-bg',
+                isActive && c.value === 'whatsapp' && 'bg-emerald-500/15',
                 isActive && c.value === 'telegram' && 'bg-sky-500/15',
                 !isActive && 'bg-surface-200/30 group-hover:bg-surface-200/50'
               )}
@@ -66,7 +66,7 @@ export const CanalSelector: React.FC<CanalSelectorProps> = ({ canal, onCanalChan
               <Icon
                 className={cn(
                   'w-[18px] h-[18px] transition-colors duration-200',
-                  isActive && c.value === 'whatsapp' && 'text-primary-light',
+                  isActive && c.value === 'whatsapp' && 'text-emerald-400',
                   isActive && c.value === 'telegram' && 'text-sky-400',
                   !isActive && 'text-txt-dim group-hover:text-txt-muted'
                 )}
@@ -77,7 +77,7 @@ export const CanalSelector: React.FC<CanalSelectorProps> = ({ canal, onCanalChan
               <span
                 className={cn(
                   'text-[13px] font-semibold tracking-tight transition-colors duration-200',
-                  isActive && c.value === 'whatsapp' && 'text-primary-light',
+                  isActive && c.value === 'whatsapp' && 'text-emerald-400',
                   isActive && c.value === 'telegram' && 'text-sky-400',
                   !isActive && 'text-txt-muted group-hover:text-txt-secondary'
                 )}
@@ -99,7 +99,7 @@ export const CanalSelector: React.FC<CanalSelectorProps> = ({ canal, onCanalChan
               <div
                 className={cn(
                   'ml-auto w-2 h-2 rounded-full',
-                  c.value === 'whatsapp' ? 'bg-primary-light' : 'bg-sky-400'
+                  c.value === 'whatsapp' ? 'bg-emerald-400' : 'bg-sky-400'
                 )}
               />
             )}

@@ -1,0 +1,1 @@
+{"nodes": [{"id": "useFunil", "label": "useFunil Hook", "file_type": "code", "source_file": "src/hooks/useFunil.ts"}], "edges": [{"source": "useFunil", "target": "table_leads", "relation": "shares_data_with", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "src/hooks/useFunil.ts", "weight": 1.0}], "hyperedges": []}

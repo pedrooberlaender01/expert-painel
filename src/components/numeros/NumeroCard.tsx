@@ -40,7 +40,7 @@ export const NumeroCard: React.FC<NumeroCardProps> = ({
       {/* Header: ordem + nome + toggle */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#004AFF]/10 text-[#004AFF] text-[13px] font-bold font-mono">
+          <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10 text-primary text-[13px] font-bold font-mono">
             #{numero.ordem}
           </span>
           <div>
@@ -87,7 +87,7 @@ export const NumeroCard: React.FC<NumeroCardProps> = ({
           <button
             onClick={() => onMoveUp(numero)}
             disabled={isFirst}
-            className="p-1.5 text-txt-muted hover:text-[#004AFF] hover:bg-[#004AFF]/10 rounded-lg transition-all disabled:opacity-20 disabled:cursor-not-allowed disabled:hover:text-txt-muted disabled:hover:bg-transparent"
+            className="p-1.5 text-txt-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-all disabled:opacity-20 disabled:cursor-not-allowed disabled:hover:text-txt-muted disabled:hover:bg-transparent"
             title="Mover para cima"
           >
             <ChevronUp className="w-4 h-4" />
@@ -95,7 +95,7 @@ export const NumeroCard: React.FC<NumeroCardProps> = ({
           <button
             onClick={() => onMoveDown(numero)}
             disabled={isLast}
-            className="p-1.5 text-txt-muted hover:text-[#004AFF] hover:bg-[#004AFF]/10 rounded-lg transition-all disabled:opacity-20 disabled:cursor-not-allowed disabled:hover:text-txt-muted disabled:hover:bg-transparent"
+            className="p-1.5 text-txt-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-all disabled:opacity-20 disabled:cursor-not-allowed disabled:hover:text-txt-muted disabled:hover:bg-transparent"
             title="Mover para baixo"
           >
             <ChevronDown className="w-4 h-4" />

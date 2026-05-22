@@ -14,7 +14,7 @@ const statusColors: Record<StatusLead, string> = {
   interessado: "bg-primary-bg text-primary-light border-primary-bg",
   aguardando_cadastro: "bg-orange-500/10 text-orange-400 border-orange-500/20",
   link_enviado: "bg-violet-500/10 text-violet-400 border-violet-500/20",
-  aguardando_confirmacao_entrada: "bg-blue-600/10 text-blue-400 border-blue-600/20",
+  aguardando_confirmacao_entrada: "bg-primary-bg text-primary-light border-primary-bg",
   no_grupo: "bg-primary-bg text-primary-light border-primary-bg",
   entrou_grupo: "bg-primary-bg text-primary-light border-primary-bg",
   nao_interessado: "bg-surface-300/30 text-txt-muted border-surface-300/30",

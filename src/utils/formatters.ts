@@ -81,14 +81,14 @@ export const getStatusColor = (status: string): string => {
     interessado: "bg-primary-bg text-primary-light border-primary-bg",
     aguardando_cadastro: "bg-orange-500/10 text-orange-400 border-orange-500/20",
     link_enviado: "bg-violet-500/10 text-violet-400 border-violet-500/20",
-    aguardando_confirmacao_entrada: "bg-blue-600/10 text-blue-400 border-blue-600/20",
+    aguardando_confirmacao_entrada: "bg-primary-bg text-primary-light border-primary-bg",
     no_grupo: "bg-primary-bg text-primary-light border-primary-bg",
     entrou_grupo: "bg-primary-bg text-primary-light border-primary-bg",
     nao_interessado: "bg-surface-300/30 text-txt-muted border-surface-300/30",
     sem_resposta: "bg-rose-500/10 text-rose-400 border-rose-500/20",
     atendimento_manual: "bg-zinc-500/10 text-zinc-400 border-zinc-500/20",
     // Premium status colors
-    em_andamento: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+    em_andamento: "bg-primary-bg text-primary-light border-primary-bg",
     encerrado: "bg-zinc-500/10 text-zinc-400 border-zinc-500/20",
   };
   return colors[status] || "bg-surface-300/20 text-txt-muted border-surface-300/20";

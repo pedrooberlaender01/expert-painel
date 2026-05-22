@@ -1,0 +1,1 @@
+{"nodes": [{"id": "assinatura_svg", "label": "Assinatura-A SVG Logo", "file_type": "asset", "source_file": "src/assets/Assinatura-A.svg"}], "edges": [{"source": "assinatura_svg", "target": "Login_page", "relation": "conceptually_related_to", "confidence": "AMBIGUOUS", "confidence_score": 0.3, "source_file": "src/assets/Assinatura-A.svg", "weight": 0.3}], "hyperedges": []}

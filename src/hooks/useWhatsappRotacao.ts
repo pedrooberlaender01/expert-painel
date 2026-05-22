@@ -12,7 +12,7 @@ export interface WhatsappRotacao {
   ordem: number;
   instancia: string;
   token: string;
-  tipo: 'disparadora' | 'coleta_eventos' | 'torneio' | 'seguranca';
+  tipo: 'disparadora' | 'coleta_eventos' | 'torneio' | 'seguranca' | 'antihack' | 'bot';
   status_conexao: 'disconnected' | 'connecting' | 'connected';
   pairing_code: string | null;
   pairing_code_expires_at: string | null;
@@ -185,7 +185,10 @@ export function useWhatsappRotacao() {
         expert_id: expertId,
       });
 
-      // Webhook OK — remover do estado local para sumir da tela
+      // Deletar do Supabase
+      await fromLoose('whatsapp_rotacao').delete().eq('id', id);
+
+      // Remover do estado local para sumir da tela
       setNumeros((prev) => prev.filter((n) => n.id !== id));
       return null;
     } catch (err: unknown) {
@@ -241,16 +244,16 @@ export function useWhatsappRotacao() {
 
   // ── Criar instância via N8N webhook ──
 
-  const criarInstancia = useCallback(async (nome: string, numero: string, tipo: 'disparadora' | 'coleta_eventos' | 'torneio' | 'seguranca' = 'disparadora'): Promise<CriarInstanciaResponse> => {
+  const criarInstancia = useCallback(async (nome: string, numero: string, tipo: 'disparadora' | 'coleta_eventos' | 'torneio' | 'seguranca' | 'antihack' | 'bot' = 'disparadora'): Promise<CriarInstanciaResponse> => {
     try {
       const webhookUrl = tipo === 'torneio'
         ? WEBHOOKS.TORNEIO
-        : tipo === 'seguranca'
+        : (tipo === 'seguranca' || tipo === 'antihack')
         ? WEBHOOKS.SEGURANCA
         : WEBHOOKS.CRIAR_INSTANCIA;
       const expertId = useAuthStore.getState().getActiveExpertId();
       const body: Record<string, string | null> = { nome, numero, tipo, expert_id: expertId };
-      if (tipo === 'torneio' || tipo === 'seguranca') {
+      if (tipo === 'torneio' || tipo === 'seguranca' || tipo === 'antihack') {
         body.EventType = 'connection';
       }
       const { data } = await axios.post<CriarInstanciaResponse>(webhookUrl, body);
@@ -380,7 +383,7 @@ export function useWhatsappRotacao() {
   );
 
   const instanciasColeta = useMemo(
-    () => numeros.filter((n) => n.tipo === 'coleta_eventos'),
+    () => numeros.filter((n) => n.tipo === 'coleta_eventos' || n.tipo === 'seguranca'),
     [numeros]
   );
 
@@ -390,7 +393,12 @@ export function useWhatsappRotacao() {
   );
 
   const instanciasSeguranca = useMemo(
-    () => numeros.filter((n) => n.tipo === 'seguranca'),
+    () => numeros.filter((n) => n.tipo === 'seguranca' || n.tipo === 'antihack'),
+    [numeros]
+  );
+
+  const instanciasBot = useMemo(
+    () => numeros.filter((n) => n.tipo === 'bot'),
     [numeros]
   );
 
@@ -400,6 +408,7 @@ export function useWhatsappRotacao() {
     instanciasColeta,
     instanciasTorneio,
     instanciasSeguranca,
+    instanciasBot,
     mensagens,
     loading,
     fetchData,

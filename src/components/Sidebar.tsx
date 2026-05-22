@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Bot, UsersRound, Send, Trophy, MessageSquare, MessagesSquare, Phone, Settings, LogOut, ChevronLeft, ChevronRight, Lock } from 'lucide-react';
+import { LayoutDashboard, Bot, UsersRound, Send, Trophy, MessageSquare, MessagesSquare, Phone, Settings, LogOut, ChevronLeft, ChevronRight, Lock, Gift, Headset } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { useAuthStore } from '../stores/authStore';
 import { useFeatureGates, PATH_FEATURE_MAP } from '../hooks/useFeatureGate';
@@ -30,24 +30,38 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, isMobile 
 
   const featureGates = useFeatureGates(['torneio', 'copy_ia', 'moderacao', 'voz_clonada']);
 
-  const sectionGates = useSectionGates(['dashboard', 'conversas', 'leads', 'grupos', 'envios', 'torneios', 'mensagens', 'central_whatsapp']);
+  const sectionGates = useSectionGates(['dashboard', 'conversas', 'leads', 'grupos', 'envios', 'torneios', 'mensagens', 'central_whatsapp', 'premiacoes', 'suporte', 'envios_novo_agendamento', 'envios_agendados', 'envios_simulador', 'envios_gerar_copy']);
+
+  // Resolve o path padrao do Envios escolhendo a primeira sub-aba nao oculta
+  const enviosPath = (() => {
+    const candidates: Array<{ key: 'envios_novo_agendamento' | 'envios_agendados' | 'envios_simulador' | 'envios_gerar_copy'; path: string }> = [
+      { key: 'envios_novo_agendamento', path: '/envios/agendamentos' },
+      { key: 'envios_agendados', path: '/envios/agendados' },
+      { key: 'envios_simulador', path: '/envios/simulador' },
+      { key: 'envios_gerar_copy', path: '/envios/gerar-copy' },
+    ];
+    const firstVisible = candidates.find((c) => sectionGates[c.key] !== 'hidden');
+    return firstVisible?.path || '/envios/agendamentos';
+  })();
 
   const navItems: NavItem[] = [
     { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard', sectionKey: 'dashboard' },
     { icon: MessagesSquare, label: 'Conversas', path: '/conversas', sectionKey: 'conversas' },
     { icon: Bot, label: 'Leads Assistente', path: '/leads', sectionKey: 'leads' },
     { icon: UsersRound, label: 'Grupos', path: '/grupos', sectionKey: 'grupos' },
-    { icon: Send, label: 'Envios', path: '/envios/agendamentos', sectionKey: 'envios' },
+    { icon: Send, label: 'Envios', path: enviosPath, sectionKey: 'envios' },
     { icon: Trophy, label: 'Torneios', path: '/torneios', featureKey: 'torneio', sectionKey: 'torneios' },
     { icon: MessageSquare, label: 'Mensagens', path: '/mensagens', sectionKey: 'mensagens' },
     { icon: Phone, label: 'Central WhatsApp', path: '/central-whatsapp', sectionKey: 'central_whatsapp' },
+    { icon: Gift, label: 'Premiacoes', path: '/premiacoes', sectionKey: 'premiacoes' },
+    { icon: Headset, label: 'Suporte', path: '/suporte', sectionKey: 'suporte' },
     { icon: Settings, label: 'Configuracoes', path: '/configuracoes' },
   ];
 
   return (
     <aside className={cn(
       "sidebar-glass h-screen flex flex-col transition-all duration-300 shrink-0 relative",
-      isMobile ? "flex w-[260px]" : "hidden md:flex",
+      isMobile ? "flex w-full" : "hidden md:flex",
       !isMobile && (collapsed ? "w-[72px]" : "w-[260px]")
     )}>
       <div className={cn("p-5 border-b border-white/[0.04] relative h-[73px] flex items-center", collapsed && "px-3")}>
@@ -103,39 +117,43 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, isMobile 
         {navItems.map((item) => {
           // Gating de secao (D-09) — prioridade sobre gating de feature
           const sectionKey = item.sectionKey || SECTION_PATH_MAP[item.path];
-          const sectionEnabled = sectionKey ? sectionGates[sectionKey] : true;
+          const sectionState = sectionKey ? sectionGates[sectionKey] : 'enabled';
 
-          if (!sectionEnabled) {
+          // Hidden: nao renderiza nada
+          if (sectionState === 'hidden') return null;
+
+          // Disabled (cadeado): clicavel, navega para tela de secao bloqueada
+          if (sectionState === 'disabled') {
             return (
-              <div
+              <NavLink
                 key={item.path}
-                className={cn(
-                  "flex items-center px-3 py-2.5 text-[13px] font-medium relative cursor-not-allowed group",
+                to={item.path}
+                className={({ isActive }) => cn(
+                  "flex items-center px-3 py-2.5 text-[13px] font-medium relative group transition-all duration-200",
                   collapsed && "justify-center px-2",
-                  "text-white/[0.15]"
+                  isActive
+                    ? "text-white/[0.25] bg-white/[0.02] rounded-r-lg rounded-l-none"
+                    : "text-white/[0.15] hover:bg-white/[0.02] hover:text-white/[0.2] rounded-xl"
                 )}
-                title="Secao indisponivel"
+                title="Secao indisponivel no seu plano"
               >
                 <item.icon className={cn("w-[18px] h-[18px] opacity-20", !collapsed && "mr-3")} />
                 {!collapsed && (
                   <>
                     <span>{item.label}</span>
-                    <Lock className="w-3 h-3 ml-auto opacity-30" />
+                    <Lock className="w-3 h-3 ml-auto" style={{ color: 'rgba(250, 204, 60, 0.4)' }} />
                   </>
                 )}
-                <div
-                  className="absolute left-full ml-2 px-2.5 py-1.5 rounded-lg text-[11px] font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50"
-                  style={{ background: 'rgba(22, 27, 34, 0.97)', border: '1px solid rgba(255, 255, 255, 0.1)' }}
-                >
-                  Secao indisponivel
-                </div>
-              </div>
+              </NavLink>
             );
           }
 
+          // Feature gate so aplica se secoes_habilitadas NAO tem configuracao explicita
+          // Se o admin definiu 'enabled' em secoes_habilitadas, feature gate nao bloqueia
           const featureKey = item.featureKey || PATH_FEATURE_MAP[item.path];
           const gate = featureKey ? featureGates[featureKey] : null;
-          const isGated = gate && !gate.hasFeature;
+          const sectionExplicitlyEnabled = sectionKey && sectionGates[sectionKey] === 'enabled';
+          const isGated = gate && !gate.hasFeature && !sectionExplicitlyEnabled;
 
           if (isGated) {
             return (

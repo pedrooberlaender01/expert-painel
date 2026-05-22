@@ -46,7 +46,7 @@ export const LeadPreviewList: React.FC<LeadPreviewListProps> = ({ leads, loading
             {t.label}
             <span className={cn(
               'text-[10px] font-mono px-1.5 py-0.5 rounded-md',
-              tab === t.key ? 'bg-[#004AFF]/15 text-[#004AFF]' : 'bg-surface-300/20 text-txt-dim'
+              tab === t.key ? 'bg-primary/15 text-primary' : 'bg-surface-300/20 text-txt-dim'
             )}>
               {t.count}
             </span>
@@ -58,7 +58,7 @@ export const LeadPreviewList: React.FC<LeadPreviewListProps> = ({ leads, loading
       <div className="flex-1 overflow-y-auto space-y-0.5 min-h-0">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-12 text-center">
-            <div className="w-5 h-5 border-2 border-[#004AFF]/30 border-t-accent rounded-full animate-spin mb-3" />
+            <div className="w-5 h-5 border-2 border-primary/30 border-t-accent rounded-full animate-spin mb-3" />
             <p className="text-[13px] text-txt-muted">Buscando leads...</p>
           </div>
         ) : filteredLeads.length === 0 ? (
@@ -74,7 +74,7 @@ export const LeadPreviewList: React.FC<LeadPreviewListProps> = ({ leads, loading
             ))}
             {remaining > 0 && (
               <div className="text-center py-3 text-[12px] text-txt-muted">
-                e mais <span className="text-[#004AFF] font-medium">{remaining}</span> leads...
+                e mais <span className="text-primary font-medium">{remaining}</span> leads...
               </div>
             )}
           </>

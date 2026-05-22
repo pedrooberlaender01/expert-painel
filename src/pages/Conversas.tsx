@@ -2,13 +2,13 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import { supabase } from '../backend/client'
 import { useAuthStore } from '../stores/authStore'
 import { WEBHOOKS, fetchWithTimeout } from '../config/webhooks'
-import { Search, Phone, X, Play, Pause, Volume2, VolumeX, MessageSquare, Mic, Image as ImageIcon, SlidersHorizontal, Check, Send, Loader2, ArrowLeft } from 'lucide-react'
+import { Search, Phone, X, Play, Pause, Volume2, VolumeX, MessageSquare, Mic, Image as ImageIcon, SlidersHorizontal, Check, Send, Loader2, ArrowLeft, Headset, HandHelping } from 'lucide-react'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface Conversa {
   id: string
-  lead_id: string
+  lead_id: string | null
   telefone: string
   direcao: 'recebida' | 'enviada'
   tipo: 'texto' | 'audio' | 'imagem'
@@ -22,11 +22,13 @@ interface Conversa {
   nome: string | null
   status: string | null
   instancia_enviou: string | null
+  canal: string | null
+  suporte_pendente: boolean
 }
 
 interface Mensagem {
   id: string
-  lead_id: string
+  lead_id: string | null
   telefone: string
   direcao: 'recebida' | 'enviada'
   tipo: 'texto' | 'audio' | 'imagem'
@@ -37,6 +39,12 @@ interface Mensagem {
   messageid_whatsapp: string
   status_funil_snapshot: string
   created_at: string
+  canal: string | null
+}
+
+// Chave unica para agrupar conversas por (telefone, canal)
+function conversaKey(telefone: string, canal: string | null): string {
+  return `${telefone}|${canal || 'funil'}`
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -312,15 +320,16 @@ function ConversaItem({
   const cfg = getStatusCfg(conversa.status)
   const avatarGradient = getAvatarColor(conversa.telefone)
   const initial = getInitial(conversa.nome, conversa.telefone)
+  const isPendente = conversa.suporte_pendente
 
   return (
     <div
       onClick={onClick}
       className="cursor-pointer transition-all duration-200"
       style={{
-        background: selected ? 'rgba(var(--color-primary-rgb), 0.08)' : 'rgba(255, 255, 255, 0.02)',
-        border: selected ? '1px solid rgba(var(--color-primary-rgb), 0.15)' : '1px solid transparent',
-        borderLeft: selected ? '3px solid var(--color-primary)' : '3px solid transparent',
+        background: selected ? 'rgba(var(--color-primary-rgb), 0.08)' : isPendente ? 'rgba(251, 146, 60, 0.03)' : 'rgba(255, 255, 255, 0.02)',
+        border: selected ? '1px solid rgba(var(--color-primary-rgb), 0.15)' : isPendente ? '1px solid rgba(251, 146, 60, 0.08)' : '1px solid transparent',
+        borderLeft: selected ? '3px solid var(--color-primary)' : isPendente ? '3px solid rgba(251, 146, 60, 0.6)' : '3px solid transparent',
         borderRadius: '12px',
         padding: '12px 14px',
         margin: '0 8px 4px 8px',
@@ -380,6 +389,31 @@ function ConversaItem({
 
         {/* Badges */}
         <div className="flex items-center gap-1.5 mt-1.5 flex-wrap">
+          {/* Badge de canal */}
+          {conversa.canal === 'suporte' ? (
+            <span
+              className="rounded-md px-2 py-0.5 text-[10px] font-medium flex items-center gap-1"
+              style={{
+                background: 'rgba(52, 211, 153, 0.12)',
+                color: '#34d399',
+                border: '1px solid rgba(52, 211, 153, 0.2)',
+              }}
+            >
+              <Headset size={10} />
+              Suporte
+            </span>
+          ) : (
+            <span
+              className="rounded-md px-2 py-0.5 text-[10px] font-medium"
+              style={{
+                background: 'rgba(var(--color-primary-rgb), 0.08)',
+                color: 'var(--color-primary-light)',
+                border: '1px solid rgba(var(--color-primary-rgb), 0.15)',
+              }}
+            >
+              Funil
+            </span>
+          )}
           <span
             className="rounded-md px-2 py-0.5 font-mono text-[10px] font-medium"
             style={{
@@ -390,12 +424,27 @@ function ConversaItem({
           >
             {conversa.instancia}
           </span>
-          <span
-            className="rounded-md px-2 py-0.5 text-[10px] font-medium"
-            style={{ background: cfg.bg, color: cfg.color, border: `1px solid ${cfg.border}` }}
-          >
-            {cfg.label}
-          </span>
+          {conversa.status && (
+            <span
+              className="rounded-md px-2 py-0.5 text-[10px] font-medium"
+              style={{ background: cfg.bg, color: cfg.color, border: `1px solid ${cfg.border}` }}
+            >
+              {cfg.label}
+            </span>
+          )}
+          {isPendente && (
+            <span
+              className="rounded-md px-2 py-0.5 text-[10px] font-semibold flex items-center gap-1.5"
+              style={{
+                background: 'rgba(251, 146, 60, 0.12)',
+                color: '#fb923c',
+                border: '1px solid rgba(251, 146, 60, 0.25)',
+              }}
+            >
+              <HandHelping size={11} className="flex-shrink-0" style={{ animation: 'pulse 2s infinite' }} />
+              Aguardando resposta manual
+            </span>
+          )}
         </div>
       </div>
     </div>
@@ -408,6 +457,7 @@ export default function Conversas() {
   const [conversas, setConversas] = useState<Conversa[]>([])
   const [mensagens, setMensagens] = useState<Mensagem[]>([])
   const [selectedTel, setSelectedTel] = useState<string | null>(null)
+  const [selectedCanal, setSelectedCanal] = useState<string | null>(null)
   const [busca, setBusca] = useState('')
   const [filtroStatus, setFiltroStatus] = useState<string | null>(null)
   const [filtroInstancia, setFiltroInstancia] = useState<string | null>(null)
@@ -424,7 +474,8 @@ export default function Conversas() {
   })
 
   // Dados da conversa selecionada (precisa estar antes do bloco de envio)
-  const conversaAtual = conversas.find(c => c.telefone === selectedTel)
+  const selectedKey = selectedTel ? conversaKey(selectedTel, selectedCanal) : null
+  const conversaAtual = conversas.find(c => conversaKey(c.telefone, c.canal) === selectedKey)
 
   // ─── Envio de mensagens ───
   const [msgTexto, setMsgTexto] = useState('')
@@ -476,7 +527,7 @@ export default function Conversas() {
           instancia: inst,
           token: dadosInst.token.trim(),
           owner: dadosInst.numero,
-          lead_id: conversaAtual.lead_id,
+          lead_id: conversaAtual.lead_id || '',
           status_lead: conversaAtual.status || '',
           message_id: Array.from(crypto.getRandomValues(new Uint8Array(16)), b => b.toString(16).padStart(2, '0')).join('').toUpperCase(),
         }),
@@ -544,40 +595,72 @@ export default function Conversas() {
     }
   }, [muted])
 
-  // Carregar lista de conversas
+  // Carregar lista de conversas (incluindo suporte sem lead_id)
   const fetchConversas = useCallback(async () => {
     const expertId = useAuthStore.getState().getActiveExpertId();
-    const { data, error } = await supabase.rpc('get_lista_conversas') as { data: Conversa[] | null; error: unknown }
-    if (error || !data) {
-      // fallback: query direta
-      let fallbackQuery = supabase
-        .from('mensagens')
-        .select('*, leads!inner(nome, status, instancia_enviou)')
-        .order('created_at', { ascending: false });
-      if (expertId) fallbackQuery = fallbackQuery.eq('expert_id', expertId);
-      const { data: raw } = await fallbackQuery;
-      if (raw) {
-        // dedup por telefone manualmente
-        const seen = new Set<string>()
-        const deduped: Conversa[] = []
-        for (const r of raw as Record<string, unknown>[]) {
-          const leads = r.leads as Record<string, string> | null
-          const tel = r.telefone as string
-          if (!seen.has(tel)) {
-            seen.add(tel)
-            deduped.push({
-              ...(r as unknown as Conversa),
-              nome: leads?.nome ?? null,
-              status: leads?.status ?? null,
-              instancia_enviou: leads?.instancia_enviou ?? null,
-            })
+    // LEFT join para incluir mensagens de suporte que nao possuem lead_id
+    let query = supabase
+      .from('mensagens')
+      .select('*, leads(nome, status, instancia_enviou)')
+      .order('created_at', { ascending: false });
+    if (expertId) query = query.eq('expert_id', expertId);
+    const { data: raw } = await query;
+    if (raw) {
+      // dedup por (telefone, canal) manualmente
+      const seen = new Set<string>()
+      const deduped: Conversa[] = []
+      for (const r of raw as Record<string, unknown>[]) {
+        const leads = r.leads as Record<string, string> | null
+        const tel = r.telefone as string
+        const canal = (r.canal as string) || 'funil'
+        const key = conversaKey(tel, canal)
+        if (!seen.has(key)) {
+          seen.add(key)
+          deduped.push({
+            ...(r as unknown as Conversa),
+            nome: leads?.nome ?? null,
+            status: leads?.status ?? null,
+            instancia_enviou: leads?.instancia_enviou ?? null,
+            canal,
+            suporte_pendente: false,
+          })
+        }
+      }
+      // Buscar nomes e status pendente para conversas de suporte via suporte_conversas_log
+      const suporteTels = deduped.filter(c => c.canal === 'suporte').map(c => c.telefone)
+      if (suporteTels.length > 0) {
+        let logQuery = supabase
+          .from('suporte_conversas_log')
+          .select('telefone, nome_contato, respondido_por')
+          .in('telefone', suporteTels)
+          .order('created_at', { ascending: false });
+        if (expertId) logQuery = logQuery.eq('expert_id', expertId);
+        const { data: logs } = await logQuery;
+        if (logs && logs.length > 0) {
+          // Pegar o registro mais recente por telefone (ja vem ordenado desc)
+          const nomeMap = new Map<string, string>()
+          const pendenteSet = new Set<string>()
+          for (const l of logs as Array<{ telefone: string; nome_contato: string | null; respondido_por: string | null }>) {
+            if (!nomeMap.has(l.telefone) && l.nome_contato) {
+              nomeMap.set(l.telefone, l.nome_contato)
+            }
+            // Apenas o primeiro registro (mais recente) define o status pendente
+            if (!pendenteSet.has(`_checked_${l.telefone}`)) {
+              pendenteSet.add(`_checked_${l.telefone}`)
+              if (l.respondido_por === 'nao_respondido') pendenteSet.add(l.telefone)
+            }
+          }
+          for (const c of deduped) {
+            if (c.canal === 'suporte') {
+              if (!c.nome && nomeMap.has(c.telefone)) c.nome = nomeMap.get(c.telefone)!
+              if (pendenteSet.has(c.telefone)) c.suporte_pendente = true
+            }
           }
         }
-        setConversas(deduped)
       }
-      return
+
+      setConversas(deduped)
     }
-    setConversas(data)
   }, [])
 
   useEffect(() => { fetchConversas() }, [fetchConversas])
@@ -587,18 +670,20 @@ export default function Conversas() {
     if (!selectedTel) return
     setLoadingMsgs(true)
     const expertId = useAuthStore.getState().getActiveExpertId();
+    const canalFiltro = selectedCanal || 'funil'
     let msgsQuery = supabase
       .from('mensagens')
       .select('*')
       .eq('telefone', selectedTel)
+      .eq('canal', canalFiltro)
       .order('created_at', { ascending: true });
     if (expertId) msgsQuery = msgsQuery.eq('expert_id', expertId);
     msgsQuery.then(({ data }) => {
         setMensagens((data as unknown as Mensagem[]) ?? [])
         setLoadingMsgs(false)
-        setUnreadMap(prev => ({ ...prev, [selectedTel]: 0 }))
+        if (selectedKey) setUnreadMap(prev => ({ ...prev, [selectedKey]: 0 }))
       })
-  }, [selectedTel])
+  }, [selectedTel, selectedCanal])
 
   // Scroll to bottom
   useEffect(() => {
@@ -616,12 +701,13 @@ export default function Conversas() {
           const nova = payload.new as Mensagem
           // Atualizar lista de conversas
           fetchConversas()
-          // Se for da conversa aberta, adicionar
-          if (nova.telefone === selectedTel) {
+          // Se for da conversa aberta (mesmo telefone E mesmo canal), adicionar
+          const novaKey = conversaKey(nova.telefone, nova.canal)
+          if (nova.telefone === selectedTel && (nova.canal || 'funil') === (selectedCanal || 'funil')) {
             setMensagens(prev => [...prev, nova])
           } else {
             // Badge não lida
-            setUnreadMap(prev => ({ ...prev, [nova.telefone]: (prev[nova.telefone] ?? 0) + 1 }))
+            setUnreadMap(prev => ({ ...prev, [novaKey]: (prev[novaKey] ?? 0) + 1 }))
             playNotif()
           }
         }
@@ -884,15 +970,18 @@ export default function Conversas() {
               <span className="text-[13px]" style={{ color: 'rgba(255,255,255,0.3)' }}>Nenhuma conversa encontrada</span>
             </div>
           ) : (
-            conversasFiltradas.map(c => (
-              <ConversaItem
-                key={c.telefone}
-                conversa={c}
-                selected={c.telefone === selectedTel}
-                unread={unreadMap[c.telefone] ?? 0}
-                onClick={() => setSelectedTel(c.telefone)}
-              />
-            ))
+            conversasFiltradas.map(c => {
+              const cKey = conversaKey(c.telefone, c.canal)
+              return (
+                <ConversaItem
+                  key={cKey}
+                  conversa={c}
+                  selected={cKey === selectedKey}
+                  unread={unreadMap[cKey] ?? 0}
+                  onClick={() => { setSelectedTel(c.telefone); setSelectedCanal(c.canal || 'funil'); }}
+                />
+              )
+            })
           )}
         </div>
       </div>
@@ -944,9 +1033,9 @@ export default function Conversas() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
                     <span className="font-semibold text-white text-[15px] truncate">
-                      {conversaAtual.nome || 'Lead sem nome'}
+                      {conversaAtual.nome || (conversaAtual.canal === 'suporte' ? 'Contato' : 'Lead sem nome')}
                     </span>
-                    {(() => {
+                    {conversaAtual.status ? (() => {
                       const cfg = getStatusCfg(conversaAtual.status)
                       return (
                         <span
@@ -956,7 +1045,15 @@ export default function Conversas() {
                           {cfg.label}
                         </span>
                       )
-                    })()}
+                    })() : conversaAtual.canal === 'suporte' ? (
+                      <span
+                        className="px-2 py-0.5 rounded-md flex-shrink-0 text-[10px] font-medium flex items-center gap-1"
+                        style={{ background: 'rgba(52,211,153,0.12)', color: '#34d399', border: '1px solid rgba(52,211,153,0.2)' }}
+                      >
+                        <Headset size={10} />
+                        Suporte
+                      </span>
+                    ) : null}
                   </div>
                   <div className="flex items-center gap-2 mt-0.5">
                     <span className="text-[12px]" style={{ color: 'rgba(255,255,255,0.4)' }}>

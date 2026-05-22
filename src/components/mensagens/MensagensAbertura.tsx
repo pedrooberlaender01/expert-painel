@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
-import { Loader2, Save, Plus, Trash2, ChevronUp, ChevronDown, Instagram, Megaphone } from 'lucide-react';
+import { Loader2, Save, Plus, Trash2, ChevronUp, ChevronDown, Instagram, Megaphone, Copy, Check } from 'lucide-react';
 import { supabase } from '../../backend/client';
+import { useAuthStore } from '../../stores/authStore';
+import { N8N_GEND } from '../../config/webhooks';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -27,6 +29,7 @@ interface LocalMsg {
 export const MensagensAbertura: React.FC<{
   showToast: (type: 'success' | 'error', msg: string) => void;
 }> = ({ showToast }) => {
+  const getActiveExpertId = useAuthStore((s) => s.getActiveExpertId);
   const [msgs, setMsgs] = useState<LocalMsg[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -38,10 +41,13 @@ export const MensagensAbertura: React.FC<{
 
   const fetchAll = useCallback(async () => {
     setLoading(true);
-    const { data, error } = await supabase
+    const expertId = getActiveExpertId();
+    let query = supabase
       .from('whatsapp_rotacao_mensagens')
       .select('*')
       .order('ordem');
+    if (expertId) query = query.eq('expert_id', expertId);
+    const { data, error } = await query;
 
     if (error) {
       showToast('error', 'Erro ao carregar mensagens de abertura');
@@ -147,9 +153,12 @@ export const MensagensAbertura: React.FC<{
       }
 
       // Inserts
+      const expertId = getActiveExpertId();
+      if (!expertId) throw new Error('Expert não identificado');
       const toInsert = msgs.filter(m => !m._deleted && m.id === null);
       for (const m of toInsert) {
         const { error } = await supabase.from('whatsapp_rotacao_mensagens').insert({
+          expert_id: expertId,
           mensagem: m.mensagem,
           ativo: m.ativo,
           ordem: m.ordem,
@@ -223,6 +232,8 @@ export const MensagensAbertura: React.FC<{
 
   // ─── Origin Section ────────────────────────────────────────────────────
 
+  const [copiedLink, setCopiedLink] = useState<string | null>(null);
+
   const OriginSection: React.FC<{
     origem: string;
     label: string;
@@ -231,8 +242,12 @@ export const MensagensAbertura: React.FC<{
     accentColor: string;
     accentBg: string;
     accentBorder: string;
-  }> = ({ origem, label, description, icon, accentColor, accentBg, accentBorder }) => {
+    linkPath: string;
+  }> = ({ origem, label, description, icon, accentColor, accentBg, accentBorder, linkPath }) => {
     const items = getByOrigem(origem);
+    const expertId = getActiveExpertId();
+    const linkUrl = expertId ? `${N8N_GEND}/${linkPath}?expert_id=${expertId}` : '';
+    const isCopied = copiedLink === linkPath;
 
     return (
       <div
@@ -253,12 +268,30 @@ export const MensagensAbertura: React.FC<{
               <p className="text-[11px] mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>{description}</p>
             </div>
           </div>
-          <span
-            className="text-[11px] font-mono px-2.5 py-1 rounded-lg"
-            style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)' }}
-          >
-            {items.length} {items.length === 1 ? 'mensagem' : 'mensagens'}
-          </span>
+          <div className="flex items-center gap-2">
+            {linkUrl && (
+              <button
+                type="button"
+                onClick={() => {
+                  navigator.clipboard.writeText(linkUrl);
+                  setCopiedLink(linkPath);
+                  setTimeout(() => setCopiedLink(null), 2000);
+                }}
+                className="flex items-center gap-1.5 text-[11px] font-medium px-2.5 py-1 rounded-lg transition-all duration-200"
+                style={{ color: isCopied ? '#34d399' : accentColor, background: isCopied ? 'rgba(52,211,153,0.08)' : accentBg, border: `1px solid ${isCopied ? 'rgba(52,211,153,0.2)' : accentBorder}` }}
+                title={linkUrl}
+              >
+                {isCopied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                {isCopied ? 'Copiado!' : 'Copiar link'}
+              </button>
+            )}
+            <span
+              className="text-[11px] font-mono px-2.5 py-1 rounded-lg"
+              style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)' }}
+            >
+              {items.length} {items.length === 1 ? 'mensagem' : 'mensagens'}
+            </span>
+          </div>
         </div>
 
         {/* Messages list */}
@@ -361,9 +394,7 @@ export const MensagensAbertura: React.FC<{
               <button
                 onClick={() => addMsg(origem)}
                 className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-[12px] font-medium transition-all duration-200"
-                style={{ border: '1px dashed rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.3)' }}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = accentBorder; e.currentTarget.style.color = accentColor; e.currentTarget.style.background = accentBg }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = 'rgba(255,255,255,0.3)'; e.currentTarget.style.background = 'transparent' }}
+                style={{ border: `1px dashed ${accentBorder}`, color: accentColor, background: accentBg }}
               >
                 <Plus className="w-3.5 h-3.5" />
                 Adicionar mensagem
@@ -404,6 +435,7 @@ export const MensagensAbertura: React.FC<{
         accentColor="#E1306C"
         accentBg="rgba(225,48,108,0.08)"
         accentBorder="rgba(225,48,108,0.18)"
+        linkPath="whatsapp-rotacao"
       />
 
       {/* Facebook */}
@@ -415,6 +447,7 @@ export const MensagensAbertura: React.FC<{
         accentColor="#60a5fa"
         accentBg="rgba(96,165,250,0.08)"
         accentBorder="rgba(96,165,250,0.18)"
+        linkPath="whatsapp-rotacao-facebook"
       />
 
       {/* Save button */}

@@ -30,7 +30,7 @@ export const FiltroPeriodo: React.FC<FiltroPeriodoProps> = ({
           onClick={() => onToggle(!ativo)}
           className={cn(
             'relative w-10 h-[22px] rounded-full transition-colors duration-200 shrink-0',
-            ativo ? 'bg-[#004AFF]' : 'bg-surface-300/50'
+            ativo ? 'bg-primary' : 'bg-surface-300/50'
           )}
         >
           <span

@@ -1,0 +1,1057 @@
+{
+  "nodes": [
+    {
+      "id": "NumeroCard",
+      "label": "NumeroCard Component",
+      "file_type": "code",
+      "source_file": "src/components/numeros/NumeroCard.tsx"
+    },
+    {
+      "id": "NumeroFormModal",
+      "label": "NumeroFormModal Component",
+      "file_type": "code",
+      "source_file": "src/components/numeros/NumeroFormModal.tsx"
+    },
+    {
+      "id": "TorneioCopyTab",
+      "label": "TorneioCopyTab Component",
+      "file_type": "code",
+      "source_file": "src/components/torneios/TorneioCopyTab.tsx"
+    },
+    {
+      "id": "webhooks_config",
+      "label": "Webhooks Configuration",
+      "file_type": "code",
+      "source_file": "src/config/webhooks.ts"
+    },
+    {
+      "id": "mockData",
+      "label": "Mock Data (Leads, Notificacoes, Metricas)",
+      "file_type": "code",
+      "source_file": "src/data/mockData.ts"
+    },
+    {
+      "id": "mockHistoricoEnvios",
+      "label": "Mock Historico Envios",
+      "file_type": "code",
+      "source_file": "src/data/mockHistoricoEnvios.ts"
+    },
+    {
+      "id": "mockTemplates",
+      "label": "Mock Templates",
+      "file_type": "code",
+      "source_file": "src/data/mockTemplates.ts"
+    },
+    {
+      "id": "useAdminClient",
+      "label": "useAdminClient Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useAdminClient.ts"
+    },
+    {
+      "id": "useAdminDashboard",
+      "label": "useAdminDashboard Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useAdminDashboard.ts"
+    },
+    {
+      "id": "useAdminExperts",
+      "label": "useAdminExperts Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useAdminExperts.ts"
+    },
+    {
+      "id": "useAdminPlanos",
+      "label": "useAdminPlanos Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useAdminPlanos.ts"
+    },
+    {
+      "id": "useAgendamentos",
+      "label": "useAgendamentos Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useAgendamentos.ts"
+    },
+    {
+      "id": "useBotConhecimento",
+      "label": "useBotConhecimento Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useBotConhecimento.ts"
+    },
+    {
+      "id": "useBotGrupos",
+      "label": "useBotGrupos Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useBotGrupos.ts"
+    },
+    {
+      "id": "useBotMetricas",
+      "label": "useBotMetricas Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useBotMetricas.ts"
+    },
+    {
+      "id": "useBotPersonas",
+      "label": "useBotPersonas Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useBotPersonas.ts"
+    },
+    {
+      "id": "useConfiguracoes",
+      "label": "useConfiguracoes Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useConfiguracoes.ts"
+    },
+    {
+      "id": "useDashboard",
+      "label": "useDashboard Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useDashboard.ts"
+    },
+    {
+      "id": "useEnvioMassa",
+      "label": "useEnvioMassa Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useEnvioMassa.ts"
+    },
+    {
+      "id": "useFeatureGate",
+      "label": "useFeatureGate Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useFeatureGate.ts"
+    },
+    {
+      "id": "useFunil",
+      "label": "useFunil Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useFunil.ts"
+    },
+    {
+      "id": "useGerarCopy",
+      "label": "useGerarCopy Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useGerarCopy.ts"
+    },
+    {
+      "id": "useHistoricoEnvios",
+      "label": "useHistoricoEnvios Hook",
+      "file_type": "code",
+      "source_file": "src/hooks/useHistoricoEnvios.ts"
+    },
+    {
+      "id": "n8n_gend_server",
+      "label": "n8n-gend Primary Server",
+      "file_type": "code",
+      "source_file": "src/config/webhooks.ts"
+    },
+    {
+      "id": "n8n_easypanel_server",
+      "label": "n8n-easypanel Secondary Server",
+      "file_type": "code",
+      "source_file": "src/config/webhooks.ts"
+    },
+    {
+      "id": "uazapi_base",
+      "label": "UAZAPI Base URL (deprecated frontend)",
+      "file_type": "code",
+      "source_file": "src/config/webhooks.ts"
+    },
+    {
+      "id": "fetchWithTimeout",
+      "label": "fetchWithTimeout Helper",
+      "file_type": "code",
+      "source_file": "src/config/webhooks.ts"
+    },
+    {
+      "id": "table_torneio_copy",
+      "label": "Supabase Table: torneio_copy",
+      "file_type": "code",
+      "source_file": "src/components/torneios/TorneioCopyTab.tsx"
+    },
+    {
+      "id": "table_torneio_premiacoes",
+      "label": "Supabase Table: torneio_premiacoes",
+      "file_type": "code",
+      "source_file": "src/components/torneios/TorneioCopyTab.tsx"
+    },
+    {
+      "id": "table_agendamentos_mensagens",
+      "label": "Supabase Table: agendamentos_mensagens",
+      "file_type": "code",
+      "source_file": "src/hooks/useAgendamentos.ts"
+    },
+    {
+      "id": "table_agendamentos_grupos",
+      "label": "Supabase Table: agendamentos_grupos",
+      "file_type": "code",
+      "source_file": "src/hooks/useAgendamentos.ts"
+    },
+    {
+      "id": "table_telegram_canais",
+      "label": "Supabase Table: telegram_canais",
+      "file_type": "code",
+      "source_file": "src/hooks/useAgendamentos.ts"
+    },
+    {
+      "id": "table_whatsapp_rotacao",
+      "label": "Supabase Table: whatsapp_rotacao",
+      "file_type": "code",
+      "source_file": "src/hooks/useAgendamentos.ts"
+    },
+    {
+      "id": "table_bot_conhecimento",
+      "label": "Supabase Table: bot_conhecimento",
+      "file_type": "code",
+      "source_file": "src/hooks/useBotConhecimento.ts"
+    },
+    {
+      "id": "table_bot_grupo_config",
+      "label": "Supabase Table: bot_grupo_config",
+      "file_type": "code",
+      "source_file": "src/hooks/useBotGrupos.ts"
+    },
+    {
+      "id": "table_bot_grupo_personas",
+      "label": "Supabase Table: bot_grupo_personas",
+      "file_type": "code",
+      "source_file": "src/hooks/useBotGrupos.ts"
+    },
+    {
+      "id": "table_bot_personas",
+      "label": "Supabase Table: bot_personas",
+      "file_type": "code",
+      "source_file": "src/hooks/useBotPersonas.ts"
+    },
+    {
+      "id": "table_bot_persona_templates",
+      "label": "Supabase Table: bot_persona_templates",
+      "file_type": "code",
+      "source_file": "src/hooks/useBotPersonas.ts"
+    },
+    {
+      "id": "table_bot_mensagens_log",
+      "label": "Supabase Table: bot_mensagens_log",
+      "file_type": "code",
+      "source_file": "src/hooks/useBotMetricas.ts"
+    },
+    {
+      "id": "table_bot_grupo_mensagens_cache",
+      "label": "Supabase Table: bot_grupo_mensagens_cache",
+      "file_type": "code",
+      "source_file": "src/hooks/useBotMetricas.ts"
+    },
+    {
+      "id": "table_leads",
+      "label": "Supabase Table: leads",
+      "file_type": "code",
+      "source_file": "src/hooks/useDashboard.ts"
+    },
+    {
+      "id": "table_envios_massa",
+      "label": "Supabase Table: envios_massa",
+      "file_type": "code",
+      "source_file": "src/hooks/useEnvioMassa.ts"
+    },
+    {
+      "id": "table_envios_massa_leads",
+      "label": "Supabase Table: envios_massa_leads",
+      "file_type": "code",
+      "source_file": "src/hooks/useEnvioMassa.ts"
+    },
+    {
+      "id": "table_expert_perfil",
+      "label": "Supabase Table: expert_perfil",
+      "file_type": "code",
+      "source_file": "src/hooks/useGerarCopy.ts"
+    },
+    {
+      "id": "table_documents",
+      "label": "Supabase Table: documents (RAG vector store)",
+      "file_type": "code",
+      "source_file": "src/hooks/useGerarCopy.ts"
+    },
+    {
+      "id": "table_dashboard_users",
+      "label": "Supabase Table: dashboard_users",
+      "file_type": "code",
+      "source_file": "src/hooks/useConfiguracoes.ts"
+    },
+    {
+      "id": "bucket_midias_agendamentos",
+      "label": "Supabase Bucket: midias-agendamentos",
+      "file_type": "code",
+      "source_file": "src/hooks/useAgendamentos.ts"
+    },
+    {
+      "id": "bucket_expert_logos",
+      "label": "Supabase Bucket: expert-logos",
+      "file_type": "code",
+      "source_file": "src/hooks/useAdminExperts.ts"
+    },
+    {
+      "id": "rpc_admin_dashboard_metrics",
+      "label": "RPC: admin_dashboard_metrics",
+      "file_type": "code",
+      "source_file": "src/hooks/useAdminDashboard.ts"
+    },
+    {
+      "id": "rpc_admin_list_experts",
+      "label": "RPC: admin_list_experts",
+      "file_type": "code",
+      "source_file": "src/hooks/useAdminExperts.ts"
+    },
+    {
+      "id": "rpc_admin_create_expert",
+      "label": "RPC: admin_create_expert",
+      "file_type": "code",
+      "source_file": "src/hooks/useAdminExperts.ts"
+    },
+    {
+      "id": "rpc_admin_update_expert",
+      "label": "RPC: admin_update_expert",
+      "file_type": "code",
+      "source_file": "src/hooks/useAdminExperts.ts"
+    },
+    {
+      "id": "rpc_admin_list_planos",
+      "label": "RPC: admin_list_planos",
+      "file_type": "code",
+      "source_file": "src/hooks/useAdminPlanos.ts"
+    },
+    {
+      "id": "rpc_get_metricas_dashboard",
+      "label": "RPC: get_metricas_dashboard",
+      "file_type": "code",
+      "source_file": "src/hooks/useDashboard.ts"
+    },
+    {
+      "id": "rpc_bot_metricas",
+      "label": "RPC: bot_metricas",
+      "file_type": "code",
+      "source_file": "src/hooks/useBotMetricas.ts"
+    },
+    {
+      "id": "rpc_solicitar_alteracao_senha",
+      "label": "RPC: solicitar_alteracao_senha",
+      "file_type": "code",
+      "source_file": "src/hooks/useConfiguracoes.ts"
+    }
+  ],
+  "edges": [
+    {
+      "source": "NumeroCard",
+      "target": "table_whatsapp_rotacao",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/numeros/NumeroCard.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "NumeroFormModal",
+      "target": "table_whatsapp_rotacao",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/numeros/NumeroFormModal.tsx",
+      "weight": 0.8
+    },
+    {
+      "source": "NumeroCard",
+      "target": "NumeroFormModal",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "src/components/numeros/NumeroCard.tsx",
+      "weight": 0.7
+    },
+    {
+      "source": "TorneioCopyTab",
+      "target": "table_torneio_copy",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/torneios/TorneioCopyTab.tsx",
+      "weight": 1.0
+    },
+    {
+      "source": "TorneioCopyTab",
+      "target": "table_torneio_premiacoes",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/torneios/TorneioCopyTab.tsx",
+      "weight": 0.9
+    },
+    {
+      "source": "webhooks_config",
+      "target": "n8n_gend_server",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/config/webhooks.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "webhooks_config",
+      "target": "n8n_easypanel_server",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/config/webhooks.ts",
+      "weight": 0.8
+    },
+    {
+      "source": "webhooks_config",
+      "target": "uazapi_base",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/config/webhooks.ts",
+      "weight": 0.6
+    },
+    {
+      "source": "useAgendamentos",
+      "target": "webhooks_config",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useAgendamentos.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useAgendamentos",
+      "target": "fetchWithTimeout",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useAgendamentos.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useAgendamentos",
+      "target": "table_agendamentos_mensagens",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useAgendamentos.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useAgendamentos",
+      "target": "table_agendamentos_grupos",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useAgendamentos.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useAgendamentos",
+      "target": "table_whatsapp_rotacao",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useAgendamentos.ts",
+      "weight": 0.8
+    },
+    {
+      "source": "useAgendamentos",
+      "target": "table_telegram_canais",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useAgendamentos.ts",
+      "weight": 0.8
+    },
+    {
+      "source": "useAgendamentos",
+      "target": "bucket_midias_agendamentos",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useAgendamentos.ts",
+      "weight": 0.7
+    },
+    {
+      "source": "useBotConhecimento",
+      "target": "table_bot_conhecimento",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useBotConhecimento.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useBotConhecimento",
+      "target": "webhooks_config",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useBotConhecimento.ts",
+      "weight": 0.9
+    },
+    {
+      "source": "useBotConhecimento",
+      "target": "fetchWithTimeout",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useBotConhecimento.ts",
+      "weight": 0.9
+    },
+    {
+      "source": "useBotGrupos",
+      "target": "table_bot_grupo_config",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useBotGrupos.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useBotGrupos",
+      "target": "table_bot_grupo_personas",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useBotGrupos.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useBotGrupos",
+      "target": "table_bot_personas",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useBotGrupos.ts",
+      "weight": 0.8
+    },
+    {
+      "source": "useBotGrupos",
+      "target": "table_whatsapp_rotacao",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useBotGrupos.ts",
+      "weight": 0.7
+    },
+    {
+      "source": "useBotGrupos",
+      "target": "webhooks_config",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useBotGrupos.ts",
+      "weight": 0.9
+    },
+    {
+      "source": "useBotGrupos",
+      "target": "fetchWithTimeout",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useBotGrupos.ts",
+      "weight": 0.9
+    },
+    {
+      "source": "useBotMetricas",
+      "target": "table_bot_grupo_personas",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useBotMetricas.ts",
+      "weight": 0.9
+    },
+    {
+      "source": "useBotMetricas",
+      "target": "table_bot_mensagens_log",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useBotMetricas.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useBotMetricas",
+      "target": "table_bot_grupo_mensagens_cache",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useBotMetricas.ts",
+      "weight": 0.8
+    },
+    {
+      "source": "useBotMetricas",
+      "target": "rpc_bot_metricas",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useBotMetricas.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useBotPersonas",
+      "target": "table_bot_personas",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useBotPersonas.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useBotPersonas",
+      "target": "table_bot_persona_templates",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useBotPersonas.ts",
+      "weight": 0.9
+    },
+    {
+      "source": "useBotPersonas",
+      "target": "webhooks_config",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useBotPersonas.ts",
+      "weight": 0.8
+    },
+    {
+      "source": "useBotPersonas",
+      "target": "fetchWithTimeout",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useBotPersonas.ts",
+      "weight": 0.8
+    },
+    {
+      "source": "useConfiguracoes",
+      "target": "table_dashboard_users",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useConfiguracoes.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useConfiguracoes",
+      "target": "rpc_solicitar_alteracao_senha",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useConfiguracoes.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useDashboard",
+      "target": "table_leads",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useDashboard.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useDashboard",
+      "target": "rpc_get_metricas_dashboard",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useDashboard.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useEnvioMassa",
+      "target": "table_leads",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useEnvioMassa.ts",
+      "weight": 0.9
+    },
+    {
+      "source": "useEnvioMassa",
+      "target": "table_envios_massa",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useEnvioMassa.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useEnvioMassa",
+      "target": "table_envios_massa_leads",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useEnvioMassa.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useEnvioMassa",
+      "target": "webhooks_config",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useEnvioMassa.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useEnvioMassa",
+      "target": "fetchWithTimeout",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useEnvioMassa.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useFeatureGate",
+      "target": "useAdminPlanos",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "src/hooks/useFeatureGate.ts",
+      "weight": 0.6
+    },
+    {
+      "source": "useFunil",
+      "target": "table_leads",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useFunil.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useGerarCopy",
+      "target": "table_expert_perfil",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useGerarCopy.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useGerarCopy",
+      "target": "table_documents",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useGerarCopy.ts",
+      "weight": 0.9
+    },
+    {
+      "source": "useGerarCopy",
+      "target": "table_agendamentos_mensagens",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useGerarCopy.ts",
+      "weight": 0.6
+    },
+    {
+      "source": "useGerarCopy",
+      "target": "webhooks_config",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useGerarCopy.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useGerarCopy",
+      "target": "fetchWithTimeout",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useGerarCopy.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useHistoricoEnvios",
+      "target": "table_envios_massa",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useHistoricoEnvios.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useHistoricoEnvios",
+      "target": "table_envios_massa_leads",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useHistoricoEnvios.ts",
+      "weight": 0.9
+    },
+    {
+      "source": "useAdminDashboard",
+      "target": "rpc_admin_dashboard_metrics",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useAdminDashboard.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useAdminExperts",
+      "target": "rpc_admin_list_experts",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useAdminExperts.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useAdminExperts",
+      "target": "rpc_admin_create_expert",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useAdminExperts.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useAdminExperts",
+      "target": "rpc_admin_update_expert",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useAdminExperts.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useAdminExperts",
+      "target": "bucket_expert_logos",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useAdminExperts.ts",
+      "weight": 0.8
+    },
+    {
+      "source": "useAdminPlanos",
+      "target": "rpc_admin_list_planos",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useAdminPlanos.ts",
+      "weight": 1.0
+    },
+    {
+      "source": "useAdminClient",
+      "target": "useAdminDashboard",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source_file": "src/hooks/useAdminClient.ts",
+      "weight": 0.5
+    },
+    {
+      "source": "useAdminClient",
+      "target": "useAdminExperts",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source_file": "src/hooks/useAdminClient.ts",
+      "weight": 0.5
+    },
+    {
+      "source": "useAdminClient",
+      "target": "useAdminPlanos",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source_file": "src/hooks/useAdminClient.ts",
+      "weight": 0.5
+    },
+    {
+      "source": "useEnvioMassa",
+      "target": "useHistoricoEnvios",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "src/hooks/useEnvioMassa.ts",
+      "weight": 0.7
+    },
+    {
+      "source": "useDashboard",
+      "target": "useFunil",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/hooks/useDashboard.ts",
+      "weight": 0.6
+    },
+    {
+      "source": "useBotGrupos",
+      "target": "useBotPersonas",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useBotGrupos.ts",
+      "weight": 0.9
+    },
+    {
+      "source": "useBotGrupos",
+      "target": "useBotMetricas",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "src/hooks/useBotGrupos.ts",
+      "weight": 0.7
+    },
+    {
+      "source": "useBotConhecimento",
+      "target": "useBotPersonas",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "src/hooks/useBotConhecimento.ts",
+      "weight": 0.6
+    },
+    {
+      "source": "useGerarCopy",
+      "target": "useAgendamentos",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useGerarCopy.ts",
+      "weight": 0.6
+    },
+    {
+      "source": "mockData",
+      "target": "table_leads",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "src/data/mockData.ts",
+      "weight": 0.7
+    },
+    {
+      "source": "mockHistoricoEnvios",
+      "target": "table_envios_massa",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "src/data/mockHistoricoEnvios.ts",
+      "weight": 0.7
+    },
+    {
+      "source": "mockTemplates",
+      "target": "useEnvioMassa",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/data/mockTemplates.ts",
+      "weight": 0.5
+    },
+    {
+      "source": "useEnvioMassa",
+      "target": "useFeatureGate",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useEnvioMassa.ts",
+      "weight": 0.7
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "admin_hooks_cluster",
+      "label": "Admin Panel Hooks (manage experts, planos, dashboard)",
+      "nodes": ["useAdminClient", "useAdminDashboard", "useAdminExperts", "useAdminPlanos"],
+      "relation": "form",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source_file": "src/hooks/useAdminClient.ts"
+    },
+    {
+      "id": "bot_engagement_hooks",
+      "label": "Bot Engagement System Hooks",
+      "nodes": ["useBotConhecimento", "useBotGrupos", "useBotMetricas", "useBotPersonas"],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source_file": "src/hooks/useBotGrupos.ts"
+    },
+    {
+      "id": "bot_engagement_tables",
+      "label": "Bot Engagement Database Tables",
+      "nodes": ["table_bot_conhecimento", "table_bot_grupo_config", "table_bot_grupo_personas", "table_bot_personas", "table_bot_persona_templates", "table_bot_mensagens_log", "table_bot_grupo_mensagens_cache"],
+      "relation": "form",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source_file": "src/hooks/useBotGrupos.ts"
+    },
+    {
+      "id": "envio_massa_pipeline",
+      "label": "Envio em Massa Pipeline (fetch, send, track history)",
+      "nodes": ["useEnvioMassa", "useHistoricoEnvios", "table_envios_massa", "table_envios_massa_leads"],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source_file": "src/hooks/useEnvioMassa.ts"
+    },
+    {
+      "id": "lead_data_consumers",
+      "label": "Hooks Consuming Leads Table",
+      "nodes": ["useDashboard", "useFunil", "useEnvioMassa"],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useDashboard.ts"
+    },
+    {
+      "id": "webhook_consumers",
+      "label": "Hooks Calling n8n Webhooks via fetchWithTimeout",
+      "nodes": ["useAgendamentos", "useBotConhecimento", "useBotGrupos", "useBotPersonas", "useEnvioMassa", "useGerarCopy"],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/config/webhooks.ts"
+    },
+    {
+      "id": "agendamento_system",
+      "label": "Agendamento System (messages, groups, Telegram)",
+      "nodes": ["useAgendamentos", "table_agendamentos_mensagens", "table_agendamentos_grupos", "table_telegram_canais", "table_whatsapp_rotacao", "bucket_midias_agendamentos"],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source_file": "src/hooks/useAgendamentos.ts"
+    },
+    {
+      "id": "copy_generation_system",
+      "label": "Copy Generation System (profile, RAG, webhook)",
+      "nodes": ["useGerarCopy", "table_expert_perfil", "table_documents", "webhooks_config"],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source_file": "src/hooks/useGerarCopy.ts"
+    },
+    {
+      "id": "numeros_whatsapp_ui",
+      "label": "WhatsApp Numbers UI Components",
+      "nodes": ["NumeroCard", "NumeroFormModal"],
+      "relation": "form",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source_file": "src/components/numeros/NumeroCard.tsx"
+    },
+    {
+      "id": "n8n_bot_webhooks",
+      "label": "Bot-specific n8n Webhook Endpoints",
+      "nodes": ["webhooks_config", "useBotConhecimento", "useBotGrupos", "useBotPersonas"],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/config/webhooks.ts"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, CheckCircle, XCircle, Users, Calendar } from 'lucide-react';
+import { X, CheckCircle, XCircle, Users, Calendar, Repeat, Smartphone } from 'lucide-react';
 import type { AgendamentoGrupo } from '../../hooks/useAgendamentos';
 
 function formatDataHora(iso: string): string {
@@ -56,6 +56,35 @@ export const AgendamentoDetalhesModal: React.FC<AgendamentoDetalhesModalProps> =
           >
             <X className="w-4 h-4" />
           </button>
+        </div>
+
+        {/* Modo de envio */}
+        <div className="px-5 pt-4 pb-3 border-b border-surface-300/10 shrink-0">
+          {agendamento.usar_fila ? (
+            <div
+              className="flex items-start gap-3 p-3 rounded-xl"
+              style={{
+                background: 'rgba(16,185,129,0.06)',
+                border: '1px solid rgba(16,185,129,0.2)',
+              }}
+            >
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-500/15 shrink-0">
+                <Repeat className="w-4 h-4 text-emerald-400" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-[12px] font-semibold text-emerald-400">Modo: Fila Rotativa</p>
+                <p className="text-[11px] text-txt-dim mt-0.5">
+                  Envia rotacionando entre todas as instâncias ativas e conectadas
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 text-[12px] text-txt-secondary">
+              <Smartphone className="w-3.5 h-3.5 text-txt-dim" />
+              <span className="text-txt-muted">Instância:</span>
+              <span className="font-mono text-txt break-all">{agendamento.instancia}</span>
+            </div>
+          )}
         </div>
 
         {/* Summary */}

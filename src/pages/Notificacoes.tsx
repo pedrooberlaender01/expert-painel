@@ -40,7 +40,7 @@ export const NotificacoesList: React.FC<NotificacoesListProps> = ({
   if (loading) {
     return (
       <div className="p-8 text-center">
-        <div className="w-5 h-5 border-2 border-[#004AFF]/30 border-t-accent rounded-full animate-spin mx-auto" />
+        <div className="w-5 h-5 border-2 border-primary/30 border-t-accent rounded-full animate-spin mx-auto" />
         <p className="text-sm text-txt-muted mt-3">Carregando notificacoes...</p>
       </div>
     );
@@ -66,7 +66,7 @@ export const NotificacoesList: React.FC<NotificacoesListProps> = ({
             onClick={() => onMarcarComoLida?.(notif.id)}
             className={cn(
               "px-5 py-4 flex gap-4 hover:bg-surface-200/20 transition-all duration-200 cursor-pointer",
-              !notif.lida && "bg-[#004AFF]/[0.02]"
+              !notif.lida && "bg-primary/[0.02]"
             )}
           >
             <div className={cn("p-2 rounded-xl h-fit border", getColor(notif.tipo))}>
@@ -81,7 +81,7 @@ export const NotificacoesList: React.FC<NotificacoesListProps> = ({
               </p>
             </div>
             {!notif.lida && (
-              <div className="w-2 h-2 bg-[#004AFF] rounded-full mt-2 shrink-0 animate-glow-pulse" />
+              <div className="w-2 h-2 bg-primary rounded-full mt-2 shrink-0 animate-glow-pulse" />
             )}
           </div>
         );
@@ -101,7 +101,7 @@ export const Notificacoes: React.FC = () => {
           <button
             onClick={marcarTodasComoLidas}
             disabled={notificacoes.length === 0}
-            className="text-xs text-[#004AFF] hover:text-blue-300 font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            className="text-xs text-primary hover:text-primary-light font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
             Marcar todas como lidas
           </button>

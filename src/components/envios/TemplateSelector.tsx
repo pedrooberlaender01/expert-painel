@@ -45,7 +45,7 @@ export const TemplateSelector: React.FC<TemplateSelectorProps> = ({ templates, o
               onClick={() => { onSelect(tpl); setOpen(false); }}
               className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-surface-200/40 transition-colors group"
             >
-              <div className="text-[13px] font-medium text-txt group-hover:text-[#004AFF] transition-colors">
+              <div className="text-[13px] font-medium text-txt group-hover:text-primary transition-colors">
                 {tpl.nome}
               </div>
               <div className="text-[11px] text-txt-muted truncate mt-0.5">

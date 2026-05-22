@@ -82,7 +82,7 @@ export const MensagemEditor: React.FC<MensagemEditorProps> = ({
           <button
             type="button"
             onClick={inserirNome}
-            className="px-2.5 py-1 text-[11px] font-mono text-[#004AFF] bg-[#004AFF]/10 hover:bg-[#004AFF]/20 rounded-lg border border-[#004AFF]/20 transition-colors"
+            className="px-2.5 py-1 text-[11px] font-mono text-primary bg-primary/10 hover:bg-primary/20 rounded-lg border border-primary/20 transition-colors"
           >
             + {'{{nome}}'}
           </button>

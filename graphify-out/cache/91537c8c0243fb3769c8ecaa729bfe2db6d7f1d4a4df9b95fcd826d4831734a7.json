@@ -1,0 +1,1 @@
+{"nodes": [{"id": "AdminPlanos_page", "label": "AdminPlanos Page", "file_type": "code", "source_file": "src/pages/admin/AdminPlanos.tsx"}], "edges": [{"source": "AdminPlanos_page", "target": "PlanoRow_type", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "src/pages/admin/AdminPlanos.tsx", "weight": 0.9}], "hyperedges": []}

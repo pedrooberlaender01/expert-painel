@@ -179,7 +179,7 @@ export const Numeros: React.FC = () => {
             className={cn(
               'flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-200',
               activeTab === tab.key
-                ? 'bg-[#004AFF]/10 text-[#004AFF] border-glow shadow-sm'
+                ? 'bg-primary/10 text-primary border-glow shadow-sm'
                 : 'text-txt-muted hover:text-txt hover:bg-surface-200/30'
             )}
           >
@@ -237,7 +237,7 @@ export const Numeros: React.FC = () => {
 
           <button
             onClick={() => setNumFormModal({ open: true, numero: null })}
-            className="w-full flex items-center justify-center gap-2 py-4 rounded-xl border-2 border-dashed border-[#004AFF]/30 text-[#004AFF]/70 hover:text-[#004AFF] hover:border-[#004AFF]/50 hover:bg-[#004AFF]/5 transition-all duration-200 text-[13px] font-medium"
+            className="w-full flex items-center justify-center gap-2 py-4 rounded-xl border-2 border-dashed border-primary/30 text-primary/70 hover:text-primary hover:border-primary/50 hover:bg-primary/5 transition-all duration-200 text-[13px] font-medium"
           >
             <Plus className="w-4 h-4" />
             Adicionar Número
@@ -279,7 +279,7 @@ export const Numeros: React.FC = () => {
 
           <button
             onClick={() => setMsgFormModal({ open: true, mensagem: null })}
-            className="w-full flex items-center justify-center gap-2 py-4 rounded-xl border-2 border-dashed border-[#004AFF]/30 text-[#004AFF]/70 hover:text-[#004AFF] hover:border-[#004AFF]/50 hover:bg-[#004AFF]/5 transition-all duration-200 text-[13px] font-medium"
+            className="w-full flex items-center justify-center gap-2 py-4 rounded-xl border-2 border-dashed border-primary/30 text-primary/70 hover:text-primary hover:border-primary/50 hover:bg-primary/5 transition-all duration-200 text-[13px] font-medium"
           >
             <Plus className="w-4 h-4" />
             Adicionar Mensagem

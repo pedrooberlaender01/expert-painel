@@ -31,9 +31,9 @@ export const ProgressoEnvioModal: React.FC<ProgressoEnvioModalProps> = ({
         <div className="flex items-center justify-between p-5 border-b border-surface-300/20">
           <div className="flex items-center gap-3">
             {concluido ? (
-              <CheckCircle2 className="w-5 h-5 text-[#004AFF]" />
+              <CheckCircle2 className="w-5 h-5 text-primary" />
             ) : (
-              <Loader2 className="w-5 h-5 text-[#004AFF] animate-spin" />
+              <Loader2 className="w-5 h-5 text-primary animate-spin" />
             )}
             <h2 className="text-[15px] font-semibold text-txt font-display">
               {concluido ? 'Envio concluído!' : status === 'preparando' ? 'Preparando envio...' : 'Enviando mensagens...'}
@@ -69,8 +69,8 @@ export const ProgressoEnvioModal: React.FC<ProgressoEnvioModalProps> = ({
 
           {/* Current */}
           {atual && !concluido && (
-            <div className="flex items-center gap-2 px-3 py-2 bg-[#004AFF]/5 rounded-xl border border-[#004AFF]/10">
-              <Loader2 className="w-3.5 h-3.5 text-[#004AFF] animate-spin shrink-0" />
+            <div className="flex items-center gap-2 px-3 py-2 bg-primary/5 rounded-xl border border-primary/10">
+              <Loader2 className="w-3.5 h-3.5 text-primary animate-spin shrink-0" />
               <span className="text-[12px] text-txt-secondary truncate">
                 {atual.nome || 'Sem nome'} ({formatTelefone(atual.telefone)})
               </span>
@@ -80,7 +80,7 @@ export const ProgressoEnvioModal: React.FC<ProgressoEnvioModalProps> = ({
           {/* Summary when done */}
           {concluido && (
             <div className="flex items-center gap-4 text-[13px]">
-              <span className="text-[#004AFF] font-medium">{enviados} enviados com sucesso</span>
+              <span className="text-primary font-medium">{enviados} enviados com sucesso</span>
               {erros > 0 && <span className="text-rose-400 font-medium">{erros} falharam</span>}
             </div>
           )}
@@ -90,7 +90,7 @@ export const ProgressoEnvioModal: React.FC<ProgressoEnvioModalProps> = ({
         <div className="flex-1 overflow-y-auto p-5 space-y-1 min-h-0 max-h-[300px]">
           {log.map((entry, i) => (
             <div key={i} className="flex items-center gap-2.5 py-1.5 px-2 rounded-lg">
-              {entry.status === 'sucesso' && <CheckCircle2 className="w-3.5 h-3.5 text-[#004AFF] shrink-0" />}
+              {entry.status === 'sucesso' && <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0" />}
               {entry.status === 'erro' && <XCircle className="w-3.5 h-3.5 text-rose-400 shrink-0" />}
               {entry.status === 'enviando' && <Loader2 className="w-3.5 h-3.5 text-amber-400 animate-spin shrink-0" />}
               {entry.status === 'aguardando' && <Clock className="w-3.5 h-3.5 text-txt-dim shrink-0" />}

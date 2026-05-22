@@ -55,7 +55,7 @@ export const FiltroStatus: React.FC<FiltroStatusProps> = ({ selecionados, onChan
           data-checked={todosSelected || undefined}
           className={cn(
             'w-4.5 h-4.5 min-w-[18px] min-h-[18px] rounded-md border-2 flex items-center justify-center transition-all duration-200',
-            'border-[#004AFF]/40 bg-[#004AFF]/10 data-[checked]:bg-[#004AFF] data-[checked]:border-[#004AFF]'
+            'border-primary/40 bg-primary/10 data-[checked]:bg-primary data-[checked]:border-primary'
           )}
         >
           {todosSelected && <Check className="w-3 h-3 text-surface" strokeWidth={3} />}

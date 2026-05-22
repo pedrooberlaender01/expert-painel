@@ -1,0 +1,1 @@
+{"nodes": [{"id": "page_Funil", "label": "Funil Page", "file_type": "code", "source_file": "src/pages/Funil.tsx"}], "edges": [{"source": "page_Funil", "target": "useLeads_hook", "relation": "conceptually_related_to", "confidence": "INFERRED", "confidence_score": 0.65, "source_file": "src/pages/Funil.tsx", "weight": 0.5}], "hyperedges": []}

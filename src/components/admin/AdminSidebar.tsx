@@ -32,7 +32,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ collapsed, onToggle,
           <div className={cn("flex items-center gap-2.5", collapsed && "justify-center")}>
             <div
               className={cn("shrink-0 rounded-lg flex items-center justify-center font-bold text-white font-display transition-all duration-300", collapsed ? "w-10 h-10 text-sm" : "w-9 h-9 text-xs")}
-              style={{ background: 'rgba(59,130,246,0.15)', border: '1px solid rgba(59,130,246,0.25)' }}
+              style={{ background: 'rgba(var(--color-primary-rgb),0.15)', border: '1px solid rgba(var(--color-primary-rgb),0.25)' }}
             >
               AM
             </div>
@@ -68,14 +68,14 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ collapsed, onToggle,
               "flex items-center px-3 py-2.5 text-[13px] font-medium transition-all duration-200 group relative",
               collapsed && "justify-center px-2",
               isActive
-                ? "bg-[rgba(59,130,246,0.12)] text-[#60a5fa] rounded-r-lg rounded-l-none"
+                ? "bg-primary-bg text-primary-light rounded-r-lg rounded-l-none"
                 : "text-white/[0.45] hover:bg-white/[0.04] hover:text-white/[0.7] rounded-xl"
             )}
           >
             {({ isActive }) => (
               <>
-                {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 bg-[#3b82f6] rounded-r-full" />}
-                <item.icon className={cn("w-[18px] h-[18px] transition-all duration-200", !collapsed && "mr-3", isActive ? "text-[#60a5fa] opacity-90" : "opacity-50 group-hover:opacity-90")} />
+                {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 bg-primary rounded-r-full" />}
+                <item.icon className={cn("w-[18px] h-[18px] transition-all duration-200", !collapsed && "mr-3", isActive ? "text-primary-light opacity-90" : "opacity-50 group-hover:opacity-90")} />
                 {!collapsed && <span>{item.label}</span>}
               </>
             )}

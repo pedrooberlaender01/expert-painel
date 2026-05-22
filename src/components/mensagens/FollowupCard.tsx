@@ -315,7 +315,7 @@ export const FollowupCard: React.FC<FollowupCardProps> = ({
             disabled && 'cursor-not-allowed'
           )}
         />
-        <span className="text-[11px] text-txt-muted">minutos após última interação</span>
+        <span className="text-[11px] text-txt-muted">{variant === 'boas_vindas' ? 'minutos após entrada' : 'minutos após última interação'}</span>
       </div>
 
       {/* ── Toggle Tipo Envio (4 opções) ── */}
