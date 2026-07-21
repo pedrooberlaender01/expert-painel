@@ -1703,7 +1703,7 @@ export const Grupos: React.FC = () => {
   const [faBuscou, setFaBuscou] = useState(false);
   const [faConfirmModal, setFaConfirmModal] = useState<{ open: boolean; acao: 'fechar' | 'abrir' } | null>(null);
   const [faMode, setFaMode] = useState<'manual' | 'automatico'>('manual');
-  const [faHorarios, setFaHorarios] = useState<{ grupo_id: string; grupo_nome: string; horario_fechar: string | null; horario_abrir: string | null; controle_horario_ativo: boolean; dias_semana: number[] }[]>([]);
+  const [faHorarios, setFaHorarios] = useState<{ id: string; grupo_id: string; grupo_nome: string; horario_fechar: string | null; horario_abrir: string | null; controle_horario_ativo: boolean; dias_semana: number[] }[]>([]);
   const [faHorariosLoading, setFaHorariosLoading] = useState(false);
   const [faHorariosSaving, setFaHorariosSaving] = useState(false);
   const [faHorariosBuscou, setFaHorariosBuscou] = useState(false);
@@ -1949,7 +1949,7 @@ export const Grupos: React.FC = () => {
         const expertId = getActiveExpertId();
         let query = supabase
           .from('moderacao_grupos')
-          .select('grupo_id, grupo_nome, horario_fechar, horario_abrir, controle_horario_ativo, dias_semana')
+          .select('id, grupo_id, grupo_nome, instancia, horario_fechar, horario_abrir, controle_horario_ativo, dias_semana')
           .eq('ativo', true)
           .eq('controle_horario_ativo', true);
         if (expertId) query = query.eq('expert_id', expertId);
@@ -1958,7 +1958,12 @@ export const Grupos: React.FC = () => {
         if (error) throw error;
 
         if (data && data.length > 0) {
-          setFaHorarios(((data) as { grupo_id: string; grupo_nome: string; horario_fechar: string | null; horario_abrir: string | null; controle_horario_ativo: boolean | null; dias_semana: number[] | null }[]).map(g => ({
+          const rows = data as { id: string; grupo_id: string; grupo_nome: string; instancia: string | null; horario_fechar: string | null; horario_abrir: string | null; controle_horario_ativo: boolean | null; dias_semana: number[] | null }[];
+          // Mostra só os grupos de UMA instância — lista misturada faria o "Salvar" mover grupos pro celular errado
+          const inst = rows.find(r => r.instancia)?.instancia ?? null;
+          if (inst) setFaInstancia(inst);
+          setFaHorarios(rows.filter(g => g.instancia === inst).map(g => ({
+            id: g.id,
             grupo_id: g.grupo_id,
             grupo_nome: g.grupo_nome,
             horario_fechar: g.horario_fechar ? g.horario_fechar.substring(0, 5) : null,
@@ -1993,7 +1998,7 @@ export const Grupos: React.FC = () => {
       const expertId = getActiveExpertId();
       let query = supabase
         .from('moderacao_grupos')
-        .select('grupo_id, grupo_nome, horario_fechar, horario_abrir, controle_horario_ativo, dias_semana')
+        .select('id, grupo_id, grupo_nome, horario_fechar, horario_abrir, controle_horario_ativo, dias_semana')
         .eq('instancia', inst.instancia)
         .eq('ativo', true);
       if (expertId) query = query.eq('expert_id', expertId);
@@ -2001,7 +2006,8 @@ export const Grupos: React.FC = () => {
       const { data, error } = await query;
       if (error) throw error;
 
-      setFaHorarios(((data ?? []) as { grupo_id: string; grupo_nome: string; horario_fechar: string | null; horario_abrir: string | null; controle_horario_ativo: boolean | null; dias_semana: number[] | null }[]).map(g => ({
+      setFaHorarios(((data ?? []) as { id: string; grupo_id: string; grupo_nome: string; horario_fechar: string | null; horario_abrir: string | null; controle_horario_ativo: boolean | null; dias_semana: number[] | null }[]).map(g => ({
+        id: g.id,
         grupo_id: g.grupo_id,
         grupo_nome: g.grupo_nome,
         horario_fechar: g.horario_fechar ? g.horario_fechar.substring(0, 5) : null,
@@ -2023,6 +2029,8 @@ export const Grupos: React.FC = () => {
     setFaHorariosSaving(true);
     try {
       const expertId = getActiveExpertId();
+      // Vincula os grupos à instância selecionada (senão o pg_cron continua usando a instância/token antiga → 503)
+      const inst = instanciasColeta.find(i => i.instancia === faInstancia);
       for (const g of faHorarios) {
         let query = supabase
           .from('moderacao_grupos')
@@ -2031,10 +2039,19 @@ export const Grupos: React.FC = () => {
             horario_abrir: g.horario_abrir || null,
             controle_horario_ativo: g.controle_horario_ativo,
             dias_semana: g.dias_semana,
+            ...(inst ? { instancia: inst.instancia, token_instancia: inst.token } : {}),
           })
           .eq('grupo_id', g.grupo_id);
         if (expertId) query = query.eq('expert_id', expertId);
         await query;
+
+        // Reagenda cron jobs (RPC le estado da row e cria/cancela conforme controle_horario_ativo)
+        if (g.id) {
+          const { error: rpcErr } = await supabase.rpc('agendar_horarios_grupo', { p_id: g.id });
+          if (rpcErr) {
+            console.warn('Falha ao agendar cron pra grupo', g.grupo_id, rpcErr);
+          }
+        }
       }
       showToast('success', 'Horários salvos com sucesso!');
     } catch (err: unknown) {
@@ -4074,7 +4091,7 @@ export const Grupos: React.FC = () => {
                   >
                     <CustomSelect
                       value={faInstancia}
-                      onChange={setFaInstancia}
+                      onChange={(v) => { setFaInstancia(v); setFaHorarios([]); setFaHorariosBuscou(false); }}
                       options={faInstanciasConectadas.map(i => ({ value: i.instancia, label: i.nome || i.numero }))}
                       placeholder="Selecionar instância"
                     />
