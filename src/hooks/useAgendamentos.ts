@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { supabase } from '../backend/client';
 import { useAuthStore } from '../stores/authStore';
-import { WEBHOOKS, fetchWithTimeout } from '../config/webhooks';
+import { WEBHOOKS, N8N_GEND, fetchWithTimeout } from '../config/webhooks';
 
 // ─────────────────────────────────────────────
 // Types
@@ -751,31 +751,9 @@ export function useAgendamentos() {
         return;
       }
 
-      // Chama webhook n8n para buscar/atualizar canais Telegram
-      try {
-        const response = await fetchWithTimeout(WEBHOOKS.BUSCAR_CANAIS_TELEGRAM, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ expert_id: expertId }),
-        });
-
-        if (response.ok) {
-          const result = await response.json();
-          const gruposWebhook: GrupoWhatsApp[] = (result.grupos ?? []).map((g: { grupo_id: string; grupo_nome: string }) => ({
-            grupo_id: g.grupo_id,
-            grupo_nome: g.grupo_nome,
-          }));
-
-          if (gruposWebhook.length > 0) {
-            setCanaisTelegram(gruposWebhook);
-            return;
-          }
-        }
-      } catch (webhookErr: unknown) {
-        console.error('Webhook Telegram falhou, tentando Supabase:', webhookErr);
-      }
-
-      // Fallback: busca direto do Supabase
+      // Fonte única: Supabase filtrado por expert_id.
+      // (O webhook n8n /buscar-canais-telegram lia telegram_canais SEM filtro de expert → vazava canais do Allan
+      //  em outros painéis e não derivava o bot, fazendo o badge sumir.)
       const { data, error } = await supabase
         .from('telegram_canais')
         .select('chat_id, nome, username, tipo')
@@ -822,6 +800,17 @@ export function useAgendamentos() {
 
         if (error) throw error;
 
+        // Registra o webhook do bot no Telegram → n8n /telegram-updates.
+        // Sem isso os eventos my_chat_member (bot entra em canal) não chegam e os canais nunca sincronizam.
+        try {
+          const hookUrl = `${N8N_GEND}/telegram-updates?expert_id=${expertId}`;
+          await fetch(
+            `https://api.telegram.org/bot${botToken}/setWebhook?url=${encodeURIComponent(hookUrl)}&allowed_updates=${encodeURIComponent('["my_chat_member","chat_member"]')}`
+          );
+        } catch (hookErr) {
+          console.warn('Bot salvo, mas falha ao registrar webhook Telegram:', hookErr);
+        }
+
         setTelegramBot({ nome: `Bot @${username.replace('@', '')}`, username: username.replace('@', '') });
         return true;
       } catch (err: unknown) {
@@ -843,6 +832,19 @@ export function useAgendamentos() {
 
         if (error) throw error;
 
+        // Reagendar pg_cron: cancela job antigo + agenda novo com data atualizada
+        // RPC agendar_disparo_teste internamente faz cancel+schedule. So aplica para modo_teste.
+        const alvo = agendamentos.find((a) => a.id === id);
+        if (alvo?.modo_teste) {
+          const { error: rpcError } = await supabase.rpc('agendar_disparo_teste', {
+            p_agendamento_id: id,
+          });
+          if (rpcError) {
+            console.error('Falha ao reagendar cron job:', rpcError);
+            throw rpcError;
+          }
+        }
+
         setAgendamentos((prev) =>
           prev.map((a) => (a.id === id ? { ...a, data_envio: novaDataEnvio } : a))
         );
@@ -851,7 +853,7 @@ export function useAgendamentos() {
         throw err;
       }
     },
-    []
+    [agendamentos]
   );
 
   const trocarInstanciaAgendamento = useCallback(
