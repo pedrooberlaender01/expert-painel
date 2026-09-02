@@ -64,7 +64,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, isMobile 
       isMobile ? "flex w-full" : "hidden md:flex",
       !isMobile && (collapsed ? "w-[72px]" : "w-[260px]")
     )}>
-      <div className={cn("p-5 border-b border-white/[0.04] relative h-[73px] flex items-center", collapsed && "px-3")}>
+      <div className={cn("p-5 border-b border-glass relative h-[73px] flex items-center", collapsed && "px-3")}>
         <div className={cn("flex items-center w-full", collapsed ? "justify-center" : "justify-between")}>
           <div className={cn("flex items-center gap-2.5", collapsed && "justify-center")}>
             {expert?.logo_url ? (
@@ -83,10 +83,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, isMobile 
             )}
             {!collapsed && (
               <div>
-                <h1 className="text-sm font-bold text-white tracking-tight font-display">
+                <h1 className="text-sm font-bold text-txt tracking-tight font-display">
                   {expert?.nome || user?.nome || ''}
                 </h1>
-                <p className="text-[11px] text-white/[0.45] font-mono tracking-wide uppercase">
+                <p className="text-[11px] text-txt-muted font-mono tracking-wide uppercase">
                   {expert?.nome_plataforma || 'Dashboard'}
                 </p>
               </div>
@@ -95,7 +95,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, isMobile 
           {!collapsed && (
             <button
               onClick={onToggle}
-              className="p-1.5 text-white/[0.45] hover:text-white hover:bg-white/[0.04] rounded-lg transition-all duration-200"
+              className="p-1.5 text-txt-muted hover:text-txt hover:bg-glass rounded-lg transition-all duration-200"
               aria-label="Recolher sidebar"
             >
               <ChevronLeft className="w-3.5 h-3.5" />
@@ -104,7 +104,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, isMobile 
           {collapsed && (
             <button
               onClick={onToggle}
-              className="absolute -right-3 top-6 bg-white/[0.04] backdrop-blur-xl border border-white/[0.04] shadow-lg z-10 p-1.5 text-white/[0.45] hover:text-white hover:bg-white/[0.06] rounded-lg transition-all duration-200"
+              className="absolute -right-3 top-6 bg-glass backdrop-blur-xl border border-glass shadow-lg z-10 p-1.5 text-txt-muted hover:text-txt hover:bg-glass-hover rounded-lg transition-all duration-200"
               aria-label="Expandir sidebar"
             >
               <ChevronRight className="w-3.5 h-3.5" />
@@ -132,8 +132,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, isMobile 
                   "flex items-center px-3 py-2.5 text-[13px] font-medium relative group transition-all duration-200",
                   collapsed && "justify-center px-2",
                   isActive
-                    ? "text-white/[0.25] bg-white/[0.02] rounded-r-lg rounded-l-none"
-                    : "text-white/[0.15] hover:bg-white/[0.02] hover:text-white/[0.2] rounded-xl"
+                    ? "text-txt-dim bg-[var(--c-glass-2)] rounded-r-lg rounded-l-none"
+                    : "text-txt-dim hover:bg-[var(--c-glass-2)] hover:text-txt-dim rounded-xl"
                 )}
                 title="Secao indisponivel no seu plano"
               >
@@ -162,7 +162,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, isMobile 
                 className={cn(
                   "flex items-center px-3 py-2.5 text-[13px] font-medium relative cursor-not-allowed group",
                   collapsed && "justify-center px-2",
-                  "text-white/[0.2]"
+                  "text-txt-dim"
                 )}
                 title={`Disponivel no plano ${gate.requiredPlan}`}
               >
@@ -175,7 +175,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, isMobile 
                 )}
                 <div
                   className="absolute left-full ml-2 px-2.5 py-1.5 rounded-lg text-[11px] font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50"
-                  style={{ background: 'rgba(22, 27, 34, 0.97)', border: '1px solid rgba(255, 255, 255, 0.1)' }}
+                  style={{ background: 'var(--c-popup-bg)', border: '1px solid var(--c-border-strong)' }}
                 >
                   Disponivel no plano {gate.requiredPlan}
                 </div>
@@ -192,7 +192,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, isMobile 
                 collapsed && "justify-center px-2",
                 isActive
                   ? "bg-primary-bg text-primary-light rounded-r-lg rounded-l-none"
-                  : "text-white/[0.45] hover:bg-white/[0.04] hover:text-white/[0.7] rounded-xl"
+                  : "text-txt-muted hover:bg-glass hover:text-txt-secondary rounded-xl"
               )}
             >
               {({ isActive }) => (
@@ -213,14 +213,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, isMobile 
         })}
       </nav>
 
-      <div className="p-3 border-t border-white/[0.04] relative">
+      <div className="p-3 border-t border-glass relative">
         <button
           onClick={() => {
             signOut();
             navigate('/login', { replace: true });
           }}
           className={cn(
-            "flex items-center w-full px-3 py-2.5 rounded-xl text-[13px] font-medium text-white/[0.45] hover:bg-red-500/10 hover:text-red-400 transition-all duration-200",
+            "flex items-center w-full px-3 py-2.5 rounded-xl text-[13px] font-medium text-txt-muted hover:bg-red-500/10 hover:text-red-400 transition-all duration-200",
             collapsed && "justify-center px-2"
           )}
         >

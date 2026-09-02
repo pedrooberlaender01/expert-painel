@@ -130,7 +130,7 @@ const VIOLACAO_MAP: Record<string, { label: string; bg: string; text: string }> 
 function formatarAcao(acao: string): { label: string; bg: string; text: string } {
   if (acao === 'expulsao') return { label: 'Expulsão', bg: 'bg-red-500/10', text: 'text-red-400' };
   if (acao.startsWith('aviso_')) return { label: `Aviso ${acao.split('_')[1]}`, bg: 'bg-amber-500/10', text: 'text-amber-400' };
-  return { label: acao, bg: 'bg-[#2a2a2a]', text: 'text-white/50' };
+  return { label: acao, bg: 'bg-surface-200', text: 'text-txt-muted' };
 }
 
 function formatarDataBR(isoString: string): string {
@@ -194,9 +194,9 @@ const CustomSelect: React.FC<{
         onClick={() => setOpen(!open)}
         className="relative flex items-center gap-2 text-[13px] font-medium transition-all duration-150"
         style={{
-          background: open ? 'rgba(var(--color-primary-rgb),0.12)' : 'rgba(22, 27, 34, 0.97)',
-          border: open ? '1px solid rgba(var(--color-primary-rgb),0.25)' : '1px solid rgba(255,255,255,0.1)',
-          color: open ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.7)',
+          background: open ? 'rgba(var(--color-primary-rgb),0.12)' : 'var(--c-popup-bg)',
+          border: open ? '1px solid rgba(var(--color-primary-rgb),0.25)' : '1px solid var(--c-border-strong)',
+          color: open ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.7)',
           borderRadius: '10px',
           padding: '8px 32px 8px 12px',
         }}
@@ -214,8 +214,8 @@ const CustomSelect: React.FC<{
             width: pos.width,
             maxHeight: '280px',
             zIndex: 9999,
-            background: 'rgba(22, 27, 34, 0.97)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            background: 'var(--c-popup-bg)',
+            border: '1px solid var(--c-border-strong)',
             borderRadius: '14px',
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06)',
           }}
@@ -230,10 +230,10 @@ const CustomSelect: React.FC<{
                   className="flex items-center justify-between w-full px-3 py-2 rounded-lg text-[12px] transition-all duration-150 text-left"
                   style={{
                     background: active ? 'rgba(var(--color-primary-rgb),0.1)' : 'transparent',
-                    color: active ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.5)',
+                    color: active ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.5)',
                   }}
-                  onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = '#fff'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.background = active ? 'rgba(var(--color-primary-rgb),0.1)' : 'transparent'; e.currentTarget.style.color = active ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.5)'; }}
+                  onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = active ? 'rgba(var(--color-primary-rgb),0.1)' : 'transparent'; e.currentTarget.style.color = active ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.5)'; }}
                 >
                   <span className="truncate">{o.label}</span>
                   {active && <Check size={12} className="text-primary-light flex-shrink-0 ml-2" />}
@@ -360,8 +360,8 @@ const TimePicker: React.FC<{
           <div
             className="overflow-hidden"
             style={{
-              background: 'rgba(22, 27, 34, 0.98)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
+              background: 'var(--c-popup-bg)',
+              border: '1px solid var(--c-border-strong)',
               borderRadius: '14px',
               boxShadow: `0 12px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.04), 0 0 20px rgba(${accentRgb}, 0.06)`,
             }}
@@ -369,7 +369,7 @@ const TimePicker: React.FC<{
             {/* Header */}
             <div
               className="flex items-center justify-between px-3 py-2"
-              style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+              style={{ borderBottom: '1px solid var(--c-border)' }}
             >
               <span className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: accent }}>
                 {isFechar ? 'Fechar às' : 'Abrir às'}
@@ -378,9 +378,9 @@ const TimePicker: React.FC<{
                 <button
                   onClick={clear}
                   className="text-[10px] px-1.5 py-0.5 rounded transition-all duration-150"
-                  style={{ color: 'rgba(255,255,255,0.35)', background: 'rgba(255,255,255,0.04)' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.35)'; e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; }}
+                  style={{ color: 'var(--c-t-35)', background: 'var(--c-glass)' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; e.currentTarget.style.background = 'var(--c-glass-hover)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.35)'; e.currentTarget.style.background = 'var(--c-glass)'; }}
                 >
                   Limpar
                 </button>
@@ -388,8 +388,8 @@ const TimePicker: React.FC<{
             </div>
 
             {/* Valor atual */}
-            <div className="flex items-center justify-center py-2.5" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-              <span className="font-mono text-[22px] font-bold tracking-widest" style={{ color: value ? accent : 'rgba(255,255,255,0.15)' }}>
+            <div className="flex items-center justify-center py-2.5" style={{ borderBottom: '1px solid var(--c-border)' }}>
+              <span className="font-mono text-[22px] font-bold tracking-widest" style={{ color: value ? accent : 'rgb(var(--c-fg-rgb) / 0.15)' }}>
                 {value || '--:--'}
               </span>
             </div>
@@ -400,9 +400,9 @@ const TimePicker: React.FC<{
               <div
                 ref={hoursRef}
                 className="flex-1 overflow-y-auto py-1 px-1"
-                style={{ borderRight: '1px solid rgba(255,255,255,0.06)' }}
+                style={{ borderRight: '1px solid var(--c-border)' }}
               >
-                <div className="text-center text-[9px] font-semibold uppercase tracking-wider mb-1" style={{ color: 'rgba(255,255,255,0.2)' }}>
+                <div className="text-center text-[9px] font-semibold uppercase tracking-wider mb-1" style={{ color: 'var(--c-t-20)' }}>
                   Hora
                 </div>
                 {HOURS.map(h => {
@@ -415,11 +415,11 @@ const TimePicker: React.FC<{
                       className="w-full text-center py-1 rounded-md text-[13px] font-mono transition-all duration-100"
                       style={{
                         background: active ? `rgba(${accentRgb},0.2)` : 'transparent',
-                        color: active ? accent : 'rgba(255,255,255,0.45)',
+                        color: active ? accent : 'rgb(var(--c-fg-rgb) / 0.45)',
                         fontWeight: active ? 600 : 400,
                       }}
-                      onMouseEnter={(e) => { if (!active) { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = '#fff'; } }}
-                      onMouseLeave={(e) => { if (!active) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.45)'; } }}
+                      onMouseEnter={(e) => { if (!active) { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; } }}
+                      onMouseLeave={(e) => { if (!active) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.45)'; } }}
                     >
                       {h}
                     </button>
@@ -429,7 +429,7 @@ const TimePicker: React.FC<{
 
               {/* Minutos */}
               <div className="flex-1 overflow-y-auto py-1 px-1">
-                <div className="text-center text-[9px] font-semibold uppercase tracking-wider mb-1" style={{ color: 'rgba(255,255,255,0.2)' }}>
+                <div className="text-center text-[9px] font-semibold uppercase tracking-wider mb-1" style={{ color: 'var(--c-t-20)' }}>
                   Min
                 </div>
                 {MINUTES.map(m => {
@@ -441,11 +441,11 @@ const TimePicker: React.FC<{
                       className="w-full text-center py-1 rounded-md text-[13px] font-mono transition-all duration-100"
                       style={{
                         background: active ? `rgba(${accentRgb},0.2)` : 'transparent',
-                        color: active ? accent : 'rgba(255,255,255,0.45)',
+                        color: active ? accent : 'rgb(var(--c-fg-rgb) / 0.45)',
                         fontWeight: active ? 600 : 400,
                       }}
-                      onMouseEnter={(e) => { if (!active) { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = '#fff'; } }}
-                      onMouseLeave={(e) => { if (!active) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.45)'; } }}
+                      onMouseEnter={(e) => { if (!active) { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; } }}
+                      onMouseLeave={(e) => { if (!active) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.45)'; } }}
                     >
                       {m}
                     </button>
@@ -475,14 +475,14 @@ const Toggle: React.FC<{
     style={{
       background: checked
         ? (color === 'bg-primary' ? 'var(--color-primary-bg)' : 'rgba(var(--color-primary-rgb),0.3)')
-        : 'rgba(255,255,255,0.1)',
+        : 'rgb(var(--c-fg-rgb) / 0.1)',
       border: checked
         ? (color === 'bg-primary' ? '1px solid var(--color-primary-bg)' : '1px solid rgba(var(--color-primary-rgb),0.4)')
-        : '1px solid rgba(255,255,255,0.15)',
+        : '1px solid var(--c-border-strong)',
     }}
   >
     <span
-      className="inline-block h-[18px] w-[18px] rounded-full bg-white transition-transform duration-300 mt-[2px]"
+      className="inline-block h-[18px] w-[18px] rounded-full bg-[rgb(var(--c-fg-rgb))] transition-transform duration-300 mt-[2px]"
       style={{
         transform: checked ? 'translateX(22px)' : 'translateX(2px)',
         boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
@@ -513,12 +513,12 @@ const TagInput: React.FC<{
       {tags.map((tag, i) => (
         <span
           key={i}
-          className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/[0.04] text-white text-xs px-2.5 py-1.5 rounded-lg"
+          className="inline-flex items-center gap-1.5 bg-glass border border-glass text-txt text-xs px-2.5 py-1.5 rounded-lg"
         >
           {tag}
           <button
             onClick={() => onChange(tags.filter((_, idx) => idx !== i))}
-            className="text-white/40 hover:text-red-400 transition-colors"
+            className="text-txt-dim hover:text-red-400 transition-colors"
           >
             <X className="w-3 h-3" />
           </button>
@@ -536,7 +536,7 @@ const TagInput: React.FC<{
             }
           }}
           placeholder={placeholder}
-          className="bg-transparent border-none text-white text-xs placeholder-[#4b5563] focus:outline-none w-[140px]"
+          className="bg-transparent border-none text-txt text-xs placeholder-txt-dim focus:outline-none w-[140px]"
         />
         {input.trim() && (
           <button
@@ -633,32 +633,32 @@ const DayPicker: React.FC<{
       ref={ref}
       className="absolute top-full mt-2 z-[100] animate-fade-in w-[260px] overflow-hidden"
       style={{
-        background: 'rgba(22, 27, 34, 0.97)',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
+        background: 'var(--c-popup-bg)',
+        border: '1px solid var(--c-border-strong)',
         borderRadius: '14px',
         boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06)',
       }}
     >
       <div style={{ padding: '16px 16px 4px' }}>
-        <span className="text-[11px] uppercase font-medium" style={{ color: 'rgba(255,255,255,0.4)', letterSpacing: '0.5px' }}>{label}</span>
+        <span className="text-[11px] uppercase font-medium" style={{ color: 'var(--c-t-40)', letterSpacing: '0.5px' }}>{label}</span>
       </div>
       <div className="flex items-center justify-between" style={{ padding: '8px 16px' }}>
         <button
           onClick={() => setViewMonth(m => Math.max(0, m - 1))}
           className="transition-all duration-150"
-          style={{ color: 'rgba(255,255,255,0.4)', background: 'transparent', border: 'none', padding: '4px 8px', borderRadius: '6px', cursor: 'pointer' }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.4)'; }}
+          style={{ color: 'var(--c-t-40)', background: 'transparent', border: 'none', padding: '4px 8px', borderRadius: '6px', cursor: 'pointer' }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.7)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.4)'; }}
         >
           <ChevronLeft className="w-3.5 h-3.5" />
         </button>
-        <span className="text-[14px] font-semibold text-white">{MONTHS_SHORT[viewMonth]}</span>
+        <span className="text-[14px] font-semibold text-txt">{MONTHS_SHORT[viewMonth]}</span>
         <button
           onClick={() => setViewMonth(m => Math.min(11, m + 1))}
           className="transition-all duration-150"
-          style={{ color: viewMonth >= getMonth(now) ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.4)', background: 'transparent', border: 'none', padding: '4px 8px', borderRadius: '6px', cursor: viewMonth >= getMonth(now) ? 'default' : 'pointer' }}
-          onMouseEnter={(e) => { if (viewMonth < getMonth(now)) { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; } }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = viewMonth >= getMonth(now) ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.4)'; }}
+          style={{ color: viewMonth >= getMonth(now) ? 'rgb(var(--c-fg-rgb) / 0.15)' : 'rgb(var(--c-fg-rgb) / 0.4)', background: 'transparent', border: 'none', padding: '4px 8px', borderRadius: '6px', cursor: viewMonth >= getMonth(now) ? 'default' : 'pointer' }}
+          onMouseEnter={(e) => { if (viewMonth < getMonth(now)) { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.7)'; } }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = viewMonth >= getMonth(now) ? 'rgb(var(--c-fg-rgb) / 0.15)' : 'rgb(var(--c-fg-rgb) / 0.4)'; }}
           disabled={viewMonth >= getMonth(now)}
         >
           <ChevronRight className="w-3.5 h-3.5" />
@@ -667,7 +667,7 @@ const DayPicker: React.FC<{
       <div style={{ padding: '0 16px 16px' }}>
         <div className="grid grid-cols-7" style={{ gap: '2px' }}>
           {['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map((d, i) => (
-            <div key={i} className="text-[11px] text-center font-medium" style={{ color: 'rgba(255,255,255,0.35)', padding: '6px 0' }}>{d}</div>
+            <div key={i} className="text-[11px] text-center font-medium" style={{ color: 'var(--c-t-35)', padding: '6px 0' }}>{d}</div>
           ))}
           {Array.from({ length: new Date(currentYear, viewMonth, 1).getDay() }).map((_, i) => (
             <div key={`pad-${i}`} />
@@ -686,13 +686,13 @@ const DayPicker: React.FC<{
                 style={{
                   width: '32px', height: '32px', borderRadius: '8px', fontSize: '13px',
                   background: isSelected ? 'var(--color-primary)' : 'transparent',
-                  color: isFuture ? 'rgba(255,255,255,0.15)' : isSelected ? '#fff' : isToday ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.7)',
+                  color: isFuture ? 'rgb(var(--c-fg-rgb) / 0.15)' : isSelected ? 'rgb(var(--c-fg-rgb))' : isToday ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.7)',
                   fontWeight: isSelected || isToday ? 600 : 400,
                   cursor: isFuture ? 'not-allowed' : 'pointer',
                   border: isToday && !isSelected ? '1px solid rgba(var(--color-primary-rgb),0.4)' : '1px solid transparent',
                 }}
-                onMouseEnter={(e) => { if (!isFuture && !isSelected) { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#fff'; } }}
-                onMouseLeave={(e) => { if (!isFuture && !isSelected) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = isToday ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.7)'; } }}
+                onMouseEnter={(e) => { if (!isFuture && !isSelected) { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; } }}
+                onMouseLeave={(e) => { if (!isFuture && !isSelected) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = isToday ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.7)'; } }}
               >
                 {day}
               </button>
@@ -737,8 +737,8 @@ const FilterDropdown: React.FC<{
           open
             ? "bg-primary/10 text-primary border border-primary/20"
             : value !== 'all'
-            ? "text-txt-secondary hover:text-txt hover:bg-white/[0.03] border border-transparent"
-            : "text-txt-dim hover:text-txt-secondary hover:bg-white/[0.03] border border-transparent"
+            ? "text-txt-secondary hover:text-txt hover:bg-glass border border-transparent"
+            : "text-txt-dim hover:text-txt-secondary hover:bg-glass border border-transparent"
         )}
       >
         <span className="tabular-nums">{selectedLabel}</span>
@@ -747,7 +747,7 @@ const FilterDropdown: React.FC<{
       {value !== 'all' && (
         <button
           onClick={() => onChange('all')}
-          className="p-0.5 text-txt-dim hover:text-white transition-colors"
+          className="p-0.5 text-txt-dim hover:text-txt transition-colors"
         >
           <X className="w-3 h-3" />
         </button>
@@ -756,8 +756,8 @@ const FilterDropdown: React.FC<{
         <div
           className="absolute top-full mt-2 left-0 z-[100] animate-fade-in overflow-y-auto"
           style={{
-            background: 'rgba(22, 27, 34, 0.97)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            background: 'var(--c-popup-bg)',
+            border: '1px solid var(--c-border-strong)',
             borderRadius: '14px',
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06)',
             minWidth: '180px',
@@ -765,7 +765,7 @@ const FilterDropdown: React.FC<{
           }}
         >
           <div className="px-3 pt-3 pb-1">
-            <span className="text-[11px] uppercase font-medium" style={{ color: 'rgba(255,255,255,0.4)', letterSpacing: '0.5px' }}>{label}</span>
+            <span className="text-[11px] uppercase font-medium" style={{ color: 'var(--c-t-40)', letterSpacing: '0.5px' }}>{label}</span>
           </div>
           <div className="p-1.5">
             {[{ value: 'all', label: allLabel }, ...options].map((opt) => {
@@ -777,10 +777,10 @@ const FilterDropdown: React.FC<{
                   className="flex items-center justify-between w-full px-3 py-2 rounded-lg text-[12px] transition-all duration-150 text-left"
                   style={{
                     background: active ? 'rgba(var(--color-primary-rgb),0.1)' : 'transparent',
-                    color: active ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.5)',
+                    color: active ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.5)',
                   }}
-                  onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = '#fff'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.background = active ? 'rgba(var(--color-primary-rgb),0.1)' : 'transparent'; e.currentTarget.style.color = active ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.5)'; }}
+                  onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = active ? 'rgba(var(--color-primary-rgb),0.1)' : 'transparent'; e.currentTarget.style.color = active ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.5)'; }}
                 >
                   <span>{opt.label}</span>
                   {active && <Check size={12} className="text-primary-light flex-shrink-0" />}
@@ -864,11 +864,11 @@ const GrupoModeracaoCard: React.FC<{
   ];
 
   return (
-    <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '14px', overflow: 'hidden', marginBottom: '8px' }}>
+    <div style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', borderRadius: '14px', overflow: 'hidden', marginBottom: '8px' }}>
       {/* Header */}
       <div
         className="flex items-center justify-between px-5 py-4 cursor-pointer select-none transition-colors duration-200"
-        style={{ borderBottom: collapsed ? 'none' : '1px solid rgba(255,255,255,0.04)' }}
+        style={{ borderBottom: collapsed ? 'none' : '1px solid var(--c-border)' }}
         onClick={() => setCollapsed(prev => !prev)}
       >
         <div className="flex items-center gap-3.5">
@@ -879,8 +879,8 @@ const GrupoModeracaoCard: React.FC<{
             <Users className="w-4 h-4" style={{ color: 'var(--color-primary-light)' }} />
           </div>
           <div>
-            <p className="text-white font-semibold text-[14px]">{localGrupo.grupo_nome}</p>
-            <p className="text-[12px] mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>Instância: {localGrupo.instancia}</p>
+            <p className="text-txt font-semibold text-[14px]">{localGrupo.grupo_nome}</p>
+            <p className="text-[12px] mt-0.5" style={{ color: 'var(--c-t-35)' }}>Instância: {localGrupo.instancia}</p>
           </div>
         </div>
         <div className="flex items-center gap-2.5">
@@ -888,7 +888,7 @@ const GrupoModeracaoCard: React.FC<{
             className="text-[10px] font-semibold uppercase tracking-[0.5px] px-2.5 py-0.5 rounded-md"
             style={localGrupo.ativo
               ? { background: 'var(--color-primary-bg)', color: 'var(--color-primary-light)', border: '1px solid var(--color-primary-bg)' }
-              : { background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)', border: '1px solid rgba(255,255,255,0.1)' }
+              : { background: 'var(--c-glass)', color: 'var(--c-t-40)', border: '1px solid var(--c-border-strong)' }
             }
           >
             {localGrupo.ativo ? 'Ativo' : 'Inativo'}
@@ -902,23 +902,23 @@ const GrupoModeracaoCard: React.FC<{
           </span>
           <button
             onClick={(e) => { e.stopPropagation(); setConfirmDelete(true); }}
-            className="p-1.5 rounded-lg text-white/40 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+            className="p-1.5 rounded-lg text-txt-dim hover:text-red-400 hover:bg-red-500/10 transition-colors"
             title="Excluir grupo"
           >
             <Trash2 className="w-4 h-4" />
           </button>
-          <ChevronDown className={cn("w-4 h-4 text-white/40 transition-transform duration-200", !collapsed && "rotate-180")} />
+          <ChevronDown className={cn("w-4 h-4 text-txt-dim transition-transform duration-200", !collapsed && "rotate-180")} />
         </div>
       </div>
 
       {!collapsed && <div className="p-5 space-y-5">
         {/* Regras */}
         <div>
-          <p className="text-white/40 text-[10px] uppercase tracking-[1.5px] font-semibold mb-2.5">Regras de Moderação</p>
+          <p className="text-txt-dim text-[10px] uppercase tracking-[1.5px] font-semibold mb-2.5">Regras de Moderação</p>
           <div className="grid grid-cols-2 gap-2">
             {regras.map((r) => (
-              <div key={r.key} className="flex items-center justify-between rounded-[10px] px-4 py-3" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }}>
-                <span className="text-white text-[13px] font-medium">{r.label}</span>
+              <div key={r.key} className="flex items-center justify-between rounded-[10px] px-4 py-3" style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}>
+                <span className="text-txt text-[13px] font-medium">{r.label}</span>
                 <Toggle
                   checked={localGrupo.regras_ativas[r.key]}
                   onChange={(val) => updateRegra(r.key, val)}
@@ -930,11 +930,11 @@ const GrupoModeracaoCard: React.FC<{
 
         {/* Mensagens */}
         <div>
-          <p className="text-white/40 text-[10px] uppercase tracking-[1.5px] font-semibold mb-2.5">Mensagens</p>
+          <p className="text-txt-dim text-[10px] uppercase tracking-[1.5px] font-semibold mb-2.5">Mensagens</p>
 
           {/* Toggle enviar aviso */}
-          <div className="flex items-center justify-between rounded-[10px] px-4 py-3 mb-3" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }}>
-            <span className="text-white text-[13px] font-medium">Enviar aviso após remoção de mensagem</span>
+          <div className="flex items-center justify-between rounded-[10px] px-4 py-3 mb-3" style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}>
+            <span className="text-txt text-[13px] font-medium">Enviar aviso após remoção de mensagem</span>
             <Toggle
               checked={localGrupo.enviar_aviso}
               onChange={(val) => setLocalGrupo(prev => ({ ...prev, enviar_aviso: val }))}
@@ -942,27 +942,27 @@ const GrupoModeracaoCard: React.FC<{
           </div>
 
           {/* Toggle bloquear internacionais */}
-          <div className="rounded-[10px] px-4 py-3 mb-3" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }}>
+          <div className="rounded-[10px] px-4 py-3 mb-3" style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}>
             <div className="flex items-center justify-between">
-              <span className="text-white text-[13px] font-medium">Bloquear números internacionais</span>
+              <span className="text-txt text-[13px] font-medium">Bloquear números internacionais</span>
               <Toggle
                 checked={localGrupo.bloquear_internacionais}
                 onChange={(val) => setLocalGrupo(prev => ({ ...prev, bloquear_internacionais: val }))}
               />
             </div>
-            <p className="text-[11px] text-white/25 mt-1.5 leading-relaxed">Remove automaticamente membros com números que não começam com 55 (Brasil) ao entrar no grupo</p>
+            <p className="text-[11px] text-txt-dim mt-1.5 leading-relaxed">Remove automaticamente membros com números que não começam com 55 (Brasil) ao entrar no grupo</p>
           </div>
 
           <div className={cn("space-y-3 transition-all duration-200", !localGrupo.enviar_aviso && "opacity-40 pointer-events-none select-none")}>
             <div>
-              <label className="text-white/50 text-[11px] mb-1 block">Mensagem de Aviso</label>
+              <label className="text-txt-muted text-[11px] mb-1 block">Mensagem de Aviso</label>
               <textarea
                 ref={avisoRef}
                 value={localGrupo.mensagem_aviso}
                 onChange={(e) => setLocalGrupo(prev => ({ ...prev, mensagem_aviso: e.target.value }))}
                 rows={3}
                 disabled={!localGrupo.enviar_aviso}
-                className="w-full bg-white/[0.02] border border-white/[0.04] text-white rounded-lg py-2.5 px-3.5 text-[13px] placeholder-[#4b5563] focus:outline-none focus:border-primary/40 transition-colors resize-none disabled:cursor-not-allowed"
+                className="w-full bg-[var(--c-glass-2)] border border-glass text-txt rounded-lg py-2.5 px-3.5 text-[13px] placeholder-txt-dim focus:outline-none focus:border-primary/40 transition-colors resize-none disabled:cursor-not-allowed"
               />
               <VariableButtons
                 textareaRef={avisoRef}
@@ -971,14 +971,14 @@ const GrupoModeracaoCard: React.FC<{
               />
             </div>
             <div>
-              <label className="text-white/50 text-[11px] mb-1 block">Mensagem de Expulsão</label>
+              <label className="text-txt-muted text-[11px] mb-1 block">Mensagem de Expulsão</label>
               <textarea
                 ref={expulsaoRef}
                 value={localGrupo.mensagem_expulsao}
                 onChange={(e) => setLocalGrupo(prev => ({ ...prev, mensagem_expulsao: e.target.value }))}
                 rows={3}
                 disabled={!localGrupo.enviar_aviso}
-                className="w-full bg-white/[0.02] border border-white/[0.04] text-white rounded-lg py-2.5 px-3.5 text-[13px] placeholder-[#4b5563] focus:outline-none focus:border-primary/40 transition-colors resize-none disabled:cursor-not-allowed"
+                className="w-full bg-[var(--c-glass-2)] border border-glass text-txt rounded-lg py-2.5 px-3.5 text-[13px] placeholder-txt-dim focus:outline-none focus:border-primary/40 transition-colors resize-none disabled:cursor-not-allowed"
               />
               <VariableButtons
                 textareaRef={expulsaoRef}
@@ -991,9 +991,9 @@ const GrupoModeracaoCard: React.FC<{
 
         {/* Strikes */}
         <div>
-          <p className="text-white/40 text-[10px] uppercase tracking-[1.5px] font-semibold mb-2.5">Strikes</p>
+          <p className="text-txt-dim text-[10px] uppercase tracking-[1.5px] font-semibold mb-2.5">Strikes</p>
           <div className="flex items-center gap-3">
-            <label className="text-white/50 text-[12px]">Strikes para expulsão</label>
+            <label className="text-txt-muted text-[12px]">Strikes para expulsão</label>
             <input
               type="text"
               inputMode="numeric"
@@ -1001,19 +1001,19 @@ const GrupoModeracaoCard: React.FC<{
               onChange={(e) => { const v = e.target.value.replace(/\D/g, ''); setLocalGrupo(prev => ({ ...prev, strikes_para_expulsao: v === '' ? 0 : parseInt(v) })); }}
               min={1}
               max={99}
-              className="w-16 bg-white/[0.02] border border-white/[0.04] text-white rounded-lg py-1.5 px-2.5 text-[13px] text-center focus:outline-none focus:border-primary/40 transition-colors"
+              className="w-16 bg-[var(--c-glass-2)] border border-glass text-txt rounded-lg py-1.5 px-2.5 text-[13px] text-center focus:outline-none focus:border-primary/40 transition-colors"
             />
           </div>
-          <p className="text-white/20 text-[11px] mt-1">Número de violações antes da expulsão</p>
+          <p className="text-txt-dim text-[11px] mt-1">Número de violações antes da expulsão</p>
         </div>
 
         {/* Whitelists */}
         <div>
-          <p className="text-white/40 text-[10px] uppercase tracking-[1.5px] font-semibold mb-2.5">Whitelists</p>
+          <p className="text-txt-dim text-[10px] uppercase tracking-[1.5px] font-semibold mb-2.5">Whitelists</p>
           <div className="space-y-3">
             <div>
-              <label className="text-white/50 text-[11px] mb-1.5 block">Casas permitidas</label>
-              <div className="bg-white/[0.02] border border-white/[0.04] rounded-lg px-3 py-2.5 min-h-[38px]">
+              <label className="text-txt-muted text-[11px] mb-1.5 block">Casas permitidas</label>
+              <div className="bg-[var(--c-glass-2)] border border-glass rounded-lg px-3 py-2.5 min-h-[38px]">
                 <TagInput
                   tags={localGrupo.casas_permitidas}
                   onChange={(tags) => setLocalGrupo(prev => ({ ...prev, casas_permitidas: tags }))}
@@ -1022,8 +1022,8 @@ const GrupoModeracaoCard: React.FC<{
               </div>
             </div>
             <div>
-              <label className="text-white/50 text-[11px] mb-1.5 block">Perfis permitidos</label>
-              <div className="bg-white/[0.02] border border-white/[0.04] rounded-lg px-3 py-2.5 min-h-[38px]">
+              <label className="text-txt-muted text-[11px] mb-1.5 block">Perfis permitidos</label>
+              <div className="bg-[var(--c-glass-2)] border border-glass rounded-lg px-3 py-2.5 min-h-[38px]">
                 <TagInput
                   tags={localGrupo.perfis_permitidos}
                   onChange={(tags) => setLocalGrupo(prev => ({ ...prev, perfis_permitidos: tags }))}
@@ -1032,8 +1032,8 @@ const GrupoModeracaoCard: React.FC<{
               </div>
             </div>
             <div>
-              <label className="text-white/50 text-[11px] mb-1.5 block">Links permitidos</label>
-              <div className="bg-white/[0.02] border border-white/[0.04] rounded-lg px-3 py-2.5 min-h-[38px]">
+              <label className="text-txt-muted text-[11px] mb-1.5 block">Links permitidos</label>
+              <div className="bg-[var(--c-glass-2)] border border-glass rounded-lg px-3 py-2.5 min-h-[38px]">
                 <TagInput
                   tags={localGrupo.links_permitidos}
                   onChange={(tags) => setLocalGrupo(prev => ({ ...prev, links_permitidos: tags }))}
@@ -1046,27 +1046,27 @@ const GrupoModeracaoCard: React.FC<{
 
         {/* Contexto Extra */}
         <div>
-          <p className="text-white/40 text-[10px] uppercase tracking-[1.5px] font-semibold mb-2.5">Contexto Extra</p>
+          <p className="text-txt-dim text-[10px] uppercase tracking-[1.5px] font-semibold mb-2.5">Contexto Extra</p>
           <textarea
             value={localGrupo.contexto_extra || ''}
             onChange={(e) => setLocalGrupo(prev => ({ ...prev, contexto_extra: e.target.value }))}
             rows={3}
             placeholder="Contexto adicional sobre o grupo..."
-            className="w-full bg-white/[0.02] border border-white/[0.04] text-white rounded-lg py-2.5 px-3.5 text-[13px] placeholder-[#4b5563] focus:outline-none focus:border-primary/40 transition-colors resize-none"
+            className="w-full bg-[var(--c-glass-2)] border border-glass text-txt rounded-lg py-2.5 px-3.5 text-[13px] placeholder-txt-dim focus:outline-none focus:border-primary/40 transition-colors resize-none"
           />
-          <p className="text-white/20 text-[11px] mt-1">Ajuda a IA a moderar com mais precisão</p>
+          <p className="text-txt-dim text-[11px] mt-1">Ajuda a IA a moderar com mais precisão</p>
         </div>
       </div>}
 
       {/* Footer */}
       {!collapsed &&
-      <div className="flex items-center justify-between px-5 py-3.5" style={{ borderTop: '1px solid rgba(255,255,255,0.04)', background: 'rgba(255,255,255,0.02)' }}>
+      <div className="flex items-center justify-between px-5 py-3.5" style={{ borderTop: '1px solid var(--c-border)', background: 'var(--c-glass-2)' }}>
         <button
           onClick={() => setConfirmDelete(true)}
           className="flex items-center gap-1.5 text-[12px] transition-all duration-200"
-          style={{ color: 'rgba(255,255,255,0.4)', background: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.15)', padding: '6px 16px', borderRadius: '8px' }}
+          style={{ color: 'var(--c-t-40)', background: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.15)', padding: '6px 16px', borderRadius: '8px' }}
           onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(248,113,113,0.15)'; e.currentTarget.style.color = '#f87171' }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(248,113,113,0.08)'; e.currentTarget.style.color = 'rgba(255,255,255,0.4)' }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(248,113,113,0.08)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.4)' }}
         >
           <Trash2 className="w-3.5 h-3.5" />
           Excluir
@@ -1074,7 +1074,7 @@ const GrupoModeracaoCard: React.FC<{
         <button
           onClick={handleSave}
           disabled={saving}
-          className="flex items-center gap-2 text-white font-medium text-[13px] px-5 py-2 rounded-lg transition-all duration-200"
+          className="flex items-center gap-2 text-txt font-medium text-[13px] px-5 py-2 rounded-lg transition-all duration-200"
           style={{
             background: 'rgba(var(--color-primary-rgb),0.15)',
             border: '1px solid rgba(var(--color-primary-rgb),0.25)',
@@ -1094,18 +1094,18 @@ const GrupoModeracaoCard: React.FC<{
       {confirmDelete && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={() => setConfirmDelete(false)}>
           <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
-          <div className="relative bg-white/[0.03] border border-white/[0.04] rounded-2xl p-6 max-w-sm w-full shadow-2xl" onClick={e => e.stopPropagation()}>
+          <div className="relative bg-glass border border-glass rounded-2xl p-6 max-w-sm w-full shadow-2xl" onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-center w-12 h-12 rounded-full bg-red-500/10 mx-auto mb-4">
               <AlertTriangle className="w-6 h-6 text-red-400" />
             </div>
-            <h3 className="text-white font-semibold text-center">Excluir grupo?</h3>
-            <p className="text-white/40 text-sm text-center mt-2">
-              O grupo <span className="text-white font-medium">{localGrupo.grupo_nome}</span> será removido da moderação. Esta ação não pode ser desfeita.
+            <h3 className="text-txt font-semibold text-center">Excluir grupo?</h3>
+            <p className="text-txt-dim text-sm text-center mt-2">
+              O grupo <span className="text-txt font-medium">{localGrupo.grupo_nome}</span> será removido da moderação. Esta ação não pode ser desfeita.
             </p>
             <div className="flex gap-3 mt-6">
               <button
                 onClick={() => setConfirmDelete(false)}
-                className="flex-1 px-4 py-2.5 bg-transparent border border-white/[0.04] text-white/50 rounded-lg text-sm transition-colors hover:bg-white/[0.04] hover:text-white"
+                className="flex-1 px-4 py-2.5 bg-transparent border border-glass text-txt-muted rounded-lg text-sm transition-colors hover:bg-glass hover:text-txt"
               >
                 Cancelar
               </button>
@@ -1178,7 +1178,7 @@ const LogDeAcoes: React.FC<{
       {/* Card Ações Hoje */}
       <div
         className="flex items-center gap-3.5 px-5 py-4"
-        style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '14px' }}
+        style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', borderRadius: '14px' }}
       >
         <div
           className="w-10 h-10 rounded-full flex items-center justify-center"
@@ -1187,13 +1187,13 @@ const LogDeAcoes: React.FC<{
           <Shield className="w-5 h-5" style={{ color: 'var(--color-primary-light)' }} />
         </div>
         <div>
-          <p className="text-[11px] uppercase tracking-[0.5px] font-semibold" style={{ color: 'rgba(255,255,255,0.45)' }}>Ações Hoje</p>
-          <p className="text-white font-bold text-[24px] tabular-nums" style={{ fontVariantNumeric: 'tabular-nums' }}>{moderacao.acoesHoje}</p>
+          <p className="text-[11px] uppercase tracking-[0.5px] font-semibold" style={{ color: 'var(--c-t-45)' }}>Ações Hoje</p>
+          <p className="text-txt font-bold text-[24px] tabular-nums" style={{ fontVariantNumeric: 'tabular-nums' }}>{moderacao.acoesHoje}</p>
         </div>
       </div>
 
       {/* Filters */}
-      <div className="bg-white/[0.03] border border-white/[0.04] rounded-2xl p-4">
+      <div className="bg-glass border border-glass rounded-2xl p-4">
         <div className="flex items-center gap-3 flex-wrap">
           {/* Grupo */}
           <CustomSelect
@@ -1229,11 +1229,11 @@ const LogDeAcoes: React.FC<{
             ]}
           />
 
-          <div className="w-px h-6 bg-white/[0.06] self-center" />
+          <div className="w-px h-6 bg-glass-hover self-center" />
 
           {/* Date range display — same design as Dashboard */}
           <div className="flex items-center gap-2 text-[11px] font-mono">
-            <Calendar className="w-3 h-3 text-white/30" />
+            <Calendar className="w-3 h-3 text-txt-dim" />
 
             {/* Data Início */}
             <div className="relative">
@@ -1244,8 +1244,8 @@ const LogDeAcoes: React.FC<{
                   startPickerOpen
                     ? "bg-primary/10 text-primary-light border border-primary/20"
                     : filters.data_inicio
-                      ? "text-white/70 hover:text-white hover:bg-white/[0.03] border border-transparent"
-                      : "text-white/30 hover:text-white/50 hover:bg-white/[0.03] border border-transparent"
+                      ? "text-txt-secondary hover:text-txt hover:bg-glass border border-transparent"
+                      : "text-txt-dim hover:text-txt-muted hover:bg-glass border border-transparent"
                 )}
               >
                 {filters.data_inicio
@@ -1264,7 +1264,7 @@ const LogDeAcoes: React.FC<{
               )}
             </div>
 
-            <span className="text-white/20">—</span>
+            <span className="text-txt-dim">—</span>
 
             {/* Data Fim */}
             <div className="relative">
@@ -1275,8 +1275,8 @@ const LogDeAcoes: React.FC<{
                   endPickerOpen
                     ? "bg-primary/10 text-primary-light border border-primary/20"
                     : filters.data_fim
-                      ? "text-white/70 hover:text-white hover:bg-white/[0.03] border border-transparent"
-                      : "text-white/30 hover:text-white/50 hover:bg-white/[0.03] border border-transparent"
+                      ? "text-txt-secondary hover:text-txt hover:bg-glass border border-transparent"
+                      : "text-txt-dim hover:text-txt-muted hover:bg-glass border border-transparent"
                 )}
               >
                 {filters.data_fim
@@ -1296,17 +1296,17 @@ const LogDeAcoes: React.FC<{
             </div>
           </div>
 
-          <div className="w-px h-6 bg-white/[0.06] self-center" />
+          <div className="w-px h-6 bg-glass-hover self-center" />
 
           {/* Busca */}
           <div className="relative flex-1 min-w-[180px] max-w-[260px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/40" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-txt-dim" />
             <input
               type="text"
               value={filters.busca}
               onChange={(e) => updateFilter('busca', e.target.value)}
               placeholder="Nome ou telefone..."
-              className="w-full bg-white/[0.04] border border-white/[0.04] rounded-lg py-2 pl-9 pr-3 text-xs text-white placeholder-[#4b5563] focus:outline-none focus:border-primary/50 transition-colors"
+              className="w-full bg-glass border border-glass rounded-lg py-2 pl-9 pr-3 text-xs text-txt placeholder-txt-dim focus:outline-none focus:border-primary/50 transition-colors"
             />
           </div>
 
@@ -1326,38 +1326,38 @@ const LogDeAcoes: React.FC<{
       {moderacao.loadingLogs ? (
         <div className="space-y-2">
           {[...Array(8)].map((_, i) => (
-            <div key={i} className="bg-white/[0.03] border border-white/[0.04] rounded-xl h-14 animate-pulse" />
+            <div key={i} className="bg-glass border border-glass rounded-xl h-14 animate-pulse" />
           ))}
         </div>
       ) : moderacao.logs.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20">
           <div
             className="w-16 h-16 rounded-full flex items-center justify-center mb-4"
-            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)' }}
+            style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
           >
-            <Shield className="w-7 h-7" style={{ color: 'rgba(255,255,255,0.15)' }} />
+            <Shield className="w-7 h-7" style={{ color: 'var(--c-t-15)' }} />
           </div>
-          <p className="text-[15px] font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Nenhuma ação de moderação registrada</p>
-          <p className="text-[13px] mt-1" style={{ color: 'rgba(255,255,255,0.25)' }}>As ações do segurança aparecerão aqui automaticamente</p>
+          <p className="text-[15px] font-medium" style={{ color: 'var(--c-t-50)' }}>Nenhuma ação de moderação registrada</p>
+          <p className="text-[13px] mt-1" style={{ color: 'var(--c-t-25)' }}>As ações do segurança aparecerão aqui automaticamente</p>
         </div>
       ) : (
-        <div className="bg-white/[0.03] border border-white/[0.04] rounded-2xl overflow-hidden">
+        <div className="bg-glass border border-glass rounded-2xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[900px]">
               <thead>
-                <tr className="bg-white/[0.02]">
+                <tr className="bg-[var(--c-glass-2)]">
                   <th className="w-8 px-2 py-3" />
-                  <th className="text-left text-white/40 text-xs uppercase font-semibold tracking-[1px] px-4 py-3">Data/Hora</th>
-                  <th className="text-left text-white/40 text-xs uppercase font-semibold tracking-[1px] px-4 py-3">Grupo</th>
-                  <th className="text-left text-white/40 text-xs uppercase font-semibold tracking-[1px] px-4 py-3">Autor</th>
-                  <th className="text-left text-white/40 text-xs uppercase font-semibold tracking-[1px] px-4 py-3">Violação</th>
-                  <th className="text-left text-white/40 text-xs uppercase font-semibold tracking-[1px] px-4 py-3">Ação</th>
-                  <th className="text-left text-white/40 text-xs uppercase font-semibold tracking-[1px] px-4 py-3">Strike</th>
+                  <th className="text-left text-txt-dim text-xs uppercase font-semibold tracking-[1px] px-4 py-3">Data/Hora</th>
+                  <th className="text-left text-txt-dim text-xs uppercase font-semibold tracking-[1px] px-4 py-3">Grupo</th>
+                  <th className="text-left text-txt-dim text-xs uppercase font-semibold tracking-[1px] px-4 py-3">Autor</th>
+                  <th className="text-left text-txt-dim text-xs uppercase font-semibold tracking-[1px] px-4 py-3">Violação</th>
+                  <th className="text-left text-txt-dim text-xs uppercase font-semibold tracking-[1px] px-4 py-3">Ação</th>
+                  <th className="text-left text-txt-dim text-xs uppercase font-semibold tracking-[1px] px-4 py-3">Strike</th>
                 </tr>
               </thead>
               <tbody>
                 {moderacao.logs.map((log) => {
-                  const violacao = VIOLACAO_MAP[log.tipo_violacao] || { label: log.tipo_violacao, bg: 'bg-[#2a2a2a]', text: 'text-white/50' };
+                  const violacao = VIOLACAO_MAP[log.tipo_violacao] || { label: log.tipo_violacao, bg: 'bg-surface-200', text: 'text-txt-muted' };
                   const acao = formatarAcao(log.acao_tomada);
                   const maxStrikes = strikesMap[log.grupo_id] || 3;
                   const isExpanded = expandedRow === log.id;
@@ -1368,38 +1368,38 @@ const LogDeAcoes: React.FC<{
                       <tr
                         onClick={() => setExpandedRow(isExpanded ? null : log.id)}
                         className={cn(
-                          "border-b border-white/[0.04] cursor-pointer transition-all duration-300",
-                          isExpanded ? "bg-white/[0.04]/70" : "hover:bg-white/[0.04]/50",
+                          "border-b border-glass cursor-pointer transition-all duration-300",
+                          isExpanded ? "bg-glass/70" : "hover:bg-glass/50",
                           isNew && "animate-pulse bg-primary/5"
                         )}
                       >
                         {/* Chevron */}
                         <td className="px-2 py-3 text-center">
                           {isExpanded ? (
-                            <ChevronUp className="w-4 h-4 text-white/40 mx-auto" />
+                            <ChevronUp className="w-4 h-4 text-txt-dim mx-auto" />
                           ) : (
-                            <ChevronDown className="w-4 h-4 text-white/20 mx-auto" />
+                            <ChevronDown className="w-4 h-4 text-txt-dim mx-auto" />
                           )}
                         </td>
                         {/* Data */}
-                        <td className="px-4 py-3 text-white/50 text-sm whitespace-nowrap">
+                        <td className="px-4 py-3 text-txt-muted text-sm whitespace-nowrap">
                           <div className="flex items-center gap-1.5">
-                            <Clock className="w-3.5 h-3.5 text-white/20 shrink-0" />
+                            <Clock className="w-3.5 h-3.5 text-txt-dim shrink-0" />
                             {formatarDataBR(log.created_at)}
                           </div>
                         </td>
                         {/* Grupo */}
-                        <td className="px-4 py-3 text-white text-sm max-w-[180px] truncate" title={log.grupo_nome}>
+                        <td className="px-4 py-3 text-txt text-sm max-w-[180px] truncate" title={log.grupo_nome}>
                           {log.grupo_nome}
                         </td>
                         {/* Autor */}
                         <td className="px-4 py-3">
                           {log.nome_autor ? (
-                            <p className="text-white text-sm">{log.nome_autor}</p>
+                            <p className="text-txt text-sm">{log.nome_autor}</p>
                           ) : (
-                            <p className="text-white/20 italic text-sm">Sem nome</p>
+                            <p className="text-txt-dim italic text-sm">Sem nome</p>
                           )}
-                          <p className="text-white/40 text-xs font-mono">{formatTelefone(log.telefone_autor)}</p>
+                          <p className="text-txt-dim text-xs font-mono">{formatTelefone(log.telefone_autor)}</p>
                         </td>
                         {/* Violação */}
                         <td className="px-4 py-3">
@@ -1418,7 +1418,7 @@ const LogDeAcoes: React.FC<{
                         <td className="px-4 py-3">
                           <span className={cn(
                             "text-sm font-mono tabular-nums font-medium",
-                            log.strike_numero >= maxStrikes ? "text-red-400" : "text-white"
+                            log.strike_numero >= maxStrikes ? "text-red-400" : "text-txt"
                           )}>
                             {log.strike_numero}/{maxStrikes}
                           </span>
@@ -1426,17 +1426,17 @@ const LogDeAcoes: React.FC<{
                       </tr>
                       {/* Expanded content */}
                       {isExpanded && (
-                        <tr className="bg-white/[0.02]">
+                        <tr className="bg-[var(--c-glass-2)]">
                           <td colSpan={7} className="px-6 py-4">
                             <div className="flex flex-col gap-3 max-w-3xl">
                               {/* Conteúdo original */}
                               <div>
                                 <div className="flex items-center gap-1.5 mb-1.5">
-                                  <MessageSquareText className="w-3.5 h-3.5 text-white/40" />
-                                  <span className="text-white/40 text-xs uppercase tracking-[1px] font-semibold">Conteúdo original</span>
+                                  <MessageSquareText className="w-3.5 h-3.5 text-txt-dim" />
+                                  <span className="text-txt-dim text-xs uppercase tracking-[1px] font-semibold">Conteúdo original</span>
                                 </div>
-                                <div className="bg-white/[0.03] border border-white/[0.04] rounded-lg px-4 py-3">
-                                  <p className="text-white/50 text-sm whitespace-pre-wrap break-words leading-relaxed">
+                                <div className="bg-glass border border-glass rounded-lg px-4 py-3">
+                                  <p className="text-txt-muted text-sm whitespace-pre-wrap break-words leading-relaxed">
                                     {log.conteudo_original || '—'}
                                   </p>
                                 </div>
@@ -1444,11 +1444,11 @@ const LogDeAcoes: React.FC<{
                               {/* Justificativa */}
                               <div>
                                 <div className="flex items-center gap-1.5 mb-1.5">
-                                  <Shield className="w-3.5 h-3.5 text-white/40" />
-                                  <span className="text-white/40 text-xs uppercase tracking-[1px] font-semibold">Justificativa</span>
+                                  <Shield className="w-3.5 h-3.5 text-txt-dim" />
+                                  <span className="text-txt-dim text-xs uppercase tracking-[1px] font-semibold">Justificativa</span>
                                 </div>
-                                <div className="bg-white/[0.03] border border-white/[0.04] rounded-lg px-4 py-3">
-                                  <p className="text-white/50 text-sm">
+                                <div className="bg-glass border border-glass rounded-lg px-4 py-3">
+                                  <p className="text-txt-muted text-sm">
                                     {log.detalhes_ia || '—'}
                                   </p>
                                 </div>
@@ -1465,15 +1465,15 @@ const LogDeAcoes: React.FC<{
           </div>
 
           {/* Pagination */}
-          <div className="flex items-center justify-between px-4 py-3 border-t border-white/[0.04]">
-            <span className="text-white/40 text-sm">
+          <div className="flex items-center justify-between px-4 py-3 border-t border-glass">
+            <span className="text-txt-dim text-sm">
               Mostrando {startItem}–{endItem} de {moderacao.logsTotal}
             </span>
             <div className="flex items-center gap-1.5">
               <button
                 onClick={() => moderacao.setLogsPageAndFetch(moderacao.logsPage - 1)}
                 disabled={moderacao.logsPage === 1}
-                className="flex items-center gap-1 bg-white/[0.04] border border-white/[0.04] text-white px-3 py-1.5 rounded-lg text-xs transition-colors hover:bg-white/[0.06] disabled:opacity-40 disabled:cursor-not-allowed"
+                className="flex items-center gap-1 bg-glass border border-glass text-txt px-3 py-1.5 rounded-lg text-xs transition-colors hover:bg-glass-hover disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <ChevronLeft className="w-3.5 h-3.5" />
                 Anterior
@@ -1495,7 +1495,7 @@ const LogDeAcoes: React.FC<{
                 }
                 return pages.map((p, i) =>
                   typeof p === 'string' ? (
-                    <span key={`dot-${i}`} className="text-white/20 text-xs px-1">...</span>
+                    <span key={`dot-${i}`} className="text-txt-dim text-xs px-1">...</span>
                   ) : (
                     <button
                       key={p}
@@ -1503,10 +1503,10 @@ const LogDeAcoes: React.FC<{
                       className="min-w-[32px] h-[32px] flex items-center justify-center rounded-lg text-[11px] font-mono font-medium transition-all duration-150"
                       style={moderacao.logsPage === p
                         ? { background: 'rgba(var(--color-primary-rgb),0.15)', color: 'var(--color-primary-light)', border: '1px solid rgba(var(--color-primary-rgb),0.3)' }
-                        : { background: 'transparent', color: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.06)' }
+                        : { background: 'transparent', color: 'var(--c-t-50)', border: '1px solid var(--c-border)' }
                       }
-                      onMouseEnter={(e) => { if (moderacao.logsPage !== p) { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = 'rgba(255,255,255,0.8)'; } }}
-                      onMouseLeave={(e) => { if (moderacao.logsPage !== p) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'rgba(255,255,255,0.5)'; } }}
+                      onMouseEnter={(e) => { if (moderacao.logsPage !== p) { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.borderColor = 'var(--c-border-strong)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.8)'; } }}
+                      onMouseLeave={(e) => { if (moderacao.logsPage !== p) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'var(--c-border)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.5)'; } }}
                     >
                       {p}
                     </button>
@@ -1517,7 +1517,7 @@ const LogDeAcoes: React.FC<{
               <button
                 onClick={() => moderacao.setLogsPageAndFetch(moderacao.logsPage + 1)}
                 disabled={moderacao.logsPage === totalPages}
-                className="flex items-center gap-1 bg-white/[0.04] border border-white/[0.04] text-white px-3 py-1.5 rounded-lg text-xs transition-colors hover:bg-white/[0.06] disabled:opacity-40 disabled:cursor-not-allowed"
+                className="flex items-center gap-1 bg-glass border border-glass text-txt px-3 py-1.5 rounded-lg text-xs transition-colors hover:bg-glass-hover disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 Próximo
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -1575,22 +1575,22 @@ const AddGroupModal: React.FC<{
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fade-in" style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)' }} onClick={onClose}>
       <div
         className="relative w-full max-w-lg max-h-[85vh] overflow-hidden flex flex-col animate-slide-up"
-        style={{ background: 'rgba(20,20,30,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
+        style={{ background: 'var(--c-popup-bg)', border: '1px solid var(--c-border-strong)', borderRadius: '20px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="p-6" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+        <div className="p-6" style={{ borderBottom: '1px solid var(--c-border)' }}>
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-[16px] font-semibold text-white">Adicionar Grupo</h2>
-              <p className="text-[13px] mt-1" style={{ color: 'rgba(255,255,255,0.4)' }}>Selecione a instância e os grupos para monitorar</p>
+              <h2 className="text-[16px] font-semibold text-txt">Adicionar Grupo</h2>
+              <p className="text-[13px] mt-1" style={{ color: 'var(--c-t-40)' }}>Selecione a instância e os grupos para monitorar</p>
             </div>
             <button
               onClick={onClose}
               className="w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200"
-              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)' }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)' }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'rgba(255,255,255,0.4)' }}
+              style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-40)' }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.7)' }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.4)' }}
             >
               <X className="w-4 h-4" />
             </button>
@@ -1601,9 +1601,9 @@ const AddGroupModal: React.FC<{
         <div className="flex-1 overflow-y-auto p-6 space-y-5">
           {/* Instância select */}
           <div>
-            <label className="text-xs text-white/40 uppercase tracking-wide font-semibold mb-1.5 block">Instância</label>
+            <label className="text-xs text-txt-dim uppercase tracking-wide font-semibold mb-1.5 block">Instância</label>
             {loadingInst ? (
-              <div className="flex items-center gap-2 text-white/40 text-sm py-2.5">
+              <div className="flex items-center gap-2 text-txt-dim text-sm py-2.5">
                 <Loader2 className="w-4 h-4 animate-spin" />
                 Carregando instâncias...
               </div>
@@ -1632,20 +1632,20 @@ const AddGroupModal: React.FC<{
           </div>
 
           {loadingGrupos && (
-            <p className="text-[13px] text-white/40">Buscando e adicionando grupos... Isso pode levar alguns segundos.</p>
+            <p className="text-[13px] text-txt-dim">Buscando e adicionando grupos... Isso pode levar alguns segundos.</p>
           )}
 
         </div>
 
         {/* Footer */}
-        <div className="p-6 flex justify-end gap-3" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+        <div className="p-6 flex justify-end gap-3" style={{ borderTop: '1px solid var(--c-border)' }}>
           <button
             onClick={onClose}
             disabled={loadingGrupos}
             className="px-6 py-2.5 rounded-[10px] text-[13px] font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
+            style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border-strong)', color: 'var(--c-t-60)' }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass)' }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--c-glass)' }}
           >
             Cancelar
           </button>
@@ -1707,6 +1707,7 @@ export const Grupos: React.FC = () => {
   const [faHorariosLoading, setFaHorariosLoading] = useState(false);
   const [faHorariosSaving, setFaHorariosSaving] = useState(false);
   const [faHorariosBuscou, setFaHorariosBuscou] = useState(false);
+  const faAutoLoadedRef = useRef(false); // auto-load roda 1x; nao pode re-disparar ao trocar instancia (senao sobrescreve a selecao)
   const [faFiltroStatus, setFaFiltroStatus] = useState<'todos' | 'abertos' | 'fechados'>('todos');
 
   // ── Membros state (original) ──
@@ -1942,7 +1943,8 @@ export const Grupos: React.FC = () => {
 
   // Auto-load dos grupos com horario configurado ao abrir a aba
   useEffect(() => {
-    if (faMode !== 'automatico' || faHorariosBuscou) return;
+    if (faMode !== 'automatico' || faAutoLoadedRef.current) return;
+    faAutoLoadedRef.current = true;
     const loadConfigured = async () => {
       setFaHorariosLoading(true);
       try {
@@ -1959,8 +1961,12 @@ export const Grupos: React.FC = () => {
 
         if (data && data.length > 0) {
           const rows = data as { id: string; grupo_id: string; grupo_nome: string; instancia: string | null; horario_fechar: string | null; horario_abrir: string | null; controle_horario_ativo: boolean | null; dias_semana: number[] | null }[];
-          // Mostra só os grupos de UMA instância — lista misturada faria o "Salvar" mover grupos pro celular errado
-          const inst = rows.find(r => r.instancia)?.instancia ?? null;
+          // Mostra só os grupos de UMA instância — lista misturada faria o "Salvar" mover grupos pro celular errado.
+          // Restaura a última instância selecionada (persistida); senão cai na primeira configurada.
+          const saved = expertId ? localStorage.getItem('fa_inst_' + expertId) : null;
+          const inst = (saved && rows.some(r => r.instancia === saved))
+            ? saved
+            : (rows.find(r => r.instancia)?.instancia ?? null);
           if (inst) setFaInstancia(inst);
           setFaHorarios(rows.filter(g => g.instancia === inst).map(g => ({
             id: g.id,
@@ -1980,7 +1986,13 @@ export const Grupos: React.FC = () => {
       }
     };
     loadConfigured();
-  }, [faMode, faHorariosBuscou]);
+  }, [faMode]);
+
+  // Persiste a instância escolhida no Fechar/Abrir pra sobreviver ao reload
+  useEffect(() => {
+    const eid = getActiveExpertId();
+    if (faInstancia && eid) localStorage.setItem('fa_inst_' + eid, faInstancia);
+  }, [faInstancia]);
 
   const faBuscarHorarios = async () => {
     const inst = instanciasColeta.find(i => i.instancia === faInstancia);
@@ -2763,18 +2775,18 @@ export const Grupos: React.FC = () => {
     return (
       <div className="space-y-6">
         <div className="mb-8">
-          <div className="h-9 w-40 bg-white/[0.04] rounded-lg animate-pulse" />
-          <div className="h-5 w-80 bg-white/[0.04] rounded-lg animate-pulse mt-2" />
+          <div className="h-9 w-40 bg-glass rounded-lg animate-pulse" />
+          <div className="h-5 w-80 bg-glass rounded-lg animate-pulse mt-2" />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mt-5">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="bg-white/[0.03] border border-white/[0.04] rounded-2xl p-6 h-[140px] animate-pulse" />
+            <div key={i} className="bg-glass border border-glass rounded-2xl p-6 h-[140px] animate-pulse" />
           ))}
         </div>
-        <div className="bg-white/[0.03] border border-white/[0.04] rounded-2xl p-6 mt-6">
-          <div className="h-10 w-full max-w-[400px] bg-white/[0.04] rounded-lg animate-pulse mb-4" />
+        <div className="bg-glass border border-glass rounded-2xl p-6 mt-6">
+          <div className="h-10 w-full max-w-[400px] bg-glass rounded-lg animate-pulse mb-4" />
           {[...Array(8)].map((_, i) => (
-            <div key={i} className="h-12 w-full bg-white/[0.04] rounded-lg animate-pulse mb-2" />
+            <div key={i} className="h-12 w-full bg-glass rounded-lg animate-pulse mb-2" />
           ))}
         </div>
       </div>
@@ -2787,14 +2799,14 @@ export const Grupos: React.FC = () => {
 
       {/* Header */}
       <div>
-        <h1 className="text-[22px] font-bold text-white font-display tracking-tight">Grupos</h1>
-        <p className="text-[13px] mt-1" style={{ color: 'rgba(255,255,255,0.4)' }}>Gerencie membros, moderação e configurações dos grupos</p>
+        <h1 className="text-[22px] font-bold text-txt font-display tracking-tight">Grupos</h1>
+        <p className="text-[13px] mt-1" style={{ color: 'var(--c-t-40)' }}>Gerencie membros, moderação e configurações dos grupos</p>
       </div>
 
       {/* ═══ Main Tabs — Glass Pill Selector ═══ */}
       <div
         className="flex flex-wrap md:inline-flex gap-1 p-1 rounded-[14px] w-full md:w-fit mb-2"
-        style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
+        style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
       >
         {([
           { key: 'membros' as MainTab, label: 'Membros', icon: Users, gate: gMembros, activeStyle: { background: 'rgba(var(--color-primary-rgb),0.1)', border: '1px solid rgba(var(--color-primary-rgb),0.2)', color: 'var(--color-primary-light)' } },
@@ -2811,10 +2823,10 @@ export const Grupos: React.FC = () => {
             className="flex-1 flex items-center justify-center gap-2 px-5 py-2.5 rounded-[10px] text-[13px] font-medium transition-all duration-250"
             style={mainTab === tab.key
               ? tab.activeStyle
-              : { background: 'transparent', border: '1px solid transparent', color: tab.gate === 'disabled' ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.45)' }
+              : { background: 'transparent', border: '1px solid transparent', color: tab.gate === 'disabled' ? 'rgb(var(--c-fg-rgb) / 0.25)' : 'rgb(var(--c-fg-rgb) / 0.45)' }
             }
-            onMouseEnter={(e) => { if (mainTab !== tab.key) { e.currentTarget.style.color = tab.gate === 'disabled' ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.65)'; e.currentTarget.style.background = 'rgba(255,255,255,0.03)' } }}
-            onMouseLeave={(e) => { if (mainTab !== tab.key) { e.currentTarget.style.color = tab.gate === 'disabled' ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.45)'; e.currentTarget.style.background = 'transparent' } }}
+            onMouseEnter={(e) => { if (mainTab !== tab.key) { e.currentTarget.style.color = tab.gate === 'disabled' ? 'rgb(var(--c-fg-rgb) / 0.3)' : 'rgb(var(--c-fg-rgb) / 0.65)'; e.currentTarget.style.background = 'var(--c-glass)' } }}
+            onMouseLeave={(e) => { if (mainTab !== tab.key) { e.currentTarget.style.color = tab.gate === 'disabled' ? 'rgb(var(--c-fg-rgb) / 0.25)' : 'rgb(var(--c-fg-rgb) / 0.45)'; e.currentTarget.style.background = 'transparent' } }}
           >
             <tab.icon className="w-4 h-4" style={{ opacity: mainTab === tab.key ? 1 : 0.45 }} />
             {tab.label}
@@ -2833,31 +2845,31 @@ export const Grupos: React.FC = () => {
             <div className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in" style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)' }} onClick={() => !sendingReport && setReportModalOpen(false)}>
               <div
                 className="relative rounded-2xl p-8 max-w-[480px] w-full mx-4 shadow-2xl"
-                style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.04)', backdropFilter: 'blur(24px)' }}
+                style={{ background: 'var(--c-glass-hover)', border: '1px solid var(--c-border)', backdropFilter: 'blur(24px)' }}
                 onClick={(e) => e.stopPropagation()}
               >
                 <div>
-                  <h2 className="text-xl font-bold text-white">Gerar Relatório</h2>
-                  <p className="text-sm text-white/40 mt-1">O relatório será gerado com os filtros atuais</p>
+                  <h2 className="text-xl font-bold text-txt">Gerar Relatório</h2>
+                  <p className="text-sm text-txt-dim mt-1">O relatório será gerado com os filtros atuais</p>
                 </div>
 
-                <div className="mt-5 bg-white/[0.02] border border-white/[0.04] rounded-[10px] p-4 space-y-1.5">
-                  <p className="text-sm text-white/50">
-                    Grupo: <span className="text-white">{selectedGroup === 'all' ? 'Todos' : groups.find(([id]) => id === selectedGroup)?.[1] || 'Desconhecido'}</span>
+                <div className="mt-5 bg-[var(--c-glass-2)] border border-glass rounded-[10px] p-4 space-y-1.5">
+                  <p className="text-sm text-txt-muted">
+                    Grupo: <span className="text-txt">{selectedGroup === 'all' ? 'Todos' : groups.find(([id]) => id === selectedGroup)?.[1] || 'Desconhecido'}</span>
                   </p>
-                  <p className="text-sm text-white/50">
-                    Origem: <span className="text-white">{filterOrigem === 'all' ? 'Todas' : capitalize(filterOrigem)}</span>
+                  <p className="text-sm text-txt-muted">
+                    Origem: <span className="text-txt">{filterOrigem === 'all' ? 'Todas' : capitalize(filterOrigem)}</span>
                   </p>
-                  <p className="text-sm text-white/50">
-                    Status: <span className="text-white">{filterStatus === 'all' ? 'Todos' : filterStatus === 'ativo' ? 'Ativo' : 'Saiu'}</span>
+                  <p className="text-sm text-txt-muted">
+                    Status: <span className="text-txt">{filterStatus === 'all' ? 'Todos' : filterStatus === 'ativo' ? 'Ativo' : 'Saiu'}</span>
                   </p>
                   {(dateFrom || dateTo) && (
-                    <p className="text-sm text-white/50">
-                      Período: <span className="text-white">{dateFrom ? format(dateFrom, 'dd/MM/yyyy') : '...'} até {dateTo ? format(dateTo, 'dd/MM/yyyy') : '...'}</span>
+                    <p className="text-sm text-txt-muted">
+                      Período: <span className="text-txt">{dateFrom ? format(dateFrom, 'dd/MM/yyyy') : '...'} até {dateTo ? format(dateTo, 'dd/MM/yyyy') : '...'}</span>
                     </p>
                   )}
-                  <p className="text-sm text-white/50">
-                    Total de membros: <span className="text-white font-semibold">{searchFiltered.length}</span>
+                  <p className="text-sm text-txt-muted">
+                    Total de membros: <span className="text-txt font-semibold">{searchFiltered.length}</span>
                   </p>
                 </div>
 
@@ -2869,14 +2881,14 @@ export const Grupos: React.FC = () => {
                   >
                     <div className={cn(
                       "relative w-11 h-6 rounded-full transition-colors duration-200 shrink-0",
-                      sendViaWhatsapp ? "bg-primary" : "bg-[#2a2a2a]"
+                      sendViaWhatsapp ? "bg-primary" : "bg-surface-200"
                     )}>
                       <div className={cn(
-                        "absolute top-1 w-4 h-4 rounded-full bg-white transition-transform duration-200 shadow-sm",
+                        "absolute top-1 w-4 h-4 rounded-full bg-[rgb(var(--c-fg-rgb))] transition-transform duration-200 shadow-sm",
                         sendViaWhatsapp ? "translate-x-[22px]" : "translate-x-1"
                       )} />
                     </div>
-                    <span className="text-sm font-medium text-white">Enviar relatório via WhatsApp</span>
+                    <span className="text-sm font-medium text-txt">Enviar relatório via WhatsApp</span>
                   </button>
 
                   <div className={cn(
@@ -2885,19 +2897,19 @@ export const Grupos: React.FC = () => {
                   )}>
                     <div className="space-y-3">
                       <div>
-                        <label className="text-xs text-white/40 uppercase tracking-wide font-semibold mb-1.5 block">Número do destinatário</label>
+                        <label className="text-xs text-txt-dim uppercase tracking-wide font-semibold mb-1.5 block">Número do destinatário</label>
                         <input
                           type="text"
                           value={whatsappNumero}
                           onChange={(e) => setWhatsappNumero(e.target.value)}
                           placeholder="5524999999999"
-                          className="w-full bg-white/[0.04] border border-white/[0.04] text-white rounded-lg py-2.5 px-3.5 text-sm placeholder-[#4b5563] focus:outline-none focus:border-primary/50 transition-colors"
+                          className="w-full bg-glass border border-glass text-txt rounded-lg py-2.5 px-3.5 text-sm placeholder-txt-dim focus:outline-none focus:border-primary/50 transition-colors"
                         />
                       </div>
                       <div>
-                        <label className="text-xs text-white/40 uppercase tracking-wide font-semibold mb-1.5 block">Instância de envio</label>
+                        <label className="text-xs text-txt-dim uppercase tracking-wide font-semibold mb-1.5 block">Instância de envio</label>
                         {loadingInstancias ? (
-                          <div className="flex items-center gap-2 text-white/40 text-sm py-2.5 px-3.5">
+                          <div className="flex items-center gap-2 text-txt-dim text-sm py-2.5 px-3.5">
                             <Loader2 className="w-4 h-4 animate-spin" />
                             Carregando instâncias...
                           </div>
@@ -2918,7 +2930,7 @@ export const Grupos: React.FC = () => {
                   <button
                     onClick={() => setReportModalOpen(false)}
                     disabled={sendingReport}
-                    className="px-5 py-2.5 bg-transparent border border-white/[0.04] text-white/50 rounded-lg text-sm transition-colors hover:bg-white/[0.04] hover:text-white disabled:opacity-50"
+                    className="px-5 py-2.5 bg-transparent border border-glass text-txt-muted rounded-lg text-sm transition-colors hover:bg-glass hover:text-txt disabled:opacity-50"
                   >
                     Cancelar
                   </button>
@@ -2988,7 +3000,7 @@ export const Grupos: React.FC = () => {
           {/* Cards Resumo — Glass */}
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
             {[
-              { icon: Users, label: 'Total de Membros', value: stats.total, suffix: '', iconBg: 'rgba(var(--color-primary-rgb),0.12)', iconColor: 'var(--color-primary-light)', valueColor: '#fff' },
+              { icon: Users, label: 'Total de Membros', value: stats.total, suffix: '', iconBg: 'rgba(var(--color-primary-rgb),0.12)', iconColor: 'var(--color-primary-light)', valueColor: 'rgb(var(--c-fg-rgb))' },
               { icon: UserCheck, label: 'Ativos no Grupo', value: stats.ativos, suffix: '', iconBg: 'var(--color-primary-bg)', iconColor: 'var(--color-primary-light)', valueColor: 'var(--color-primary-light)' },
               { icon: UserMinus, label: 'Saíram do Grupo', value: stats.sairam, suffix: '', iconBg: 'rgba(248,113,113,0.12)', iconColor: '#f87171', valueColor: '#f87171' },
               { icon: TrendingUp, label: 'Taxa de Retenção', value: stats.retencao, suffix: '%', iconBg: 'rgba(234,179,8,0.12)', iconColor: '#facc3c', valueColor: '#facc3c' },
@@ -2997,17 +3009,17 @@ export const Grupos: React.FC = () => {
                 key={i}
                 className="p-5 transition-all duration-300"
                 style={{
-                  background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid rgba(255,255,255,0.04)',
+                  background: 'var(--c-glass)',
+                  border: '1px solid var(--c-border)',
                   borderRadius: '16px',
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)' }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)' }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.borderColor = 'var(--c-border-strong)' }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.borderColor = 'var(--c-border)' }}
               >
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: card.iconBg }}>
                   <card.icon className="w-[18px] h-[18px]" style={{ color: card.iconColor }} />
                 </div>
-                <p className="text-[11px] uppercase tracking-[0.5px] font-semibold mt-4" style={{ color: 'rgba(255,255,255,0.45)' }}>{card.label}</p>
+                <p className="text-[11px] uppercase tracking-[0.5px] font-semibold mt-4" style={{ color: 'var(--c-t-45)' }}>{card.label}</p>
                 <p className="font-bold text-[28px] mt-1 tabular-nums" style={{ color: card.valueColor, fontVariantNumeric: 'tabular-nums' }}>{card.value}{card.suffix}</p>
               </div>
             ))}
@@ -3016,29 +3028,29 @@ export const Grupos: React.FC = () => {
           {/* Tabela de Membros */}
           <div
             className="p-6"
-            style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '16px' }}
+            style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)', borderRadius: '16px' }}
           >
             <div className="flex items-center gap-3 flex-wrap items-stretch">
               <div className="relative max-w-[280px] flex-1 min-w-[200px]">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'rgba(255,255,255,0.25)' }} />
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--c-t-25)' }} />
                 <input
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Buscar por nome ou telefone..."
-                  className="w-full text-[13px] text-white outline-none transition-all duration-200"
+                  className="w-full text-[13px] text-txt outline-none transition-all duration-200"
                   style={{
-                    background: 'rgba(255,255,255,0.03)',
-                    border: '1px solid rgba(255,255,255,0.04)',
+                    background: 'var(--c-glass)',
+                    border: '1px solid var(--c-border)',
                     borderRadius: '10px',
                     padding: '8px 14px 8px 36px',
                   }}
                   onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(var(--color-primary-rgb),0.08)' }}
-                  onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)'; e.currentTarget.style.boxShadow = 'none' }}
+                  onBlur={(e) => { e.currentTarget.style.borderColor = 'var(--c-border)'; e.currentTarget.style.boxShadow = 'none' }}
                 />
               </div>
 
-              <div className="w-px h-6 bg-white/[0.06] self-center" />
+              <div className="w-px h-6 bg-glass-hover self-center" />
 
               <FilterDropdown
                 label="Origem"
@@ -3049,7 +3061,7 @@ export const Grupos: React.FC = () => {
                 icon={<Filter className="w-3 h-3 text-txt-dim" />}
               />
 
-              <div className="w-px h-6 bg-white/[0.06] self-center" />
+              <div className="w-px h-6 bg-glass-hover self-center" />
 
               <FilterDropdown
                 label="Status"
@@ -3063,7 +3075,7 @@ export const Grupos: React.FC = () => {
                 icon={<CircleDot className="w-3 h-3 text-txt-dim" />}
               />
 
-              <div className="w-px h-6 bg-white/[0.06] self-center" />
+              <div className="w-px h-6 bg-glass-hover self-center" />
 
               <div className="flex items-center gap-2 text-[11px] font-mono">
                 <Calendar className="w-3 h-3 text-txt-dim" />
@@ -3076,8 +3088,8 @@ export const Grupos: React.FC = () => {
                       startPickerOpen
                         ? "bg-primary/10 text-primary border border-primary/20"
                         : dateFrom
-                        ? "text-txt-secondary hover:text-txt hover:bg-white/[0.03] border border-transparent"
-                        : "text-txt-dim hover:text-txt-secondary hover:bg-white/[0.03] border border-transparent"
+                        ? "text-txt-secondary hover:text-txt hover:bg-glass border border-transparent"
+                        : "text-txt-dim hover:text-txt-secondary hover:bg-glass border border-transparent"
                     )}
                   >
                     {dateFrom ? format(dateFrom, 'dd/MM') : 'Início'}
@@ -3105,8 +3117,8 @@ export const Grupos: React.FC = () => {
                       endPickerOpen
                         ? "bg-primary/10 text-primary border border-primary/20"
                         : dateTo
-                        ? "text-txt-secondary hover:text-txt hover:bg-white/[0.03] border border-transparent"
-                        : "text-txt-dim hover:text-txt-secondary hover:bg-white/[0.03] border border-transparent"
+                        ? "text-txt-secondary hover:text-txt hover:bg-glass border border-transparent"
+                        : "text-txt-dim hover:text-txt-secondary hover:bg-glass border border-transparent"
                     )}
                   >
                     {dateTo ? format(dateTo, 'dd/MM') : 'Fim'}
@@ -3127,7 +3139,7 @@ export const Grupos: React.FC = () => {
                 {(dateFrom || dateTo) && (
                   <button
                     onClick={() => { setDateFrom(null); setDateTo(null); }}
-                    className="p-1 text-txt-dim hover:text-white transition-colors"
+                    className="p-1 text-txt-dim hover:text-txt transition-colors"
                     title="Limpar período"
                   >
                     <X className="w-3.5 h-3.5" />
@@ -3147,12 +3159,12 @@ export const Grupos: React.FC = () => {
 
             {searchFiltered.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20">
-                <Users className="w-12 h-12 mb-3" style={{ color: 'rgba(255,255,255,0.1)' }} />
-                <p className="text-[13px]" style={{ color: 'rgba(255,255,255,0.3)' }}>Nenhum membro encontrado</p>
+                <Users className="w-12 h-12 mb-3" style={{ color: 'var(--c-t-10)' }} />
+                <p className="text-[13px]" style={{ color: 'var(--c-t-30)' }}>Nenhum membro encontrado</p>
               </div>
             ) : (
               <>
-                <div className="mt-4 overflow-x-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.04) transparent' }}>
+                <div className="mt-4 overflow-x-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgb(var(--c-fg-rgb) / 0.04) transparent' }}>
                   <table className="w-full min-w-[900px]">
                     <thead>
                       <tr>
@@ -3160,7 +3172,7 @@ export const Grupos: React.FC = () => {
                           <th
                             key={h}
                             className="text-left text-[11px] uppercase font-semibold tracking-[0.5px] px-4 py-3 sticky top-0 z-10"
-                            style={{ color: 'rgba(255,255,255,0.4)', borderBottom: '1px solid rgba(255,255,255,0.04)', background: 'rgba(10,10,15,0.9)' }}
+                            style={{ color: 'var(--c-t-40)', borderBottom: '1px solid var(--c-border)', background: 'rgb(var(--c-surface-rgb) / 0.9)' }}
                           >
                             {h}
                           </th>
@@ -3172,25 +3184,25 @@ export const Grupos: React.FC = () => {
                         <tr
                           key={lead.id}
                           className="transition-colors duration-200"
-                          style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}
-                          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)' }}
+                          style={{ borderBottom: '1px solid var(--c-border)' }}
+                          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass)' }}
                           onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent' }}
                         >
                           <td className="px-4 py-3.5 text-[13px]">
                             {lead.nome ? (
-                              <span className="text-white font-medium">{lead.nome}</span>
+                              <span className="text-txt font-medium">{lead.nome}</span>
                             ) : (
-                              <span className="italic" style={{ color: 'rgba(255,255,255,0.35)' }}>Sem nome</span>
+                              <span className="italic" style={{ color: 'var(--c-t-35)' }}>Sem nome</span>
                             )}
                           </td>
-                          <td className="px-4 py-3.5 text-[13px] font-mono tabular-nums" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                          <td className="px-4 py-3.5 text-[13px] font-mono tabular-nums" style={{ color: 'var(--c-t-50)' }}>
                             {formatTelefone(lead.telefone)}
                           </td>
-                          <td className="px-4 py-3.5 text-[13px]" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                          <td className="px-4 py-3.5 text-[13px]" style={{ color: 'var(--c-t-60)' }}>
                             {lead.nome_grupo ? (
                               <span>{lead.nome_grupo}</span>
                             ) : (
-                              <span style={{ color: 'rgba(255,255,255,0.15)' }}>—</span>
+                              <span style={{ color: 'var(--c-t-15)' }}>—</span>
                             )}
                           </td>
                           <td className="px-4 py-3.5">
@@ -3210,30 +3222,30 @@ export const Grupos: React.FC = () => {
                               </span>
                             )}
                           </td>
-                          <td className="px-4 py-3.5 text-[13px]" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                          <td className="px-4 py-3.5 text-[13px]" style={{ color: 'var(--c-t-45)' }}>
                             {capitalize(lead.origem)}
                           </td>
                           <td className="px-4 py-3.5">
                             {lead.observacoes ? (
                               <span
                                 className="text-[12px] block max-w-[220px] overflow-hidden text-ellipsis whitespace-nowrap"
-                                style={{ color: 'rgba(255,255,255,0.4)' }}
+                                style={{ color: 'var(--c-t-40)' }}
                                 title={lead.observacoes}
                               >
                                 {lead.observacoes}
                               </span>
                             ) : (
-                              <span style={{ color: 'rgba(255,255,255,0.15)' }}>—</span>
+                              <span style={{ color: 'var(--c-t-15)' }}>—</span>
                             )}
                           </td>
-                          <td className="px-4 py-3.5 text-[12px] whitespace-nowrap tabular-nums" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                          <td className="px-4 py-3.5 text-[12px] whitespace-nowrap tabular-nums" style={{ color: 'var(--c-t-35)' }}>
                             {formatDate(lead.entrou_no_grupo)}
                           </td>
                           <td className="px-4 py-3.5 text-[12px] whitespace-nowrap tabular-nums">
                             {lead.saiu_grupo ? (
-                              <span style={{ color: 'rgba(255,255,255,0.35)' }}>{formatDate(lead.saiu_grupo)}</span>
+                              <span style={{ color: 'var(--c-t-35)' }}>{formatDate(lead.saiu_grupo)}</span>
                             ) : (
-                              <span style={{ color: 'rgba(255,255,255,0.15)' }}>—</span>
+                              <span style={{ color: 'var(--c-t-15)' }}>—</span>
                             )}
                           </td>
                         </tr>
@@ -3242,16 +3254,16 @@ export const Grupos: React.FC = () => {
                   </table>
                 </div>
 
-                <div className="flex items-center justify-between mt-4 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
-                  <span className="text-[12px] font-mono tabular-nums" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                <div className="flex items-center justify-between mt-4 pt-4" style={{ borderTop: '1px solid var(--c-border)' }}>
+                  <span className="text-[12px] font-mono tabular-nums" style={{ color: 'var(--c-t-35)' }}>
                     Mostrando {startItem}–{endItem} de {searchFiltered.length} membros
                   </span>
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => setPage((p) => Math.max(1, p - 1))}
                       disabled={page === 1}
-                      className="flex items-center gap-1.5 text-white px-4 py-2 rounded-lg text-[13px] transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
-                      style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)' }}
+                      className="flex items-center gap-1.5 text-txt px-4 py-2 rounded-lg text-[13px] transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
+                      style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
                     >
                       <ChevronLeft className="w-4 h-4" />
                       Anterior
@@ -3259,8 +3271,8 @@ export const Grupos: React.FC = () => {
                     <button
                       onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                       disabled={page === totalPages}
-                      className="flex items-center gap-1.5 text-white px-4 py-2 rounded-lg text-[13px] transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
-                      style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)' }}
+                      className="flex items-center gap-1.5 text-txt px-4 py-2 rounded-lg text-[13px] transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
+                      style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
                     >
                       Próximo
                       <ChevronRight className="w-4 h-4" />
@@ -3282,7 +3294,7 @@ export const Grupos: React.FC = () => {
           <div className="block">
           <div
             className="inline-flex gap-1 p-[3px] rounded-xl w-fit"
-            style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
+            style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
           >
             {([
               { key: 'grupos' as ModeracaoSubTab, label: 'Grupos Monitorados', gate: gModGrupos },
@@ -3299,10 +3311,10 @@ export const Grupos: React.FC = () => {
                 className="px-4 py-1.5 rounded-lg text-[12px] font-medium transition-all duration-200 flex items-center gap-1.5"
                 style={modSubTab === tab.key
                   ? { background: 'rgba(var(--color-primary-rgb),0.1)', border: '1px solid rgba(var(--color-primary-rgb),0.2)', color: 'var(--color-primary-light)' }
-                  : { background: 'transparent', border: '1px solid transparent', color: tab.gate === 'disabled' ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.4)' }
+                  : { background: 'transparent', border: '1px solid transparent', color: tab.gate === 'disabled' ? 'rgb(var(--c-fg-rgb) / 0.25)' : 'rgb(var(--c-fg-rgb) / 0.4)' }
                 }
-                onMouseEnter={(e) => { if (modSubTab !== tab.key) { e.currentTarget.style.color = tab.gate === 'disabled' ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.6)'; e.currentTarget.style.background = 'rgba(255,255,255,0.03)' } }}
-                onMouseLeave={(e) => { if (modSubTab !== tab.key) { e.currentTarget.style.color = tab.gate === 'disabled' ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.4)'; e.currentTarget.style.background = 'transparent' } }}
+                onMouseEnter={(e) => { if (modSubTab !== tab.key) { e.currentTarget.style.color = tab.gate === 'disabled' ? 'rgb(var(--c-fg-rgb) / 0.3)' : 'rgb(var(--c-fg-rgb) / 0.6)'; e.currentTarget.style.background = 'var(--c-glass)' } }}
+                onMouseLeave={(e) => { if (modSubTab !== tab.key) { e.currentTarget.style.color = tab.gate === 'disabled' ? 'rgb(var(--c-fg-rgb) / 0.25)' : 'rgb(var(--c-fg-rgb) / 0.4)'; e.currentTarget.style.background = 'transparent' } }}
               >
                 {tab.label}
                 {tab.gate === 'disabled' && <Lock className="w-3 h-3" style={{ color: '#facc15', opacity: 0.6 }} />}
@@ -3317,7 +3329,7 @@ export const Grupos: React.FC = () => {
               {/* Card Ações Hoje */}
               <div
                 className="flex items-center gap-3.5 px-5 py-4"
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '14px' }}
+                style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', borderRadius: '14px' }}
               >
                 <div
                   className="w-10 h-10 rounded-full flex items-center justify-center"
@@ -3326,23 +3338,23 @@ export const Grupos: React.FC = () => {
                   <Shield className="w-5 h-5" style={{ color: 'var(--color-primary-light)' }} />
                 </div>
                 <div>
-                  <p className="text-[11px] uppercase tracking-[0.5px] font-semibold" style={{ color: 'rgba(255,255,255,0.45)' }}>Ações Hoje</p>
-                  <p className="text-white font-bold text-[24px] tabular-nums" style={{ fontVariantNumeric: 'tabular-nums' }}>{moderacao.acoesHoje}</p>
+                  <p className="text-[11px] uppercase tracking-[0.5px] font-semibold" style={{ color: 'var(--c-t-45)' }}>Ações Hoje</p>
+                  <p className="text-txt font-bold text-[24px] tabular-nums" style={{ fontVariantNumeric: 'tabular-nums' }}>{moderacao.acoesHoje}</p>
                 </div>
               </div>
 
-              <p className="text-[13px] max-w-[800px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              <p className="text-[13px] max-w-[800px] leading-relaxed" style={{ color: 'var(--c-t-40)' }}>
                 Grupos com moderação automática ativa. O segurança analisa mensagens de texto, áudio e imagem, remove violações e expulsa membros reincidentes.
               </p>
 
               {/* Número para Notificações (global) */}
               <div
                 className="flex items-center gap-3 px-4 py-3 rounded-xl"
-                style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
+                style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
               >
                 <Phone className="w-4 h-4 shrink-0" style={{ color: 'var(--color-primary-light)', opacity: 0.6 }} />
                 <div className="flex-1 min-w-0">
-                  <label className="text-white/50 text-[11px] font-medium block mb-1">Número para Notificações</label>
+                  <label className="text-txt-muted text-[11px] font-medium block mb-1">Número para Notificações</label>
                   <div className="flex items-center gap-2">
                     <input
                       type="text"
@@ -3350,7 +3362,7 @@ export const Grupos: React.FC = () => {
                       value={numNotificacao}
                       onChange={(e) => setNumNotificacao(e.target.value.replace(/[^\d]/g, '').slice(0, 15))}
                       placeholder="5524992136800"
-                      className="flex-1 bg-white/[0.02] border border-white/[0.04] text-white rounded-lg py-1.5 px-3 text-[13px] font-mono placeholder-white/20 focus:outline-none focus:border-primary/40 transition-colors"
+                      className="flex-1 bg-[var(--c-glass-2)] border border-glass text-txt rounded-lg py-1.5 px-3 text-[13px] font-mono placeholder-txt-dim focus:outline-none focus:border-primary/40 transition-colors"
                     />
                     <button
                       onClick={salvarNumNotificacao}
@@ -3363,7 +3375,7 @@ export const Grupos: React.FC = () => {
                       {numNotificacaoSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : 'Salvar'}
                     </button>
                   </div>
-                  <p className="text-white/20 text-[10px] mt-1 leading-relaxed">
+                  <p className="text-txt-dim text-[10px] mt-1 leading-relaxed">
                     Recebe alertas quando o segurança moderar uma mensagem. Deixe vazio para desativar.
                   </p>
                 </div>
@@ -3372,12 +3384,12 @@ export const Grupos: React.FC = () => {
               {/* Mensagem Anti-Hack (global) */}
               <div
                 className="flex gap-3 px-4 py-3 rounded-xl"
-                style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
+                style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
               >
                 <ShieldAlert className="w-4 h-4 shrink-0 mt-0.5" style={{ color: '#fbbf24', opacity: 0.6 }} />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between mb-1">
-                    <label className="text-white/50 text-[11px] font-medium">Mensagem Anti-Hack</label>
+                    <label className="text-txt-muted text-[11px] font-medium">Mensagem Anti-Hack</label>
                     <button
                       onClick={salvarMsgHack}
                       disabled={msgHackSaving}
@@ -3394,28 +3406,28 @@ export const Grupos: React.FC = () => {
                     onChange={(e) => setMsgHack(e.target.value)}
                     placeholder="Mensagem enviada no grupo quando um hack é detectado..."
                     rows={4}
-                    className="w-full bg-white/[0.02] border border-white/[0.04] text-white rounded-lg py-2 px-3 text-[13px] placeholder-white/20 focus:outline-none focus:border-primary/40 transition-colors resize-none"
+                    className="w-full bg-[var(--c-glass-2)] border border-glass text-txt rounded-lg py-2 px-3 text-[13px] placeholder-txt-dim focus:outline-none focus:border-primary/40 transition-colors resize-none"
                   />
-                  <p className="text-white/20 text-[10px] mt-1 leading-relaxed">
-                    Mensagem automática enviada no grupo ao detectar golpe. Aplicada a todos os grupos. Deixe vazio para não enviar alerta. Suporta formatação: <strong className="text-white/30">*negrito*</strong> <em className="text-white/30">_itálico_</em> <span className="text-white/30 line-through">~tachado~</span>
+                  <p className="text-txt-dim text-[10px] mt-1 leading-relaxed">
+                    Mensagem automática enviada no grupo ao detectar golpe. Aplicada a todos os grupos. Deixe vazio para não enviar alerta. Suporta formatação: <strong className="text-txt-dim">*negrito*</strong> <em className="text-txt-dim">_itálico_</em> <span className="text-txt-dim line-through">~tachado~</span>
                   </p>
                 </div>
               </div>
 
               {/* Busca */}
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-txt-dim" />
                 <input
                   type="text"
                   value={buscaGrupoMod}
                   onChange={(e) => setBuscaGrupoMod(e.target.value)}
                   placeholder="Buscar grupo pelo nome..."
-                  className="w-full bg-white/[0.03] border border-white/[0.04] text-white rounded-xl py-2.5 pl-10 pr-10 text-[13px] placeholder-[#4b5563] focus:outline-none focus:border-primary/40 transition-colors"
+                  className="w-full bg-glass border border-glass text-txt rounded-xl py-2.5 pl-10 pr-10 text-[13px] placeholder-txt-dim focus:outline-none focus:border-primary/40 transition-colors"
                 />
                 {buscaGrupoMod && (
                   <button
                     onClick={() => setBuscaGrupoMod('')}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-txt-dim hover:text-txt transition-colors"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -3426,7 +3438,7 @@ export const Grupos: React.FC = () => {
               {moderacao.loading ? (
                 <div className="space-y-4">
                   {[...Array(2)].map((_, i) => (
-                    <div key={i} className="bg-white/[0.03] border border-white/[0.04] rounded-2xl p-6 h-[200px] animate-pulse" />
+                    <div key={i} className="bg-glass border border-glass rounded-2xl p-6 h-[200px] animate-pulse" />
                   ))}
                 </div>
               ) : (
@@ -3456,8 +3468,8 @@ export const Grupos: React.FC = () => {
                           showToast('success', 'Todos os grupos desativados!');
                         }}
                         className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-[12px] font-medium transition-all duration-200"
-                        style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.5)' }}
-                        onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
+                        style={{ background: 'transparent', border: '1px solid var(--c-border-strong)', color: 'var(--c-t-50)' }}
+                        onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass)' }}
                         onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent' }}
                       >
                         Desativar todos
@@ -3517,19 +3529,19 @@ export const Grupos: React.FC = () => {
                     >
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-white font-semibold text-[14px]">Configurar todos os grupos em massa</p>
-                          <p className="text-[12px] mt-0.5" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                          <p className="text-txt font-semibold text-[14px]">Configurar todos os grupos em massa</p>
+                          <p className="text-[12px] mt-0.5" style={{ color: 'var(--c-t-40)' }}>
                             Aplicar configurações a todos os {moderacao.grupos.length} grupos de uma vez
                           </p>
                         </div>
-                        <button onClick={() => setShowRegrasEmMassa(false)} className="text-white/40 hover:text-white/70 transition-colors">
+                        <button onClick={() => setShowRegrasEmMassa(false)} className="text-txt-dim hover:text-txt-secondary transition-colors">
                           <X className="w-4 h-4" />
                         </button>
                       </div>
 
                       {/* Regras de moderação */}
                       <div>
-                        <p className="text-white/40 text-[10px] uppercase tracking-[1.5px] font-semibold mb-2.5">Regras de Moderação</p>
+                        <p className="text-txt-dim text-[10px] uppercase tracking-[1.5px] font-semibold mb-2.5">Regras de Moderação</p>
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                           {([
                             { key: 'links_spam' as keyof RegrasAtivas, label: 'Links/Spam' },
@@ -3543,9 +3555,9 @@ export const Grupos: React.FC = () => {
                             <div
                               key={r.key}
                               className="flex items-center justify-between rounded-[10px] px-4 py-3"
-                              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }}
+                              style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
                             >
-                              <span className="text-white text-[13px] font-medium">{r.label}</span>
+                              <span className="text-txt text-[13px] font-medium">{r.label}</span>
                               <Toggle
                                 checked={regrasEmMassa[r.key]}
                                 onChange={(val) => setRegrasEmMassa(prev => ({ ...prev, [r.key]: val }))}
@@ -3558,38 +3570,38 @@ export const Grupos: React.FC = () => {
 
                       {/* Mensagens */}
                       <div>
-                        <p className="text-white/40 text-[10px] uppercase tracking-[1.5px] font-semibold mb-2.5">Mensagens</p>
-                        <div className="flex items-center justify-between rounded-[10px] px-4 py-3 mb-3" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }}>
-                          <span className="text-white text-[13px] font-medium">Enviar aviso após remoção de mensagem</span>
+                        <p className="text-txt-dim text-[10px] uppercase tracking-[1.5px] font-semibold mb-2.5">Mensagens</p>
+                        <div className="flex items-center justify-between rounded-[10px] px-4 py-3 mb-3" style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}>
+                          <span className="text-txt text-[13px] font-medium">Enviar aviso após remoção de mensagem</span>
                           <Toggle checked={enviarAvisoEmMassa} onChange={setEnviarAvisoEmMassa} color="bg-primary" />
                         </div>
-                        <div className="rounded-[10px] px-4 py-3 mb-3" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }}>
+                        <div className="rounded-[10px] px-4 py-3 mb-3" style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}>
                           <div className="flex items-center justify-between">
-                            <span className="text-white text-[13px] font-medium">Bloquear números internacionais</span>
+                            <span className="text-txt text-[13px] font-medium">Bloquear números internacionais</span>
                             <Toggle checked={bloquearInternacionaisEmMassa} onChange={setBloquearInternacionaisEmMassa} color="bg-primary" />
                           </div>
-                          <p className="text-[11px] text-white/25 mt-1.5 leading-relaxed">Remove automaticamente membros com números que não começam com 55 (Brasil) ao entrar no grupo</p>
+                          <p className="text-[11px] text-txt-dim mt-1.5 leading-relaxed">Remove automaticamente membros com números que não começam com 55 (Brasil) ao entrar no grupo</p>
                         </div>
                         <div className={`space-y-3 transition-all duration-200 ${!enviarAvisoEmMassa ? 'opacity-40 pointer-events-none select-none' : ''}`}>
                           <div>
-                            <label className="text-white/50 text-[11px] mb-1 block">Mensagem de Aviso</label>
+                            <label className="text-txt-muted text-[11px] mb-1 block">Mensagem de Aviso</label>
                             <textarea
                               ref={avisoEmMassaRef}
                               value={mensagemAvisoEmMassa}
                               onChange={(e) => setMensagemAvisoEmMassa(e.target.value)}
                               rows={3}
-                              className="w-full bg-white/[0.02] border border-white/[0.04] text-white rounded-lg py-2.5 px-3.5 text-[13px] placeholder-[#4b5563] focus:outline-none focus:border-primary/40 transition-colors resize-none"
+                              className="w-full bg-[var(--c-glass-2)] border border-glass text-txt rounded-lg py-2.5 px-3.5 text-[13px] placeholder-txt-dim focus:outline-none focus:border-primary/40 transition-colors resize-none"
                             />
                             <VariableButtons textareaRef={avisoEmMassaRef} value={mensagemAvisoEmMassa} onChange={setMensagemAvisoEmMassa} />
                           </div>
                           <div>
-                            <label className="text-white/50 text-[11px] mb-1 block">Mensagem de Expulsão</label>
+                            <label className="text-txt-muted text-[11px] mb-1 block">Mensagem de Expulsão</label>
                             <textarea
                               ref={expulsaoEmMassaRef}
                               value={mensagemExpulsaoEmMassa}
                               onChange={(e) => setMensagemExpulsaoEmMassa(e.target.value)}
                               rows={3}
-                              className="w-full bg-white/[0.02] border border-white/[0.04] text-white rounded-lg py-2.5 px-3.5 text-[13px] placeholder-[#4b5563] focus:outline-none focus:border-primary/40 transition-colors resize-none"
+                              className="w-full bg-[var(--c-glass-2)] border border-glass text-txt rounded-lg py-2.5 px-3.5 text-[13px] placeholder-txt-dim focus:outline-none focus:border-primary/40 transition-colors resize-none"
                             />
                             <VariableButtons textareaRef={expulsaoEmMassaRef} value={mensagemExpulsaoEmMassa} onChange={setMensagemExpulsaoEmMassa} />
                           </div>
@@ -3598,35 +3610,35 @@ export const Grupos: React.FC = () => {
 
                       {/* Strikes */}
                       <div>
-                        <p className="text-white/40 text-[10px] uppercase tracking-[1.5px] font-semibold mb-2.5">Strikes</p>
+                        <p className="text-txt-dim text-[10px] uppercase tracking-[1.5px] font-semibold mb-2.5">Strikes</p>
                         <div className="flex items-center gap-3">
-                          <label className="text-white/50 text-[12px]">Strikes para expulsão</label>
+                          <label className="text-txt-muted text-[12px]">Strikes para expulsão</label>
                           <input
                             type="text"
                             inputMode="numeric"
                             value={strikesEmMassa}
                             onChange={(e) => { const v = e.target.value.replace(/\D/g, ''); setStrikesEmMassa(v === '' ? 0 : Number(v)); }}
-                            className="w-16 text-center rounded-lg py-1 text-[13px] font-medium text-white [appearance:textfield] outline-none focus:ring-1 focus:ring-primary focus:border-primary"
-                            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)' }}
+                            className="w-16 text-center rounded-lg py-1 text-[13px] font-medium text-txt [appearance:textfield] outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                            style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border-strong)' }}
                           />
                         </div>
-                        <p className="text-white/20 text-[11px] mt-1">Número de violações antes da expulsão</p>
+                        <p className="text-txt-dim text-[11px] mt-1">Número de violações antes da expulsão</p>
                       </div>
 
                       {/* Whitelists */}
                       <div>
                         <div className="flex items-center justify-between mb-2.5">
-                          <p className="text-white/40 text-[10px] uppercase tracking-[1.5px] font-semibold">Whitelists</p>
+                          <p className="text-txt-dim text-[10px] uppercase tracking-[1.5px] font-semibold">Whitelists</p>
                           <label className="flex items-center gap-2 cursor-pointer">
-                            <span className="text-white/40 text-[11px]">Sobrescrever whitelists</span>
+                            <span className="text-txt-dim text-[11px]">Sobrescrever whitelists</span>
                             <button
                               type="button"
                               role="switch"
                               aria-checked={aplicarWhitelists}
                               onClick={() => setAplicarWhitelists(!aplicarWhitelists)}
-                              className={`relative w-9 h-5 rounded-full transition-colors ${aplicarWhitelists ? 'bg-primary' : 'bg-white/10'}`}
+                              className={`relative w-9 h-5 rounded-full transition-colors ${aplicarWhitelists ? 'bg-primary' : 'bg-glass-hover'}`}
                             >
-                              <span className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform ${aplicarWhitelists ? 'translate-x-4' : ''}`} />
+                              <span className={`absolute top-0.5 left-0.5 w-4 h-4 bg-[rgb(var(--c-fg-rgb))] rounded-full transition-transform ${aplicarWhitelists ? 'translate-x-4' : ''}`} />
                             </button>
                           </label>
                         </div>
@@ -3635,20 +3647,20 @@ export const Grupos: React.FC = () => {
                         )}
                         <div className={`space-y-3 ${!aplicarWhitelists ? 'opacity-30 pointer-events-none' : ''}`}>
                           <div>
-                            <label className="text-white/50 text-[11px] mb-1.5 block">Casas permitidas</label>
-                            <div className="bg-white/[0.02] border border-white/[0.04] rounded-lg px-3 py-2.5 min-h-[38px]">
+                            <label className="text-txt-muted text-[11px] mb-1.5 block">Casas permitidas</label>
+                            <div className="bg-[var(--c-glass-2)] border border-glass rounded-lg px-3 py-2.5 min-h-[38px]">
                               <TagInput tags={casasEmMassa} onChange={setCasasEmMassa} placeholder="Adicionar casa..." />
                             </div>
                           </div>
                           <div>
-                            <label className="text-white/50 text-[11px] mb-1.5 block">Perfis permitidos</label>
-                            <div className="bg-white/[0.02] border border-white/[0.04] rounded-lg px-3 py-2.5 min-h-[38px]">
+                            <label className="text-txt-muted text-[11px] mb-1.5 block">Perfis permitidos</label>
+                            <div className="bg-[var(--c-glass-2)] border border-glass rounded-lg px-3 py-2.5 min-h-[38px]">
                               <TagInput tags={perfisEmMassa} onChange={setPerfisEmMassa} placeholder="@perfil..." />
                             </div>
                           </div>
                           <div>
-                            <label className="text-white/50 text-[11px] mb-1.5 block">Links permitidos</label>
-                            <div className="bg-white/[0.02] border border-white/[0.04] rounded-lg px-3 py-2.5 min-h-[38px]">
+                            <label className="text-txt-muted text-[11px] mb-1.5 block">Links permitidos</label>
+                            <div className="bg-[var(--c-glass-2)] border border-glass rounded-lg px-3 py-2.5 min-h-[38px]">
                               <TagInput tags={linksEmMassa} onChange={setLinksEmMassa} placeholder="https://..." />
                             </div>
                           </div>
@@ -3657,15 +3669,15 @@ export const Grupos: React.FC = () => {
 
                       {/* Contexto Extra */}
                       <div>
-                        <p className="text-white/40 text-[10px] uppercase tracking-[1.5px] font-semibold mb-2.5">Contexto Extra</p>
+                        <p className="text-txt-dim text-[10px] uppercase tracking-[1.5px] font-semibold mb-2.5">Contexto Extra</p>
                         <textarea
                           value={contextoEmMassa}
                           onChange={(e) => setContextoEmMassa(e.target.value)}
                           rows={3}
                           placeholder="Contexto adicional sobre os grupos..."
-                          className="w-full bg-white/[0.02] border border-white/[0.04] text-white rounded-lg py-2.5 px-3.5 text-[13px] placeholder-[#4b5563] focus:outline-none focus:border-primary/40 transition-colors resize-none"
+                          className="w-full bg-[var(--c-glass-2)] border border-glass text-txt rounded-lg py-2.5 px-3.5 text-[13px] placeholder-txt-dim focus:outline-none focus:border-primary/40 transition-colors resize-none"
                         />
-                        <p className="text-white/20 text-[11px] mt-1">Ajuda a IA a moderar com mais precisão</p>
+                        <p className="text-txt-dim text-[11px] mt-1">Ajuda a IA a moderar com mais precisão</p>
                       </div>
 
                       {/* Botão aplicar */}
@@ -3731,10 +3743,10 @@ export const Grupos: React.FC = () => {
               {/* Status summary */}
               {loadingSeguranca ? (
                 <div className="space-y-4">
-                  <div className="bg-white/[0.03] border border-white/[0.04] rounded-2xl p-4 h-[56px] animate-pulse" />
+                  <div className="bg-glass border border-glass rounded-2xl p-4 h-[56px] animate-pulse" />
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     {[...Array(2)].map((_, i) => (
-                      <div key={i} className="bg-white/[0.03] border border-white/[0.04] rounded-2xl p-5 h-[200px] animate-pulse" />
+                      <div key={i} className="bg-glass border border-glass rounded-2xl p-5 h-[200px] animate-pulse" />
                     ))}
                   </div>
                 </div>
@@ -3742,7 +3754,7 @@ export const Grupos: React.FC = () => {
                 <>
                   <div
                     className="flex items-center gap-5 flex-wrap px-5 py-3"
-                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '12px' }}
+                    style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', borderRadius: '12px' }}
                   >
                     <div className="flex items-center gap-2.5">
                       <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: 'var(--color-primary-bg)' }}>
@@ -3750,26 +3762,26 @@ export const Grupos: React.FC = () => {
                       </div>
                       <p className="text-[14px] font-semibold">
                         <span style={{ color: 'var(--color-primary-light)' }}>{segConectados}</span>
-                        <span className="text-[12px] ml-1" style={{ color: 'rgba(255,255,255,0.4)' }}>conectado{segConectados !== 1 ? 's' : ''}</span>
+                        <span className="text-[12px] ml-1" style={{ color: 'var(--c-t-40)' }}>conectado{segConectados !== 1 ? 's' : ''}</span>
                       </p>
                     </div>
-                    <div className="w-px h-6" style={{ background: 'rgba(255,255,255,0.04)' }} />
+                    <div className="w-px h-6" style={{ background: 'var(--c-glass)' }} />
                     <div className="flex items-center gap-2.5">
                       <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: 'rgba(248,113,113,0.12)' }}>
                         <WifiOff className="w-4 h-4" style={{ color: '#f87171' }} />
                       </div>
                       <p className="text-[14px] font-semibold">
                         <span style={{ color: '#f87171' }}>{segDesconectados}</span>
-                        <span className="text-[12px] ml-1" style={{ color: 'rgba(255,255,255,0.4)' }}>desconectado{segDesconectados !== 1 ? 's' : ''}</span>
+                        <span className="text-[12px] ml-1" style={{ color: 'var(--c-t-40)' }}>desconectado{segDesconectados !== 1 ? 's' : ''}</span>
                       </p>
                     </div>
-                    <div className="w-px h-6" style={{ background: 'rgba(255,255,255,0.04)' }} />
-                    <p className="text-[13px]" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                      <span className="font-semibold" style={{ color: 'rgba(255,255,255,0.5)' }}>{instanciasSeguranca.length}</span> instância{instanciasSeguranca.length !== 1 ? 's' : ''} no total
+                    <div className="w-px h-6" style={{ background: 'var(--c-glass)' }} />
+                    <p className="text-[13px]" style={{ color: 'var(--c-t-40)' }}>
+                      <span className="font-semibold" style={{ color: 'var(--c-t-50)' }}>{instanciasSeguranca.length}</span> instância{instanciasSeguranca.length !== 1 ? 's' : ''} no total
                     </p>
                   </div>
 
-                  <p className="text-[13px] max-w-[800px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                  <p className="text-[13px] max-w-[800px] leading-relaxed" style={{ color: 'var(--c-t-40)' }}>
                     Gerencie as instâncias de segurança dos grupos. Instâncias de <strong className="text-cyan-400/70">Segurança</strong> moderam mensagens e expulsam membros. Instâncias <strong className="text-amber-400/70">Anti-Hack</strong> detectam invasões em grupos fechados.
                   </p>
 
@@ -3817,14 +3829,14 @@ export const Grupos: React.FC = () => {
               {/* Toggle Manual / Automático */}
               <div
                 className="inline-flex p-1 rounded-xl"
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
+                style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
               >
                 <button
                   onClick={() => setFaMode('manual')}
                   className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-[12px] font-medium transition-all duration-200"
                   style={faMode === 'manual'
                     ? { background: 'rgba(var(--color-primary-rgb),0.15)', color: 'var(--color-primary-light)', border: '1px solid rgba(var(--color-primary-rgb),0.25)' }
-                    : { background: 'transparent', color: 'rgba(255,255,255,0.45)', border: '1px solid transparent' }
+                    : { background: 'transparent', color: 'var(--c-t-45)', border: '1px solid transparent' }
                   }
                 >
                   <Lock className="w-3.5 h-3.5" />
@@ -3835,7 +3847,7 @@ export const Grupos: React.FC = () => {
                   className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-[12px] font-medium transition-all duration-200"
                   style={faMode === 'automatico'
                     ? { background: 'rgba(var(--color-primary-rgb),0.15)', color: 'var(--color-primary-light)', border: '1px solid rgba(var(--color-primary-rgb),0.25)' }
-                    : { background: 'transparent', color: 'rgba(255,255,255,0.45)', border: '1px solid transparent' }
+                    : { background: 'transparent', color: 'var(--c-t-45)', border: '1px solid transparent' }
                   }
                 >
                   <Clock className="w-3.5 h-3.5" />
@@ -3849,7 +3861,7 @@ export const Grupos: React.FC = () => {
                   {/* Barra de ações */}
                   <div
                     className="flex items-center gap-3 flex-wrap px-4 py-3 sticky top-0 z-10"
-                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '12px' }}
+                    style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', borderRadius: '12px' }}
                   >
                     <CustomSelect
                       value={faInstancia}
@@ -3868,11 +3880,11 @@ export const Grupos: React.FC = () => {
                     </button>
                     {faGrupos.length > 0 && (
                       <>
-                        <div className="w-px h-6" style={{ background: 'rgba(255,255,255,0.08)' }} />
+                        <div className="w-px h-6" style={{ background: 'var(--c-glass-hover)' }} />
                         {/* Filtro por status */}
                         <div
                           className="inline-flex p-0.5 rounded-lg"
-                          style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}
+                          style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
                         >
                           {(['todos', 'abertos', 'fechados'] as const).map(opt => (
                             <button
@@ -3885,7 +3897,7 @@ export const Grupos: React.FC = () => {
                                   : opt === 'fechados'
                                     ? { background: 'rgba(239,68,68,0.12)', color: '#f87171', border: '1px solid rgba(239,68,68,0.25)' }
                                     : { background: 'rgba(var(--color-primary-rgb),0.12)', color: 'var(--color-primary-light)', border: '1px solid rgba(var(--color-primary-rgb),0.25)' }
-                                : { background: 'transparent', color: 'rgba(255,255,255,0.45)', border: '1px solid transparent' }
+                                : { background: 'transparent', color: 'var(--c-t-45)', border: '1px solid transparent' }
                               }
                             >
                               {opt === 'todos' ? 'Todos' : opt === 'abertos' ? 'Apenas abertos' : 'Apenas fechados'}
@@ -3895,7 +3907,7 @@ export const Grupos: React.FC = () => {
                         <button
                           onClick={faToggleSelecionarTodos}
                           className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-[12px] font-medium transition-all duration-200"
-                          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.6)' }}
+                          style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-60)' }}
                         >
                           {faGruposFiltrados.length > 0 && faGruposFiltrados.every(g => faSelecionados.has(g.JID)) ? <X className="w-3.5 h-3.5" /> : <Check className="w-3.5 h-3.5" />}
                           {faGruposFiltrados.length > 0 && faGruposFiltrados.every(g => faSelecionados.has(g.JID)) ? 'Desmarcar Visíveis' : 'Selecionar Visíveis'}
@@ -3941,11 +3953,11 @@ export const Grupos: React.FC = () => {
                         <div
                           key={i}
                           className="flex items-center gap-3 px-4 py-3 rounded-xl animate-pulse"
-                          style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
+                          style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
                         >
-                          <div className="w-4 h-4 rounded bg-white/10" />
-                          <div className="flex-1 h-4 rounded bg-white/10" />
-                          <div className="w-16 h-5 rounded-full bg-white/10" />
+                          <div className="w-4 h-4 rounded bg-glass-hover" />
+                          <div className="flex-1 h-4 rounded bg-glass-hover" />
+                          <div className="w-16 h-5 rounded-full bg-glass-hover" />
                         </div>
                       ))}
                     </div>
@@ -3953,34 +3965,34 @@ export const Grupos: React.FC = () => {
                     <div className="flex flex-col items-center justify-center py-16">
                       <div
                         className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
-                        style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
+                        style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
                       >
-                        <Lock className="w-7 h-7" style={{ color: 'rgba(255,255,255,0.2)' }} />
+                        <Lock className="w-7 h-7" style={{ color: 'var(--c-t-20)' }} />
                       </div>
-                      <p className="text-white/50 text-[14px] font-medium mb-1">Selecione uma instância e busque os grupos</p>
-                      <p className="text-white/30 text-[12px]">Os grupos da instância selecionada aparecerão aqui</p>
+                      <p className="text-txt-muted text-[14px] font-medium mb-1">Selecione uma instância e busque os grupos</p>
+                      <p className="text-txt-dim text-[12px]">Os grupos da instância selecionada aparecerão aqui</p>
                     </div>
                   ) : faGrupos.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-16">
                       <div
                         className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
-                        style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
+                        style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
                       >
-                        <AlertTriangle className="w-7 h-7" style={{ color: 'rgba(255,255,255,0.2)' }} />
+                        <AlertTriangle className="w-7 h-7" style={{ color: 'var(--c-t-20)' }} />
                       </div>
-                      <p className="text-white/50 text-[14px] font-medium">Nenhum grupo encontrado</p>
-                      <p className="text-white/30 text-[12px]">A instância não é admin de nenhum grupo</p>
+                      <p className="text-txt-muted text-[14px] font-medium">Nenhum grupo encontrado</p>
+                      <p className="text-txt-dim text-[12px]">A instância não é admin de nenhum grupo</p>
                     </div>
                   ) : faGruposFiltrados.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-16">
                       <div
                         className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
-                        style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
+                        style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
                       >
-                        <AlertTriangle className="w-7 h-7" style={{ color: 'rgba(255,255,255,0.2)' }} />
+                        <AlertTriangle className="w-7 h-7" style={{ color: 'var(--c-t-20)' }} />
                       </div>
-                      <p className="text-white/50 text-[14px] font-medium">Nenhum grupo {faFiltroStatus === 'abertos' ? 'aberto' : 'fechado'}</p>
-                      <p className="text-white/30 text-[12px]">Ajuste o filtro para ver outros grupos</p>
+                      <p className="text-txt-muted text-[14px] font-medium">Nenhum grupo {faFiltroStatus === 'abertos' ? 'aberto' : 'fechado'}</p>
+                      <p className="text-txt-dim text-[12px]">Ajuste o filtro para ver outros grupos</p>
                     </div>
                   ) : (
                     <div className="space-y-1.5">
@@ -3991,20 +4003,20 @@ export const Grupos: React.FC = () => {
                           onClick={() => faToggleGrupo(grupo.JID)}
                           className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 text-left"
                           style={{
-                            background: faSelecionados.has(grupo.JID) ? 'rgba(var(--color-primary-rgb),0.06)' : 'rgba(255,255,255,0.02)',
-                            border: faSelecionados.has(grupo.JID) ? '1px solid rgba(var(--color-primary-rgb),0.2)' : '1px solid rgba(255,255,255,0.04)',
+                            background: faSelecionados.has(grupo.JID) ? 'rgba(var(--color-primary-rgb),0.06)' : 'var(--c-glass-2)',
+                            border: faSelecionados.has(grupo.JID) ? '1px solid rgba(var(--color-primary-rgb),0.2)' : '1px solid var(--c-border)',
                           }}
                         >
                           <div
                             className="w-4 h-4 rounded flex-shrink-0 flex items-center justify-center transition-all duration-150"
                             style={{
-                              background: faSelecionados.has(grupo.JID) ? 'var(--color-primary)' : 'rgba(255,255,255,0.06)',
-                              border: faSelecionados.has(grupo.JID) ? '1px solid var(--color-primary)' : '1px solid rgba(255,255,255,0.15)',
+                              background: faSelecionados.has(grupo.JID) ? 'var(--color-primary)' : 'var(--c-glass-hover)',
+                              border: faSelecionados.has(grupo.JID) ? '1px solid var(--color-primary)' : '1px solid var(--c-border-strong)',
                             }}
                           >
                             {faSelecionados.has(grupo.JID) && <Check className="w-2.5 h-2.5 text-white" />}
                           </div>
-                          <span className="flex-1 text-[13px] text-white/80 truncate">{grupo.Name}</span>
+                          <span className="flex-1 text-[13px] text-txt-secondary truncate">{grupo.Name}</span>
                           <span
                             className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider flex-shrink-0"
                             style={grupo.IsAnnounce
@@ -4025,7 +4037,7 @@ export const Grupos: React.FC = () => {
                       <div className="absolute inset-0 bg-black/60" onClick={() => !faProcessando && setFaConfirmModal(null)} />
                       <div
                         className="relative w-full max-w-md mx-4 p-6 rounded-2xl space-y-4"
-                        style={{ background: 'rgba(22,27,34,0.97)', border: '1px solid rgba(255,255,255,0.08)' }}
+                        style={{ background: 'var(--c-popup-bg)', border: '1px solid var(--c-border)' }}
                       >
                         <div className="flex items-center gap-3">
                           <div
@@ -4041,15 +4053,15 @@ export const Grupos: React.FC = () => {
                             }
                           </div>
                           <div>
-                            <h3 className="text-white text-[15px] font-semibold">
+                            <h3 className="text-txt text-[15px] font-semibold">
                               {faConfirmModal.acao === 'fechar' ? 'Fechar' : 'Abrir'} grupos
                             </h3>
-                            <p className="text-white/40 text-[12px]">
+                            <p className="text-txt-dim text-[12px]">
                               {(faConfirmModal.acao === 'fechar' ? faSelecionadosAbertosCount : faSelecionadosFechadosCount)} grupo{(faConfirmModal.acao === 'fechar' ? faSelecionadosAbertosCount : faSelecionadosFechadosCount) !== 1 ? 's' : ''} {faConfirmModal.acao === 'fechar' ? 'aberto' : 'fechado'}{(faConfirmModal.acao === 'fechar' ? faSelecionadosAbertosCount : faSelecionadosFechadosCount) !== 1 ? 's' : ''}
                             </p>
                           </div>
                         </div>
-                        <p className="text-white/60 text-[13px]">
+                        <p className="text-txt-muted text-[13px]">
                           Tem certeza que deseja {faConfirmModal.acao === 'fechar' ? 'fechar' : 'abrir'} {(faConfirmModal.acao === 'fechar' ? faSelecionadosAbertosCount : faSelecionadosFechadosCount)} grupo{(faConfirmModal.acao === 'fechar' ? faSelecionadosAbertosCount : faSelecionadosFechadosCount) !== 1 ? 's' : ''}?
                           {faConfirmModal.acao === 'fechar' && ' Apenas administradores poderão enviar mensagens.'}
                         </p>
@@ -4058,7 +4070,7 @@ export const Grupos: React.FC = () => {
                             onClick={() => setFaConfirmModal(null)}
                             disabled={faProcessando}
                             className="px-4 py-2 rounded-lg text-[12px] font-medium transition-all duration-200"
-                            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.6)' }}
+                            style={{ background: 'var(--c-glass-hover)', border: '1px solid var(--c-border)', color: 'var(--c-t-60)' }}
                           >
                             Cancelar
                           </button>
@@ -4087,7 +4099,7 @@ export const Grupos: React.FC = () => {
                   {/* Barra de ações automático */}
                   <div
                     className="flex items-center gap-3 flex-wrap px-4 py-3"
-                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '12px' }}
+                    style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', borderRadius: '12px' }}
                   >
                     <CustomSelect
                       value={faInstancia}
@@ -4107,7 +4119,7 @@ export const Grupos: React.FC = () => {
 
                     {faHorarios.length > 0 && (
                       <>
-                        <div className="w-px h-6" style={{ background: 'rgba(255,255,255,0.08)' }} />
+                        <div className="w-px h-6" style={{ background: 'var(--c-glass-hover)' }} />
                         <button
                           onClick={faSalvarHorarios}
                           disabled={faHorariosSaving}
@@ -4133,15 +4145,15 @@ export const Grupos: React.FC = () => {
                   {faHorarios.length > 0 && (
                     <div
                       className="grid items-center gap-3 px-4 py-2.5 rounded-lg"
-                      style={{ gridTemplateColumns: '52px 1fr 110px 110px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}
+                      style={{ gridTemplateColumns: '52px 1fr 110px 110px', background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}
                     >
-                      <span className="text-[10px] font-semibold uppercase tracking-wider text-white/30 text-center">Ativo</span>
-                      <span className="text-[10px] font-semibold uppercase tracking-wider text-white/30">Grupo</span>
-                      <span className="text-[10px] font-semibold uppercase tracking-wider text-white/30 text-center flex items-center justify-center gap-1">
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-txt-dim text-center">Ativo</span>
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-txt-dim">Grupo</span>
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-txt-dim text-center flex items-center justify-center gap-1">
                         <Lock className="w-3 h-3" style={{ color: 'rgba(248,113,113,0.6)' }} />
                         Fechar
                       </span>
-                      <span className="text-[10px] font-semibold uppercase tracking-wider text-white/30 text-center flex items-center justify-center gap-1">
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-txt-dim text-center flex items-center justify-center gap-1">
                         <Unlock className="w-3 h-3" style={{ color: 'rgba(52,211,153,0.6)' }} />
                         Abrir
                       </span>
@@ -4155,12 +4167,12 @@ export const Grupos: React.FC = () => {
                         <div
                           key={i}
                           className="grid items-center gap-3 px-4 py-3.5 rounded-xl animate-pulse"
-                          style={{ gridTemplateColumns: '52px 1fr 110px 110px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
+                          style={{ gridTemplateColumns: '52px 1fr 110px 110px', background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
                         >
-                          <div className="w-9 h-5 rounded-full bg-white/10 mx-auto" />
-                          <div className="h-4 rounded bg-white/10 w-3/4" />
-                          <div className="h-8 rounded-lg bg-white/10" />
-                          <div className="h-8 rounded-lg bg-white/10" />
+                          <div className="w-9 h-5 rounded-full bg-glass-hover mx-auto" />
+                          <div className="h-4 rounded bg-glass-hover w-3/4" />
+                          <div className="h-8 rounded-lg bg-glass-hover" />
+                          <div className="h-8 rounded-lg bg-glass-hover" />
                         </div>
                       ))}
                     </div>
@@ -4168,23 +4180,23 @@ export const Grupos: React.FC = () => {
                     <div className="flex flex-col items-center justify-center py-16">
                       <div
                         className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
-                        style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
+                        style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
                       >
-                        <Clock className="w-7 h-7" style={{ color: 'rgba(255,255,255,0.2)' }} />
+                        <Clock className="w-7 h-7" style={{ color: 'var(--c-t-20)' }} />
                       </div>
-                      <p className="text-white/50 text-[14px] font-medium mb-1">Configure horários para abrir e fechar grupos</p>
-                      <p className="text-white/30 text-[12px]">Selecione uma instância e busque os grupos para configurar</p>
+                      <p className="text-txt-muted text-[14px] font-medium mb-1">Configure horários para abrir e fechar grupos</p>
+                      <p className="text-txt-dim text-[12px]">Selecione uma instância e busque os grupos para configurar</p>
                     </div>
                   ) : faHorarios.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-16">
                       <div
                         className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
-                        style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
+                        style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
                       >
-                        <AlertTriangle className="w-7 h-7" style={{ color: 'rgba(255,255,255,0.2)' }} />
+                        <AlertTriangle className="w-7 h-7" style={{ color: 'var(--c-t-20)' }} />
                       </div>
-                      <p className="text-white/50 text-[14px] font-medium">Nenhum grupo encontrado</p>
-                      <p className="text-white/30 text-[12px]">A instância não é admin de nenhum grupo</p>
+                      <p className="text-txt-muted text-[14px] font-medium">Nenhum grupo encontrado</p>
+                      <p className="text-txt-dim text-[12px]">A instância não é admin de nenhum grupo</p>
                     </div>
                   ) : (
                     <div className="space-y-1.5">
@@ -4202,8 +4214,8 @@ export const Grupos: React.FC = () => {
                             key={grupo.grupo_id}
                             className="rounded-xl transition-all duration-150 overflow-hidden"
                             style={{
-                              background: grupo.controle_horario_ativo ? 'rgba(var(--color-primary-rgb),0.04)' : 'rgba(255,255,255,0.02)',
-                              border: grupo.controle_horario_ativo ? '1px solid rgba(var(--color-primary-rgb),0.12)' : '1px solid rgba(255,255,255,0.04)',
+                              background: grupo.controle_horario_ativo ? 'rgba(var(--color-primary-rgb),0.04)' : 'var(--c-glass-2)',
+                              border: grupo.controle_horario_ativo ? '1px solid rgba(var(--color-primary-rgb),0.12)' : '1px solid var(--c-border)',
                             }}
                           >
                             {/* Linha principal */}
@@ -4218,11 +4230,11 @@ export const Grupos: React.FC = () => {
                                   onClick={() => faUpdateHorario(grupo.grupo_id, 'controle_horario_ativo', !grupo.controle_horario_ativo)}
                                   className="relative w-9 h-5 rounded-full transition-all duration-200"
                                   style={{
-                                    background: grupo.controle_horario_ativo ? 'var(--color-primary)' : 'rgba(255,255,255,0.1)',
+                                    background: grupo.controle_horario_ativo ? 'var(--color-primary)' : 'rgb(var(--c-fg-rgb) / 0.1)',
                                   }}
                                 >
                                   <div
-                                    className="absolute top-0.5 w-4 h-4 rounded-full bg-white transition-all duration-200"
+                                    className="absolute top-0.5 w-4 h-4 rounded-full bg-[rgb(var(--c-fg-rgb))] transition-all duration-200"
                                     style={{ left: grupo.controle_horario_ativo ? '18px' : '2px' }}
                                   />
                                 </button>
@@ -4231,7 +4243,7 @@ export const Grupos: React.FC = () => {
                               {/* Nome do grupo */}
                               <span
                                 className="text-[13px] truncate"
-                                style={{ color: grupo.controle_horario_ativo ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.45)' }}
+                                style={{ color: grupo.controle_horario_ativo ? 'rgb(var(--c-fg-rgb) / 0.85)' : 'rgb(var(--c-fg-rgb) / 0.45)' }}
                               >
                                 {grupo.grupo_nome}
                               </span>
@@ -4261,7 +4273,7 @@ export const Grupos: React.FC = () => {
                               >
                                 {/* Linha 1 (mobile): label + chips + contador */}
                                 <div className="flex items-center gap-2 md:gap-3">
-                                  <span className="text-[10px] font-semibold uppercase tracking-[0.12em] shrink-0" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                                  <span className="text-[10px] font-semibold uppercase tracking-[0.12em] shrink-0" style={{ color: 'var(--c-t-35)' }}>
                                     Dias
                                   </span>
 
@@ -4276,14 +4288,14 @@ export const Grupos: React.FC = () => {
                                           onClick={() => faToggleDia(grupo.grupo_id, v)}
                                           className="w-7 h-7 rounded-lg flex items-center justify-center text-[11px] font-bold font-mono transition-all duration-150 shrink-0"
                                           style={{
-                                            background: ativo ? 'rgba(var(--color-primary-rgb),0.18)' : 'rgba(255,255,255,0.03)',
-                                            border: ativo ? '1px solid rgba(var(--color-primary-rgb),0.4)' : '1px solid rgba(255,255,255,0.05)',
-                                            color: ativo ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.4)',
+                                            background: ativo ? 'rgba(var(--color-primary-rgb),0.18)' : 'var(--c-glass)',
+                                            border: ativo ? '1px solid rgba(var(--color-primary-rgb),0.4)' : '1px solid var(--c-border)',
+                                            color: ativo ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.4)',
                                             boxShadow: ativo ? '0 0 8px rgba(var(--color-primary-rgb),0.12)' : 'none',
                                           }}
                                           title={['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'][v]}
-                                          onMouseEnter={(e) => { if (!ativo) { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#fff'; } }}
-                                          onMouseLeave={(e) => { if (!ativo) { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.color = 'rgba(255,255,255,0.4)'; } }}
+                                          onMouseEnter={(e) => { if (!ativo) { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; } }}
+                                          onMouseLeave={(e) => { if (!ativo) { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.4)'; } }}
                                         >
                                           {l}
                                         </button>
@@ -4292,7 +4304,7 @@ export const Grupos: React.FC = () => {
                                   </div>
 
                                   {/* Contador (mobile: aqui mesmo) */}
-                                  <div className="md:hidden ml-auto text-[10px] font-mono shrink-0" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                                  <div className="md:hidden ml-auto text-[10px] font-mono shrink-0" style={{ color: 'var(--c-t-30)' }}>
                                     {totalDias === 0 ? (
                                       <span style={{ color: '#f87171' }}>0/7</span>
                                     ) : (
@@ -4302,7 +4314,7 @@ export const Grupos: React.FC = () => {
                                 </div>
 
                                 {/* Divider (apenas desktop) */}
-                                <div className="hidden md:block w-px h-5 mx-1" style={{ background: 'rgba(255,255,255,0.06)' }} />
+                                <div className="hidden md:block w-px h-5 mx-1" style={{ background: 'var(--c-glass-hover)' }} />
 
                                 {/* Atalhos (mobile: linha separada com wrap) */}
                                 <div className="flex items-center gap-1 flex-wrap">
@@ -4318,11 +4330,11 @@ export const Grupos: React.FC = () => {
                                       className="px-2.5 py-1 rounded-md text-[10px] font-medium transition-all duration-150 shrink-0"
                                       style={{
                                         background: p.active ? 'rgba(var(--color-primary-rgb),0.1)' : 'transparent',
-                                        border: p.active ? '1px solid rgba(var(--color-primary-rgb),0.25)' : '1px solid rgba(255,255,255,0.05)',
-                                        color: p.active ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.4)',
+                                        border: p.active ? '1px solid rgba(var(--color-primary-rgb),0.25)' : '1px solid var(--c-border)',
+                                        color: p.active ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.4)',
                                       }}
-                                      onMouseEnter={(e) => { if (!p.active) { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.color = '#fff'; } }}
-                                      onMouseLeave={(e) => { if (!p.active) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.4)'; } }}
+                                      onMouseEnter={(e) => { if (!p.active) { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; } }}
+                                      onMouseLeave={(e) => { if (!p.active) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.4)'; } }}
                                     >
                                       {p.label}
                                     </button>
@@ -4330,7 +4342,7 @@ export const Grupos: React.FC = () => {
                                 </div>
 
                                 {/* Contador (desktop only — alinhado direita) */}
-                                <div className="hidden md:block ml-auto text-[10px] font-mono" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                                <div className="hidden md:block ml-auto text-[10px] font-mono" style={{ color: 'var(--c-t-30)' }}>
                                   {totalDias === 0 ? (
                                     <span style={{ color: '#f87171' }}>Nenhum dia ativo</span>
                                   ) : (
@@ -4347,7 +4359,7 @@ export const Grupos: React.FC = () => {
 
                   {/* Info sobre timezone */}
                   {faHorarios.length > 0 && (
-                    <p className="text-[11px] flex items-center gap-1.5" style={{ color: 'rgba(255,255,255,0.25)' }}>
+                    <p className="text-[11px] flex items-center gap-1.5" style={{ color: 'var(--c-t-25)' }}>
                       <Clock className="w-3 h-3" />
                       Horários no fuso de Brasília (UTC-3). O sistema verifica a cada minuto.
                     </p>
@@ -4404,9 +4416,9 @@ export const Grupos: React.FC = () => {
                                 onClick={() => setSegNovaTipo(opt.value)}
                                 className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200"
                                 style={{
-                                  background: isActive ? opt.bg : 'rgba(255,255,255,0.02)',
-                                  border: `1.5px solid ${isActive ? opt.border : 'rgba(255,255,255,0.06)'}`,
-                                  color: isActive ? opt.color : 'rgba(255,255,255,0.35)',
+                                  background: isActive ? opt.bg : 'var(--c-glass-2)',
+                                  border: `1.5px solid ${isActive ? opt.border : 'var(--c-border)'}`,
+                                  color: isActive ? opt.color : 'rgb(var(--c-fg-rgb) / 0.35)',
                                   boxShadow: isActive ? `0 0 12px ${opt.bg}` : 'none',
                                 }}
                               >
@@ -4466,10 +4478,10 @@ export const Grupos: React.FC = () => {
                           <span className="text-[13px] font-semibold text-primary-light">Instância criada com sucesso!</span>
                         </div>
                         {segNovaResultado.pairing_code && (
-                          <div className="relative px-4 py-4 rounded-xl bg-zinc-800/80 border border-zinc-700/60 text-center">
-                            <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-semibold mb-2">Código de Pareamento</p>
-                            <p className="text-2xl font-mono font-bold text-white tracking-[0.15em] select-all">{segNovaResultado.pairing_code}</p>
-                            {segNovaResultado.expira_em && <p className="text-[11px] text-zinc-500 mt-2">Expira em {segNovaResultado.expira_em}</p>}
+                          <div className="relative px-4 py-4 rounded-xl bg-surface-200 border border-glass text-center">
+                            <p className="text-[10px] uppercase tracking-widest text-txt-muted font-semibold mb-2">Código de Pareamento</p>
+                            <p className="text-2xl font-mono font-bold text-txt tracking-[0.15em] select-all">{segNovaResultado.pairing_code}</p>
+                            {segNovaResultado.expira_em && <p className="text-[11px] text-txt-muted mt-2">Expira em {segNovaResultado.expira_em}</p>}
                           </div>
                         )}
                         <div className="px-3 py-2.5 rounded-lg bg-primary/5 border border-primary/10">
@@ -4530,14 +4542,14 @@ export const Grupos: React.FC = () => {
           {gBlacklist === 'disabled' && (
             <div className="flex items-center gap-3 px-5 py-4 rounded-xl" style={{ background: 'rgba(250,204,21,0.04)', border: '1px solid rgba(250,204,21,0.15)' }}>
               <Lock className="w-5 h-5 shrink-0" style={{ color: '#facc15' }} />
-              <p className="text-[13px] text-white/50">Blacklist de números não está disponível no seu plano</p>
+              <p className="text-[13px] text-txt-muted">Blacklist de números não está disponível no seu plano</p>
             </div>
           )}
           {gBlacklist === 'enabled' && (<>
           {/* Header */}
           <div>
-            <h2 className="text-white text-[18px] font-bold font-display mb-1">Blacklist de Números</h2>
-            <p className="text-[13px]" style={{ color: 'rgba(255,255,255,0.4)' }}>Números bloqueados são removidos automaticamente ao entrar em qualquer grupo</p>
+            <h2 className="text-txt text-[18px] font-bold font-display mb-1">Blacklist de Números</h2>
+            <p className="text-[13px]" style={{ color: 'var(--c-t-40)' }}>Números bloqueados são removidos automaticamente ao entrar em qualquer grupo</p>
           </div>
 
           {/* Formulário de adição */}
@@ -4547,20 +4559,20 @@ export const Grupos: React.FC = () => {
               placeholder="5511999999999"
               value={blacklistTelefone}
               onChange={e => setBlacklistTelefone(e.target.value.replace(/\D/g, ''))}
-              className="flex-1 text-white text-[13px] outline-none transition-all duration-200"
-              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '12px', padding: '10px 16px' }}
+              className="flex-1 text-txt text-[13px] outline-none transition-all duration-200"
+              style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', borderRadius: '12px', padding: '10px 16px' }}
               onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(var(--color-primary-rgb),0.08)' }}
-              onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)'; e.currentTarget.style.boxShadow = 'none' }}
+              onBlur={(e) => { e.currentTarget.style.borderColor = 'var(--c-border)'; e.currentTarget.style.boxShadow = 'none' }}
             />
             <input
               type="text"
               placeholder="Ex: Spam, propaganda..."
               value={blacklistMotivo}
               onChange={e => setBlacklistMotivo(e.target.value)}
-              className="flex-1 text-white text-[13px] outline-none transition-all duration-200"
-              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '12px', padding: '10px 16px' }}
+              className="flex-1 text-txt text-[13px] outline-none transition-all duration-200"
+              style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', borderRadius: '12px', padding: '10px 16px' }}
               onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(var(--color-primary-rgb),0.08)' }}
-              onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)'; e.currentTarget.style.boxShadow = 'none' }}
+              onBlur={(e) => { e.currentTarget.style.borderColor = 'var(--c-border)'; e.currentTarget.style.boxShadow = 'none' }}
             />
             <button
               onClick={addBlacklist}
@@ -4579,23 +4591,23 @@ export const Grupos: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <span
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px]"
-              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.5)' }}
+              style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-50)' }}
             >
               <Shield className="w-3.5 h-3.5" />
               {blacklist.length} número{blacklist.length !== 1 ? 's' : ''} bloqueado{blacklist.length !== 1 ? 's' : ''}
             </span>
             {blacklist.length > 0 && (
               <div className="relative w-full sm:w-64">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'rgba(255,255,255,0.25)' }} />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--c-t-25)' }} />
                 <input
                   type="text"
                   placeholder="Buscar por telefone..."
                   value={blacklistBusca}
                   onChange={e => setBlacklistBusca(e.target.value)}
-                  className="w-full text-white text-[13px] outline-none transition-all duration-200"
-                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '12px', padding: '8px 14px 8px 36px' }}
+                  className="w-full text-txt text-[13px] outline-none transition-all duration-200"
+                  style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', borderRadius: '12px', padding: '8px 14px 8px 36px' }}
                   onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(var(--color-primary-rgb),0.08)' }}
-                  onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)'; e.currentTarget.style.boxShadow = 'none' }}
+                  onBlur={(e) => { e.currentTarget.style.borderColor = 'var(--c-border)'; e.currentTarget.style.boxShadow = 'none' }}
                 />
               </div>
             )}
@@ -4608,24 +4620,24 @@ export const Grupos: React.FC = () => {
             </div>
           ) : blacklist.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16">
-              <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)' }}>
-                <ShieldOff className="w-7 h-7" style={{ color: 'rgba(255,255,255,0.15)' }} />
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4" style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}>
+                <ShieldOff className="w-7 h-7" style={{ color: 'var(--c-t-15)' }} />
               </div>
-              <p className="text-[15px] font-medium mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>Nenhum número bloqueado</p>
-              <p className="text-[13px]" style={{ color: 'rgba(255,255,255,0.25)' }}>Adicione números para bloquear automaticamente ao entrar nos grupos</p>
+              <p className="text-[15px] font-medium mb-1" style={{ color: 'var(--c-t-50)' }}>Nenhum número bloqueado</p>
+              <p className="text-[13px]" style={{ color: 'var(--c-t-25)' }}>Adicione números para bloquear automaticamente ao entrar nos grupos</p>
             </div>
           ) : filteredBlacklist.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16">
-              <Search className="w-12 h-12 mb-3" style={{ color: 'rgba(255,255,255,0.1)' }} />
-              <p className="text-[13px]" style={{ color: 'rgba(255,255,255,0.3)' }}>Nenhum resultado para a busca</p>
+              <Search className="w-12 h-12 mb-3" style={{ color: 'var(--c-t-10)' }} />
+              <p className="text-[13px]" style={{ color: 'var(--c-t-30)' }}>Nenhum resultado para a busca</p>
             </div>
           ) : (
-            <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '16px', overflow: 'hidden' }}>
+            <div style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)', borderRadius: '16px', overflow: 'hidden' }}>
               <table className="w-full text-[13px]">
                 <thead>
                   <tr>
                     {['Telefone', 'Motivo', 'Data de Bloqueio', ''].map((h, i) => (
-                      <th key={h || i} className={`${i === 3 ? 'text-right' : 'text-left'} text-[11px] uppercase font-semibold tracking-[0.5px] px-4 py-3`} style={{ color: 'rgba(255,255,255,0.4)', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                      <th key={h || i} className={`${i === 3 ? 'text-right' : 'text-left'} text-[11px] uppercase font-semibold tracking-[0.5px] px-4 py-3`} style={{ color: 'var(--c-t-40)', borderBottom: '1px solid var(--c-border)' }}>
                         {h || 'Ações'}
                       </th>
                     ))}
@@ -4636,13 +4648,13 @@ export const Grupos: React.FC = () => {
                     <tr
                       key={item.id}
                       className="transition-colors duration-200"
-                      style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}
-                      onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)' }}
+                      style={{ borderBottom: '1px solid var(--c-border)' }}
+                      onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass)' }}
                       onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent' }}
                     >
-                      <td className="px-4 py-3 font-mono tabular-nums" style={{ color: 'rgba(255,255,255,0.7)' }}>{formatTelefone(item.telefone)}</td>
-                      <td className="px-4 py-3" style={{ color: item.motivo ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.15)' }}>{item.motivo || '—'}</td>
-                      <td className="px-4 py-3 text-[12px] tabular-nums" style={{ color: 'rgba(255,255,255,0.35)' }}>{formatDate(item.created_at)}</td>
+                      <td className="px-4 py-3 font-mono tabular-nums" style={{ color: 'var(--c-t-70)' }}>{formatTelefone(item.telefone)}</td>
+                      <td className="px-4 py-3" style={{ color: item.motivo ? 'rgb(var(--c-fg-rgb) / 0.5)' : 'rgb(var(--c-fg-rgb) / 0.15)' }}>{item.motivo || '—'}</td>
+                      <td className="px-4 py-3 text-[12px] tabular-nums" style={{ color: 'var(--c-t-35)' }}>{formatDate(item.created_at)}</td>
                       <td className="px-4 py-3 text-right">
                         <button
                           onClick={() => setBlacklistDeleteConfirm(item)}
@@ -4667,24 +4679,24 @@ export const Grupos: React.FC = () => {
             <div className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in" style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)' }}>
               <div
                 className="w-full max-w-sm mx-4 animate-slide-up"
-                style={{ background: 'rgba(20,20,30,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '28px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
+                style={{ background: 'var(--c-popup-bg)', border: '1px solid var(--c-border-strong)', borderRadius: '20px', padding: '28px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'rgba(248,113,113,0.12)' }}>
                     <AlertTriangle className="w-5 h-5" style={{ color: '#f87171' }} />
                   </div>
-                  <h3 className="text-white font-semibold text-[16px]">Remover da blacklist</h3>
+                  <h3 className="text-txt font-semibold text-[16px]">Remover da blacklist</h3>
                 </div>
-                <p className="text-[13px] mb-6" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                  Tem certeza que deseja remover <span className="text-white font-mono">{formatTelefone(blacklistDeleteConfirm.telefone)}</span> da blacklist?
+                <p className="text-[13px] mb-6" style={{ color: 'var(--c-t-50)' }}>
+                  Tem certeza que deseja remover <span className="text-txt font-mono">{formatTelefone(blacklistDeleteConfirm.telefone)}</span> da blacklist?
                 </p>
-                <div className="flex gap-3 justify-end" style={{ paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+                <div className="flex gap-3 justify-end" style={{ paddingTop: '20px', borderTop: '1px solid var(--c-border)' }}>
                   <button
                     onClick={() => setBlacklistDeleteConfirm(null)}
                     className="px-6 py-2.5 rounded-[10px] text-[13px] font-medium transition-all duration-200"
-                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
-                    onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
-                    onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
+                    style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border-strong)', color: 'var(--c-t-60)' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass)' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--c-glass)' }}
                   >
                     Cancelar
                   </button>
@@ -4707,17 +4719,17 @@ export const Grupos: React.FC = () => {
             <div className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in" style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)' }}>
               <div
                 className="w-full max-w-md mx-4 animate-slide-up"
-                style={{ background: 'rgba(20,20,30,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '28px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
+                style={{ background: 'var(--c-popup-bg)', border: '1px solid var(--c-border-strong)', borderRadius: '20px', padding: '28px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'rgba(250,204,60,0.12)' }}>
                     <AlertTriangle className="w-5 h-5" style={{ color: '#facc3c' }} />
                   </div>
-                  <h3 className="text-white text-[16px] font-semibold">Remover de todos os grupos?</h3>
+                  <h3 className="text-txt text-[16px] font-semibold">Remover de todos os grupos?</h3>
                 </div>
 
-                <p className="text-[13px] mb-5" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                  Deseja remover o número <span className="text-white font-mono">{telefoneBloqueado}</span> de todos os grupos? Selecione as instâncias:
+                <p className="text-[13px] mb-5" style={{ color: 'var(--c-t-50)' }}>
+                  Deseja remover o número <span className="text-txt font-mono">{telefoneBloqueado}</span> de todos os grupos? Selecione as instâncias:
                 </p>
 
                 {loadingInstanciasRemocao ? (
@@ -4725,7 +4737,7 @@ export const Grupos: React.FC = () => {
                     <div className="w-5 h-5 border-2 rounded-full animate-spin" style={{ borderColor: 'rgba(var(--color-primary-rgb),0.2)', borderTopColor: 'var(--color-primary)' }} />
                   </div>
                 ) : instanciasDisponiveis.length === 0 ? (
-                  <p className="text-[13px] text-center py-4" style={{ color: 'rgba(255,255,255,0.4)' }}>Nenhuma instância ativa encontrada</p>
+                  <p className="text-[13px] text-center py-4" style={{ color: 'var(--c-t-40)' }}>Nenhuma instância ativa encontrada</p>
                 ) : (
                   <div className="space-y-2 mb-6">
                     {instanciasDisponiveis.map(inst => {
@@ -4735,16 +4747,16 @@ export const Grupos: React.FC = () => {
                           key={inst.id}
                           className="flex items-center gap-3 p-3 rounded-[10px] cursor-pointer transition-all duration-200"
                           style={{
-                            background: isChecked ? 'rgba(var(--color-primary-rgb),0.06)' : 'rgba(255,255,255,0.04)',
-                            border: isChecked ? '1px solid rgba(var(--color-primary-rgb),0.2)' : '1px solid rgba(255,255,255,0.04)',
+                            background: isChecked ? 'rgba(var(--color-primary-rgb),0.06)' : 'var(--c-glass)',
+                            border: isChecked ? '1px solid rgba(var(--color-primary-rgb),0.2)' : '1px solid var(--c-border)',
                           }}
                         >
                           <div
                             onClick={(e) => { e.preventDefault(); handleToggleInstancia(inst.id); }}
                             className="w-5 h-5 rounded-md flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer"
                             style={{
-                              background: isChecked ? 'var(--color-primary)' : 'rgba(255,255,255,0.04)',
-                              border: isChecked ? '1px solid var(--color-primary)' : '1px solid rgba(255,255,255,0.2)',
+                              background: isChecked ? 'var(--color-primary)' : 'var(--c-glass)',
+                              border: isChecked ? '1px solid var(--color-primary)' : '1px solid var(--c-border-strong)',
                             }}
                           >
                             {isChecked && (
@@ -4759,8 +4771,8 @@ export const Grupos: React.FC = () => {
                             onChange={() => handleToggleInstancia(inst.id)}
                             className="sr-only"
                           />
-                          <span className="text-[13px] text-white">
-                            {inst.nome} <span style={{ color: 'rgba(255,255,255,0.4)' }}>({inst.numero})</span>
+                          <span className="text-[13px] text-txt">
+                            {inst.nome} <span style={{ color: 'var(--c-t-40)' }}>({inst.numero})</span>
                           </span>
                         </label>
                       );
@@ -4768,13 +4780,13 @@ export const Grupos: React.FC = () => {
                   </div>
                 )}
 
-                <div className="flex gap-3 justify-end" style={{ paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+                <div className="flex gap-3 justify-end" style={{ paddingTop: '20px', borderTop: '1px solid var(--c-border)' }}>
                   <button
                     onClick={handleRemoveModalClose}
                     className="px-5 py-2.5 rounded-[10px] text-[13px] font-medium transition-all duration-200"
-                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
-                    onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
-                    onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
+                    style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border-strong)', color: 'var(--c-t-60)' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass)' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--c-glass)' }}
                   >
                     Não, apenas bloquear
                   </button>
@@ -4797,7 +4809,7 @@ export const Grupos: React.FC = () => {
           {/* ═══ GRUPOS IGNORADOS NA COLETA ═══ */}
           {/* ═══════════════════════════════════════════ */}
           <div className="relative" style={{ marginTop: '40px' }}>
-            <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 20%, rgba(255,255,255,0.06) 80%, transparent 100%)' }} />
+            <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent 0%, var(--c-glass-hover) 20%, var(--c-glass-hover) 80%, transparent 100%)' }} />
           </div>
 
           <div style={{ marginTop: '48px' }}>
@@ -4807,8 +4819,8 @@ export const Grupos: React.FC = () => {
                 <EyeOff className="w-4 h-4" style={{ color: '#ef4444' }} />
               </div>
               <div>
-                <h2 className="text-white text-[18px] font-bold font-display">Grupos Ignorados na Coleta</h2>
-                <p className="text-[13px]" style={{ color: 'rgba(255,255,255,0.4)' }}>Grupos que não terão membros coletados automaticamente</p>
+                <h2 className="text-txt text-[18px] font-bold font-display">Grupos Ignorados na Coleta</h2>
+                <p className="text-[13px]" style={{ color: 'var(--c-t-40)' }}>Grupos que não terão membros coletados automaticamente</p>
               </div>
             </div>
           </div>
@@ -4822,11 +4834,11 @@ export const Grupos: React.FC = () => {
                 onClick={() => { setGrupoSelectAberto(prev => !prev); setGrupoSelectBusca(''); }}
                 className="w-full flex items-center justify-between text-[13px] outline-none transition-all duration-200 cursor-pointer text-left"
                 style={{
-                  background: grupoSelectAberto ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.04)',
-                  border: grupoSelectAberto ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid rgba(255,255,255,0.04)',
+                  background: grupoSelectAberto ? 'var(--c-glass-hover)' : 'var(--c-glass)',
+                  border: grupoSelectAberto ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid var(--c-border)',
                   borderRadius: '12px',
                   padding: '10px 16px',
-                  color: grupoSelecionadoObj ? 'white' : 'rgba(255,255,255,0.35)',
+                  color: grupoSelecionadoObj ? 'rgb(var(--c-fg-rgb))' : 'rgb(var(--c-fg-rgb) / 0.35)',
                   boxShadow: grupoSelectAberto ? '0 0 0 3px rgba(var(--color-primary-rgb),0.08)' : 'none',
                 }}
               >
@@ -4838,7 +4850,7 @@ export const Grupos: React.FC = () => {
                 </span>
                 <ChevronDown
                   className="w-4 h-4 flex-shrink-0 transition-transform duration-200"
-                  style={{ color: 'rgba(255,255,255,0.25)', transform: grupoSelectAberto ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                  style={{ color: 'var(--c-t-25)', transform: grupoSelectAberto ? 'rotate(180deg)' : 'rotate(0deg)' }}
                 />
               </button>
 
@@ -4847,8 +4859,8 @@ export const Grupos: React.FC = () => {
                 <div
                   className="absolute left-0 right-0 top-full mt-2 z-[100] animate-fade-in"
                   style={{
-                    background: 'rgba(22, 27, 34, 0.97)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    background: 'var(--c-popup-bg)',
+                    border: '1px solid var(--c-border-strong)',
                     borderRadius: '14px',
                     boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06)',
                     maxHeight: '340px',
@@ -4857,19 +4869,19 @@ export const Grupos: React.FC = () => {
                   }}
                 >
                   {/* Search inside dropdown */}
-                  <div className="p-2.5" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                  <div className="p-2.5" style={{ borderBottom: '1px solid var(--c-border)' }}>
                     <div className="relative">
-                      <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5" style={{ color: 'rgba(255,255,255,0.25)' }} />
+                      <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5" style={{ color: 'var(--c-t-25)' }} />
                       <input
                         type="text"
                         autoFocus
                         placeholder="Buscar grupo..."
                         value={grupoSelectBusca}
                         onChange={e => setGrupoSelectBusca(e.target.value)}
-                        className="w-full text-white text-[12px] outline-none"
-                        style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '8px', padding: '7px 10px 7px 30px' }}
+                        className="w-full text-txt text-[12px] outline-none"
+                        style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', borderRadius: '8px', padding: '7px 10px 7px 30px' }}
                         onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.2)' }}
-                        onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)' }}
+                        onBlur={(e) => { e.currentTarget.style.borderColor = 'var(--c-border)' }}
                       />
                     </div>
                   </div>
@@ -4878,8 +4890,8 @@ export const Grupos: React.FC = () => {
                   <div className="overflow-y-auto p-1.5" style={{ maxHeight: '260px' }}>
                     {grupoSelectFiltrados.length === 0 ? (
                       <div className="flex flex-col items-center justify-center py-6">
-                        <Search className="w-5 h-5 mb-2" style={{ color: 'rgba(255,255,255,0.1)' }} />
-                        <p className="text-[12px]" style={{ color: 'rgba(255,255,255,0.3)' }}>Nenhum grupo encontrado</p>
+                        <Search className="w-5 h-5 mb-2" style={{ color: 'var(--c-t-10)' }} />
+                        <p className="text-[12px]" style={{ color: 'var(--c-t-30)' }}>Nenhum grupo encontrado</p>
                       </div>
                     ) : (
                       grupoSelectFiltrados.map(g => {
@@ -4893,14 +4905,14 @@ export const Grupos: React.FC = () => {
                             }}
                             className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[12px] transition-all duration-150 text-left"
                             style={{
-                              background: isActive ? 'rgba(255,255,255,0.04)' : 'transparent',
-                              color: isActive ? '#fff' : 'rgba(255,255,255,0.5)',
+                              background: isActive ? 'var(--c-glass)' : 'transparent',
+                              color: isActive ? 'rgb(var(--c-fg-rgb))' : 'rgb(var(--c-fg-rgb) / 0.5)',
                             }}
-                            onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
+                            onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.background = 'var(--c-glass)' }}
                             onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.background = 'transparent' }}
                           >
                             <span className="flex-1 truncate">{g.nome_grupo}</span>
-                            <span className="flex-shrink-0 text-[11px] tabular-nums" style={{ color: 'rgba(255,255,255,0.25)' }}>
+                            <span className="flex-shrink-0 text-[11px] tabular-nums" style={{ color: 'var(--c-t-25)' }}>
                               {g.count} membro{g.count !== 1 ? 's' : ''}
                             </span>
                             {isActive && <Check size={12} className="text-primary-light flex-shrink-0" />}
@@ -4929,23 +4941,23 @@ export const Grupos: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3" style={{ marginTop: '16px' }}>
             <span
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px]"
-              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.5)' }}
+              style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-50)' }}
             >
               <EyeOff className="w-3.5 h-3.5" />
               {gruposIgnorados.length} grupo{gruposIgnorados.length !== 1 ? 's' : ''} ignorado{gruposIgnorados.length !== 1 ? 's' : ''}
             </span>
             {gruposIgnorados.length > 0 && (
               <div className="relative w-full sm:w-64">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'rgba(255,255,255,0.25)' }} />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--c-t-25)' }} />
                 <input
                   type="text"
                   placeholder="Buscar por nome do grupo..."
                   value={grupoIgnoradoBusca}
                   onChange={e => setGrupoIgnoradoBusca(e.target.value)}
-                  className="w-full text-white text-[13px] outline-none transition-all duration-200"
-                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '12px', padding: '8px 14px 8px 36px' }}
+                  className="w-full text-txt text-[13px] outline-none transition-all duration-200"
+                  style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', borderRadius: '12px', padding: '8px 14px 8px 36px' }}
                   onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(var(--color-primary-rgb),0.08)' }}
-                  onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)'; e.currentTarget.style.boxShadow = 'none' }}
+                  onBlur={(e) => { e.currentTarget.style.borderColor = 'var(--c-border)'; e.currentTarget.style.boxShadow = 'none' }}
                 />
               </div>
             )}
@@ -4958,24 +4970,24 @@ export const Grupos: React.FC = () => {
             </div>
           ) : gruposIgnorados.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16">
-              <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)' }}>
-                <ShieldCheck className="w-7 h-7" style={{ color: 'rgba(255,255,255,0.15)' }} />
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4" style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}>
+                <ShieldCheck className="w-7 h-7" style={{ color: 'var(--c-t-15)' }} />
               </div>
-              <p className="text-[15px] font-medium mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>Nenhum grupo ignorado</p>
-              <p className="text-[13px]" style={{ color: 'rgba(255,255,255,0.25)' }}>Todos os grupos estão sendo coletados normalmente</p>
+              <p className="text-[15px] font-medium mb-1" style={{ color: 'var(--c-t-50)' }}>Nenhum grupo ignorado</p>
+              <p className="text-[13px]" style={{ color: 'var(--c-t-25)' }}>Todos os grupos estão sendo coletados normalmente</p>
             </div>
           ) : filteredGruposIgnorados.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16">
-              <Search className="w-12 h-12 mb-3" style={{ color: 'rgba(255,255,255,0.1)' }} />
-              <p className="text-[13px]" style={{ color: 'rgba(255,255,255,0.3)' }}>Nenhum resultado para a busca</p>
+              <Search className="w-12 h-12 mb-3" style={{ color: 'var(--c-t-10)' }} />
+              <p className="text-[13px]" style={{ color: 'var(--c-t-30)' }}>Nenhum resultado para a busca</p>
             </div>
           ) : (
-            <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '16px', overflow: 'hidden', marginTop: '8px' }}>
+            <div style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)', borderRadius: '16px', overflow: 'hidden', marginTop: '8px' }}>
               <table className="w-full text-[13px]">
                 <thead>
                   <tr>
                     {['Grupo', 'Membros', 'Data', ''].map((h, i) => (
-                      <th key={h || 'acoes'} className={`${i === 3 ? 'text-right' : 'text-left'} text-[11px] uppercase font-semibold tracking-[0.5px] px-4 py-3`} style={{ color: 'rgba(255,255,255,0.4)', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                      <th key={h || 'acoes'} className={`${i === 3 ? 'text-right' : 'text-left'} text-[11px] uppercase font-semibold tracking-[0.5px] px-4 py-3`} style={{ color: 'var(--c-t-40)', borderBottom: '1px solid var(--c-border)' }}>
                         {h || 'Ações'}
                       </th>
                     ))}
@@ -4986,13 +4998,13 @@ export const Grupos: React.FC = () => {
                     <tr
                       key={item.id}
                       className="transition-colors duration-200"
-                      style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}
-                      onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)' }}
+                      style={{ borderBottom: '1px solid var(--c-border)' }}
+                      onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass)' }}
                       onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent' }}
                     >
-                      <td className="px-4 py-3" style={{ color: 'rgba(255,255,255,0.7)' }}>{item.grupo_nome}</td>
-                      <td className="px-4 py-3 tabular-nums" style={{ color: 'rgba(255,255,255,0.5)' }}>{membrosCountMap[item.grupo_id] || 0}</td>
-                      <td className="px-4 py-3 text-[12px] tabular-nums" style={{ color: 'rgba(255,255,255,0.35)' }}>{formatDate(item.created_at)}</td>
+                      <td className="px-4 py-3" style={{ color: 'var(--c-t-70)' }}>{item.grupo_nome}</td>
+                      <td className="px-4 py-3 tabular-nums" style={{ color: 'var(--c-t-50)' }}>{membrosCountMap[item.grupo_id] || 0}</td>
+                      <td className="px-4 py-3 text-[12px] tabular-nums" style={{ color: 'var(--c-t-35)' }}>{formatDate(item.created_at)}</td>
                       <td className="px-4 py-3 text-right">
                         <button
                           onClick={() => setGrupoIgnoradoRemoveConfirm(item)}
@@ -5017,22 +5029,22 @@ export const Grupos: React.FC = () => {
             <div className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in" style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)' }}>
               <div
                 className="w-full max-w-sm mx-4 animate-slide-up"
-                style={{ background: 'rgba(20,20,30,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '28px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
+                style={{ background: 'var(--c-popup-bg)', border: '1px solid var(--c-border-strong)', borderRadius: '20px', padding: '28px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'rgba(248,113,113,0.12)' }}>
                     <AlertTriangle className="w-5 h-5" style={{ color: '#f87171' }} />
                   </div>
-                  <h3 className="text-white font-semibold text-[16px]">Remover da lista de ignorados</h3>
+                  <h3 className="text-txt font-semibold text-[16px]">Remover da lista de ignorados</h3>
                 </div>
-                <p className="text-[13px] mb-6" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                  Remover <span className="text-white">&ldquo;{grupoIgnoradoRemoveConfirm.grupo_nome}&rdquo;</span> da lista de ignorados? O sistema voltará a coletar membros desse grupo.
+                <p className="text-[13px] mb-6" style={{ color: 'var(--c-t-50)' }}>
+                  Remover <span className="text-txt">&ldquo;{grupoIgnoradoRemoveConfirm.grupo_nome}&rdquo;</span> da lista de ignorados? O sistema voltará a coletar membros desse grupo.
                 </p>
-                <div className="flex gap-3 justify-end" style={{ paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+                <div className="flex gap-3 justify-end" style={{ paddingTop: '20px', borderTop: '1px solid var(--c-border)' }}>
                   <button
                     onClick={() => setGrupoIgnoradoRemoveConfirm(null)}
                     className="px-6 py-2.5 rounded-[10px] text-[13px] font-medium transition-all duration-200"
-                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
+                    style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border-strong)', color: 'var(--c-t-60)' }}
                   >
                     Cancelar
                   </button>
@@ -5055,21 +5067,21 @@ export const Grupos: React.FC = () => {
             <div className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in" style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)' }}>
               <div
                 className="w-full max-w-md mx-4 animate-slide-up"
-                style={{ background: 'rgba(20,20,30,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '28px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
+                style={{ background: 'var(--c-popup-bg)', border: '1px solid var(--c-border-strong)', borderRadius: '20px', padding: '28px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'rgba(250,204,60,0.12)' }}>
                     <AlertTriangle className="w-5 h-5" style={{ color: '#facc3c' }} />
                   </div>
-                  <h3 className="text-white text-[16px] font-semibold">Excluir membros existentes?</h3>
+                  <h3 className="text-txt text-[16px] font-semibold">Excluir membros existentes?</h3>
                 </div>
 
                 <div className="space-y-3 mb-6">
-                  <p className="text-[13px]" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                    O grupo <span className="text-white">&ldquo;{showDeleteMembrosModal.grupo_nome}&rdquo;</span> foi adicionado à lista de ignorados.
+                  <p className="text-[13px]" style={{ color: 'var(--c-t-50)' }}>
+                    O grupo <span className="text-txt">&ldquo;{showDeleteMembrosModal.grupo_nome}&rdquo;</span> foi adicionado à lista de ignorados.
                   </p>
-                  <p className="text-[13px]" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                    Esse grupo possui <span className="text-white font-semibold">{showDeleteMembrosModal.count}</span> membro{showDeleteMembrosModal.count !== 1 ? 's' : ''} cadastrado{showDeleteMembrosModal.count !== 1 ? 's' : ''} no sistema. Deseja excluir todos os leads desse grupo?
+                  <p className="text-[13px]" style={{ color: 'var(--c-t-50)' }}>
+                    Esse grupo possui <span className="text-txt font-semibold">{showDeleteMembrosModal.count}</span> membro{showDeleteMembrosModal.count !== 1 ? 's' : ''} cadastrado{showDeleteMembrosModal.count !== 1 ? 's' : ''} no sistema. Deseja excluir todos os leads desse grupo?
                   </p>
                   <p className="text-[12px] flex items-center gap-1.5" style={{ color: 'rgba(239,68,68,0.7)' }}>
                     <AlertTriangle className="w-3.5 h-3.5" />
@@ -5077,13 +5089,13 @@ export const Grupos: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="flex gap-3 justify-end" style={{ paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+                <div className="flex gap-3 justify-end" style={{ paddingTop: '20px', borderTop: '1px solid var(--c-border)' }}>
                   <button
                     onClick={handleKeepMembros}
                     className="px-5 py-2.5 rounded-[10px] text-[13px] font-medium transition-all duration-200"
-                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
-                    onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)' }}
-                    onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
+                    style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border-strong)', color: 'var(--c-t-60)' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass-hover)' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--c-glass)' }}
                   >
                     Não, manter leads
                   </button>
@@ -5114,7 +5126,7 @@ export const Grupos: React.FC = () => {
           <div className="overflow-x-auto md:overflow-visible -mx-3 px-3 md:mx-0 md:px-0" style={{ scrollbarWidth: 'none' }}>
             <div
               className="inline-flex gap-1 p-[3px] rounded-xl w-max md:w-fit"
-              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
+              style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
             >
               {([
                 { key: 'personas' as BotSubTab, label: 'Personas', icon: UserCircle },
@@ -5129,10 +5141,10 @@ export const Grupos: React.FC = () => {
                   className="flex items-center gap-1.5 px-3 md:px-4 py-1.5 rounded-lg text-[12px] font-medium transition-all duration-200 whitespace-nowrap shrink-0"
                   style={botSubTab === tab.key
                     ? { background: 'rgba(var(--color-primary-rgb),0.1)', border: '1px solid rgba(var(--color-primary-rgb),0.2)', color: 'var(--color-primary-light)' }
-                    : { background: 'transparent', border: '1px solid transparent', color: 'rgba(255,255,255,0.4)' }
+                    : { background: 'transparent', border: '1px solid transparent', color: 'var(--c-t-40)' }
                   }
-                  onMouseEnter={(e) => { if (botSubTab !== tab.key) { e.currentTarget.style.color = 'rgba(255,255,255,0.6)'; e.currentTarget.style.background = 'rgba(255,255,255,0.03)' } }}
-                  onMouseLeave={(e) => { if (botSubTab !== tab.key) { e.currentTarget.style.color = 'rgba(255,255,255,0.4)'; e.currentTarget.style.background = 'transparent' } }}
+                  onMouseEnter={(e) => { if (botSubTab !== tab.key) { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.6)'; e.currentTarget.style.background = 'var(--c-glass)' } }}
+                  onMouseLeave={(e) => { if (botSubTab !== tab.key) { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.4)'; e.currentTarget.style.background = 'transparent' } }}
                 >
                   <tab.icon className="w-3.5 h-3.5 shrink-0" />
                   {tab.label}

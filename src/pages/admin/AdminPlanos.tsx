@@ -6,7 +6,7 @@ import type { PlanoRow } from '../../types/database';
 
 const KNOWN_FEATURES = ['agendamento', 'torneio', 'copy_ia', 'moderacao', 'voz_clonada'];
 
-const INPUT_CLASS = 'w-full px-2 py-1.5 rounded-lg text-sm text-white bg-white/[0.06] border border-white/[0.08] focus:border-primary/50 focus:outline-none transition-all';
+const INPUT_CLASS = 'w-full px-2 py-1.5 rounded-lg text-sm text-txt bg-glass-hover border border-glass focus:border-primary/50 focus:outline-none transition-all';
 
 interface EditData {
   nome: string;
@@ -117,9 +117,9 @@ export const AdminPlanos: React.FC = () => {
       <div>
         <PageHeader title="Planos" subtitle="Gerencie os planos e limites dos experts" />
         <div className="glass-card p-6 animate-pulse">
-          <div className="h-5 w-32 rounded bg-white/[0.06] mb-6" />
+          <div className="h-5 w-32 rounded bg-glass-hover mb-6" />
           {[1, 2, 3].map(i => (
-            <div key={i} className="h-12 rounded bg-white/[0.06] mb-3" />
+            <div key={i} className="h-12 rounded bg-glass-hover mb-3" />
           ))}
         </div>
       </div>
@@ -175,12 +175,12 @@ export const AdminPlanos: React.FC = () => {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+              <tr style={{ borderBottom: '1px solid var(--c-border)' }}>
                 {['Nome', 'Max Leads', 'Max Instancias', 'Max Envios/Mes', 'Features', 'Status', 'Acoes'].map(col => (
                   <th
                     key={col}
                     className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider"
-                    style={{ color: 'rgba(255,255,255,0.45)' }}
+                    style={{ color: 'var(--c-t-45)' }}
                   >
                     {col}
                   </th>
@@ -197,7 +197,7 @@ export const AdminPlanos: React.FC = () => {
                     <tr
                       key={plano?.id || '__new__'}
                       style={{
-                        borderBottom: '1px solid rgba(255,255,255,0.04)',
+                        borderBottom: '1px solid var(--c-border)',
                         background: 'rgba(var(--color-primary-rgb),0.04)',
                       }}
                     >
@@ -247,9 +247,9 @@ export const AdminPlanos: React.FC = () => {
                               onClick={() => toggleFeature(f)}
                               className="text-[11px] px-2 py-1 rounded-md font-medium transition-all"
                               style={{
-                                background: editData.features_permitidas.includes(f) ? 'rgba(var(--color-primary-rgb),0.2)' : 'rgba(255,255,255,0.04)',
-                                border: `1px solid ${editData.features_permitidas.includes(f) ? 'rgba(var(--color-primary-rgb),0.4)' : 'rgba(255,255,255,0.06)'}`,
-                                color: editData.features_permitidas.includes(f) ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.4)',
+                                background: editData.features_permitidas.includes(f) ? 'rgba(var(--color-primary-rgb),0.2)' : 'var(--c-glass)',
+                                border: `1px solid ${editData.features_permitidas.includes(f) ? 'rgba(var(--color-primary-rgb),0.4)' : 'var(--c-border)'}`,
+                                color: editData.features_permitidas.includes(f) ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.4)',
                               }}
                             >
                               {f}
@@ -301,28 +301,28 @@ export const AdminPlanos: React.FC = () => {
                   <tr
                     key={plano.id}
                     className="transition-colors"
-                    style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}
-                    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.02)'; }}
+                    style={{ borderBottom: '1px solid var(--c-border)' }}
+                    onMouseEnter={e => { e.currentTarget.style.background = 'var(--c-glass-2)'; }}
                     onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
                   >
                     <td className="px-5 py-3.5">
-                      <span className="text-sm font-medium text-white">{plano.nome}</span>
+                      <span className="text-sm font-medium text-txt">{plano.nome}</span>
                     </td>
                     <td className="px-5 py-3.5">
                       {plano.max_leads === null ? (
                         <span className="text-sm text-emerald-400 font-medium">Ilimitado</span>
                       ) : (
-                        <span className="text-sm text-white" style={{ fontVariantNumeric: 'tabular-nums' }}>{plano.max_leads.toLocaleString('pt-BR')}</span>
+                        <span className="text-sm text-txt" style={{ fontVariantNumeric: 'tabular-nums' }}>{plano.max_leads.toLocaleString('pt-BR')}</span>
                       )}
                     </td>
                     <td className="px-5 py-3.5">
-                      <span className="text-sm text-white" style={{ fontVariantNumeric: 'tabular-nums' }}>{plano.max_instancias}</span>
+                      <span className="text-sm text-txt" style={{ fontVariantNumeric: 'tabular-nums' }}>{plano.max_instancias}</span>
                     </td>
                     <td className="px-5 py-3.5">
                       {plano.max_envios_mes === null ? (
                         <span className="text-sm text-emerald-400 font-medium">Ilimitado</span>
                       ) : (
-                        <span className="text-sm text-white" style={{ fontVariantNumeric: 'tabular-nums' }}>{plano.max_envios_mes.toLocaleString('pt-BR')}</span>
+                        <span className="text-sm text-txt" style={{ fontVariantNumeric: 'tabular-nums' }}>{plano.max_envios_mes.toLocaleString('pt-BR')}</span>
                       )}
                     </td>
                     <td className="px-5 py-3.5">
@@ -355,12 +355,12 @@ export const AdminPlanos: React.FC = () => {
                         onClick={() => startEdit(plano)}
                         disabled={!!editingId}
                         className="p-1.5 rounded-lg transition-all disabled:opacity-30"
-                        style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
+                        style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
                         onMouseEnter={e => { if (!editingId) { e.currentTarget.style.background = 'rgba(var(--color-primary-rgb),0.15)'; e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)'; } }}
-                        onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; }}
+                        onMouseLeave={e => { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.borderColor = 'var(--c-border)'; }}
                         title="Editar"
                       >
-                        <Pencil className="w-3.5 h-3.5" style={{ color: 'rgba(255,255,255,0.5)' }} />
+                        <Pencil className="w-3.5 h-3.5" style={{ color: 'var(--c-t-50)' }} />
                       </button>
                     </td>
                   </tr>
@@ -368,7 +368,7 @@ export const AdminPlanos: React.FC = () => {
               })}
               {planos.length === 0 && !isNew && (
                 <tr>
-                  <td colSpan={7} className="px-5 py-8 text-center text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                  <td colSpan={7} className="px-5 py-8 text-center text-sm" style={{ color: 'var(--c-t-40)' }}>
                     Nenhum plano cadastrado
                   </td>
                 </tr>

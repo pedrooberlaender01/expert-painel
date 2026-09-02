@@ -28,7 +28,7 @@ const PeriodoSelector: React.FC<{
 }> = ({ periodo, onChange, loading }) => (
   <div
     className="inline-flex gap-1 p-[3px] rounded-xl"
-    style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
+    style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
   >
     {PERIODOS.map((p) => {
       const isActive = periodo === p;
@@ -45,10 +45,10 @@ const PeriodoSelector: React.FC<{
           } : {
             background: 'transparent',
             border: '1px solid transparent',
-            color: 'rgba(255,255,255,0.4)',
+            color: 'var(--c-t-40)',
           }}
-          onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.color = 'rgba(255,255,255,0.6)' }}
-          onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.color = 'rgba(255,255,255,0.4)' }}
+          onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.6)' }}
+          onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.4)' }}
         >
           {p} dias
         </button>
@@ -82,7 +82,7 @@ const TRIGGER_COLORS: Record<string, { bg: string; text: string }> = {
 };
 
 const getTriggerColor = (trigger: string) =>
-  TRIGGER_COLORS[trigger] || { bg: 'rgba(255,255,255,0.05)', text: 'rgba(255,255,255,0.5)' };
+  TRIGGER_COLORS[trigger] || { bg: 'var(--c-glass-hover)', text: 'rgb(var(--c-fg-rgb) / 0.5)' };
 
 // ─── Painel expandido com mensagens ───
 
@@ -90,14 +90,14 @@ const MensagensPanel: React.FC<{ mensagens: BotMensagemLog[]; loading: boolean }
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <Loader2 className="w-4 h-4 animate-spin" style={{ color: 'rgba(255,255,255,0.2)' }} />
+        <Loader2 className="w-4 h-4 animate-spin" style={{ color: 'var(--c-t-20)' }} />
       </div>
     );
   }
 
   if (mensagens.length === 0) {
     return (
-      <p className="text-[12px] py-6 text-center" style={{ color: 'rgba(255,255,255,0.25)' }}>
+      <p className="text-[12px] py-6 text-center" style={{ color: 'var(--c-t-25)' }}>
         Nenhuma mensagem registrada neste período
       </p>
     );
@@ -115,7 +115,7 @@ const MensagensPanel: React.FC<{ mensagens: BotMensagemLog[]; loading: boolean }
             key={msg.id}
             className="flex items-start gap-2.5 px-1 py-1.5 rounded-lg transition-colors duration-150"
             style={{ background: 'transparent' }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.02)' }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass-2)' }}
             onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent' }}
           >
             {/* Badge tipo_trigger */}
@@ -127,11 +127,11 @@ const MensagensPanel: React.FC<{ mensagens: BotMensagemLog[]; loading: boolean }
             </span>
 
             {/* Conteúdo */}
-            <span className="flex-1 min-w-0 text-[12px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <span className="flex-1 min-w-0 text-[12px] leading-relaxed" style={{ color: 'var(--c-t-60)' }}>
               {isReacao ? (
                 <span className="inline-flex items-center gap-1.5">
                   <span className="text-[16px]">{msg.conteudo}</span>
-                  <span className="text-[10px] font-medium" style={{ color: 'rgba(255,255,255,0.3)' }}>Reação</span>
+                  <span className="text-[10px] font-medium" style={{ color: 'var(--c-t-30)' }}>Reação</span>
                 </span>
               ) : (
                 <span className="line-clamp-2">{msg.conteudo}</span>
@@ -141,7 +141,7 @@ const MensagensPanel: React.FC<{ mensagens: BotMensagemLog[]; loading: boolean }
             {/* Hora */}
             <span
               className="shrink-0 text-[10px] tabular-nums font-medium mt-0.5"
-              style={{ color: 'rgba(255,255,255,0.2)' }}
+              style={{ color: 'var(--c-t-20)' }}
             >
               {hora}
             </span>
@@ -213,10 +213,10 @@ const MetricasTable: React.FC<{
     return (
       <div
         className="flex flex-col items-center justify-center py-16 rounded-2xl"
-        style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}
+        style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}
       >
-        <BarChart3 className="w-8 h-8 mb-3" style={{ color: 'rgba(255,255,255,0.12)' }} />
-        <p className="text-[13px] font-medium" style={{ color: 'rgba(255,255,255,0.25)' }}>
+        <BarChart3 className="w-8 h-8 mb-3" style={{ color: 'var(--c-t-12)' }} />
+        <p className="text-[13px] font-medium" style={{ color: 'var(--c-t-25)' }}>
           Nenhuma atividade registrada no período
         </p>
       </div>
@@ -224,7 +224,7 @@ const MetricasTable: React.FC<{
   }
 
   return (
-    <div className="rounded-2xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.04)' }}>
+    <div className="rounded-2xl overflow-hidden" style={{ border: '1px solid var(--c-border)' }}>
       <div className="overflow-x-auto">
         <table className="w-full min-w-[640px]">
           <thead>
@@ -232,16 +232,16 @@ const MetricasTable: React.FC<{
               {/* Coluna do chevron */}
               <th
                 className="w-10 px-2 py-3"
-                style={{ background: 'rgba(10,10,15,0.9)', borderBottom: '1px solid rgba(255,255,255,0.04)' }}
+                style={{ background: 'rgb(var(--c-surface-rgb) / 0.9)', borderBottom: '1px solid var(--c-border)' }}
               />
               {HEADERS.map((h) => (
                 <th
                   key={h.key}
                   onClick={() => handleSort(h.key)}
                   className={`px-4 py-3 text-[11px] uppercase tracking-wider font-semibold cursor-pointer select-none transition-colors ${h.align === 'right' ? 'text-right' : 'text-left'}`}
-                  style={{ color: 'rgba(255,255,255,0.4)', background: 'rgba(10,10,15,0.9)', borderBottom: '1px solid rgba(255,255,255,0.04)' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)' }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.4)' }}
+                  style={{ color: 'var(--c-t-40)', background: 'rgb(var(--c-surface-rgb) / 0.9)', borderBottom: '1px solid var(--c-border)' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.7)' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.4)' }}
                 >
                   <span className="inline-flex items-center gap-1.5">
                     {h.label}
@@ -260,26 +260,26 @@ const MetricasTable: React.FC<{
                 <React.Fragment key={`${row.persona_nome}-${row.grupo_nome}-${i}`}>
                   <tr
                     className="cursor-pointer transition-colors duration-150"
-                    style={{ borderBottom: isExpanded ? 'none' : '1px solid rgba(255,255,255,0.04)' }}
+                    style={{ borderBottom: isExpanded ? 'none' : '1px solid var(--c-border)' }}
                     onClick={() => handleRowClick(row)}
-                    onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)' }}
-                    onMouseLeave={(e) => { e.currentTarget.style.background = isExpanded ? 'rgba(255,255,255,0.02)' : 'transparent' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass)' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = isExpanded ? 'var(--c-glass-2)' : 'transparent' }}
                   >
                     {/* Chevron */}
                     <td className="w-10 px-2 py-3.5 text-center">
                       <ChevronRight
                         className="w-3.5 h-3.5 mx-auto transition-transform duration-200"
                         style={{
-                          color: isExpanded ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.2)',
+                          color: isExpanded ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.2)',
                           transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)',
                         }}
                       />
                     </td>
-                    <td className="px-4 py-3.5 text-[13px] font-medium text-white">{row.persona_nome}</td>
-                    <td className="px-4 py-3.5 text-[13px]" style={{ color: 'rgba(255,255,255,0.6)' }}>{row.grupo_nome}</td>
+                    <td className="px-4 py-3.5 text-[13px] font-medium text-txt">{row.persona_nome}</td>
+                    <td className="px-4 py-3.5 text-[13px]" style={{ color: 'var(--c-t-60)' }}>{row.grupo_nome}</td>
                     <td className="px-4 py-3.5 text-[13px] text-right tabular-nums font-medium" style={{ color: '#34d399' }}>{row.total_mensagens}</td>
                     <td className="px-4 py-3.5 text-[13px] text-right tabular-nums font-medium" style={{ color: '#fb7185' }}>{row.total_reacoes}</td>
-                    <td className="px-4 py-3.5 text-[13px] text-right tabular-nums" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                    <td className="px-4 py-3.5 text-[13px] text-right tabular-nums" style={{ color: 'var(--c-t-50)' }}>
                       {typeof row.media_por_dia === 'number' ? row.media_por_dia.toFixed(1) : row.media_por_dia}
                     </td>
                   </tr>
@@ -289,11 +289,11 @@ const MetricasTable: React.FC<{
                       <td
                         colSpan={6}
                         className="p-0"
-                        style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}
+                        style={{ borderBottom: '1px solid var(--c-border)' }}
                       >
                         <div
                           className="px-4 py-4"
-                          style={{ background: '#0f0f0f', borderTop: '1px solid #232328' }}
+                          style={{ background: 'rgb(var(--c-surface-rgb))', borderTop: '1px solid var(--c-border)' }}
                         >
                           <MensagensPanel mensagens={mensagens} loading={loadingMensagens} />
                         </div>
@@ -354,12 +354,12 @@ const AlertasSuspeita: React.FC<{ alertas: Array<{ id: string; grupo_id: string;
             <div className="shrink-0 mt-0.5 w-1.5 h-1.5 rounded-full" style={{ background: '#facc3c', opacity: 0.6 }} />
             <div className="flex-1 min-w-0">
               <div className="flex items-baseline gap-2 mb-0.5">
-                <span className="text-[12px] font-semibold text-white truncate">{alerta.autor_nome || 'Anônimo'}</span>
-                <span className="text-[10px] shrink-0" style={{ color: 'rgba(255,255,255,0.25)' }}>
+                <span className="text-[12px] font-semibold text-txt truncate">{alerta.autor_nome || 'Anônimo'}</span>
+                <span className="text-[10px] shrink-0" style={{ color: 'var(--c-t-25)' }}>
                   {new Date(alerta.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}
                 </span>
               </div>
-              <p className="text-[12px] leading-relaxed truncate" style={{ color: 'rgba(255,255,255,0.5)' }}>{alerta.conteudo}</p>
+              <p className="text-[12px] leading-relaxed truncate" style={{ color: 'var(--c-t-50)' }}>{alerta.conteudo}</p>
             </div>
           </div>
         ))}
@@ -407,7 +407,7 @@ export const MetricasTab: React.FC<MetricasTabProps> = ({ showToast }) => {
   if (loading && !initialized) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="w-6 h-6 text-white/20 animate-spin" />
+        <Loader2 className="w-6 h-6 text-txt-dim animate-spin" />
       </div>
     );
   }
@@ -448,14 +448,14 @@ export const MetricasTab: React.FC<MetricasTabProps> = ({ showToast }) => {
 
       {/* ── Header + seletor de período ── */}
       <div className="flex items-center justify-between flex-wrap gap-3">
-        <h3 className="text-[14px] font-semibold text-white/80">Atividade por Persona</h3>
+        <h3 className="text-[14px] font-semibold text-txt-secondary">Atividade por Persona</h3>
         <PeriodoSelector periodo={periodo} onChange={handlePeriodoChange} loading={loading} />
       </div>
 
       {/* ── Tabela detalhada ── */}
       {loading ? (
         <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-5 h-5 text-white/20 animate-spin" />
+          <Loader2 className="w-5 h-5 text-txt-dim animate-spin" />
         </div>
       ) : (
         <MetricasTable data={metricas} periodo={periodo} buscarMensagens={buscarMensagensPersona} />

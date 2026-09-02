@@ -111,16 +111,16 @@ export const AdminDashboard: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {[1, 2, 3, 4].map(i => (
             <div key={i} className="glass-card p-5 h-[160px] animate-pulse">
-              <div className="h-4 w-24 rounded bg-white/[0.06] mb-4" />
-              <div className="h-8 w-16 rounded bg-white/[0.06] mb-2" />
-              <div className="h-3 w-32 rounded bg-white/[0.06]" />
+              <div className="h-4 w-24 rounded bg-glass-hover mb-4" />
+              <div className="h-8 w-16 rounded bg-glass-hover mb-2" />
+              <div className="h-3 w-32 rounded bg-glass-hover" />
             </div>
           ))}
         </div>
         <div className="glass-card p-6 animate-pulse">
-          <div className="h-5 w-48 rounded bg-white/[0.06] mb-6" />
+          <div className="h-5 w-48 rounded bg-glass-hover mb-6" />
           {[1, 2, 3].map(i => (
-            <div key={i} className="h-10 rounded bg-white/[0.06] mb-3" />
+            <div key={i} className="h-10 rounded bg-glass-hover mb-3" />
           ))}
         </div>
       </div>
@@ -185,9 +185,9 @@ export const AdminDashboard: React.FC = () => {
 
       {/* Expert Breakdown Table */}
       <div className="glass-card overflow-hidden">
-        <div className="p-5 pb-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-          <h2 className="text-[15px] font-semibold text-white font-display">Breakdown por Expert</h2>
-          <p className="text-[12px] mt-0.5" style={{ color: 'rgba(255,255,255,0.4)' }}>
+        <div className="p-5 pb-3" style={{ borderBottom: '1px solid var(--c-border)' }}>
+          <h2 className="text-[15px] font-semibold text-txt font-display">Breakdown por Expert</h2>
+          <p className="text-[12px] mt-0.5" style={{ color: 'var(--c-t-40)' }}>
             Performance individual de cada expert no mes
           </p>
         </div>
@@ -195,7 +195,7 @@ export const AdminDashboard: React.FC = () => {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+              <tr style={{ borderBottom: '1px solid var(--c-border)' }}>
                 {([
                   { key: 'expert_nome' as SortColumn, label: 'Expert' },
                   { key: 'leads' as SortColumn, label: 'Leads' },
@@ -208,7 +208,7 @@ export const AdminDashboard: React.FC = () => {
                     key={col.key}
                     onClick={() => handleSort(col.key)}
                     className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider cursor-pointer select-none transition-colors hover:text-primary-light"
-                    style={{ color: 'rgba(255,255,255,0.45)' }}
+                    style={{ color: 'var(--c-t-45)' }}
                   >
                     <div className="flex items-center gap-1.5">
                       {col.label}
@@ -221,7 +221,7 @@ export const AdminDashboard: React.FC = () => {
             <tbody>
               {sortedBreakdown.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-5 py-8 text-center text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                  <td colSpan={6} className="px-5 py-8 text-center text-sm" style={{ color: 'var(--c-t-40)' }}>
                     Nenhum expert cadastrado
                   </td>
                 </tr>
@@ -230,21 +230,21 @@ export const AdminDashboard: React.FC = () => {
                   <tr
                     key={row.expert_id}
                     className="transition-colors"
-                    style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}
-                    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.02)'; }}
+                    style={{ borderBottom: '1px solid var(--c-border)' }}
+                    onMouseEnter={e => { e.currentTarget.style.background = 'var(--c-glass-2)'; }}
                     onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
                   >
                     <td className="px-5 py-3.5">
-                      <span className="text-sm font-medium text-white">{row.expert_nome}</span>
+                      <span className="text-sm font-medium text-txt">{row.expert_nome}</span>
                     </td>
                     <td className="px-5 py-3.5">
-                      <span className="text-sm text-white" style={{ fontVariantNumeric: 'tabular-nums' }}>{row.leads}</span>
+                      <span className="text-sm text-txt" style={{ fontVariantNumeric: 'tabular-nums' }}>{row.leads}</span>
                     </td>
                     <td className="px-5 py-3.5">
-                      <span className="text-sm text-white" style={{ fontVariantNumeric: 'tabular-nums' }}>{row.envios}</span>
+                      <span className="text-sm text-txt" style={{ fontVariantNumeric: 'tabular-nums' }}>{row.envios}</span>
                     </td>
                     <td className="px-5 py-3.5">
-                      <span className="text-sm text-white" style={{ fontVariantNumeric: 'tabular-nums' }}>{row.instancias}</span>
+                      <span className="text-sm text-txt" style={{ fontVariantNumeric: 'tabular-nums' }}>{row.instancias}</span>
                     </td>
                     <td className="px-5 py-3.5">
                       <span className="text-[12px] px-2.5 py-1 rounded-lg font-medium"
@@ -277,11 +277,11 @@ export const AdminDashboard: React.FC = () => {
       {/* Solicitacoes de Alteracao de Senha */}
       {solicitacoes.length > 0 && (
         <div className="glass-card overflow-hidden mt-6">
-          <div className="p-5 pb-3 flex items-center gap-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+          <div className="p-5 pb-3 flex items-center gap-2" style={{ borderBottom: '1px solid var(--c-border)' }}>
             <KeyRound className="w-4 h-4 text-amber-400" />
             <div>
-              <h2 className="text-[15px] font-semibold text-white font-display">Solicitacoes de Senha</h2>
-              <p className="text-[12px] mt-0.5" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              <h2 className="text-[15px] font-semibold text-txt font-display">Solicitacoes de Senha</h2>
+              <p className="text-[12px] mt-0.5" style={{ color: 'var(--c-t-40)' }}>
                 Experts aguardando aprovacao para alteracao de senha
               </p>
             </div>
@@ -290,15 +290,15 @@ export const AdminDashboard: React.FC = () => {
             </span>
           </div>
 
-          <div className="divide-y divide-white/[0.03]">
+          <div className="divide-y divide-[var(--c-border)]">
             {solicitacoes.map((sol) => (
               <div
                 key={sol.id}
                 className="flex items-center justify-between px-5 py-3.5"
               >
                 <div>
-                  <p className="text-sm font-medium text-white">{sol.expert_nome}</p>
-                  <p className="text-[12px]" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                  <p className="text-sm font-medium text-txt">{sol.expert_nome}</p>
+                  <p className="text-[12px]" style={{ color: 'var(--c-t-40)' }}>
                     {sol.user_email} &middot; {new Date(sol.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}
                   </p>
                 </div>

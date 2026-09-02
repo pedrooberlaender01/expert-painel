@@ -76,7 +76,7 @@ export const GatilhoCard: React.FC<GatilhoCardProps> = ({
                 value={word}
                 onChange={(e) => updateWord(index, e.target.value)}
                 placeholder="Palavra..."
-                className="px-3.5 py-2 rounded-lg text-[13px] text-txt placeholder-txt-dim outline-none border border-[#2a2a2a] focus:border-primary/30 transition-all duration-200"
+                className="px-3.5 py-2 rounded-lg text-[13px] text-txt placeholder-txt-dim outline-none border border-[rgb(var(--c-fg-rgb)/0.12)] focus:border-primary/30 transition-all duration-200"
                 style={{ background: '#1a1a1a', minWidth: '100px', width: `${Math.max(100, word.length * 9 + 32)}px` }}
               />
               {mensagem.mensagens.length > 1 && (
@@ -100,7 +100,7 @@ export const GatilhoCard: React.FC<GatilhoCardProps> = ({
             onChange={(e) => setNewWord(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Nova palavra..."
-            className="px-3.5 py-2 rounded-lg text-[13px] text-txt placeholder-txt-dim outline-none border border-dashed border-[#2a2a2a] focus:border-primary/30 transition-all duration-200"
+            className="px-3.5 py-2 rounded-lg text-[13px] text-txt placeholder-txt-dim outline-none border border-dashed border-[rgb(var(--c-fg-rgb)/0.12)] focus:border-primary/30 transition-all duration-200"
             style={{ background: '#1a1a1a', minWidth: '120px', width: '150px' }}
           />
           <button

@@ -41,7 +41,7 @@ export const QualidadeStars: React.FC<QualidadeStarsProps> = ({
               'transition-colors duration-150',
               star <= display
                 ? 'text-amber-400 fill-amber-400'
-                : 'text-[#2a2a2e]'
+                : 'text-[rgb(var(--c-fg-rgb)/0.14)]'
             )}
           />
         </button>

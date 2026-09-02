@@ -80,7 +80,7 @@ const STATUS_MAP: Record<string, { label: string; color: string; bg: string }> =
   agendado: { label: 'Agendado', color: '#22d3ee', bg: 'rgba(34,211,238,0.1)' },
   ativo: { label: 'Ativo', color: '#34d399', bg: 'rgba(52,211,153,0.1)' },
   pausado: { label: 'Pausado', color: '#fbbf24', bg: 'rgba(251,191,36,0.1)' },
-  encerrado: { label: 'Encerrado', color: 'rgba(255,255,255,0.35)', bg: 'rgba(255,255,255,0.04)' },
+  encerrado: { label: 'Encerrado', color: 'var(--c-t-35)', bg: 'var(--c-glass)' },
 };
 
 // Status visual derivado: se DB diz 'ativo' mas data_inicio ainda nao chegou, exibe 'agendado'
@@ -234,7 +234,7 @@ export const TorneioCopyTab: React.FC<TorneioCopyTabProps> = ({ showToast }) => 
   };
 
   // ── Loading / Empty ──
-  if (loadingTorneios) return <div className="flex items-center justify-center py-20"><Loader2 className="w-6 h-6 text-white/20 animate-spin" /></div>;
+  if (loadingTorneios) return <div className="flex items-center justify-center py-20"><Loader2 className="w-6 h-6 text-txt-dim animate-spin" /></div>;
   if (torneios.length === 0) return (
     <div className="card-dark p-12 flex flex-col items-center justify-center gap-3">
       <Trophy className="w-10 h-10 text-txt-dim" />
@@ -255,8 +255,8 @@ export const TorneioCopyTab: React.FC<TorneioCopyTabProps> = ({ showToast }) => 
           onClick={() => setSelectorOpen(!selectorOpen)}
           className="w-full flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-200"
           style={{
-            background: 'rgba(255,255,255,0.03)',
-            border: selectorOpen ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid rgba(255,255,255,0.06)',
+            background: 'var(--c-glass)',
+            border: selectorOpen ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid var(--c-border)',
             boxShadow: selectorOpen ? '0 0 0 3px rgba(var(--color-primary-rgb),0.06)' : 'none',
           }}
         >
@@ -267,9 +267,9 @@ export const TorneioCopyTab: React.FC<TorneioCopyTabProps> = ({ showToast }) => 
 
           {/* Info */}
           <div className="flex-1 min-w-0 text-left">
-            <p className="text-[15px] font-bold text-white truncate">{selectedTorneio?.nome || 'Selecione...'}</p>
+            <p className="text-[15px] font-bold text-txt truncate">{selectedTorneio?.nome || 'Selecione...'}</p>
             {selectedTorneio && (
-              <p className="text-[11px] text-white/30 mt-0.5">
+              <p className="text-[11px] text-txt-dim mt-0.5">
                 <span className="inline-flex items-center gap-1 mr-2 font-semibold" style={{ color: selectedStatus.color }}>{selectedStatus.label}</span>
                 {fmtDate(selectedTorneio.data_inicio)} — {fmtDate(selectedTorneio.data_fim)}
               </p>
@@ -277,16 +277,16 @@ export const TorneioCopyTab: React.FC<TorneioCopyTabProps> = ({ showToast }) => 
           </div>
 
           {/* Chevron */}
-          <ChevronUp className="w-4 h-4 shrink-0 transition-transform duration-200" style={{ color: 'rgba(255,255,255,0.3)', transform: selectorOpen ? 'rotate(0)' : 'rotate(180deg)' }} />
+          <ChevronUp className="w-4 h-4 shrink-0 transition-transform duration-200" style={{ color: 'var(--c-t-30)', transform: selectorOpen ? 'rotate(0)' : 'rotate(180deg)' }} />
         </button>
 
         {/* Dropdown */}
         {selectorOpen && (
           <div
             className="absolute z-50 mt-2 w-full animate-fade-in"
-            style={{ background: 'rgba(16,16,28,0.97)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '16px', boxShadow: '0 16px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset', overflow: 'hidden' }}
+            style={{ background: 'var(--c-popup-bg)', border: '1px solid var(--c-border-strong)', borderRadius: '16px', boxShadow: '0 16px 48px rgba(0,0,0,0.6), 0 0 0 1px rgb(var(--c-fg-rgb) / 0.04) inset', overflow: 'hidden' }}
           >
-            <div className="overflow-y-auto py-1.5" style={{ maxHeight: '280px', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.1) transparent' }}>
+            <div className="overflow-y-auto py-1.5" style={{ maxHeight: '280px', scrollbarWidth: 'thin', scrollbarColor: 'rgb(var(--c-fg-rgb) / 0.1) transparent' }}>
               {torneios.map((t) => {
                 const isSelected = t.id === torneioId;
                 const ds = getDisplayStatus(t);
@@ -298,7 +298,7 @@ export const TorneioCopyTab: React.FC<TorneioCopyTabProps> = ({ showToast }) => 
                     onClick={() => { setTorneioId(t.id); setSelectorOpen(false); }}
                     className="w-full flex items-center gap-3.5 px-4 py-3 text-left transition-colors duration-100"
                     style={{ background: isSelected ? 'rgba(var(--color-primary-rgb),0.08)' : 'transparent' }}
-                    onMouseEnter={(e) => { if (!isSelected) e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
+                    onMouseEnter={(e) => { if (!isSelected) e.currentTarget.style.background = 'var(--c-glass)' }}
                     onMouseLeave={(e) => { if (!isSelected) e.currentTarget.style.background = 'transparent' }}
                   >
                     {/* Status dot */}
@@ -306,8 +306,8 @@ export const TorneioCopyTab: React.FC<TorneioCopyTabProps> = ({ showToast }) => 
 
                     {/* Text */}
                     <div className="flex-1 min-w-0">
-                      <p className="text-[13px] font-semibold truncate" style={{ color: isSelected ? 'var(--color-primary-light)' : '#fff' }}>{t.nome}</p>
-                      <p className="text-[10px] text-white/25 font-mono mt-0.5">{st.label} · {fmtDate(t.data_inicio)} — {fmtDate(t.data_fim)}</p>
+                      <p className="text-[13px] font-semibold truncate" style={{ color: isSelected ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb))' }}>{t.nome}</p>
+                      <p className="text-[10px] text-txt-dim font-mono mt-0.5">{st.label} · {fmtDate(t.data_inicio)} — {fmtDate(t.data_fim)}</p>
                     </div>
 
                     {/* Check */}
@@ -322,12 +322,12 @@ export const TorneioCopyTab: React.FC<TorneioCopyTabProps> = ({ showToast }) => 
 
       {/* ═══ Content ═══ */}
       {loadingCopy ? (
-        <div className="flex items-center justify-center py-16"><Loader2 className="w-5 h-5 text-white/20 animate-spin" /></div>
+        <div className="flex items-center justify-center py-16"><Loader2 className="w-5 h-5 text-txt-dim animate-spin" /></div>
       ) : (
         <div className="flex gap-5 items-start">
 
           {/* ─── Sidebar ─── */}
-          <div className="w-64 shrink-0 space-y-1.5 rounded-2xl p-3" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}>
+          <div className="w-64 shrink-0 space-y-1.5 rounded-2xl p-3" style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}>
             {SECTIONS.map((section) => {
               const filled = getFilledCount(section);
               const total = section.fields.length;
@@ -344,15 +344,15 @@ export const TorneioCopyTab: React.FC<TorneioCopyTabProps> = ({ showToast }) => 
                     border: isActive ? `1px solid ${section.color}25` : '1px solid transparent',
                   }}
                 >
-                  <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{ background: isActive ? `${section.color}18` : 'rgba(255,255,255,0.03)' }}>
-                    <Icon className="w-4 h-4" style={{ color: isActive ? section.color : 'rgba(255,255,255,0.25)' }} />
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{ background: isActive ? `${section.color}18` : 'var(--c-glass)' }}>
+                    <Icon className="w-4 h-4" style={{ color: isActive ? section.color : 'rgb(var(--c-fg-rgb) / 0.25)' }} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[13px] font-semibold truncate" style={{ color: isActive ? '#fff' : 'rgba(255,255,255,0.45)' }}>{section.label}</p>
-                    <p className="text-[11px] font-mono" style={{ color: isActive ? section.color : 'rgba(255,255,255,0.25)' }}>{filled}/{total}</p>
+                    <p className="text-[13px] font-semibold truncate" style={{ color: isActive ? 'rgb(var(--c-fg-rgb))' : 'rgb(var(--c-fg-rgb) / 0.45)' }}>{section.label}</p>
+                    <p className="text-[11px] font-mono" style={{ color: isActive ? section.color : 'rgb(var(--c-fg-rgb) / 0.25)' }}>{filled}/{total}</p>
                   </div>
                   {/* Mini progress bar */}
-                  <div className="w-10 h-1.5 rounded-full overflow-hidden shrink-0" style={{ background: 'rgba(255,255,255,0.06)' }}>
+                  <div className="w-10 h-1.5 rounded-full overflow-hidden shrink-0" style={{ background: 'var(--c-glass-hover)' }}>
                     <div className="h-full rounded-full transition-all duration-300" style={{ width: `${pct}%`, background: section.color, opacity: filled > 0 ? 1 : 0.15 }} />
                   </div>
                 </button>
@@ -368,29 +368,29 @@ export const TorneioCopyTab: React.FC<TorneioCopyTabProps> = ({ showToast }) => 
                 border: activeSection === 'premiacoes' ? '1px solid rgba(245,158,11,0.2)' : '1px solid transparent',
               }}
             >
-              <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{ background: activeSection === 'premiacoes' ? 'rgba(245,158,11,0.15)' : 'rgba(255,255,255,0.03)' }}>
-                <Trophy className="w-4 h-4" style={{ color: activeSection === 'premiacoes' ? '#f59e0b' : 'rgba(255,255,255,0.25)' }} />
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{ background: activeSection === 'premiacoes' ? 'rgba(245,158,11,0.15)' : 'var(--c-glass)' }}>
+                <Trophy className="w-4 h-4" style={{ color: activeSection === 'premiacoes' ? '#f59e0b' : 'rgb(var(--c-fg-rgb) / 0.25)' }} />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[13px] font-semibold" style={{ color: activeSection === 'premiacoes' ? '#fff' : 'rgba(255,255,255,0.45)' }}>Premiações</p>
-                <p className="text-[11px] font-mono" style={{ color: activeSection === 'premiacoes' ? '#f59e0b' : 'rgba(255,255,255,0.25)' }}>{premAtivas.length} ativa{premAtivas.length !== 1 ? 's' : ''}</p>
+                <p className="text-[13px] font-semibold" style={{ color: activeSection === 'premiacoes' ? 'rgb(var(--c-fg-rgb))' : 'rgb(var(--c-fg-rgb) / 0.45)' }}>Premiações</p>
+                <p className="text-[11px] font-mono" style={{ color: activeSection === 'premiacoes' ? '#f59e0b' : 'rgb(var(--c-fg-rgb) / 0.25)' }}>{premAtivas.length} ativa{premAtivas.length !== 1 ? 's' : ''}</p>
               </div>
             </button>
 
             {/* Progress total */}
-            <div className="mt-3 pt-3 px-2" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+            <div className="mt-3 pt-3 px-2" style={{ borderTop: '1px solid var(--c-border)' }}>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] text-white/30 font-semibold uppercase tracking-wider">Progresso</span>
+                <span className="text-[10px] text-txt-dim font-semibold uppercase tracking-wider">Progresso</span>
                 <span className="text-[12px] font-bold tabular-nums" style={{ color: 'var(--color-primary-light)' }}>{totalPercent}%</span>
               </div>
-              <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.04)' }}>
+              <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--c-glass)' }}>
                 <div className="h-full rounded-full transition-all duration-500" style={{ width: `${totalPercent}%`, background: 'var(--color-primary)' }} />
               </div>
             </div>
           </div>
 
           {/* ─── Main panel ─── */}
-          <div className="flex-1 min-w-0 rounded-2xl p-5" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}>
+          <div className="flex-1 min-w-0 rounded-2xl p-5" style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}>
             {activeSection !== 'premiacoes' ? (
               <div className="space-y-5">
                 {/* Header */}
@@ -400,8 +400,8 @@ export const TorneioCopyTab: React.FC<TorneioCopyTabProps> = ({ showToast }) => 
                       <currentSection.icon className="w-4.5 h-4.5" style={{ color: currentSection.color }} />
                     </div>
                     <div>
-                      <h3 className="text-[15px] font-bold text-white">{currentSection.label}</h3>
-                      <p className="text-[11px] text-white/25">{getFilledCount(currentSection)}/{currentSection.fields.length} preenchidos</p>
+                      <h3 className="text-[15px] font-bold text-txt">{currentSection.label}</h3>
+                      <p className="text-[11px] text-txt-dim">{getFilledCount(currentSection)}/{currentSection.fields.length} preenchidos</p>
                     </div>
                   </div>
                   {hasChanges && (
@@ -427,18 +427,18 @@ export const TorneioCopyTab: React.FC<TorneioCopyTabProps> = ({ showToast }) => 
                   const previewUrl = field.type === 'video-url' ? normalizarUrlVideo(rawValue) : '';
                   return (
                     <div key={field.chave}>
-                      <label className="block text-[12px] font-semibold text-white/60 mb-1">{field.label}</label>
-                      <p className="text-[10px] text-white/20 mb-2">{field.desc}</p>
+                      <label className="block text-[12px] font-semibold text-txt-muted mb-1">{field.label}</label>
+                      <p className="text-[10px] text-txt-dim mb-2">{field.desc}</p>
                       {field.type === 'textarea' ? (
                         <textarea
                           value={rawValue}
                           onChange={(e) => setValues((prev) => ({ ...prev, [field.chave]: e.target.value }))}
                           rows={field.rows || 4}
                           placeholder="..."
-                          className="w-full text-[13px] text-white outline-none transition-all duration-200 resize-none placeholder-white/15"
-                          style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '10px', padding: '10px 14px' }}
+                          className="w-full text-[13px] text-txt outline-none transition-all duration-200 resize-none placeholder-txt-dim"
+                          style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', borderRadius: '10px', padding: '10px 14px' }}
                           onFocus={(e) => { e.currentTarget.style.borderColor = `${currentSection.color}40`; e.currentTarget.style.boxShadow = `0 0 0 3px ${currentSection.color}0a` }}
-                          onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; e.currentTarget.style.boxShadow = 'none' }}
+                          onBlur={(e) => { e.currentTarget.style.borderColor = 'var(--c-border)'; e.currentTarget.style.boxShadow = 'none' }}
                         />
                       ) : field.type === 'number' ? (
                         <div className="relative">
@@ -454,10 +454,10 @@ export const TorneioCopyTab: React.FC<TorneioCopyTabProps> = ({ showToast }) => 
                               setValues((prev) => ({ ...prev, [field.chave]: cleaned }));
                             }}
                             placeholder="0"
-                            className="w-full text-[13px] text-white outline-none transition-all duration-200 placeholder-white/15 font-mono"
-                            style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '10px', padding: '10px 14px', paddingRight: field.suffix ? '40px' : '14px' }}
+                            className="w-full text-[13px] text-txt outline-none transition-all duration-200 placeholder-txt-dim font-mono"
+                            style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', borderRadius: '10px', padding: '10px 14px', paddingRight: field.suffix ? '40px' : '14px' }}
                             onFocus={(e) => { e.currentTarget.style.borderColor = `${currentSection.color}40`; e.currentTarget.style.boxShadow = `0 0 0 3px ${currentSection.color}0a` }}
-                            onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; e.currentTarget.style.boxShadow = 'none' }}
+                            onBlur={(e) => { e.currentTarget.style.borderColor = 'var(--c-border)'; e.currentTarget.style.boxShadow = 'none' }}
                           />
                           {field.suffix && (
                             <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-mono pointer-events-none" style={{ color: `${currentSection.color}aa` }}>{field.suffix}</span>
@@ -469,10 +469,10 @@ export const TorneioCopyTab: React.FC<TorneioCopyTabProps> = ({ showToast }) => 
                           value={rawValue}
                           onChange={(e) => setValues((prev) => ({ ...prev, [field.chave]: e.target.value }))}
                           placeholder={field.type === 'video-url' ? 'https://www.youtube.com/watch?v=...' : '...'}
-                          className="w-full text-[13px] text-white outline-none transition-all duration-200 placeholder-white/15"
-                          style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '10px', padding: '10px 14px' }}
+                          className="w-full text-[13px] text-txt outline-none transition-all duration-200 placeholder-txt-dim"
+                          style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', borderRadius: '10px', padding: '10px 14px' }}
                           onFocus={(e) => { e.currentTarget.style.borderColor = `${currentSection.color}40`; e.currentTarget.style.boxShadow = `0 0 0 3px ${currentSection.color}0a` }}
-                          onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; e.currentTarget.style.boxShadow = 'none' }}
+                          onBlur={(e) => { e.currentTarget.style.borderColor = 'var(--c-border)'; e.currentTarget.style.boxShadow = 'none' }}
                         />
                       )}
 
@@ -480,8 +480,8 @@ export const TorneioCopyTab: React.FC<TorneioCopyTabProps> = ({ showToast }) => 
                       {field.type === 'video-url' && rawValue.trim() && (
                         <div className="mt-3 flex items-center gap-2 px-3 py-2 rounded-lg" style={{ background: `${currentSection.color}08`, border: `1px solid ${currentSection.color}1a` }}>
                           <ExternalLink className="w-3 h-3 shrink-0" style={{ color: currentSection.color }} />
-                          <span className="text-[10px] text-white/30 uppercase tracking-wider font-semibold shrink-0">Salvará como:</span>
-                          <span className="text-[11px] text-white/70 font-mono truncate flex-1">{previewUrl}</span>
+                          <span className="text-[10px] text-txt-dim uppercase tracking-wider font-semibold shrink-0">Salvará como:</span>
+                          <span className="text-[11px] text-txt-secondary font-mono truncate flex-1">{previewUrl}</span>
                         </div>
                       )}
                     </div>
@@ -497,8 +497,8 @@ export const TorneioCopyTab: React.FC<TorneioCopyTabProps> = ({ showToast }) => 
                       <Trophy className="w-4.5 h-4.5" style={{ color: '#f59e0b' }} />
                     </div>
                     <div>
-                      <h3 className="text-[15px] font-bold text-white">Premiações</h3>
-                      <p className="text-[11px] text-white/25">{premAtivas.length} ativa{premAtivas.length !== 1 ? 's' : ''} · Total <strong className="text-amber-400 font-mono">R$ {somaTotal.toFixed(2)}</strong></p>
+                      <h3 className="text-[15px] font-bold text-txt">Premiações</h3>
+                      <p className="text-[11px] text-txt-dim">{premAtivas.length} ativa{premAtivas.length !== 1 ? 's' : ''} · Total <strong className="text-amber-400 font-mono">R$ {somaTotal.toFixed(2)}</strong></p>
                     </div>
                   </div>
                 </div>
@@ -508,16 +508,16 @@ export const TorneioCopyTab: React.FC<TorneioCopyTabProps> = ({ showToast }) => 
                 {/* Add form */}
                 <div className="flex items-end gap-2">
                   <div className="flex-1">
-                    <label className="block text-[10px] font-semibold text-white/35 mb-1 uppercase tracking-wider">Posição</label>
+                    <label className="block text-[10px] font-semibold text-txt-dim mb-1 uppercase tracking-wider">Posição</label>
                     <input type="number" value={novaPosicao} onChange={(e) => setNovaPosicao(e.target.value)} placeholder="1" min={1}
-                      className="w-full text-[13px] text-white outline-none font-mono"
-                      style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '10px', padding: '8px 12px' }} />
+                      className="w-full text-[13px] text-txt outline-none font-mono"
+                      style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', borderRadius: '10px', padding: '8px 12px' }} />
                   </div>
                   <div className="flex-1">
-                    <label className="block text-[10px] font-semibold text-white/35 mb-1 uppercase tracking-wider">Valor R$</label>
+                    <label className="block text-[10px] font-semibold text-txt-dim mb-1 uppercase tracking-wider">Valor R$</label>
                     <input type="number" value={novoValor} onChange={(e) => setNovoValor(e.target.value)} placeholder="100.00" step="0.01"
-                      className="w-full text-[13px] text-white outline-none font-mono"
-                      style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '10px', padding: '8px 12px' }} />
+                      className="w-full text-[13px] text-txt outline-none font-mono"
+                      style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', borderRadius: '10px', padding: '8px 12px' }} />
                   </div>
                   <button onClick={handleAddPremiacao} disabled={addingPrem || !novaPosicao || !novoValor}
                     className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-[12px] font-semibold transition-all duration-200 disabled:opacity-30 shrink-0"
@@ -529,46 +529,46 @@ export const TorneioCopyTab: React.FC<TorneioCopyTabProps> = ({ showToast }) => 
 
                 {/* Table */}
                 {loadingPrem ? (
-                  <div className="flex justify-center py-8"><Loader2 className="w-5 h-5 text-white/20 animate-spin" /></div>
+                  <div className="flex justify-center py-8"><Loader2 className="w-5 h-5 text-txt-dim animate-spin" /></div>
                 ) : premiacoes.length === 0 ? (
-                  <p className="text-[13px] text-white/20 text-center py-8">Nenhuma premiação cadastrada</p>
+                  <p className="text-[13px] text-txt-dim text-center py-8">Nenhuma premiação cadastrada</p>
                 ) : (
-                  <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.04)' }}>
+                  <div className="rounded-xl overflow-hidden" style={{ border: '1px solid var(--c-border)' }}>
                     <table className="w-full">
                       <thead>
-                        <tr style={{ background: 'rgba(255,255,255,0.025)' }}>
-                          <th className="text-left text-[10px] font-semibold text-white/30 uppercase tracking-wider px-4 py-2.5">Pos.</th>
-                          <th className="text-left text-[10px] font-semibold text-white/30 uppercase tracking-wider px-4 py-2.5">Valor R$</th>
-                          <th className="text-center text-[10px] font-semibold text-white/30 uppercase tracking-wider px-4 py-2.5">Status</th>
-                          <th className="text-right text-[10px] font-semibold text-white/30 uppercase tracking-wider px-4 py-2.5">Ações</th>
+                        <tr style={{ background: 'var(--c-glass-2)' }}>
+                          <th className="text-left text-[10px] font-semibold text-txt-dim uppercase tracking-wider px-4 py-2.5">Pos.</th>
+                          <th className="text-left text-[10px] font-semibold text-txt-dim uppercase tracking-wider px-4 py-2.5">Valor R$</th>
+                          <th className="text-center text-[10px] font-semibold text-txt-dim uppercase tracking-wider px-4 py-2.5">Status</th>
+                          <th className="text-right text-[10px] font-semibold text-txt-dim uppercase tracking-wider px-4 py-2.5">Ações</th>
                         </tr>
                       </thead>
                       <tbody>
                         {premiacoes.map((p) => (
-                          <tr key={p.id} className="border-t" style={{ borderColor: 'rgba(255,255,255,0.04)' }}>
-                            <td className="px-4 py-3 text-[13px] font-bold text-white/60 font-mono">#{p.posicao}</td>
+                          <tr key={p.id} className="border-t" style={{ borderColor: 'var(--c-border)' }}>
+                            <td className="px-4 py-3 text-[13px] font-bold text-txt-muted font-mono">#{p.posicao}</td>
                             <td className="px-4 py-3">
                               {editingPremId === p.id ? (
                                 <div className="flex items-center gap-1.5">
                                   <input type="number" value={editingPremValor} onChange={(e) => setEditingPremValor(e.target.value)} step="0.01" autoFocus
-                                    className="w-24 text-[13px] text-white font-mono outline-none"
-                                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(var(--color-primary-rgb),0.3)', borderRadius: '8px', padding: '4px 8px' }} />
+                                    className="w-24 text-[13px] text-txt font-mono outline-none"
+                                    style={{ background: 'var(--c-glass)', border: '1px solid rgba(var(--color-primary-rgb),0.3)', borderRadius: '8px', padding: '4px 8px' }} />
                                   <button onClick={handleSaveEditPremiacao} className="p-1 text-emerald-400 hover:bg-emerald-500/10 rounded-md transition-colors"><Check className="w-3.5 h-3.5" /></button>
-                                  <button onClick={() => setEditingPremId(null)} className="p-1 text-white/30 hover:bg-white/5 rounded-md transition-colors"><X className="w-3.5 h-3.5" /></button>
+                                  <button onClick={() => setEditingPremId(null)} className="p-1 text-txt-dim hover:bg-glass-2 rounded-md transition-colors"><X className="w-3.5 h-3.5" /></button>
                                 </div>
                               ) : (
-                                <span className="text-[13px] text-white/50 font-mono">R$ {Number(p.valor).toFixed(2)}</span>
+                                <span className="text-[13px] text-txt-muted font-mono">R$ {Number(p.valor).toFixed(2)}</span>
                               )}
                             </td>
                             <td className="px-4 py-3 text-center">
-                              <button onClick={() => handleTogglePremiacao(p)} className="relative w-9 h-5 rounded-full transition-colors duration-200 shrink-0" style={{ background: p.ativo ? 'rgba(var(--color-primary-rgb),0.3)' : 'rgba(255,255,255,0.08)' }}>
-                                <span className="absolute top-[2px] left-[2px] w-4 h-4 rounded-full transition-all duration-200" style={{ background: p.ativo ? 'var(--color-primary)' : 'rgba(255,255,255,0.3)', transform: p.ativo ? 'translateX(16px)' : 'translateX(0)' }} />
+                              <button onClick={() => handleTogglePremiacao(p)} className="relative w-9 h-5 rounded-full transition-colors duration-200 shrink-0" style={{ background: p.ativo ? 'rgba(var(--color-primary-rgb),0.3)' : 'var(--c-glass-hover)' }}>
+                                <span className="absolute top-[2px] left-[2px] w-4 h-4 rounded-full transition-all duration-200" style={{ background: p.ativo ? 'var(--color-primary)' : 'rgb(var(--c-fg-rgb) / 0.3)', transform: p.ativo ? 'translateX(16px)' : 'translateX(0)' }} />
                               </button>
                             </td>
                             <td className="px-4 py-3 text-right">
                               <div className="flex items-center gap-1 justify-end">
-                                <button onClick={() => { setEditingPremId(p.id); setEditingPremValor(String(p.valor)); }} className="p-1.5 text-white/20 hover:text-amber-400 hover:bg-amber-500/10 rounded-lg transition-colors"><Pencil className="w-3 h-3" /></button>
-                                <button onClick={() => handleDeletePremiacao(p.id)} className="p-1.5 text-white/20 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"><Trash2 className="w-3 h-3" /></button>
+                                <button onClick={() => { setEditingPremId(p.id); setEditingPremValor(String(p.valor)); }} className="p-1.5 text-txt-dim hover:text-amber-400 hover:bg-amber-500/10 rounded-lg transition-colors"><Pencil className="w-3 h-3" /></button>
+                                <button onClick={() => handleDeletePremiacao(p.id)} className="p-1.5 text-txt-dim hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"><Trash2 className="w-3 h-3" /></button>
                               </div>
                             </td>
                           </tr>

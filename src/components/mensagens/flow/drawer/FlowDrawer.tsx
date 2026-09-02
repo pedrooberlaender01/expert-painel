@@ -70,8 +70,8 @@ export const FlowDrawer: React.FC<FlowDrawerProps> = ({
         ref={panelRef}
         className="fixed right-0 top-0 h-full w-full sm:w-[420px] md:w-[460px] z-50 flex flex-col"
         style={{
-          background: 'rgba(22, 27, 34, 0.97)',
-          borderLeft: '1px solid rgba(255,255,255,0.1)',
+          background: 'var(--c-popup-bg)',
+          borderLeft: '1px solid var(--c-border-strong)',
           animation: 'flow-drawer-in 200ms ease-out forwards',
         }}
         onClick={(e) => e.stopPropagation()}
@@ -85,35 +85,35 @@ export const FlowDrawer: React.FC<FlowDrawerProps> = ({
         <div className="shrink-0 px-5 py-5 flex items-start justify-between">
           <div>
             {subtitle && (
-              <span className="text-[10px] uppercase tracking-[0.08em] font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              <span className="text-[10px] uppercase tracking-[0.08em] font-medium" style={{ color: 'var(--c-t-50)' }}>
                 {subtitle}
               </span>
             )}
-            <h2 className="text-[17px] font-medium text-white mt-1 font-display">{title}</h2>
+            <h2 className="text-[17px] font-medium text-txt mt-1 font-display">{title}</h2>
           </div>
           <button
             onClick={onClose}
             className="p-1.5 rounded-lg transition-colors duration-150"
-            style={{ color: 'rgba(255,255,255,0.4)' }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = '#fff'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.4)'; }}
+            style={{ color: 'var(--c-t-40)' }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.4)'; }}
           >
             <X className="w-4.5 h-4.5" />
           </button>
         </div>
 
         {/* Divider */}
-        <div className="shrink-0" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }} />
+        <div className="shrink-0" style={{ borderTop: '1px solid var(--c-border)' }} />
 
         {/* Body scrollavel */}
-        <div className="flex-1 overflow-y-auto p-5" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.1) transparent' }}>
+        <div className="flex-1 overflow-y-auto p-5" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgb(var(--c-fg-rgb) / 0.1) transparent' }}>
           {children}
         </div>
 
         {/* Footer sticky */}
         {footer && (
           <>
-            <div className="shrink-0" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }} />
+            <div className="shrink-0" style={{ borderTop: '1px solid var(--c-border)' }} />
             <div className="shrink-0 px-5 py-4 flex justify-end gap-2">
               {footer}
             </div>

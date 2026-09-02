@@ -22,9 +22,9 @@ export const SaveLayoutButton: React.FC<SaveLayoutButtonProps> = ({ visible, sav
         onClick={onDiscard}
         disabled={saving}
         className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[12px] font-medium transition-colors duration-150 disabled:opacity-40"
-        style={{ color: 'rgba(255,255,255,0.5)' }}
-        onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.8)'; e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; }}
-        onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.5)'; e.currentTarget.style.background = 'transparent'; }}
+        style={{ color: 'var(--c-t-50)' }}
+        onMouseEnter={(e) => { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.8)'; e.currentTarget.style.background = 'var(--c-glass-hover)'; }}
+        onMouseLeave={(e) => { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.5)'; e.currentTarget.style.background = 'transparent'; }}
         title="Descartar alterações de posição"
       >
         <Undo2 className="w-3 h-3" />

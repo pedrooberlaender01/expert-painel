@@ -37,8 +37,8 @@ const defaultEdgeOptions = {
 };
 
 const canvasStyle = {
-  borderColor: 'rgba(255,255,255,0.08)',
-  background: 'linear-gradient(135deg, rgba(10,10,15,0.95), rgba(13,17,23,0.95))',
+  borderColor: 'var(--c-border)',
+  background: 'linear-gradient(135deg, rgb(var(--c-surface-rgb) / 0.95), rgb(var(--c-surface-50-rgb) / 0.95))',
 };
 
 type DrawerState =
@@ -52,11 +52,11 @@ const LoadingSkeleton: React.FC = () => (
   <div className="h-[calc(100vh-280px)] min-h-[500px] rounded-2xl border overflow-hidden relative flex items-center justify-center" style={canvasStyle}>
     <div className="flex gap-6 items-center px-8">
       <div className="w-[180px] h-[82px] rounded-xl animate-pulse" style={{ background: 'rgba(250, 204, 60, 0.04)', border: '1px solid rgba(250, 204, 60, 0.1)' }} />
-      <div className="w-8 h-px" style={{ background: 'rgba(255,255,255,0.08)' }} />
+      <div className="w-8 h-px" style={{ background: 'rgb(var(--c-fg-rgb) / 0.08)' }} />
       {Array.from({ length: 5 }).map((_, i) => (
         <div key={i} className="flex items-center gap-6">
           <div className="w-[180px] h-[82px] rounded-xl animate-pulse" style={{ background: 'rgba(16, 185, 129, 0.03)', border: '1px solid rgba(16, 185, 129, 0.08)', animationDelay: `${i * 100}ms` }} />
-          {i < 4 && <div className="w-8 h-px" style={{ background: 'rgba(255,255,255,0.06)' }} />}
+          {i < 4 && <div className="w-8 h-px" style={{ background: 'rgb(var(--c-fg-rgb) / 0.06)' }} />}
         </div>
       ))}
     </div>
@@ -69,11 +69,11 @@ const ErrorState: React.FC<{ onRetry: () => void }> = ({ onRetry }) => (
       <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(248, 113, 113, 0.1)', border: '1px solid rgba(248, 113, 113, 0.15)' }}>
         <AlertCircle className="w-6 h-6 text-rose-400" />
       </div>
-      <p className="text-[14px] font-semibold text-white font-display">Erro ao carregar</p>
-      <p className="text-[12px]" style={{ color: 'rgba(255,255,255,0.4)' }}>Não foi possível carregar as etapas do funil</p>
-      <button onClick={onRetry} className="flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-medium transition-colors" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.6)' }}
-        onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#fff'; }}
-        onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'rgba(255,255,255,0.6)'; }}>
+      <p className="text-[14px] font-semibold text-txt font-display">Erro ao carregar</p>
+      <p className="text-[12px]" style={{ color: 'var(--c-t-40)' }}>Não foi possível carregar as etapas do funil</p>
+      <button onClick={onRetry} className="flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-medium transition-colors" style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-60)' }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.6)'; }}>
         <RefreshCw className="w-3.5 h-3.5" /> Tentar novamente
       </button>
     </div>
@@ -83,11 +83,11 @@ const ErrorState: React.FC<{ onRetry: () => void }> = ({ onRetry }) => (
 const EmptyState: React.FC = () => (
   <div className="h-[calc(100vh-280px)] min-h-[500px] rounded-2xl border overflow-hidden relative flex items-center justify-center" style={canvasStyle}>
     <div className="flex flex-col items-center gap-4 max-w-xs text-center">
-      <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-        <LayoutList className="w-6 h-6" style={{ color: 'rgba(255,255,255,0.3)' }} />
+      <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}>
+        <LayoutList className="w-6 h-6" style={{ color: 'var(--c-t-30)' }} />
       </div>
-      <p className="text-[14px] font-semibold text-white font-display">Nenhuma etapa configurada</p>
-      <p className="text-[12px]" style={{ color: 'rgba(255,255,255,0.4)' }}>As etapas do funil aparecerão aqui quando forem cadastradas</p>
+      <p className="text-[14px] font-semibold text-txt font-display">Nenhuma etapa configurada</p>
+      <p className="text-[12px]" style={{ color: 'var(--c-t-40)' }}>As etapas do funil aparecerão aqui quando forem cadastradas</p>
     </div>
   </div>
 );
@@ -157,12 +157,12 @@ const FlowCanvas: React.FC<{
         snapToGrid={true}
         snapGrid={[24, 24]}
       >
-        <Background variant={BackgroundVariant.Dots} gap={24} size={1.5} color="rgba(255,255,255,0.15)" />
+        <Background variant={BackgroundVariant.Dots} gap={24} size={1.5} color="rgb(var(--c-fg-rgb) / 0.15)" />
         <MiniMap
           position="bottom-left" pannable zoomable
-          maskColor="rgba(10, 10, 15, 0.6)" nodeBorderRadius={4} nodeStrokeWidth={0}
+          maskColor="rgb(var(--c-surface-rgb) / 0.6)" nodeBorderRadius={4} nodeStrokeWidth={0}
           nodeColor={(node) => node.type === 'gatilho' ? '#facc3c' : corPrimaria}
-          style={{ background: 'rgba(13, 17, 23, 0.95)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8 }}
+          style={{ background: 'rgb(var(--c-surface-50-rgb) / 0.95)', border: '1px solid var(--c-border)', borderRadius: 8 }}
         />
         <FlowControls />
       </ReactFlow>

@@ -123,8 +123,8 @@ const Agendamentos: React.FC = () => {
     selectedGrupos.length > 0 &&
     (canal === 'telegram' || usarFila || !!selectedInstancia);
 
-  // Handle agendar (modoTeste opcional)
-  const handleAgendar = async (modoTeste: boolean = false) => {
+  // Handle agendar — sempre via pg_cron (modo_teste=true)
+  const handleAgendar = async () => {
     if (!podeAgendar) return;
     if (canal === 'whatsapp' && !usarFila && !selectedInstancia) return;
 
@@ -205,10 +205,10 @@ const Agendamentos: React.FC = () => {
         regra_recorrencia: recorrente ? regraRecorrencia : null,
         canal,
         usar_fila: canal === 'whatsapp' ? usarFila : false,
-        modo_teste: modoTeste,
+        modo_teste: true,
       });
 
-      showToast('success', modoTeste ? 'Agendamento de TESTE criado!' : 'Agendamento criado com sucesso!');
+      showToast('success', 'Agendamento criado com sucesso!');
 
       // Reset form
       setSelectedMensagemId(null);
@@ -347,8 +347,7 @@ const Agendamentos: React.FC = () => {
           onInstanciaChange={handleInstanciaChange}
           onGruposChange={setSelectedGrupos}
           onFetchGrupos={handleFetchGrupos}
-          onAgendar={() => handleAgendar(false)}
-          onAgendarTeste={() => handleAgendar(true)}
+          onAgendar={handleAgendar}
           onLimpar={() => setSelectedGrupos([])}
           agendando={agendando}
           podeAgendar={podeAgendar}

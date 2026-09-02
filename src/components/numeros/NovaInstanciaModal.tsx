@@ -127,15 +127,15 @@ export const NovaInstanciaModal: React.FC<NovaInstanciaModalProps> = ({
                 </div>
 
                 {resultado.pairing_code && (
-                  <div className="relative px-4 py-4 rounded-xl bg-zinc-800/80 border border-zinc-700/60 text-center">
-                    <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-semibold mb-2">
+                  <div className="relative px-4 py-4 rounded-xl bg-surface-100/80 border border-surface-300/60 text-center">
+                    <p className="text-[10px] uppercase tracking-widest text-txt-muted font-semibold mb-2">
                       Código de Pareamento
                     </p>
-                    <p className="text-2xl font-mono font-bold text-white tracking-[0.15em] select-all">
+                    <p className="text-2xl font-mono font-bold text-txt tracking-[0.15em] select-all">
                       {resultado.pairing_code}
                     </p>
                     {resultado.expira_em && (
-                      <p className="text-[11px] text-zinc-500 mt-2">
+                      <p className="text-[11px] text-txt-muted mt-2">
                         Expira em {resultado.expira_em}
                       </p>
                     )}

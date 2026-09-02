@@ -716,7 +716,7 @@ export const MensagemBiblioteca: React.FC<MensagemBibliotecaProps> = ({
           style={{
             top: folderMenuRect.top,
             left: folderMenuRect.left,
-            background: 'rgba(22,27,34,0.97)',
+            background: 'var(--c-popup-bg)',
           }}
         >
           <div className="px-3 py-2 border-b border-surface-300/10">

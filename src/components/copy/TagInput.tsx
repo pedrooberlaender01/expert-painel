@@ -54,13 +54,13 @@ export const TagInput: React.FC<TagInputProps> = ({
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
-          className="flex-1 bg-[#0e0e10] text-white text-[12px] rounded-lg px-3 py-2 border border-[#1e1e22] focus:border-primary/30 focus:shadow-[0_0_0_3px_rgba(var(--color-primary-rgb),0.08)] focus:outline-none placeholder-[#4b4b55] transition-all"
+          className="flex-1 bg-[var(--c-glass)] text-txt text-[12px] rounded-lg px-3 py-2 border border-glass focus:border-primary/30 focus:shadow-[0_0_0_3px_rgba(var(--color-primary-rgb),0.08)] focus:outline-none placeholder-txt-dim transition-all"
         />
         <button
           type="button"
           onClick={addTag}
           disabled={!input.trim()}
-          className="px-2.5 py-2 bg-[#1a1a1e] hover:bg-[#252528] disabled:opacity-30 disabled:cursor-not-allowed text-[#6b7280] rounded-lg border border-[#1e1e22] transition-all"
+          className="px-2.5 py-2 bg-surface-100 hover:bg-surface-200 disabled:opacity-30 disabled:cursor-not-allowed text-txt-muted rounded-lg border border-glass transition-all"
         >
           <Plus className="w-3.5 h-3.5" />
         </button>

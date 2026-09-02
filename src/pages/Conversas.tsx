@@ -169,8 +169,8 @@ function AudioPlayer({ url, enviada }: { url: string; enviada: boolean }) {
     return () => { a.removeEventListener('timeupdate', onTime); a.removeEventListener('loadedmetadata', onLoad); a.removeEventListener('ended', onEnd) }
   }, [])
 
-  const accentColor = enviada ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.4)'
-  const accentFaded = enviada ? 'rgba(var(--color-primary-rgb), 0.25)' : 'rgba(255, 255, 255, 0.12)'
+  const accentColor = enviada ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.4)'
+  const accentFaded = enviada ? 'rgba(var(--color-primary-rgb), 0.25)' : 'rgb(var(--c-fg-rgb) / 0.12)'
   const barCount = 24
   const bars = Array.from({ length: barCount }, (_, i) => {
     const filled = i / barCount <= progress
@@ -187,13 +187,13 @@ function AudioPlayer({ url, enviada }: { url: string; enviada: boolean }) {
         onClick={toggle}
         className="flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-105"
         style={{
-          background: enviada ? 'rgba(var(--color-primary-rgb), 0.2)' : 'rgba(255, 255, 255, 0.04)',
-          border: enviada ? '1px solid rgba(var(--color-primary-rgb), 0.3)' : '1px solid rgba(255, 255, 255, 0.12)',
+          background: enviada ? 'rgba(var(--color-primary-rgb), 0.2)' : 'var(--c-glass)',
+          border: enviada ? '1px solid rgba(var(--color-primary-rgb), 0.3)' : '1px solid var(--c-border-strong)',
         }}
       >
         {playing
-          ? <Pause size={13} style={{ color: enviada ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.6)' }} />
-          : <Play size={13} style={{ color: enviada ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.6)', marginLeft: 1 }} />}
+          ? <Pause size={13} style={{ color: enviada ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.6)' }} />
+          : <Play size={13} style={{ color: enviada ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.6)', marginLeft: 1 }} />}
       </button>
       <div className="flex items-center gap-[2px] flex-1">
         {bars.map((b, i) => (
@@ -208,7 +208,7 @@ function AudioPlayer({ url, enviada }: { url: string; enviada: boolean }) {
           />
         ))}
       </div>
-      <span className="text-[11px] flex-shrink-0 font-mono" style={{ color: 'rgba(255,255,255,0.35)' }}>
+      <span className="text-[11px] flex-shrink-0 font-mono" style={{ color: 'var(--c-t-35)' }}>
         {playing ? fmt(audioRef.current?.currentTime ?? 0) : fmt(duration)}
       </span>
     </div>
@@ -255,10 +255,10 @@ function MensagemBubble({ msg, onImageClick }: { msg: Mensagem; onImageClick: (u
         borderRadius: '16px 4px 16px 16px',
       }
     : {
-        background: 'rgba(255, 255, 255, 0.04)',
+        background: 'var(--c-glass)',
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
-        border: '1px solid rgba(255, 255, 255, 0.04)',
+        border: '1px solid var(--c-border)',
         borderRadius: '4px 16px 16px 16px',
       }
 
@@ -267,7 +267,7 @@ function MensagemBubble({ msg, onImageClick }: { msg: Mensagem; onImageClick: (u
       <div className="max-w-[65%] px-3.5 py-2.5" style={bubbleStyle}>
 
         {msg.tipo === 'texto' && (
-          <p className="text-white text-[13px] leading-[20px] whitespace-pre-wrap break-words">
+          <p className="text-txt text-[13px] leading-[20px] whitespace-pre-wrap break-words">
             {msg.conteudo}
           </p>
         )}
@@ -276,7 +276,7 @@ function MensagemBubble({ msg, onImageClick }: { msg: Mensagem; onImageClick: (u
           <div>
             <AudioPlayer url={msg.audio_url} enviada={enviada} />
             {enviada && msg.conteudo && (
-              <p className="text-[11px] mt-1.5 italic leading-[15px]" style={{ color: 'rgba(255,255,255,0.35)' }}>
+              <p className="text-[11px] mt-1.5 italic leading-[15px]" style={{ color: 'var(--c-t-35)' }}>
                 {msg.conteudo}
               </p>
             )}
@@ -294,7 +294,7 @@ function MensagemBubble({ msg, onImageClick }: { msg: Mensagem; onImageClick: (u
         )}
 
         <div className={`flex items-center gap-1.5 mt-1 ${enviada ? 'justify-end' : 'justify-start'}`}>
-          <span className="text-[10px]" style={{ color: 'rgba(255,255,255,0.3)' }}>
+          <span className="text-[10px]" style={{ color: 'var(--c-t-30)' }}>
             {formatFullTime(msg.created_at)}
           </span>
           {enviada && <span className="text-[10px]" style={{ color: 'rgba(96,165,250,0.6)' }}>✓✓</span>}
@@ -327,7 +327,7 @@ function ConversaItem({
       onClick={onClick}
       className="cursor-pointer transition-all duration-200"
       style={{
-        background: selected ? 'rgba(var(--color-primary-rgb), 0.08)' : isPendente ? 'rgba(251, 146, 60, 0.03)' : 'rgba(255, 255, 255, 0.02)',
+        background: selected ? 'rgba(var(--color-primary-rgb), 0.08)' : isPendente ? 'rgba(251, 146, 60, 0.03)' : 'var(--c-glass-2)',
         border: selected ? '1px solid rgba(var(--color-primary-rgb), 0.15)' : isPendente ? '1px solid rgba(251, 146, 60, 0.08)' : '1px solid transparent',
         borderLeft: selected ? '3px solid var(--color-primary)' : isPendente ? '3px solid rgba(251, 146, 60, 0.6)' : '3px solid transparent',
         borderRadius: '12px',
@@ -339,14 +339,14 @@ function ConversaItem({
       }}
       onMouseEnter={(e) => {
         if (!selected) {
-          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.04)'
-          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.04)'
-          e.currentTarget.style.borderLeftColor = 'rgba(255, 255, 255, 0.04)'
+          e.currentTarget.style.background = 'var(--c-glass)'
+          e.currentTarget.style.borderColor = 'var(--c-border)'
+          e.currentTarget.style.borderLeftColor = 'var(--c-border)'
         }
       }}
       onMouseLeave={(e) => {
         if (!selected) {
-          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.02)'
+          e.currentTarget.style.background = 'var(--c-glass-2)'
           e.currentTarget.style.borderColor = 'transparent'
           e.currentTarget.style.borderLeftColor = 'transparent'
         }
@@ -363,16 +363,16 @@ function ConversaItem({
       {/* Info */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between">
-          <span className="font-semibold text-white text-[13px] truncate">
+          <span className="font-semibold text-txt text-[13px] truncate">
             {conversa.nome || conversa.telefone}
           </span>
-          <span className="text-[11px] flex-shrink-0 ml-2 font-mono" style={{ color: 'rgba(255,255,255,0.3)' }}>
+          <span className="text-[11px] flex-shrink-0 ml-2 font-mono" style={{ color: 'var(--c-t-30)' }}>
             {formatTime(conversa.created_at)}
           </span>
         </div>
 
         <div className="flex items-center justify-between mt-0.5">
-          <span className="truncate text-[12px]" style={{ maxWidth: '80%', color: 'rgba(255,255,255,0.4)' }}>
+          <span className="truncate text-[12px]" style={{ maxWidth: '80%', color: 'var(--c-t-40)' }}>
             {conversa.direcao === 'enviada' && <span style={{ color: 'var(--color-primary-light)' }}>Você: </span>}
             {previewIcon(conversa)}
             {previewMsg(conversa)}
@@ -417,9 +417,9 @@ function ConversaItem({
           <span
             className="rounded-md px-2 py-0.5 font-mono text-[10px] font-medium"
             style={{
-              background: 'rgba(255, 255, 255, 0.04)',
-              color: 'rgba(255, 255, 255, 0.5)',
-              border: '1px solid rgba(255, 255, 255, 0.04)',
+              background: 'var(--c-glass)',
+              color: 'var(--c-t-50)',
+              border: '1px solid var(--c-border)',
             }}
           >
             {conversa.instancia}
@@ -749,21 +749,21 @@ export default function Conversas() {
   const instanciasPresentes = [...new Set(conversas.map(c => c.instancia_enviou || c.instancia).filter(Boolean))].sort() as string[]
 
   return (
-    <div className="flex h-screen overflow-hidden font-body animate-fade-in" style={{ background: 'linear-gradient(135deg, #0a0a0f 0%, #0d1117 40%, #0f0a1a 100%)' }}>
+    <div className="flex h-screen overflow-hidden font-body animate-fade-in" style={{ background: 'var(--c-body-bg)' }}>
 
       {/* ── Painel Esquerdo ── */}
       <div
         className={`flex flex-col flex-shrink-0 overflow-hidden ${selectedTel ? 'hidden md:flex' : 'flex'} w-full md:w-[360px]`}
         style={{
-          background: '#0c0c14',
-          borderRight: '1px solid rgba(255, 255, 255, 0.04)',
+          background: 'var(--c-sidebar-bg)',
+          borderRight: '1px solid var(--c-border)',
         }}
       >
 
         {/* Header */}
-        <div className="p-5 h-[73px] flex items-center relative z-[101]" style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.04)' }}>
+        <div className="p-5 h-[73px] flex items-center relative z-[101]" style={{ borderBottom: '1px solid var(--c-border)' }}>
           <div className="flex items-center justify-between w-full">
-            <h1 className="font-bold text-white text-[18px] font-display">Conversas</h1>
+            <h1 className="font-bold text-txt text-[18px] font-display">Conversas</h1>
 
             {/* Botão Filtro */}
             <div className="relative" ref={filtroRef}>
@@ -771,9 +771,9 @@ export default function Conversas() {
                 onClick={() => setFiltroAberto(!filtroAberto)}
                 className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-[10px] text-[12px] font-medium transition-all duration-200"
                 style={{
-                  background: filtroAberto || activeFilterCount > 0 ? 'rgba(var(--color-primary-rgb), 0.12)' : 'rgba(255, 255, 255, 0.04)',
-                  border: filtroAberto || activeFilterCount > 0 ? '1px solid rgba(var(--color-primary-rgb), 0.25)' : '1px solid rgba(255, 255, 255, 0.04)',
-                  color: filtroAberto || activeFilterCount > 0 ? 'var(--color-primary-light)' : 'rgba(255, 255, 255, 0.5)',
+                  background: filtroAberto || activeFilterCount > 0 ? 'rgba(var(--color-primary-rgb), 0.12)' : 'var(--c-glass)',
+                  border: filtroAberto || activeFilterCount > 0 ? '1px solid rgba(var(--color-primary-rgb), 0.25)' : '1px solid var(--c-border)',
+                  color: filtroAberto || activeFilterCount > 0 ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.5)',
                   backdropFilter: 'blur(12px)',
                 }}
               >
@@ -791,8 +791,8 @@ export default function Conversas() {
                 <div
                   className="absolute right-0 top-full mt-2 w-[260px] z-[100] animate-fade-in overflow-y-auto"
                   style={{
-                    background: 'rgba(22, 27, 34, 0.97)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    background: 'var(--c-popup-bg)',
+                    border: '1px solid var(--c-border-strong)',
                     borderRadius: '14px',
                     boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06)',
                     backdropFilter: 'none',
@@ -804,7 +804,7 @@ export default function Conversas() {
                   {/* Status */}
                   <div className="p-3">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.45)' }}>Status</span>
+                      <span className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: 'var(--c-t-45)' }}>Status</span>
                       {filtroStatus && (
                         <button
                           onClick={() => setFiltroStatus(null)}
@@ -824,10 +824,10 @@ export default function Conversas() {
                             onClick={() => { setFiltroStatus(active ? null : s!); setFiltroAberto(false); }}
                             className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[12px] transition-all duration-150 text-left"
                             style={{
-                              background: active ? 'rgba(255,255,255,0.04)' : 'transparent',
-                              color: active ? '#fff' : 'rgba(255,255,255,0.5)',
+                              background: active ? 'var(--c-glass)' : 'transparent',
+                              color: active ? 'rgb(var(--c-fg-rgb))' : 'rgb(var(--c-fg-rgb) / 0.5)',
                             }}
-                            onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
+                            onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = 'var(--c-glass)' }}
                             onMouseLeave={(e) => { if (!active) e.currentTarget.style.background = 'transparent' }}
                           >
                             <span
@@ -842,12 +842,12 @@ export default function Conversas() {
                     </div>
                   </div>
 
-                  <div style={{ height: 1, background: 'rgba(255,255,255,0.04)' }} />
+                  <div style={{ height: 1, background: 'var(--c-border)' }} />
 
                   {/* Instância */}
                   <div className="p-3">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.45)' }}>Instância</span>
+                      <span className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: 'var(--c-t-45)' }}>Instância</span>
                       {filtroInstancia && (
                         <button
                           onClick={() => setFiltroInstancia(null)}
@@ -866,10 +866,10 @@ export default function Conversas() {
                             onClick={() => { setFiltroInstancia(active ? null : inst); setFiltroAberto(false); }}
                             className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[12px] font-mono transition-all duration-150 text-left"
                             style={{
-                              background: active ? 'rgba(255,255,255,0.04)' : 'transparent',
-                              color: active ? '#fff' : 'rgba(255,255,255,0.5)',
+                              background: active ? 'var(--c-glass)' : 'transparent',
+                              color: active ? 'rgb(var(--c-fg-rgb))' : 'rgb(var(--c-fg-rgb) / 0.5)',
                             }}
-                            onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
+                            onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = 'var(--c-glass)' }}
                             onMouseLeave={(e) => { if (!active) e.currentTarget.style.background = 'transparent' }}
                           >
                             <span className="flex-1">{inst}</span>
@@ -883,14 +883,14 @@ export default function Conversas() {
                   {/* Limpar tudo */}
                   {activeFilterCount > 0 && (
                     <>
-                      <div style={{ height: 1, background: 'rgba(255,255,255,0.04)' }} />
+                      <div style={{ height: 1, background: 'var(--c-border)' }} />
                       <div className="p-2">
                         <button
                           onClick={() => { setFiltroStatus(null); setFiltroInstancia(null); setFiltroAberto(false); }}
                           className="w-full py-1.5 rounded-lg text-[12px] transition-all duration-150"
-                          style={{ color: 'rgba(255,255,255,0.5)' }}
+                          style={{ color: 'var(--c-t-50)' }}
                           onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-primary-light)'; e.currentTarget.style.background = 'rgba(var(--color-primary-rgb),0.06)' }}
-                          onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.5)'; e.currentTarget.style.background = 'transparent' }}
+                          onMouseLeave={(e) => { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.5)'; e.currentTarget.style.background = 'transparent' }}
                         >
                           Limpar todos os filtros
                         </button>
@@ -906,7 +906,7 @@ export default function Conversas() {
 
         {/* Filtros ativos (badges) */}
         {activeFilterCount > 0 && (
-          <div className="flex items-center gap-1.5 px-5 py-2 flex-wrap" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+          <div className="flex items-center gap-1.5 px-5 py-2 flex-wrap" style={{ borderBottom: '1px solid var(--c-border)' }}>
             {filtroStatus && (() => {
               const cfg = getStatusCfg(filtroStatus)
               return (
@@ -936,26 +936,26 @@ export default function Conversas() {
         {/* Busca (acima da lista) */}
         <div className="px-3 py-2.5">
           <div className="relative">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'rgba(255,255,255,0.25)' }} />
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--c-t-25)' }} />
             <input
               value={busca}
               onChange={e => setBusca(e.target.value)}
               placeholder="Buscar por nome ou telefone"
-              className="w-full text-[13px] text-white outline-none transition-all duration-200"
+              className="w-full text-[13px] text-txt outline-none transition-all duration-200"
               style={{
-                background: 'rgba(255, 255, 255, 0.03)',
-                border: '1px solid rgba(255, 255, 255, 0.04)',
+                background: 'var(--c-glass)',
+                border: '1px solid var(--c-border)',
                 borderRadius: '12px',
                 padding: '10px 16px 10px 40px',
               }}
               onFocus={(e) => {
-                e.currentTarget.style.background = 'rgba(255,255,255,0.05)'
+                e.currentTarget.style.background = 'var(--c-glass-hover)'
                 e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)'
                 e.currentTarget.style.boxShadow = '0 0 0 3px rgba(var(--color-primary-rgb),0.08)'
               }}
               onBlur={(e) => {
-                e.currentTarget.style.background = 'rgba(255,255,255,0.03)'
-                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)'
+                e.currentTarget.style.background = 'var(--c-glass)'
+                e.currentTarget.style.borderColor = 'var(--c-border)'
                 e.currentTarget.style.boxShadow = 'none'
               }}
             />
@@ -966,8 +966,8 @@ export default function Conversas() {
         <div className="flex-1 overflow-y-auto">
           {conversasFiltradas.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-32 gap-2">
-              <MessageSquare size={20} style={{ color: 'rgba(255,255,255,0.15)' }} />
-              <span className="text-[13px]" style={{ color: 'rgba(255,255,255,0.3)' }}>Nenhuma conversa encontrada</span>
+              <MessageSquare size={20} style={{ color: 'var(--c-t-15)' }} />
+              <span className="text-[13px]" style={{ color: 'var(--c-t-30)' }}>Nenhuma conversa encontrada</span>
             </div>
           ) : (
             conversasFiltradas.map(c => {
@@ -993,15 +993,15 @@ export default function Conversas() {
             <div
               className="w-[72px] h-[72px] rounded-full flex items-center justify-center"
               style={{
-                background: 'rgba(255, 255, 255, 0.04)',
-                border: '1px solid rgba(255, 255, 255, 0.04)',
+                background: 'var(--c-glass)',
+                border: '1px solid var(--c-border)',
               }}
             >
-              <Phone size={28} style={{ color: 'rgba(255, 255, 255, 0.2)' }} />
+              <Phone size={28} style={{ color: 'var(--c-t-20)' }} />
             </div>
             <div className="text-center">
-              <p className="text-[15px] font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Selecione uma conversa</p>
-              <p className="text-[13px] mt-1" style={{ color: 'rgba(255,255,255,0.25)' }}>Escolha um contato para ver o histórico</p>
+              <p className="text-[15px] font-medium" style={{ color: 'var(--c-t-50)' }}>Selecione uma conversa</p>
+              <p className="text-[13px] mt-1" style={{ color: 'var(--c-t-25)' }}>Escolha um contato para ver o histórico</p>
             </div>
           </div>
         ) : (
@@ -1011,15 +1011,15 @@ export default function Conversas() {
               <div
                 className="flex items-center gap-2 md:gap-3 px-3 md:px-5 h-[73px] flex-shrink-0"
                 style={{
-                  background: 'rgba(255, 255, 255, 0.03)',
-                  borderBottom: '1px solid rgba(255, 255, 255, 0.04)',
+                  background: 'var(--c-glass)',
+                  borderBottom: '1px solid var(--c-border)',
                 }}
               >
                 {/* Mobile back button */}
                 <button
                   onClick={() => setSelectedTel(null)}
                   className="md:hidden p-1.5 rounded-lg shrink-0"
-                  style={{ color: 'rgba(255,255,255,0.5)' }}
+                  style={{ color: 'var(--c-t-50)' }}
                 >
                   <ArrowLeft className="w-5 h-5" />
                 </button>
@@ -1032,7 +1032,7 @@ export default function Conversas() {
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="font-semibold text-white text-[15px] truncate">
+                    <span className="font-semibold text-txt text-[15px] truncate">
                       {conversaAtual.nome || (conversaAtual.canal === 'suporte' ? 'Contato' : 'Lead sem nome')}
                     </span>
                     {conversaAtual.status ? (() => {
@@ -1056,15 +1056,15 @@ export default function Conversas() {
                     ) : null}
                   </div>
                   <div className="flex items-center gap-2 mt-0.5">
-                    <span className="text-[12px]" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                    <span className="text-[12px]" style={{ color: 'var(--c-t-40)' }}>
                       {conversaAtual.telefone.replace(/^55/, '+55 ').replace(/(\d{2})(\d{5})(\d{4})/, '$1 $2-$3')}
                     </span>
                     <span
                       className="rounded-md px-2 py-0.5 font-mono text-[10px] font-medium"
                       style={{
-                        background: 'rgba(255, 255, 255, 0.04)',
-                        color: 'rgba(255, 255, 255, 0.5)',
-                        border: '1px solid rgba(255, 255, 255, 0.04)',
+                        background: 'var(--c-glass)',
+                        color: 'var(--c-t-50)',
+                        border: '1px solid var(--c-border)',
                       }}
                     >
                       {conversaAtual.instancia}
@@ -1084,9 +1084,9 @@ export default function Conversas() {
                   }}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-[10px] text-[12px] transition-all duration-200"
                   style={{
-                    background: muted ? 'rgba(255,255,255,0.04)' : 'rgba(var(--color-primary-rgb), 0.12)',
-                    border: muted ? '1px solid rgba(255,255,255,0.04)' : '1px solid rgba(var(--color-primary-rgb), 0.25)',
-                    color: muted ? 'rgba(255,255,255,0.5)' : 'var(--color-primary-light)',
+                    background: muted ? 'var(--c-glass)' : 'rgba(var(--color-primary-rgb), 0.12)',
+                    border: muted ? '1px solid var(--c-border)' : '1px solid rgba(var(--color-primary-rgb), 0.25)',
+                    color: muted ? 'rgb(var(--c-fg-rgb) / 0.5)' : 'var(--color-primary-light)',
                     backdropFilter: 'blur(12px)',
                   }}
                   aria-label={muted ? 'Ativar som' : 'Silenciar som'}
@@ -1103,7 +1103,7 @@ export default function Conversas() {
                 <div className="flex items-center justify-center h-full">
                   <div className="flex flex-col items-center gap-3">
                     <div className="w-6 h-6 border-2 border-t-[var(--color-primary)] rounded-full animate-spin" style={{ borderColor: 'rgba(var(--color-primary-rgb),0.2)', borderTopColor: 'var(--color-primary)' }} />
-                    <span className="text-[13px]" style={{ color: 'rgba(255,255,255,0.35)' }}>Carregando...</span>
+                    <span className="text-[13px]" style={{ color: 'var(--c-t-35)' }}>Carregando...</span>
                   </div>
                 </div>
               ) : (
@@ -1115,9 +1115,9 @@ export default function Conversas() {
                           <span
                             className="px-3.5 py-1 rounded-full text-[11px] font-medium"
                             style={{
-                              background: 'rgba(255, 255, 255, 0.04)',
-                              border: '1px solid rgba(255, 255, 255, 0.04)',
-                              color: 'rgba(255, 255, 255, 0.4)',
+                              background: 'var(--c-glass)',
+                              border: '1px solid var(--c-border)',
+                              color: 'var(--c-t-40)',
                               backdropFilter: 'blur(8px)',
                             }}
                           >
@@ -1143,8 +1143,8 @@ export default function Conversas() {
             <div
               className="px-5 py-3 flex-shrink-0"
               style={{
-                background: 'rgba(255, 255, 255, 0.03)',
-                borderTop: '1px solid rgba(255, 255, 255, 0.04)',
+                background: 'var(--c-glass)',
+                borderTop: '1px solid var(--c-border)',
               }}
             >
               {envioErro && (
@@ -1162,10 +1162,10 @@ export default function Conversas() {
                   disabled={enviando}
                   placeholder="Digite uma mensagem..."
                   rows={1}
-                  className="flex-1 text-white text-[13px] resize-none outline-none transition-all duration-200 disabled:opacity-50"
+                  className="flex-1 text-txt text-[13px] resize-none outline-none transition-all duration-200 disabled:opacity-50"
                   style={{
-                    background: 'rgba(255, 255, 255, 0.04)',
-                    border: '1px solid rgba(255, 255, 255, 0.04)',
+                    background: 'var(--c-glass)',
+                    border: '1px solid var(--c-border)',
                     borderRadius: '12px',
                     padding: '10px 16px',
                     minHeight: 44,
@@ -1176,7 +1176,7 @@ export default function Conversas() {
                     e.currentTarget.style.boxShadow = '0 0 0 3px rgba(var(--color-primary-rgb),0.08)'
                   }}
                   onBlur={(e) => {
-                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)'
+                    e.currentTarget.style.borderColor = 'var(--c-border)'
                     e.currentTarget.style.boxShadow = 'none'
                   }}
                 />
@@ -1185,9 +1185,9 @@ export default function Conversas() {
                   disabled={!msgTexto.trim() || enviando}
                   className="flex-shrink-0 w-10 h-10 rounded-[10px] flex items-center justify-center transition-all duration-200"
                   style={{
-                    background: msgTexto.trim() && !enviando ? 'rgba(var(--color-primary-rgb), 0.15)' : 'rgba(255,255,255,0.04)',
-                    border: msgTexto.trim() && !enviando ? '1px solid rgba(var(--color-primary-rgb), 0.25)' : '1px solid rgba(255,255,255,0.04)',
-                    color: msgTexto.trim() && !enviando ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.25)',
+                    background: msgTexto.trim() && !enviando ? 'rgba(var(--color-primary-rgb), 0.15)' : 'var(--c-glass)',
+                    border: msgTexto.trim() && !enviando ? '1px solid rgba(var(--color-primary-rgb), 0.25)' : '1px solid var(--c-border)',
+                    color: msgTexto.trim() && !enviando ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.25)',
                     cursor: !msgTexto.trim() || enviando ? 'not-allowed' : 'pointer',
                   }}
                 >

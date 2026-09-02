@@ -61,15 +61,15 @@ const InstanciaSelector: React.FC<{
         type="button"
         className="w-full relative flex items-center gap-3 text-[13px] font-medium transition-all duration-150 text-left"
         style={{
-          background: open ? 'rgba(59,130,246,0.06)' : 'rgba(255,255,255,0.04)',
-          border: open ? '1px solid rgba(59,130,246,0.25)' : '1px solid rgba(255,255,255,0.04)',
-          color: selected ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.3)',
+          background: open ? 'rgba(59,130,246,0.06)' : 'var(--c-glass)',
+          border: open ? '1px solid rgba(59,130,246,0.25)' : '1px solid var(--c-border)',
+          color: selected ? 'rgb(var(--c-fg-rgb) / 0.85)' : 'rgb(var(--c-fg-rgb) / 0.3)',
           borderRadius: '12px',
           padding: '12px 40px 12px 16px',
         }}
       >
         {loading ? (
-          <Loader2 className="w-3.5 h-3.5 animate-spin" style={{ color: 'rgba(255,255,255,0.3)' }} />
+          <Loader2 className="w-3.5 h-3.5 animate-spin" style={{ color: 'var(--c-t-30)' }} />
         ) : selected ? (
           <div className="flex items-center gap-2.5 min-w-0">
             <div
@@ -78,7 +78,7 @@ const InstanciaSelector: React.FC<{
             />
             <span className="truncate">{selected.nome}</span>
             {selected.numero && (
-              <span className="text-[11px] font-mono shrink-0" style={{ color: 'rgba(255,255,255,0.3)' }}>
+              <span className="text-[11px] font-mono shrink-0" style={{ color: 'var(--c-t-30)' }}>
                 {selected.numero}
               </span>
             )}
@@ -88,7 +88,7 @@ const InstanciaSelector: React.FC<{
         )}
         <ChevronDown
           className="w-3.5 h-3.5 absolute right-3 transition-transform duration-200"
-          style={{ color: open ? '#60a5fa' : 'rgba(255,255,255,0.3)', transform: open ? 'rotate(180deg)' : 'none' }}
+          style={{ color: open ? '#60a5fa' : 'rgb(var(--c-fg-rgb) / 0.3)', transform: open ? 'rotate(180deg)' : 'none' }}
         />
       </button>
       {open && ReactDOM.createPortal(
@@ -101,15 +101,15 @@ const InstanciaSelector: React.FC<{
             width: pos.width,
             maxHeight: '280px',
             zIndex: 9999,
-            background: 'rgba(22, 27, 34, 0.97)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            background: 'var(--c-popup-bg)',
+            border: '1px solid var(--c-border-strong)',
             borderRadius: '14px',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--c-border)',
           }}
         >
           <div className="p-1.5">
             {instancias.length === 0 ? (
-              <div className="px-3 py-4 text-center text-[12px]" style={{ color: 'rgba(255,255,255,0.35)' }}>
+              <div className="px-3 py-4 text-center text-[12px]" style={{ color: 'var(--c-t-35)' }}>
                 Nenhuma instância disparadora encontrada
               </div>
             ) : (
@@ -123,19 +123,19 @@ const InstanciaSelector: React.FC<{
                     className="flex items-center justify-between w-full px-3 py-2.5 rounded-lg text-[12px] transition-all duration-150 text-left gap-2"
                     style={{
                       background: active ? 'rgba(59,130,246,0.1)' : 'transparent',
-                      color: active ? '#60a5fa' : 'rgba(255,255,255,0.6)',
+                      color: active ? '#60a5fa' : 'rgb(var(--c-fg-rgb) / 0.6)',
                     }}
-                    onMouseEnter={(e) => { if (!active) { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = '#fff'; } }}
-                    onMouseLeave={(e) => { e.currentTarget.style.background = active ? 'rgba(59,130,246,0.1)' : 'transparent'; e.currentTarget.style.color = active ? '#60a5fa' : 'rgba(255,255,255,0.6)'; }}
+                    onMouseEnter={(e) => { if (!active) { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; } }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = active ? 'rgba(59,130,246,0.1)' : 'transparent'; e.currentTarget.style.color = active ? '#60a5fa' : 'rgb(var(--c-fg-rgb) / 0.6)'; }}
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
                       {connected
                         ? <Wifi className="w-3 h-3 shrink-0" style={{ color: 'var(--color-primary-light)' }} />
-                        : <WifiOff className="w-3 h-3 shrink-0" style={{ color: 'rgba(255,255,255,0.2)' }} />
+                        : <WifiOff className="w-3 h-3 shrink-0" style={{ color: 'var(--c-t-20)' }} />
                       }
                       <span className="truncate font-medium">{inst.nome}</span>
                       {inst.numero && (
-                        <span className="text-[10px] font-mono shrink-0" style={{ color: 'rgba(255,255,255,0.25)' }}>
+                        <span className="text-[10px] font-mono shrink-0" style={{ color: 'var(--c-t-25)' }}>
                           {inst.numero}
                         </span>
                       )}

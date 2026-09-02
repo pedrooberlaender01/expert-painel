@@ -58,7 +58,7 @@ export const MensagemAberturaCard: React.FC<MensagemAberturaCardProps> = ({
       </div>
 
       {/* Mensagem text box */}
-      <div className="rounded-lg bg-[#0a0a0a] border border-surface-300/10 p-3.5 mb-4">
+      <div className="rounded-lg bg-surface border border-surface-300/10 p-3.5 mb-4">
         <p className="text-[13px] text-txt-secondary leading-relaxed whitespace-pre-wrap break-words">
           {mensagem.mensagem}
         </p>

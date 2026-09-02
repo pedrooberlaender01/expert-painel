@@ -49,10 +49,10 @@ export const GatilhoNode = memo(({ data, selected }: NodeProps & { data: Gatilho
       </div>
 
       {/* Titulo */}
-      <p className="text-[13px] font-medium text-white mt-1.5">Palavras de ativação</p>
+      <p className="text-[13px] font-medium text-txt mt-1.5">Palavras de ativação</p>
 
       {/* Preview */}
-      <p className="text-[11px] mt-1" style={{ color: palavras.length === 0 ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.5)' }}>
+      <p className="text-[11px] mt-1" style={{ color: palavras.length === 0 ? 'rgb(var(--c-fg-rgb) / 0.3)' : 'rgb(var(--c-fg-rgb) / 0.5)' }}>
         {preview}
       </p>
 

@@ -161,7 +161,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({ src, nome = '', canal 
                   height: `${height * 100}%`,
                   backgroundColor: isActive
                     ? (isTelegram ? 'rgb(56, 189, 248)' : 'rgb(52, 211, 153)')
-                    : 'rgba(255,255,255,0.04)',
+                    : 'var(--c-glass)',
                 }}
               />
             );

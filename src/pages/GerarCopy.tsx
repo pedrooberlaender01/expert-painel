@@ -125,18 +125,18 @@ const GerarCopy: React.FC = () => {
             <button
               onClick={() => setMobileExpertOpen(true)}
               className="flex lg:hidden items-center gap-2 mx-4 mt-2 mb-2 px-4 py-2.5 rounded-xl text-[13px] font-medium w-[calc(100%-2rem)] transition-all"
-              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.5)' }}
+              style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-50)' }}
             >
               <User className="w-4 h-4" />
               Perfil do Expert
-              <span className="ml-auto text-[11px]" style={{ color: 'rgba(255,255,255,0.25)' }}>Toque para abrir</span>
+              <span className="ml-auto text-[11px]" style={{ color: 'var(--c-t-25)' }}>Toque para abrir</span>
             </button>
           )}
 
           {/* Sub-tabs — underline style */}
           <div
             className="flex items-end gap-6 px-6 h-[42px]"
-            style={{ borderBottom: '1px solid rgba(255,255,255,0.04)', background: 'rgba(255,255,255,0.02)' }}
+            style={{ borderBottom: '1px solid var(--c-border)', background: 'var(--c-glass-2)' }}
           >
             {([
               { key: 'gerador' as SubTab, label: 'Gerador', icon: Wand2 },
@@ -146,9 +146,9 @@ const GerarCopy: React.FC = () => {
                 key={tab.key}
                 onClick={() => setSubTab(tab.key)}
                 className="relative flex items-center gap-2 pb-3 text-[13px] font-medium transition-all duration-200"
-                style={{ color: subTab === tab.key ? '#fff' : 'rgba(255,255,255,0.4)' }}
-                onMouseEnter={(e) => { if (subTab !== tab.key) e.currentTarget.style.color = 'rgba(255,255,255,0.6)' }}
-                onMouseLeave={(e) => { if (subTab !== tab.key) e.currentTarget.style.color = 'rgba(255,255,255,0.4)' }}
+                style={{ color: subTab === tab.key ? 'rgb(var(--c-fg-rgb))' : 'rgb(var(--c-fg-rgb) / 0.4)' }}
+                onMouseEnter={(e) => { if (subTab !== tab.key) e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.6)' }}
+                onMouseLeave={(e) => { if (subTab !== tab.key) e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.4)' }}
               >
                 <tab.icon className="w-3.5 h-3.5" style={{ color: subTab === tab.key ? 'var(--color-primary-light)' : 'inherit' }} />
                 {tab.label}
@@ -166,8 +166,8 @@ const GerarCopy: React.FC = () => {
                 {/* Tipo de Copy */}
                 <section>
                   <div className="flex items-baseline gap-2 mb-3">
-                    <h3 className="text-[15px] font-semibold text-white">Tipo de Copy</h3>
-                    <span className="text-[12px]" style={{ color: 'rgba(255,255,255,0.35)' }}>Selecione a categoria</span>
+                    <h3 className="text-[15px] font-semibold text-txt">Tipo de Copy</h3>
+                    <span className="text-[12px]" style={{ color: 'var(--c-t-35)' }}>Selecione a categoria</span>
                   </div>
                   <TipoCopySelector selected={tipoCopy} onChange={setTipoCopy} />
                 </section>
@@ -175,38 +175,38 @@ const GerarCopy: React.FC = () => {
                 {/* Tamanho */}
                 <section>
                   <div className="flex items-baseline gap-2 mb-3">
-                    <h3 className="text-[15px] font-semibold text-white">Tamanho</h3>
-                    <span className="text-[12px]" style={{ color: 'rgba(255,255,255,0.35)' }}>Quantidade de linhas</span>
+                    <h3 className="text-[15px] font-semibold text-txt">Tamanho</h3>
+                    <span className="text-[12px]" style={{ color: 'var(--c-t-35)' }}>Quantidade de linhas</span>
                   </div>
                   <TamanhoSelector selected={tamanho} onChange={setTamanho} />
                 </section>
 
                 {/* Descrição */}
                 <section>
-                  <h3 className="text-[15px] font-semibold text-white mb-3">O que voce quer comunicar?</h3>
+                  <h3 className="text-[15px] font-semibold text-txt mb-3">O que voce quer comunicar?</h3>
                   <textarea
                     ref={textareaRef}
                     value={descricao}
                     onChange={handleDescricaoChange}
                     placeholder="Descreva o que voce quer na copy... Ex: Avisar que hoje as 21h tem live especial com multiplicador exclusivo"
                     rows={3}
-                    className="w-full text-white text-[14px] outline-none resize-none transition-all duration-200 leading-relaxed"
+                    className="w-full text-txt text-[14px] outline-none resize-none transition-all duration-200 leading-relaxed"
                     style={{
-                      background: 'rgba(255,255,255,0.04)',
-                      border: '1px solid rgba(255,255,255,0.1)',
+                      background: 'var(--c-glass)',
+                      border: '1px solid var(--c-border-strong)',
                       borderRadius: '14px',
                       padding: '16px',
                       minHeight: '120px',
                       maxHeight: '160px',
                     }}
                     onFocus={(e) => {
-                      e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
+                      e.currentTarget.style.background = 'var(--c-glass)';
                       e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)';
                       e.currentTarget.style.boxShadow = '0 0 0 3px rgba(var(--color-primary-rgb),0.08)';
                     }}
                     onBlur={(e) => {
-                      e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
-                      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+                      e.currentTarget.style.background = 'var(--c-glass)';
+                      e.currentTarget.style.borderColor = 'var(--c-border-strong)';
                       e.currentTarget.style.boxShadow = 'none';
                     }}
                   />
@@ -214,7 +214,7 @@ const GerarCopy: React.FC = () => {
 
                 {/* Opções extras */}
                 <section>
-                  <h3 className="text-[15px] font-semibold text-white mb-3">Opcoes extras</h3>
+                  <h3 className="text-[15px] font-semibold text-txt mb-3">Opcoes extras</h3>
                   <OpcoesExtras opcoes={opcoes} onChange={setOpcoes} />
                 </section>
 
@@ -232,9 +232,9 @@ const GerarCopy: React.FC = () => {
                           boxShadow: '0 1px 2px rgba(0,0,0,0.2), 0 4px 16px rgba(var(--color-primary-rgb),0.25)',
                         }
                       : {
-                          background: 'rgba(255,255,255,0.03)',
-                          border: '1px solid rgba(255,255,255,0.06)',
-                          color: 'rgba(255,255,255,0.25)',
+                          background: 'var(--c-glass)',
+                          border: '1px solid var(--c-border)',
+                          color: 'var(--c-t-25)',
                         }
                     }
                     onMouseEnter={(e) => {
@@ -305,12 +305,12 @@ const GerarCopy: React.FC = () => {
                       disabled={loadingCopy}
                       className="w-full flex items-center justify-center gap-2 py-2.5 text-[12px] font-medium rounded-xl transition-all duration-200"
                       style={{
-                        background: 'rgba(255,255,255,0.04)',
-                        border: '1px solid rgba(255,255,255,0.04)',
-                        color: 'rgba(255,255,255,0.5)',
+                        background: 'var(--c-glass)',
+                        border: '1px solid var(--c-border)',
+                        color: 'var(--c-t-50)',
                       }}
                       onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-primary-light)'; e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.2)'; e.currentTarget.style.background = 'rgba(var(--color-primary-rgb),0.06)' }}
-                      onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.5)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)'; e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.5)'; e.currentTarget.style.borderColor = 'var(--c-border)'; e.currentTarget.style.background = 'var(--c-glass)' }}
                     >
                       <RefreshCw className={`w-3.5 h-3.5 ${loadingCopy ? 'animate-spin' : ''}`} />
                       Regenerar

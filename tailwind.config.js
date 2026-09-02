@@ -7,12 +7,12 @@ export default {
     extend: {
       colors: {
         surface: {
-          DEFAULT: '#0a0a0f',
-          50: '#0d1117',
-          100: '#1A1A1E',
-          200: '#232328',
-          300: '#3F3F46',
-          400: '#52525B',
+          DEFAULT: 'rgb(var(--c-surface-rgb) / <alpha-value>)',
+          50: 'rgb(var(--c-surface-50-rgb) / <alpha-value>)',
+          100: 'rgb(var(--c-surface-100-rgb) / <alpha-value>)',
+          200: 'rgb(var(--c-surface-200-rgb) / <alpha-value>)',
+          300: 'rgb(var(--c-surface-300-rgb) / <alpha-value>)',
+          400: 'rgb(var(--c-surface-400-rgb) / <alpha-value>)',
         },
         accent: {
           DEFAULT: '#3b82f6',
@@ -32,15 +32,15 @@ export default {
           bright: '#34d399',
         },
         txt: {
-          DEFAULT: '#ffffff',
-          secondary: 'rgba(255, 255, 255, 0.7)',
-          muted: 'rgba(255, 255, 255, 0.5)',
-          dim: 'rgba(255, 255, 255, 0.35)',
+          DEFAULT: 'var(--c-t-100)',
+          secondary: 'var(--c-t-70)',
+          muted: 'var(--c-t-50)',
+          dim: 'var(--c-t-35)',
         },
         glass: {
-          DEFAULT: 'rgba(255, 255, 255, 0.04)',
-          border: 'rgba(255, 255, 255, 0.04)',
-          hover: 'rgba(255, 255, 255, 0.05)',
+          DEFAULT: 'var(--c-glass)',
+          border: 'var(--c-border)',
+          hover: 'var(--c-glass-hover)',
         },
       },
       fontFamily: {

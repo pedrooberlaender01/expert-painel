@@ -35,10 +35,10 @@ interface Props {
 const CATEGORIA_CORES: Record<string, { bg: string; border: string; color: string }> = {
   apostas: { bg: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.2)', color: '#34d399' },
   infoproduto: { bg: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.2)', color: '#3b82f6' },
-  geral: { bg: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.4)' },
+  geral: { bg: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-40)' },
   pagamento: { bg: 'rgba(250,204,60,0.08)', border: '1px solid rgba(250,204,60,0.2)', color: '#facc3c' },
   acesso: { bg: 'rgba(168,85,247,0.08)', border: '1px solid rgba(168,85,247,0.2)', color: '#a855f7' },
-  outro: { bg: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.4)' },
+  outro: { bg: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-40)' },
 };
 
 const CATEGORIA_SUGESTOES = [
@@ -180,7 +180,7 @@ export const BaseConhecimentoSuporte: React.FC<Props> = ({
         {/* Coluna: Perguntas e Respostas */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-[15px] font-semibold text-white flex items-center gap-2">
+            <h3 className="text-[15px] font-semibold text-txt flex items-center gap-2">
               <MessageCircleQuestion className="w-4 h-4" style={{ color: '#10b981' }} />
               Perguntas e Respostas
             </h3>
@@ -202,9 +202,9 @@ export const BaseConhecimentoSuporte: React.FC<Props> = ({
 
           {perguntas.length === 0 ? (
             <div className="glass-card p-8 text-center">
-              <MessageCircleQuestion className="w-8 h-8 mx-auto mb-2" style={{ color: 'rgba(255,255,255,0.12)' }} />
-              <p className="text-[13px]" style={{ color: 'rgba(255,255,255,0.4)' }}>Nenhuma pergunta cadastrada</p>
-              <p className="text-[11px] mt-1" style={{ color: 'rgba(255,255,255,0.25)' }}>Use as sugestoes abaixo ou adicione manualmente</p>
+              <MessageCircleQuestion className="w-8 h-8 mx-auto mb-2" style={{ color: 'var(--c-t-12)' }} />
+              <p className="text-[13px]" style={{ color: 'var(--c-t-40)' }}>Nenhuma pergunta cadastrada</p>
+              <p className="text-[11px] mt-1" style={{ color: 'var(--c-t-25)' }}>Use as sugestoes abaixo ou adicione manualmente</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -248,11 +248,11 @@ export const BaseConhecimentoSuporte: React.FC<Props> = ({
                           </div>
                         </div>
                         {/* Pergunta */}
-                        <p className="text-[13px] font-semibold text-white mb-1.5 leading-snug">{item.pergunta}</p>
+                        <p className="text-[13px] font-semibold text-txt mb-1.5 leading-snug">{item.pergunta}</p>
                         {/* Resposta truncada */}
                         <p
                           className="text-[12px] leading-relaxed line-clamp-2"
-                          style={{ color: 'rgba(255,255,255,0.45)' }}
+                          style={{ color: 'var(--c-t-45)' }}
                         >
                           {item.content}
                         </p>
@@ -261,11 +261,11 @@ export const BaseConhecimentoSuporte: React.FC<Props> = ({
                       <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex-shrink-0 pt-0.5">
                         <button
                           onClick={() => abrirModalEditar(item)}
-                          className="p-1.5 rounded-lg transition-all duration-200 hover:bg-white/[0.06]"
-                          style={{ color: 'rgba(255,255,255,0.35)' }}
+                          className="p-1.5 rounded-lg transition-all duration-200 hover:bg-glass-hover"
+                          style={{ color: 'var(--c-t-35)' }}
                           title="Editar"
-                          onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }}
-                          onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.35)'; }}
+                          onMouseEnter={(e) => { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.7)'; }}
+                          onMouseLeave={(e) => { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.35)'; }}
                         >
                           <Pencil className="w-3.5 h-3.5" />
                         </button>
@@ -292,7 +292,7 @@ export const BaseConhecimentoSuporte: React.FC<Props> = ({
         {/* Coluna: Documentos */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-[15px] font-semibold text-white flex items-center gap-2">
+            <h3 className="text-[15px] font-semibold text-txt flex items-center gap-2">
               <FileText className="w-4 h-4" style={{ color: '#3b82f6' }} />
               Documentos
             </h3>
@@ -322,11 +322,11 @@ export const BaseConhecimentoSuporte: React.FC<Props> = ({
               <Loader2 className="w-6 h-6 mx-auto animate-spin" style={{ color: 'var(--color-primary-light)' }} />
             ) : (
               <>
-                <Upload className="w-6 h-6 mx-auto mb-2" style={{ color: 'rgba(255,255,255,0.2)' }} />
-                <p className="text-[13px] font-medium" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                <Upload className="w-6 h-6 mx-auto mb-2" style={{ color: 'var(--c-t-20)' }} />
+                <p className="text-[13px] font-medium" style={{ color: 'var(--c-t-40)' }}>
                   Clique para fazer upload
                 </p>
-                <p className="text-[11px] mt-0.5" style={{ color: 'rgba(255,255,255,0.25)' }}>
+                <p className="text-[11px] mt-0.5" style={{ color: 'var(--c-t-25)' }}>
                   PDF, TXT ou DOCX
                 </p>
               </>
@@ -335,8 +335,8 @@ export const BaseConhecimentoSuporte: React.FC<Props> = ({
 
           {documentos.length === 0 ? (
             <div className="glass-card p-8 text-center">
-              <FileText className="w-8 h-8 mx-auto mb-2" style={{ color: 'rgba(255,255,255,0.12)' }} />
-              <p className="text-[13px]" style={{ color: 'rgba(255,255,255,0.4)' }}>Nenhum documento</p>
+              <FileText className="w-8 h-8 mx-auto mb-2" style={{ color: 'var(--c-t-12)' }} />
+              <p className="text-[13px]" style={{ color: 'var(--c-t-40)' }}>Nenhum documento</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -363,7 +363,7 @@ export const BaseConhecimentoSuporte: React.FC<Props> = ({
                       </div>
                       <div className="min-w-0">
                         <div className="flex items-center gap-2">
-                          <p className="text-[13px] font-medium text-white truncate">{doc.nome_arquivo || 'Documento'}</p>
+                          <p className="text-[13px] font-medium text-txt truncate">{doc.nome_arquivo || 'Documento'}</p>
                           {/* Indicador embedding */}
                           <div className="flex items-center gap-1">
                             <div
@@ -377,11 +377,11 @@ export const BaseConhecimentoSuporte: React.FC<Props> = ({
                           </div>
                         </div>
                         <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-[11px] font-mono" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                          <span className="text-[11px] font-mono" style={{ color: 'var(--c-t-30)' }}>
                             {new Date(doc.created_at).toLocaleDateString('pt-BR')}
                           </span>
                           {doc.metadata?.tamanho && (
-                            <span className="text-[11px] font-mono" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                            <span className="text-[11px] font-mono" style={{ color: 'var(--c-t-30)' }}>
                               {(doc.metadata.tamanho / 1024).toFixed(0)} KB
                             </span>
                           )}
@@ -411,17 +411,17 @@ export const BaseConhecimentoSuporte: React.FC<Props> = ({
       <div>
         {/* Divisor visual */}
         <div className="flex items-center gap-3 mb-5">
-          <div className="h-px flex-1" style={{ background: 'rgba(255,255,255,0.06)' }} />
-          <span className="text-[10px] uppercase tracking-wider font-semibold" style={{ color: 'rgba(255,255,255,0.2)' }}>
+          <div className="h-px flex-1" style={{ background: 'var(--c-glass-hover)' }} />
+          <span className="text-[10px] uppercase tracking-wider font-semibold" style={{ color: 'var(--c-t-20)' }}>
             Sugestoes
           </span>
-          <div className="h-px flex-1" style={{ background: 'rgba(255,255,255,0.06)' }} />
+          <div className="h-px flex-1" style={{ background: 'var(--c-glass-hover)' }} />
         </div>
 
         <div className="glass-card p-6">
           <div className="flex items-center gap-2.5 mb-5">
             <Lightbulb className="w-[18px] h-[18px]" style={{ color: '#facc3c' }} />
-            <h3 className="text-[15px] font-semibold text-white">Sugestoes de perguntas frequentes</h3>
+            <h3 className="text-[15px] font-semibold text-txt">Sugestoes de perguntas frequentes</h3>
           </div>
 
           {/* Tabs de categoria — proeminentes com icones */}
@@ -443,22 +443,22 @@ export const BaseConhecimentoSuporte: React.FC<Props> = ({
                     }
                     : {
                       background: 'transparent',
-                      border: '1px solid rgba(255,255,255,0.06)',
-                      color: 'rgba(255,255,255,0.4)',
+                      border: '1px solid var(--c-border)',
+                      color: 'var(--c-t-40)',
                     }
                   }
                   onMouseEnter={(e) => {
                     if (!active) {
-                      e.currentTarget.style.color = 'rgba(255,255,255,0.65)';
-                      e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
-                      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+                      e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.65)';
+                      e.currentTarget.style.background = 'var(--c-glass)';
+                      e.currentTarget.style.borderColor = 'var(--c-border-strong)';
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (!active) {
-                      e.currentTarget.style.color = 'rgba(255,255,255,0.4)';
+                      e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.4)';
                       e.currentTarget.style.background = 'transparent';
-                      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)';
+                      e.currentTarget.style.borderColor = 'var(--c-border)';
                     }
                   }}
                 >
@@ -470,7 +470,7 @@ export const BaseConhecimentoSuporte: React.FC<Props> = ({
           </div>
 
           {/* Separador sutil entre tabs e chips */}
-          <div className="h-px mb-4" style={{ background: 'rgba(255,255,255,0.04)' }} />
+          <div className="h-px mb-4" style={{ background: 'var(--c-glass)' }} />
 
           {/* Grid de sugestoes — chips com estilo diferenciado */}
           <div className="flex flex-wrap gap-2">
@@ -491,9 +491,9 @@ export const BaseConhecimentoSuporte: React.FC<Props> = ({
                       cursor: 'default',
                     }
                     : {
-                      background: 'rgba(255,255,255,0.02)',
-                      border: '1px dashed rgba(255,255,255,0.1)',
-                      color: 'rgba(255,255,255,0.5)',
+                      background: 'var(--c-glass-2)',
+                      border: '1px dashed var(--c-border-strong)',
+                      color: 'var(--c-t-50)',
                       cursor: 'pointer',
                     }
                   }
@@ -508,10 +508,10 @@ export const BaseConhecimentoSuporte: React.FC<Props> = ({
                   }}
                   onMouseLeave={(e) => {
                     if (!jaUsada) {
-                      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+                      e.currentTarget.style.borderColor = 'var(--c-border-strong)';
                       e.currentTarget.style.borderStyle = 'dashed';
-                      e.currentTarget.style.background = 'rgba(255,255,255,0.02)';
-                      e.currentTarget.style.color = 'rgba(255,255,255,0.5)';
+                      e.currentTarget.style.background = 'var(--c-glass-2)';
+                      e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.5)';
                       e.currentTarget.style.boxShadow = 'none';
                     }
                   }}

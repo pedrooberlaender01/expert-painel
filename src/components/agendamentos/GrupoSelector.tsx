@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Search, RefreshCw, CheckSquare, Square, Loader2, Wifi, WifiOff, ChevronDown, Users, Send, Plus, Bot, Key, AtSign, ArrowRight, Check, X, Repeat, Pin, FlaskConical } from 'lucide-react';
+import { Search, RefreshCw, CheckSquare, Square, Loader2, Wifi, WifiOff, ChevronDown, Users, Send, Plus, Bot, Key, AtSign, ArrowRight, Check, X, Repeat, Pin } from 'lucide-react';
 import type { InstanciaDisparadora, GrupoWhatsApp } from '../../hooks/useAgendamentos';
 import { cn } from '../../utils/cn';
 
@@ -15,7 +15,6 @@ interface GrupoSelectorProps {
   onGruposChange: (grupos: GrupoWhatsApp[]) => void;
   onFetchGrupos: () => void;
   onAgendar: () => void;
-  onAgendarTeste?: () => void;
   onLimpar: () => void;
   agendando: boolean;
   podeAgendar: boolean;
@@ -40,7 +39,6 @@ export const GrupoSelector: React.FC<GrupoSelectorProps> = ({
   onGruposChange,
   onFetchGrupos,
   onAgendar,
-  onAgendarTeste,
   onLimpar,
   agendando,
   podeAgendar,
@@ -139,7 +137,7 @@ export const GrupoSelector: React.FC<GrupoSelectorProps> = ({
               <label className="block text-[12px] font-medium text-txt-muted mb-1.5">Modo de Envio</label>
               <div
                 className="grid grid-cols-2 gap-1 p-1 rounded-xl"
-                style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}
+                style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
               >
                 <button
                   type="button"
@@ -148,7 +146,7 @@ export const GrupoSelector: React.FC<GrupoSelectorProps> = ({
                     'flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-[12px] font-medium transition-all duration-200',
                     !usarFila
                       ? 'bg-emerald-600 text-white shadow-[0_2px_10px_rgba(16,185,129,0.25)]'
-                      : 'bg-transparent text-zinc-400 hover:bg-white/[0.04]'
+                      : 'bg-transparent text-txt-muted hover:bg-glass'
                   )}
                 >
                   <Pin className="w-3.5 h-3.5" />
@@ -161,7 +159,7 @@ export const GrupoSelector: React.FC<GrupoSelectorProps> = ({
                     'flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-[12px] font-medium transition-all duration-200',
                     usarFila
                       ? 'bg-emerald-600 text-white shadow-[0_2px_10px_rgba(16,185,129,0.25)]'
-                      : 'bg-transparent text-zinc-400 hover:bg-white/[0.04]'
+                      : 'bg-transparent text-txt-muted hover:bg-glass'
                   )}
                 >
                   <Repeat className="w-3.5 h-3.5" />
@@ -273,21 +271,21 @@ export const GrupoSelector: React.FC<GrupoSelectorProps> = ({
                 <div
                   className="relative w-full rounded-t-3xl border-t border-surface-300/20 animate-slide-up"
                   style={{
-                    background: 'rgba(22,27,34,0.98)',
+                    background: 'var(--c-popup-bg)',
                     maxHeight: '80vh',
                     boxShadow: '0 -20px 60px rgba(0,0,0,0.6)',
                   }}
                 >
                   {/* Handle */}
                   <div className="flex justify-center pt-3 pb-1">
-                    <div className="w-10 h-1 rounded-full bg-white/15" />
+                    <div className="w-10 h-1 rounded-full bg-glass-hover" />
                   </div>
                   {/* Header */}
                   <div className="flex items-center justify-between px-5 py-3 border-b border-surface-300/10">
                     <h4 className="text-[14px] font-semibold text-txt font-display">Selecione uma instância</h4>
                     <button
                       onClick={() => setDropdownOpen(false)}
-                      className="w-8 h-8 rounded-lg flex items-center justify-center bg-white/5 text-white/40 hover:text-white hover:bg-white/10 transition-colors"
+                      className="w-8 h-8 rounded-lg flex items-center justify-center bg-glass-2 text-txt-dim hover:text-txt hover:bg-glass-hover transition-colors"
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -578,46 +576,28 @@ export const GrupoSelector: React.FC<GrupoSelectorProps> = ({
       )}
 
       {/* Footer actions */}
-      <div className="p-3 border-t border-surface-300/10 flex flex-col gap-2">
-        <div className="flex items-center gap-2">
-          <button
-            onClick={onLimpar}
-            className="flex-1 px-3 py-2.5 text-[12px] font-medium text-txt-secondary bg-surface-200/30 hover:bg-surface-200/50 rounded-xl border border-surface-300/20 transition-all"
-          >
-            Limpar
-          </button>
-          <button
-            onClick={onAgendar}
-            disabled={!podeAgendar || agendando}
-            className={cn(
-              'flex-1 flex items-center justify-center gap-2 px-3 py-2.5 text-[12px] font-semibold rounded-xl transition-all duration-200',
-              podeAgendar && !agendando
-                ? isTelegram
-                  ? 'bg-sky-600 hover:bg-sky-500 text-white shadow-[0_2px_12px_rgba(56,189,248,0.2)] hover:shadow-[0_4px_20px_rgba(56,189,248,0.3)]'
-                  : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-[0_2px_12px_rgba(52,211,153,0.2)] hover:shadow-[0_4px_20px_rgba(52,211,153,0.3)]'
-                : 'bg-surface-200/30 text-txt-dim cursor-not-allowed'
-            )}
-          >
-            {agendando && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-            Agendar
-          </button>
-        </div>
-        {onAgendarTeste && (
-          <button
-            onClick={onAgendarTeste}
-            disabled={!podeAgendar || agendando}
-            className={cn(
-              'w-full flex items-center justify-center gap-2 px-3 py-2 text-[11px] font-semibold rounded-xl transition-all duration-200 border',
-              podeAgendar && !agendando
-                ? 'bg-amber-500/10 hover:bg-amber-500/15 text-amber-400 border-amber-500/25'
-                : 'bg-surface-200/20 text-txt-dim border-surface-300/10 cursor-not-allowed'
-            )}
-            title="Agenda usando pg_cron (Supabase) ao invés do schedule N8N (fluxo de teste)"
-          >
-            <FlaskConical className="w-3.5 h-3.5" />
-            Agendar com Teste (pg_cron)
-          </button>
-        )}
+      <div className="p-3 border-t border-surface-300/10 flex items-center gap-2">
+        <button
+          onClick={onLimpar}
+          className="flex-1 px-3 py-2.5 text-[12px] font-medium text-txt-secondary bg-surface-200/30 hover:bg-surface-200/50 rounded-xl border border-surface-300/20 transition-all"
+        >
+          Limpar
+        </button>
+        <button
+          onClick={onAgendar}
+          disabled={!podeAgendar || agendando}
+          className={cn(
+            'flex-1 flex items-center justify-center gap-2 px-3 py-2.5 text-[12px] font-semibold rounded-xl transition-all duration-200',
+            podeAgendar && !agendando
+              ? isTelegram
+                ? 'bg-sky-600 hover:bg-sky-500 text-white shadow-[0_2px_12px_rgba(56,189,248,0.2)] hover:shadow-[0_4px_20px_rgba(56,189,248,0.3)]'
+                : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-[0_2px_12px_rgba(52,211,153,0.2)] hover:shadow-[0_4px_20px_rgba(52,211,153,0.3)]'
+              : 'bg-surface-200/30 text-txt-dim cursor-not-allowed'
+          )}
+        >
+          {agendando && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+          Agendar
+        </button>
       </div>
     </div>
   );

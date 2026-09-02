@@ -119,7 +119,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   const trendConfig = {
     positive: { color: '#34d399', icon: TrendingUp, bg: 'rgba(52, 211, 153, 0.10)', border: 'rgba(52, 211, 153, 0.20)' },
     negative: { color: '#fb7185', icon: TrendingDown, bg: 'rgba(244, 63, 94, 0.10)', border: 'rgba(244, 63, 94, 0.20)' },
-    neutral: { color: 'rgba(255,255,255,0.5)', icon: Minus, bg: 'rgba(255, 255, 255, 0.05)', border: 'rgba(255, 255, 255, 0.04)' },
+    neutral: { color: 'var(--c-t-50)', icon: Minus, bg: 'var(--c-glass-hover)', border: 'var(--c-border)' },
   };
 
   const TrendIcon = trendConfig[trendType].icon;
@@ -154,17 +154,17 @@ export const MetricCard: React.FC<MetricCardProps> = ({
         </div>
 
         {/* Label */}
-        <p className="text-[11px] font-semibold uppercase tracking-[0.5px] mb-1" style={{ color: 'rgba(255,255,255,0.45)' }}>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.5px] mb-1" style={{ color: 'var(--c-t-45)' }}>
           {title}
         </p>
 
         {/* Value */}
-        <div className="text-[28px] font-bold text-white font-display tracking-tight leading-none mb-1 animate-count-up" style={{ fontVariantNumeric: 'tabular-nums' }}>
+        <div className="text-[28px] font-bold text-txt font-display tracking-tight leading-none mb-1 animate-count-up" style={{ fontVariantNumeric: 'tabular-nums' }}>
           {value}
         </div>
 
         {subtitle && (
-          <p className="text-[12px] leading-relaxed mb-3" style={{ color: 'rgba(255,255,255,0.5)' }}>
+          <p className="text-[12px] leading-relaxed mb-3" style={{ color: 'var(--c-t-50)' }}>
             {subtitle}
           </p>
         )}

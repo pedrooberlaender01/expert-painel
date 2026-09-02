@@ -71,13 +71,13 @@ export const ConfirmarApagarEnviosModal: React.FC<ConfirmarApagarEnviosModalProp
         {/* Content */}
         <div className="p-5 space-y-4">
           <p className="text-[13px] text-txt-secondary leading-relaxed">
-            Apagar as <span className="font-semibold text-white">{deletaveis}</span> mensagen{deletaveis !== 1 ? 's' : ''} enviadas para os grupos via {canal}?
+            Apagar as <span className="font-semibold text-txt">{deletaveis}</span> mensagen{deletaveis !== 1 ? 's' : ''} enviadas para os grupos via {canal}?
           </p>
 
           {diff > 0 && (
-            <div className="flex gap-3 p-3.5 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}>
-              <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" style={{ color: 'rgba(255,255,255,0.4)' }} />
-              <p className="text-[12px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <div className="flex gap-3 p-3.5 rounded-xl" style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}>
+              <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" style={{ color: 'var(--c-t-40)' }} />
+              <p className="text-[12px] leading-relaxed" style={{ color: 'var(--c-t-50)' }}>
                 {diff} envio{diff !== 1 ? 's' : ''} {diff !== 1 ? 'nao tem' : 'nao tem'} ID rastreavel (anterior a atualizacao do sistema). Esses nao serao apagados.
               </p>
             </div>

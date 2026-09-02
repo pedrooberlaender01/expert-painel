@@ -91,10 +91,10 @@ export const BotInstanciaTab: React.FC<BotInstanciaTabProps> = ({ showToast }) =
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="bg-white/[0.03] border border-white/[0.04] rounded-2xl p-4 h-[56px] animate-pulse" />
+        <div className="bg-glass border border-glass rounded-2xl p-4 h-[56px] animate-pulse" />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {[...Array(2)].map((_, i) => (
-            <div key={i} className="bg-white/[0.03] border border-white/[0.04] rounded-2xl p-5 h-[200px] animate-pulse" />
+            <div key={i} className="bg-glass border border-glass rounded-2xl p-5 h-[200px] animate-pulse" />
           ))}
         </div>
       </div>
@@ -106,7 +106,7 @@ export const BotInstanciaTab: React.FC<BotInstanciaTabProps> = ({ showToast }) =
       {/* Status summary */}
       <div
         className="flex items-center gap-5 flex-wrap px-5 py-3"
-        style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '12px' }}
+        style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', borderRadius: '12px' }}
       >
         <div className="flex items-center gap-2.5">
           <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: 'var(--color-primary-bg)' }}>
@@ -114,26 +114,26 @@ export const BotInstanciaTab: React.FC<BotInstanciaTabProps> = ({ showToast }) =
           </div>
           <p className="text-[14px] font-semibold">
             <span style={{ color: 'var(--color-primary-light)' }}>{conectados}</span>
-            <span className="text-[12px] ml-1" style={{ color: 'rgba(255,255,255,0.4)' }}>conectado{conectados !== 1 ? 's' : ''}</span>
+            <span className="text-[12px] ml-1" style={{ color: 'var(--c-t-40)' }}>conectado{conectados !== 1 ? 's' : ''}</span>
           </p>
         </div>
-        <div className="w-px h-6" style={{ background: 'rgba(255,255,255,0.04)' }} />
+        <div className="w-px h-6" style={{ background: 'var(--c-glass)' }} />
         <div className="flex items-center gap-2.5">
           <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: 'rgba(248,113,113,0.12)' }}>
             <WifiOff className="w-4 h-4" style={{ color: '#f87171' }} />
           </div>
           <p className="text-[14px] font-semibold">
             <span style={{ color: '#f87171' }}>{desconectados}</span>
-            <span className="text-[12px] ml-1" style={{ color: 'rgba(255,255,255,0.4)' }}>desconectado{desconectados !== 1 ? 's' : ''}</span>
+            <span className="text-[12px] ml-1" style={{ color: 'var(--c-t-40)' }}>desconectado{desconectados !== 1 ? 's' : ''}</span>
           </p>
         </div>
-        <div className="w-px h-6" style={{ background: 'rgba(255,255,255,0.04)' }} />
-        <p className="text-[13px]" style={{ color: 'rgba(255,255,255,0.4)' }}>
-          <span className="font-semibold" style={{ color: 'rgba(255,255,255,0.5)' }}>{instanciasBot.length}</span> instância{instanciasBot.length !== 1 ? 's' : ''} no total
+        <div className="w-px h-6" style={{ background: 'var(--c-glass)' }} />
+        <p className="text-[13px]" style={{ color: 'var(--c-t-40)' }}>
+          <span className="font-semibold" style={{ color: 'var(--c-t-50)' }}>{instanciasBot.length}</span> instância{instanciasBot.length !== 1 ? 's' : ''} no total
         </p>
       </div>
 
-      <p className="text-[13px] max-w-[800px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>
+      <p className="text-[13px] max-w-[800px] leading-relaxed" style={{ color: 'var(--c-t-40)' }}>
         Instâncias dedicadas aos bots de engajamento. Cada bot precisa de um número WhatsApp conectado para enviar e receber mensagens nos grupos.
       </p>
 
@@ -159,7 +159,7 @@ export const BotInstanciaTab: React.FC<BotInstanciaTabProps> = ({ showToast }) =
         /* Estado vazio */
         <div
           className="flex flex-col items-center justify-center py-16 rounded-2xl"
-          style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}
+          style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}
         >
           <div
             className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
@@ -167,8 +167,8 @@ export const BotInstanciaTab: React.FC<BotInstanciaTabProps> = ({ showToast }) =
           >
             <Smartphone className="w-6 h-6" style={{ color: 'var(--color-primary-light)' }} />
           </div>
-          <p className="text-[14px] font-semibold text-white/60 mb-1">Nenhuma instância bot conectada</p>
-          <p className="text-[12px] text-white/30 mb-5">Crie uma instância para conectar um número WhatsApp aos bots</p>
+          <p className="text-[14px] font-semibold text-txt-muted mb-1">Nenhuma instância bot conectada</p>
+          <p className="text-[12px] text-txt-dim mb-5">Crie uma instância para conectar um número WhatsApp aos bots</p>
           <button
             onClick={() => setNovaModal(true)}
             className="flex items-center gap-2 px-5 py-2.5 text-[13px] font-semibold rounded-xl transition-all"

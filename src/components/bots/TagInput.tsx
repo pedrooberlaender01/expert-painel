@@ -34,7 +34,7 @@ export const TagInput: React.FC<TagInputProps> = ({ tags, onChange, placeholder 
 
   return (
     <div
-      className="flex flex-wrap items-center gap-1.5 bg-white/[0.02] border border-white/[0.04] rounded-lg px-3 py-2 min-h-[38px] cursor-text transition-colors focus-within:border-[rgba(var(--color-primary-rgb),0.3)]"
+      className="flex flex-wrap items-center gap-1.5 bg-glass-2 border border-glass rounded-lg px-3 py-2 min-h-[38px] cursor-text transition-colors focus-within:border-[rgba(var(--color-primary-rgb),0.3)]"
       onClick={() => inputRef.current?.focus()}
     >
       {tags.map((tag, i) => (
@@ -61,7 +61,7 @@ export const TagInput: React.FC<TagInputProps> = ({ tags, onChange, placeholder 
         onKeyDown={handleKeyDown}
         onBlur={() => { if (input.trim()) addTag(); }}
         placeholder={tags.length === 0 ? placeholder : ''}
-        className="flex-1 min-w-[80px] bg-transparent text-white text-[13px] outline-none placeholder-[#4b5563]"
+        className="flex-1 min-w-[80px] bg-transparent text-txt text-[13px] outline-none placeholder-txt-dim"
       />
     </div>
   );

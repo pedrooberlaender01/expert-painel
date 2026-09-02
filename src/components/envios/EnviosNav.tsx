@@ -27,7 +27,7 @@ export const EnviosNav: React.FC = () => {
   return (
     <div
       className="grid grid-cols-2 md:flex md:w-fit gap-1 p-1 rounded-[14px] w-full"
-      style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
+      style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
     >
       {visibleTabs.map((tab) => {
         const isDisabled = sectionStates[tab.sectionKey] === 'disabled';
@@ -37,7 +37,7 @@ export const EnviosNav: React.FC = () => {
             <div
               key={tab.path}
               className="flex items-center justify-center gap-2 px-3 md:px-5 py-2.5 rounded-[10px] text-[12px] md:text-[13px] font-medium cursor-not-allowed"
-              style={{ background: 'transparent', border: '1px solid transparent', color: 'rgba(255,255,255,0.25)' }}
+              style={{ background: 'transparent', border: '1px solid transparent', color: 'var(--c-t-25)' }}
               title="Funcionalidade nao disponivel no seu plano"
             >
               <tab.icon className="w-3.5 h-3.5 shrink-0" style={{ opacity: 0.4 }} />
@@ -55,7 +55,7 @@ export const EnviosNav: React.FC = () => {
             className="flex items-center justify-center gap-2 px-3 md:px-5 py-2.5 rounded-[10px] text-[12px] md:text-[13px] font-medium transition-all duration-250"
             style={({ isActive }) => isActive
               ? { background: 'var(--color-primary-bg)', border: '1px solid var(--color-primary-bg)', color: 'var(--color-primary-light)' }
-              : { background: 'transparent', border: '1px solid transparent', color: 'rgba(255,255,255,0.45)' }
+              : { background: 'transparent', border: '1px solid transparent', color: 'var(--c-t-45)' }
             }
           >
             {({ isActive }) => (

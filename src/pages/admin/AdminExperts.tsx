@@ -80,8 +80,8 @@ export const AdminExperts: React.FC = () => {
         <p className="text-sm text-red-400">{error}</p>
         <button
           onClick={refresh}
-          className="px-4 py-2 rounded-xl text-sm text-white/70 transition-all"
-          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
+          className="px-4 py-2 rounded-xl text-sm text-txt-secondary transition-all"
+          style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
         >
           Tentar novamente
         </button>
@@ -115,8 +115,8 @@ export const AdminExperts: React.FC = () => {
 
       {experts.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-64 gap-3">
-          <Users className="w-10 h-10 text-white/20" />
-          <p className="text-sm text-white/40">Nenhum expert cadastrado</p>
+          <Users className="w-10 h-10 text-txt-dim" />
+          <p className="text-sm text-txt-dim">Nenhum expert cadastrado</p>
           <button
             onClick={() => navigate('/admin/experts/new')}
             className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm text-primary-light transition-all"
@@ -131,21 +131,21 @@ export const AdminExperts: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
-                  <th className="text-left px-4 py-3 text-[11px] uppercase tracking-wider text-white/[0.4] font-medium">Expert</th>
-                  <th className="text-left px-4 py-3 text-[11px] uppercase tracking-wider text-white/[0.4] font-medium">Plano</th>
-                  <th className="text-left px-4 py-3 text-[11px] uppercase tracking-wider text-white/[0.4] font-medium">Status</th>
-                  <th className="text-right px-4 py-3 text-[11px] uppercase tracking-wider text-white/[0.4] font-medium">Leads</th>
-                  <th className="text-right px-4 py-3 text-[11px] uppercase tracking-wider text-white/[0.4] font-medium">Instancias</th>
-                  <th className="text-right px-4 py-3 text-[11px] uppercase tracking-wider text-white/[0.4] font-medium">Acoes</th>
+                <tr style={{ background: 'var(--c-glass-2)' }}>
+                  <th className="text-left px-4 py-3 text-[11px] uppercase tracking-wider text-txt-dim font-medium">Expert</th>
+                  <th className="text-left px-4 py-3 text-[11px] uppercase tracking-wider text-txt-dim font-medium">Plano</th>
+                  <th className="text-left px-4 py-3 text-[11px] uppercase tracking-wider text-txt-dim font-medium">Status</th>
+                  <th className="text-right px-4 py-3 text-[11px] uppercase tracking-wider text-txt-dim font-medium">Leads</th>
+                  <th className="text-right px-4 py-3 text-[11px] uppercase tracking-wider text-txt-dim font-medium">Instancias</th>
+                  <th className="text-right px-4 py-3 text-[11px] uppercase tracking-wider text-txt-dim font-medium">Acoes</th>
                 </tr>
               </thead>
               <tbody>
                 {experts.map((expert) => (
                   <tr
                     key={expert.id}
-                    className="transition-colors hover:bg-white/[0.02]"
-                    style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}
+                    className="transition-colors hover:bg-[var(--c-glass-2)]"
+                    style={{ borderBottom: '1px solid var(--c-border)' }}
                   >
                     {/* Name with colored dot */}
                     <td className="px-4 py-3">
@@ -154,13 +154,13 @@ export const AdminExperts: React.FC = () => {
                           className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                           style={{ background: expert.cor_primaria }}
                         />
-                        <span className="text-sm text-white font-medium">{expert.nome}</span>
+                        <span className="text-sm text-txt font-medium">{expert.nome}</span>
                       </div>
                     </td>
 
                     {/* Plan */}
                     <td className="px-4 py-3">
-                      <span className="text-sm text-white/60">{expert.plano_nome || '—'}</span>
+                      <span className="text-sm text-txt-muted">{expert.plano_nome || '—'}</span>
                     </td>
 
                     {/* Status badge */}
@@ -178,12 +178,12 @@ export const AdminExperts: React.FC = () => {
 
                     {/* Leads count */}
                     <td className="px-4 py-3 text-right">
-                      <span className="text-sm text-white/60 font-mono">{expert.leads_count.toLocaleString('pt-BR')}</span>
+                      <span className="text-sm text-txt-muted font-mono">{expert.leads_count.toLocaleString('pt-BR')}</span>
                     </td>
 
                     {/* Instances count */}
                     <td className="px-4 py-3 text-right">
-                      <span className="text-sm text-white/60 font-mono">{expert.instancias_count}</span>
+                      <span className="text-sm text-txt-muted font-mono">{expert.instancias_count}</span>
                     </td>
 
                     {/* Actions */}
@@ -192,7 +192,7 @@ export const AdminExperts: React.FC = () => {
                         {/* Edit */}
                         <button
                           onClick={() => navigate(`/admin/experts/${expert.id}/edit`)}
-                          className="p-2 rounded-lg text-white/40 hover:text-primary-light hover:bg-primary-bg transition-all"
+                          className="p-2 rounded-lg text-txt-dim hover:text-primary-light hover:bg-primary-bg transition-all"
                           title="Editar"
                         >
                           <Pencil className="w-4 h-4" />
@@ -202,7 +202,7 @@ export const AdminExperts: React.FC = () => {
                         <button
                           onClick={() => handleImpersonate(expert)}
                           disabled={impersonatingId === expert.id}
-                          className="p-2 rounded-lg text-white/40 hover:text-purple-400 hover:bg-purple-500/10 transition-all disabled:opacity-50"
+                          className="p-2 rounded-lg text-txt-dim hover:text-purple-400 hover:bg-purple-500/10 transition-all disabled:opacity-50"
                           title="Ver como expert"
                         >
                           {impersonatingId === expert.id ? (
@@ -218,8 +218,8 @@ export const AdminExperts: React.FC = () => {
                           disabled={togglingId === expert.id}
                           className={`p-2 rounded-lg transition-all disabled:opacity-50 ${
                             expert.ativo
-                              ? 'text-white/40 hover:text-amber-400 hover:bg-amber-500/10'
-                              : 'text-white/40 hover:text-emerald-400 hover:bg-emerald-500/10'
+                              ? 'text-txt-dim hover:text-amber-400 hover:bg-amber-500/10'
+                              : 'text-txt-dim hover:text-emerald-400 hover:bg-emerald-500/10'
                           }`}
                           title={expert.ativo ? 'Suspender' : 'Reativar'}
                         >
@@ -241,7 +241,7 @@ export const AdminExperts: React.FC = () => {
                             className={`p-2 rounded-lg transition-all disabled:opacity-50 ${
                               confirmDeleteId === expert.id
                                 ? 'text-red-400 bg-red-500/15'
-                                : 'text-white/40 hover:text-red-400 hover:bg-red-500/10'
+                                : 'text-txt-dim hover:text-red-400 hover:bg-red-500/10'
                             }`}
                             title={confirmDeleteId === expert.id ? 'Clique novamente para confirmar' : 'Excluir expert'}
                           >

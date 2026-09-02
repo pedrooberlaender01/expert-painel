@@ -197,10 +197,10 @@ export const MensagensAbertura: React.FC<{
     return (
       <div
         className="mt-4 rounded-xl overflow-hidden"
-        style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}
+        style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}
       >
-        <div className="px-4 py-2.5" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-          <span className="text-[10px] font-semibold uppercase tracking-[0.8px]" style={{ color: 'rgba(255,255,255,0.3)' }}>
+        <div className="px-4 py-2.5" style={{ borderBottom: '1px solid var(--c-border)' }}>
+          <span className="text-[10px] font-semibold uppercase tracking-[0.8px]" style={{ color: 'var(--c-t-30)' }}>
             Preview da rotacao
           </span>
         </div>
@@ -210,16 +210,16 @@ export const MensagensAbertura: React.FC<{
             const isRepeat = i >= active.length;
             return (
               <div key={i} className="flex items-baseline gap-2.5">
-                <span className="text-[11px] font-mono shrink-0" style={{ color: 'rgba(255,255,255,0.2)', minWidth: '52px' }}>
+                <span className="text-[11px] font-mono shrink-0" style={{ color: 'var(--c-t-20)', minWidth: '52px' }}>
                   Lead {i + 1} →
                 </span>
                 <span
                   className="text-[12px] leading-relaxed"
-                  style={{ color: isRepeat ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.55)' }}
+                  style={{ color: isRepeat ? 'rgb(var(--c-fg-rgb) / 0.25)' : 'rgb(var(--c-fg-rgb) / 0.55)' }}
                 >
                   "{msg.mensagem}"
                   {isRepeat && (
-                    <span className="text-[10px] ml-1.5" style={{ color: 'rgba(255,255,255,0.15)' }}>(volta ao inicio)</span>
+                    <span className="text-[10px] ml-1.5" style={{ color: 'var(--c-t-15)' }}>(volta ao inicio)</span>
                   )}
                 </span>
               </div>
@@ -252,10 +252,10 @@ export const MensagensAbertura: React.FC<{
     return (
       <div
         className="rounded-2xl overflow-hidden"
-        style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
+        style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 sm:px-5 py-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+        <div className="flex items-center justify-between px-4 sm:px-5 py-4" style={{ borderBottom: '1px solid var(--c-border)' }}>
           <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
             <div
               className="w-9 h-9 rounded-xl flex items-center justify-center"
@@ -264,8 +264,8 @@ export const MensagensAbertura: React.FC<{
               {icon}
             </div>
             <div>
-              <h3 className="text-[14px] font-semibold text-white font-display tracking-tight">{label}</h3>
-              <p className="text-[11px] mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>{description}</p>
+              <h3 className="text-[14px] font-semibold text-txt font-display tracking-tight">{label}</h3>
+              <p className="text-[11px] mt-0.5" style={{ color: 'var(--c-t-35)' }}>{description}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -287,7 +287,7 @@ export const MensagensAbertura: React.FC<{
             )}
             <span
               className="text-[11px] font-mono px-2.5 py-1 rounded-lg"
-              style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)' }}
+              style={{ background: 'var(--c-glass)', color: 'var(--c-t-40)' }}
             >
               {items.length} {items.length === 1 ? 'mensagem' : 'mensagens'}
             </span>
@@ -298,7 +298,7 @@ export const MensagensAbertura: React.FC<{
         <div className="px-3 sm:px-5 py-4 space-y-2">
           {items.length === 0 ? (
             <div className="py-8 flex flex-col items-center gap-2">
-              <p className="text-[13px]" style={{ color: 'rgba(255,255,255,0.4)' }}>Nenhuma mensagem configurada</p>
+              <p className="text-[13px]" style={{ color: 'var(--c-t-40)' }}>Nenhuma mensagem configurada</p>
               <button
                 onClick={() => addMsg(origem)}
                 className="flex items-center gap-1.5 text-[12px] font-medium px-3 py-1.5 rounded-lg transition-all duration-200"
@@ -317,12 +317,12 @@ export const MensagensAbertura: React.FC<{
                   <div
                     key={identifier}
                     className="flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-3 group rounded-xl px-3 sm:px-3.5 py-2.5 transition-all duration-200"
-                    style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}
-                    onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)' }}
-                    onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.02)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)' }}
+                    style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.borderColor = 'var(--c-border)' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--c-glass-2)'; e.currentTarget.style.borderColor = 'var(--c-border)' }}
                   >
                     {/* Order number */}
-                    <span className="text-[11px] font-mono w-5 text-center shrink-0" style={{ color: 'rgba(255,255,255,0.25)' }}>
+                    <span className="text-[11px] font-mono w-5 text-center shrink-0" style={{ color: 'var(--c-t-25)' }}>
                       {index + 1}.
                     </span>
 
@@ -332,9 +332,9 @@ export const MensagensAbertura: React.FC<{
                         onClick={() => moveMsg(origem, index, 'up')}
                         disabled={index === 0}
                         className="p-0.5 rounded transition-all disabled:opacity-20"
-                        style={{ color: 'rgba(255,255,255,0.3)' }}
-                        onMouseEnter={(e) => { if (index > 0) e.currentTarget.style.color = 'rgba(255,255,255,0.7)' }}
-                        onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.3)' }}
+                        style={{ color: 'var(--c-t-30)' }}
+                        onMouseEnter={(e) => { if (index > 0) e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.7)' }}
+                        onMouseLeave={(e) => { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.3)' }}
                       >
                         <ChevronUp className="w-3 h-3" />
                       </button>
@@ -342,9 +342,9 @@ export const MensagensAbertura: React.FC<{
                         onClick={() => moveMsg(origem, index, 'down')}
                         disabled={index === items.length - 1}
                         className="p-0.5 rounded transition-all disabled:opacity-20"
-                        style={{ color: 'rgba(255,255,255,0.3)' }}
-                        onMouseEnter={(e) => { if (index < items.length - 1) e.currentTarget.style.color = 'rgba(255,255,255,0.7)' }}
-                        onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.3)' }}
+                        style={{ color: 'var(--c-t-30)' }}
+                        onMouseEnter={(e) => { if (index < items.length - 1) e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.7)' }}
+                        onMouseLeave={(e) => { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.3)' }}
                       >
                         <ChevronDown className="w-3 h-3" />
                       </button>
@@ -357,7 +357,7 @@ export const MensagensAbertura: React.FC<{
                       value={msg.mensagem}
                       onChange={(e) => updateMsg(msg.id, msg._tempId, { mensagem: e.target.value })}
                       placeholder="Digite a mensagem..."
-                      className="flex-1 min-w-0 text-[13px] text-white outline-none bg-transparent placeholder-white/20"
+                      className="flex-1 min-w-0 text-[13px] text-txt outline-none bg-transparent placeholder-txt-dim"
                     />
 
                     {/* Toggle ativo */}
@@ -366,12 +366,12 @@ export const MensagensAbertura: React.FC<{
                       className="flex items-center gap-1.5 shrink-0 px-2 py-1 rounded-lg text-[10px] font-medium uppercase tracking-wide transition-all duration-200"
                       style={msg.ativo
                         ? { background: 'var(--color-primary-bg)', color: 'var(--color-primary-light)', border: '1px solid var(--color-primary-bg)' }
-                        : { background: 'rgba(255,255,255,0.03)', color: 'rgba(255,255,255,0.3)', border: '1px solid rgba(255,255,255,0.06)' }
+                        : { background: 'var(--c-glass)', color: 'var(--c-t-30)', border: '1px solid var(--c-border)' }
                       }
                     >
                       <div
                         className="w-1.5 h-1.5 rounded-full"
-                        style={{ background: msg.ativo ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.2)' }}
+                        style={{ background: msg.ativo ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.2)' }}
                       />
                       {msg.ativo ? 'Ativa' : 'Inativa'}
                     </button>
@@ -380,9 +380,9 @@ export const MensagensAbertura: React.FC<{
                     <button
                       onClick={() => deleteMsg(msg.id, msg._tempId, origem)}
                       className="p-1.5 rounded-lg sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-150"
-                      style={{ color: 'rgba(255,255,255,0.25)' }}
+                      style={{ color: 'var(--c-t-25)' }}
                       onMouseEnter={(e) => { e.currentTarget.style.color = '#f87171'; e.currentTarget.style.background = 'rgba(248,113,113,0.08)' }}
-                      onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.25)'; e.currentTarget.style.background = 'transparent' }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.25)'; e.currentTarget.style.background = 'transparent' }}
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
@@ -414,7 +414,7 @@ export const MensagensAbertura: React.FC<{
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="w-5 h-5 animate-spin" style={{ color: 'rgba(255,255,255,0.3)' }} />
+        <Loader2 className="w-5 h-5 animate-spin" style={{ color: 'var(--c-t-30)' }} />
       </div>
     );
   }
@@ -422,7 +422,7 @@ export const MensagensAbertura: React.FC<{
   return (
     <div className="space-y-6">
       {/* Description */}
-      <p className="text-[13px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.45)' }}>
+      <p className="text-[13px] leading-relaxed" style={{ color: 'var(--c-t-45)' }}>
         Mensagens pre-preenchidas quando o lead clica no link do trafego. O sistema alterna automaticamente entre as mensagens (round-robin).
       </p>
 
@@ -458,7 +458,7 @@ export const MensagensAbertura: React.FC<{
           className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
           style={dirty
             ? { background: 'var(--color-primary-bg)', border: '1px solid var(--color-primary-bg)', color: 'var(--color-primary-light)' }
-            : { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.25)' }
+            : { background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-25)' }
           }
           onMouseEnter={(e) => { if (dirty) { e.currentTarget.style.background = 'var(--color-primary-bg)'; e.currentTarget.style.boxShadow = '0 0 20px var(--color-primary-bg)' } }}
           onMouseLeave={(e) => { if (dirty) { e.currentTarget.style.background = 'var(--color-primary-bg)'; e.currentTarget.style.boxShadow = 'none' } }}

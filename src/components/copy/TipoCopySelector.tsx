@@ -28,10 +28,10 @@ export const TipoCopySelector: React.FC<TipoCopySelectorProps> = ({ selected, on
           className="flex items-center justify-center px-3 py-3 rounded-xl text-[13px] font-medium transition-all duration-200"
           style={isActive
             ? { background: 'rgba(var(--color-primary-rgb),0.12)', border: '1px solid rgba(var(--color-primary-rgb),0.3)', color: 'var(--color-primary-light)', boxShadow: '0 0 12px rgba(var(--color-primary-rgb),0.08)' }
-            : { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }
+            : { background: 'var(--c-glass)', border: '1px solid var(--c-border-strong)', color: 'var(--c-t-60)' }
           }
-          onMouseEnter={(e) => { if (!isActive) { e.currentTarget.style.background = 'rgba(255,255,255,0.07)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'; e.currentTarget.style.color = 'rgba(255,255,255,0.85)' } }}
-          onMouseLeave={(e) => { if (!isActive) { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = 'rgba(255,255,255,0.6)' } }}
+          onMouseEnter={(e) => { if (!isActive) { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.borderColor = 'var(--c-border-strong)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.85)' } }}
+          onMouseLeave={(e) => { if (!isActive) { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.borderColor = 'var(--c-border-strong)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.6)' } }}
         >
           {label}
         </button>

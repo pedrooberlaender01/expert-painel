@@ -19,7 +19,7 @@ const statusColors: Record<StatusLead, string> = {
   entrou_grupo: "bg-primary-bg text-primary-light border-primary-bg",
   nao_interessado: "bg-surface-300/30 text-txt-muted border-surface-300/30",
   sem_resposta: "bg-rose-500/10 text-rose-400 border-rose-500/20",
-  atendimento_manual: "bg-zinc-500/10 text-zinc-400 border-zinc-500/20",
+  atendimento_manual: "bg-zinc-500/10 text-txt-muted border-zinc-500/20",
   lead_chegou: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
 };
 

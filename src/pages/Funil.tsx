@@ -109,13 +109,13 @@ const COLUMN_COLORS: Record<StatusLead, {
   },
   nao_interessado: {
     bar: "bg-gradient-to-r from-zinc-500 to-zinc-600",
-    count: "bg-zinc-500/10 text-zinc-400 ring-zinc-500/20",
+    count: "bg-zinc-500/10 text-txt-muted ring-zinc-500/20",
     accent: "hover:border-zinc-500/15",
     dot: "bg-zinc-500",
     gradient: "from-zinc-500/5 to-transparent",
     ring: "ring-zinc-500/15",
     cardHover: "group-hover:bg-zinc-500/[0.02]",
-    icon: "text-zinc-500/60",
+    icon: "text-txt-dim",
   },
   sem_resposta: {
     bar: "bg-gradient-to-r from-rose-400 to-rose-500",
@@ -129,13 +129,13 @@ const COLUMN_COLORS: Record<StatusLead, {
   },
   atendimento_manual: {
     bar: "bg-gradient-to-r from-zinc-400 to-zinc-500",
-    count: "bg-zinc-500/10 text-zinc-400 ring-zinc-500/20",
+    count: "bg-zinc-500/10 text-txt-muted ring-zinc-500/20",
     accent: "hover:border-zinc-500/15",
     dot: "bg-zinc-400",
     gradient: "from-zinc-500/5 to-transparent",
     ring: "ring-zinc-500/15",
     cardHover: "group-hover:bg-zinc-500/[0.02]",
-    icon: "text-zinc-400/60",
+    icon: "text-txt-dim",
   },
 };
 
@@ -210,12 +210,12 @@ export const Funil: React.FC = () => {
                   `stagger-${colIndex + 1}`
                 )}
                 style={{
-                  background: 'linear-gradient(180deg, rgba(20, 20, 22, 0.6) 0%, rgba(20, 20, 22, 0.3) 100%)',
-                  border: '1px solid rgba(255, 255, 255, 0.03)',
+                  background: 'linear-gradient(180deg, rgb(var(--c-surface-100-rgb) / 0.6) 0%, rgb(var(--c-surface-100-rgb) / 0.3) 100%)',
+                  border: '1px solid var(--c-border)',
                 }}
               >
                 {/* Column header */}
-                <div className="p-3.5 sticky top-0 z-10 backdrop-blur-md bg-surface-50/70 border-b border-white/[0.03]">
+                <div className="p-3.5 sticky top-0 z-10 backdrop-blur-md bg-surface-50/70 border-b border-glass">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <div className={cn("w-2 h-2 rounded-full shrink-0 status-dot", colors.dot)} />
@@ -248,12 +248,12 @@ export const Funil: React.FC = () => {
                     <div
                       key={lead.id}
                       className={cn(
-                        "relative p-3 rounded-xl border border-white/[0.03] transition-all duration-300 cursor-default group",
+                        "relative p-3 rounded-xl border border-glass transition-all duration-300 cursor-default group",
                         colors.accent,
                         colors.cardHover
                       )}
                       style={{
-                        background: 'rgba(20, 20, 22, 0.5)',
+                        background: 'rgb(var(--c-surface-100-rgb) / 0.5)',
                       }}
                     >
                       {/* Subtle top gradient on hover */}
@@ -264,7 +264,7 @@ export const Funil: React.FC = () => {
 
                       <div className="relative z-10">
                         <div className="flex justify-between items-start mb-1.5">
-                          <span className="font-medium text-txt text-[13px] group-hover:text-white transition-colors duration-300 leading-tight">
+                          <span className="font-medium text-txt text-[13px] group-hover:text-txt transition-colors duration-300 leading-tight">
                             {lead.nome || 'Sem nome'}
                           </span>
                           <div className="flex items-center gap-1 text-txt-dim">

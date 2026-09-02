@@ -44,7 +44,7 @@ export const PlanLimitBanner: React.FC<PlanLimitBannerProps> = ({
         )}
       </div>
       {/* Progress bar */}
-      <div className="w-20 h-1.5 rounded-full shrink-0" style={{ background: 'rgba(255,255,255,0.06)' }}>
+      <div className="w-20 h-1.5 rounded-full shrink-0" style={{ background: 'var(--c-glass-hover)' }}>
         <div
           className="h-full rounded-full transition-all duration-500"
           style={{

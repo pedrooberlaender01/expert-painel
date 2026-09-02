@@ -225,25 +225,25 @@ function SuporteInstanciaCard({
       {/* Connecting: pairing code valido */}
       {status === 'connecting' && pairingCode && !pairingExpired && (
         <div className="mb-3 space-y-2.5">
-          <div className="relative px-4 py-3.5 rounded-xl bg-zinc-800/80 border border-zinc-700/60 text-center">
-            <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-semibold mb-2">Codigo de Pareamento</p>
-            <p className="text-2xl font-mono font-bold text-white tracking-[0.15em] select-all">
+          <div className="relative px-4 py-3.5 rounded-xl bg-surface-200/80 border border-surface-300/60 text-center">
+            <p className="text-[10px] uppercase tracking-widest text-txt-muted font-semibold mb-2">Codigo de Pareamento</p>
+            <p className="text-2xl font-mono font-bold text-txt tracking-[0.15em] select-all">
               {pairingCode}
             </p>
             <button
               onClick={() => handleCopyCode(pairingCode)}
-              className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 text-[11px] font-medium text-zinc-400 hover:text-white bg-zinc-700/50 hover:bg-zinc-700/80 rounded-lg transition-all"
+              className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 text-[11px] font-medium text-txt-muted hover:text-txt bg-surface-300/50 hover:bg-surface-300/80 rounded-lg transition-all"
             >
               {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
               {copied ? 'Copiado!' : 'Copiar codigo'}
             </button>
             {inst.pairing_code_expires_at && (
-              <div className="mt-2.5 pt-2 border-t border-zinc-700/40">
+              <div className="mt-2.5 pt-2 border-t border-surface-300/40">
                 <CountdownTimer expiresAt={inst.pairing_code_expires_at} />
               </div>
             )}
           </div>
-          <p className="text-[11px] text-zinc-500 text-center">
+          <p className="text-[11px] text-txt-muted text-center">
             Insira este codigo no WhatsApp → Dispositivos Vinculados → Vincular Dispositivo
           </p>
         </div>
@@ -252,7 +252,7 @@ function SuporteInstanciaCard({
       {/* Connecting: pairing code expirado */}
       {status === 'connecting' && pairingExpired && (
         <div className="mb-3 space-y-2.5">
-          <p className="text-[11px] text-zinc-500 text-center leading-relaxed">
+          <p className="text-[11px] text-txt-muted text-center leading-relaxed">
             Escaneie com WhatsApp → Dispositivos Vinculados → Vincular Dispositivo
           </p>
           <button
@@ -274,12 +274,12 @@ function SuporteInstanciaCard({
       {/* Disconnected: local pairing code */}
       {status === 'disconnected' && localPairingCode && (
         <div className="mb-3">
-          <div className="relative px-4 py-3.5 rounded-xl bg-zinc-800/80 border border-zinc-700/60 text-center">
-            <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-semibold mb-2">Codigo de Pareamento</p>
-            <p className="text-2xl font-mono font-bold text-white tracking-[0.15em] select-all">
+          <div className="relative px-4 py-3.5 rounded-xl bg-surface-200/80 border border-surface-300/60 text-center">
+            <p className="text-[10px] uppercase tracking-widest text-txt-muted font-semibold mb-2">Codigo de Pareamento</p>
+            <p className="text-2xl font-mono font-bold text-txt tracking-[0.15em] select-all">
               {localPairingCode}
             </p>
-            <p className="text-[11px] text-zinc-500 mt-2">
+            <p className="text-[11px] text-txt-muted mt-2">
               Insira este codigo no WhatsApp do aparelho
             </p>
           </div>
@@ -290,7 +290,7 @@ function SuporteInstanciaCard({
       {status === 'disconnected' && !localPairingCode && (
         <div className="mb-3 space-y-2">
           {inst.last_disconnect_reason && (
-            <div className="flex items-start gap-2 text-[11px] text-zinc-500">
+            <div className="flex items-start gap-2 text-[11px] text-txt-muted">
               <AlertCircle className="w-3 h-3 shrink-0 mt-0.5" />
               <span>{inst.last_disconnect_reason}</span>
             </div>
@@ -549,15 +549,15 @@ export const InstanciaSuporte: React.FC<Props> = ({ instancias, loading, onCriar
                     </div>
 
                     {resultado.pairing_code && (
-                      <div className="relative px-4 py-4 rounded-xl bg-zinc-800/80 border border-zinc-700/60 text-center">
-                        <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-semibold mb-2">
+                      <div className="relative px-4 py-4 rounded-xl bg-surface-200/80 border border-surface-300/60 text-center">
+                        <p className="text-[10px] uppercase tracking-widest text-txt-muted font-semibold mb-2">
                           Codigo de Pareamento
                         </p>
-                        <p className="text-2xl font-mono font-bold text-white tracking-[0.15em] select-all">
+                        <p className="text-2xl font-mono font-bold text-txt tracking-[0.15em] select-all">
                           {resultado.pairing_code}
                         </p>
                         {resultado.expira_em && (
-                          <p className="text-[11px] text-zinc-500 mt-2">
+                          <p className="text-[11px] text-txt-muted mt-2">
                             Expira em {resultado.expira_em}
                           </p>
                         )}

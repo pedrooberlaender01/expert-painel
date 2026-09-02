@@ -265,7 +265,7 @@ export const FollowupCard: React.FC<FollowupCardProps> = ({
                 onToggleActive?.(nextActive);
               }}
             />
-            <div className="w-9 h-5 rounded-full transition-colors duration-200 bg-[#374151] peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-4" />
+            <div className="w-9 h-5 rounded-full transition-colors duration-200 bg-surface-300 peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-4" />
           </label>
         </div>
       </div>
@@ -414,7 +414,7 @@ export const FollowupCard: React.FC<FollowupCardProps> = ({
 
       {/* Preview */}
       {mensagem.mensagens.some((m) => m.trim()) && (
-        <div className="bg-[#111111] rounded-xl p-4 mb-4 space-y-2">
+        <div className="bg-surface-50 rounded-xl p-4 mb-4 space-y-2">
           <p className="text-[10px] font-mono text-txt-dim uppercase tracking-wider mb-3">
             Preview
           </p>

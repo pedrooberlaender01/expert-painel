@@ -57,9 +57,9 @@ const PersonaCard: React.FC<PersonaCardProps> = ({ persona, onEdit, onConfigWpp,
   return (
     <div
       className="rounded-2xl overflow-hidden transition-all duration-200"
-      style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
-      onMouseEnter={(e) => { e.currentTarget.style.border = '1px solid rgba(255,255,255,0.08)' }}
-      onMouseLeave={(e) => { e.currentTarget.style.border = '1px solid rgba(255,255,255,0.04)' }}
+      style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
+      onMouseEnter={(e) => { e.currentTarget.style.border = '1px solid var(--c-border)' }}
+      onMouseLeave={(e) => { e.currentTarget.style.border = '1px solid var(--c-border)' }}
     >
       <div className="p-4">
         {/* Header — avatar + nome + badge */}
@@ -73,19 +73,19 @@ const PersonaCard: React.FC<PersonaCardProps> = ({ persona, onEdit, onConfigWpp,
           )}
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
-              <h3 className="text-[14px] font-semibold text-white truncate">{persona.nome}</h3>
+              <h3 className="text-[14px] font-semibold text-txt truncate">{persona.nome}</h3>
               <span
                 className="shrink-0 text-[10px] font-medium px-2 py-0.5 rounded-full"
                 style={persona.ativo
                   ? { background: 'rgba(52,211,153,0.1)', color: '#34d399', border: '1px solid rgba(52,211,153,0.2)' }
-                  : { background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)', border: '1px solid rgba(255,255,255,0.08)' }
+                  : { background: 'var(--c-glass)', color: 'var(--c-t-40)', border: '1px solid var(--c-border)' }
                 }
               >
                 {persona.ativo ? 'Ativo' : 'Inativo'}
               </span>
             </div>
             {/* Info linha */}
-            <p className="text-[12px] text-white/40 mt-0.5 truncate">
+            <p className="text-[12px] text-txt-dim mt-0.5 truncate">
               {[persona.idade && `${persona.idade} anos`, persona.cidade, TOM_VOZ_LABELS[persona.tom_voz]].filter(Boolean).join(' · ')}
             </p>
           </div>
@@ -93,16 +93,16 @@ const PersonaCard: React.FC<PersonaCardProps> = ({ persona, onEdit, onConfigWpp,
 
         {/* Detalhes */}
         <div className="space-y-1.5 mb-3">
-          <div className="flex items-center gap-2 text-[12px] text-white/50">
-            <Clock className="w-3.5 h-3.5 text-white/30" />
+          <div className="flex items-center gap-2 text-[12px] text-txt-muted">
+            <Clock className="w-3.5 h-3.5 text-txt-dim" />
             <span>{persona.horario_inicio.slice(0, 5)} – {persona.horario_fim.slice(0, 5)}</span>
           </div>
-          <div className="flex items-center gap-2 text-[12px] text-white/50">
-            <MessageSquare className="w-3.5 h-3.5 text-white/30" />
+          <div className="flex items-center gap-2 text-[12px] text-txt-muted">
+            <MessageSquare className="w-3.5 h-3.5 text-txt-dim" />
             <span>{persona.msgs_por_dia_min}–{persona.msgs_por_dia_max} msgs/dia</span>
           </div>
-          <div className="flex items-center gap-2 text-[12px] text-white/50">
-            <Bot className="w-3.5 h-3.5 text-white/30" />
+          <div className="flex items-center gap-2 text-[12px] text-txt-muted">
+            <Bot className="w-3.5 h-3.5 text-txt-dim" />
             <span>{persona.chance_so_reagir}% só reage</span>
           </div>
           {persona.warmup_dias > 0 && (
@@ -120,26 +120,26 @@ const PersonaCard: React.FC<PersonaCardProps> = ({ persona, onEdit, onConfigWpp,
               <span key={i} className="text-[14px]">{e}</span>
             ))}
             {persona.emojis_favoritos.length > 6 && (
-              <span className="text-[11px] text-white/30">+{persona.emojis_favoritos.length - 6}</span>
+              <span className="text-[11px] text-txt-dim">+{persona.emojis_favoritos.length - 6}</span>
             )}
           </div>
         )}
       </div>
 
       {/* Ações */}
-      <div className="flex items-center" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
-        <button onClick={onEdit} className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-[11px] font-medium text-white/40 hover:text-white/70 hover:bg-white/[0.03] transition-colors" title="Editar">
+      <div className="flex items-center" style={{ borderTop: '1px solid var(--c-border)' }}>
+        <button onClick={onEdit} className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-[11px] font-medium text-txt-dim hover:text-txt-secondary hover:bg-glass transition-colors" title="Editar">
           <Pencil className="w-3.5 h-3.5" /> Editar
         </button>
-        <div className="w-px h-5" style={{ background: 'rgba(255,255,255,0.06)' }} />
-        <button onClick={onConfigWpp} className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-[11px] font-medium text-white/40 hover:text-white/70 hover:bg-white/[0.03] transition-colors" title="Configurar WhatsApp">
+        <div className="w-px h-5" style={{ background: 'var(--c-glass-hover)' }} />
+        <button onClick={onConfigWpp} className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-[11px] font-medium text-txt-dim hover:text-txt-secondary hover:bg-glass transition-colors" title="Configurar WhatsApp">
           <Smartphone className="w-3.5 h-3.5" /> WPP
         </button>
-        <div className="w-px h-5" style={{ background: 'rgba(255,255,255,0.06)' }} />
-        <button onClick={onDuplicate} className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-[11px] font-medium text-white/40 hover:text-white/70 hover:bg-white/[0.03] transition-colors" title="Duplicar">
+        <div className="w-px h-5" style={{ background: 'var(--c-glass-hover)' }} />
+        <button onClick={onDuplicate} className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-[11px] font-medium text-txt-dim hover:text-txt-secondary hover:bg-glass transition-colors" title="Duplicar">
           <Copy className="w-3.5 h-3.5" /> Duplicar
         </button>
-        <div className="w-px h-5" style={{ background: 'rgba(255,255,255,0.06)' }} />
+        <div className="w-px h-5" style={{ background: 'var(--c-glass-hover)' }} />
         <button onClick={onDelete} className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-[11px] font-medium text-red-400/60 hover:text-red-400 hover:bg-red-400/[0.04] transition-colors" title="Excluir">
           <Trash2 className="w-3.5 h-3.5" /> Excluir
         </button>
@@ -169,12 +169,12 @@ const ChooseOriginModal: React.FC<ChooseOriginModalProps> = ({ templates, loadin
       <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)' }} />
       <div
         className="relative w-full max-w-[440px] rounded-2xl shadow-2xl animate-fade-in"
-        style={{ background: 'rgba(20,20,30,0.95)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
+        style={{ background: 'var(--c-popup-bg)', border: '1px solid var(--c-border-strong)', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <h2 className="text-[15px] font-bold text-white">Criar Persona</h2>
-          <button onClick={onClose} className="p-1.5 text-white/40 hover:text-white/70 hover:bg-white/[0.04] rounded-lg transition-colors">
+        <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid var(--c-border)' }}>
+          <h2 className="text-[15px] font-bold text-txt">Criar Persona</h2>
+          <button onClick={onClose} className="p-1.5 text-txt-dim hover:text-txt-secondary hover:bg-glass rounded-lg transition-colors">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -184,28 +184,28 @@ const ChooseOriginModal: React.FC<ChooseOriginModalProps> = ({ templates, loadin
           <button
             onClick={onFromScratch}
             className="w-full flex items-center gap-3 p-4 rounded-xl text-left transition-all"
-            style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
+            style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}
             onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(var(--color-primary-rgb),0.06)'; e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.15)' }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.02)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)' }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--c-glass-2)'; e.currentTarget.style.borderColor = 'var(--c-border)' }}
           >
             <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: 'rgba(var(--color-primary-rgb),0.1)' }}>
               <Plus className="w-5 h-5" style={{ color: 'var(--color-primary-light)' }} />
             </div>
             <div>
-              <p className="text-[13px] font-semibold text-white">Criar do zero</p>
-              <p className="text-[11px] text-white/40">Configure todos os campos manualmente</p>
+              <p className="text-[13px] font-semibold text-txt">Criar do zero</p>
+              <p className="text-[11px] text-txt-dim">Configure todos os campos manualmente</p>
             </div>
           </button>
 
           {/* Templates */}
           <div>
-            <p className="text-[11px] uppercase tracking-wider text-white/30 font-medium mb-2 px-1">Usar template</p>
+            <p className="text-[11px] uppercase tracking-wider text-txt-dim font-medium mb-2 px-1">Usar template</p>
             {loadingTemplates ? (
               <div className="flex items-center justify-center py-6">
-                <Loader2 className="w-5 h-5 text-white/20 animate-spin" />
+                <Loader2 className="w-5 h-5 text-txt-dim animate-spin" />
               </div>
             ) : templates.length === 0 ? (
-              <p className="text-[12px] text-white/30 text-center py-4">Nenhum template disponível</p>
+              <p className="text-[12px] text-txt-dim text-center py-4">Nenhum template disponível</p>
             ) : (
               <div className="space-y-2">
                 {templates.map((t) => (
@@ -213,16 +213,16 @@ const ChooseOriginModal: React.FC<ChooseOriginModalProps> = ({ templates, loadin
                     key={t.id}
                     onClick={() => onFromTemplate(t)}
                     className="w-full flex items-center gap-3 p-3 rounded-xl text-left transition-all"
-                    style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}
+                    style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}
                     onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(var(--color-primary-rgb),0.06)'; e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.15)' }}
-                    onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.02)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--c-glass-2)'; e.currentTarget.style.borderColor = 'var(--c-border)' }}
                   >
                     <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{ background: 'rgba(250,204,60,0.08)' }}>
                       <FileText className="w-4 h-4" style={{ color: 'rgba(250,204,60,0.6)' }} />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[13px] font-medium text-white truncate">{t.nome}</p>
-                      {t.descricao && <p className="text-[11px] text-white/35 truncate">{t.descricao}</p>}
+                      <p className="text-[13px] font-medium text-txt truncate">{t.nome}</p>
+                      {t.descricao && <p className="text-[11px] text-txt-dim truncate">{t.descricao}</p>}
                     </div>
                   </button>
                 ))}
@@ -249,16 +249,16 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({ personaNome, on
     <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)' }} />
     <div
       className="relative w-full max-w-[400px] rounded-2xl shadow-2xl animate-fade-in"
-      style={{ background: 'rgba(20,20,30,0.95)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
+      style={{ background: 'var(--c-popup-bg)', border: '1px solid var(--c-border-strong)', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
       onClick={(e) => e.stopPropagation()}
     >
       <div className="p-6 text-center">
         <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: 'rgba(248,113,113,0.1)' }}>
           <Trash2 className="w-6 h-6 text-red-400" />
         </div>
-        <h3 className="text-[15px] font-bold text-white mb-2">Excluir persona</h3>
-        <p className="text-[13px] text-white/50">
-          A persona <span className="text-white font-medium">{personaNome}</span> será removida permanentemente. Esta ação não pode ser desfeita.
+        <h3 className="text-[15px] font-bold text-txt mb-2">Excluir persona</h3>
+        <p className="text-[13px] text-txt-muted">
+          A persona <span className="text-txt font-medium">{personaNome}</span> será removida permanentemente. Esta ação não pode ser desfeita.
         </p>
       </div>
       <div className="flex items-center gap-3 px-6 pb-6">
@@ -266,9 +266,9 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({ personaNome, on
           onClick={onClose}
           disabled={deleting}
           className="flex-1 px-4 py-2.5 text-[13px] font-medium rounded-xl transition-all"
-          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)' }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
+          style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border-strong)', color: 'var(--c-t-60)' }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass-hover)' }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--c-glass)' }}
         >
           Cancelar
         </button>
@@ -446,7 +446,7 @@ export const PersonasTab: React.FC<PersonasTabProps> = ({ showToast }) => {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="w-6 h-6 text-white/20 animate-spin" />
+        <Loader2 className="w-6 h-6 text-txt-dim animate-spin" />
       </div>
     );
   }
@@ -457,13 +457,13 @@ export const PersonasTab: React.FC<PersonasTabProps> = ({ showToast }) => {
       <>
         <div
           className="flex flex-col items-center justify-center py-20 rounded-2xl"
-          style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}
+          style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}
         >
-          <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
-            <Bot className="w-7 h-7" style={{ color: 'rgba(255,255,255,0.15)' }} />
+          <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4" style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}>
+            <Bot className="w-7 h-7" style={{ color: 'var(--c-t-15)' }} />
           </div>
-          <p className="text-[15px] font-medium mb-1" style={{ color: 'rgba(255,255,255,0.3)' }}>Nenhuma persona criada</p>
-          <p className="text-[12px] mb-5" style={{ color: 'rgba(255,255,255,0.15)' }}>Crie personas para seus bots de engajamento</p>
+          <p className="text-[15px] font-medium mb-1" style={{ color: 'var(--c-t-30)' }}>Nenhuma persona criada</p>
+          <p className="text-[12px] mb-5" style={{ color: 'var(--c-t-15)' }}>Crie personas para seus bots de engajamento</p>
           <button
             onClick={() => setShowOriginModal(true)}
             className="flex items-center gap-2 px-5 py-2.5 text-[13px] font-semibold rounded-xl transition-all"
@@ -504,7 +504,7 @@ export const PersonasTab: React.FC<PersonasTabProps> = ({ showToast }) => {
     <>
       {/* Header com botão criar */}
       <div className="flex items-center justify-between mb-4">
-        <p className="text-[13px] text-white/40">{personas.length} persona{personas.length !== 1 ? 's' : ''}</p>
+        <p className="text-[13px] text-txt-dim">{personas.length} persona{personas.length !== 1 ? 's' : ''}</p>
         <button
           onClick={() => setShowOriginModal(true)}
           className="flex items-center gap-2 px-4 py-2 text-[12px] font-semibold rounded-xl transition-all"

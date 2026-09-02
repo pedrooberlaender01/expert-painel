@@ -22,7 +22,7 @@ const CAT_COLORS: Record<string, { bg: string; text: string }> = {
   bom_dia: { bg: 'bg-amber-500/10', text: 'text-amber-400' },
   cadastro: { bg: 'bg-primary-bg', text: 'text-primary-light' },
   aviso: { bg: 'bg-orange-500/10', text: 'text-orange-400' },
-  normal: { bg: 'bg-zinc-500/10', text: 'text-zinc-400' },
+  normal: { bg: 'bg-[rgb(var(--c-fg-rgb)/0.1)]', text: 'text-txt-muted' },
   resultado: { bg: 'bg-primary-bg', text: 'text-primary-light' },
   hype: { bg: 'bg-pink-500/10', text: 'text-pink-400' },
   promocao: { bg: 'bg-purple-500/10', text: 'text-purple-400' },
@@ -117,14 +117,14 @@ export const BaseConhecimento: React.FC<BaseConhecimentoProps> = ({
                   'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium border transition-all duration-200',
                   filtro === key
                     ? 'bg-accent-dim text-accent-bright border-accent/25'
-                    : 'bg-transparent text-[#6b7280] border-[#1e1e22] hover:text-[#9ca3af] hover:border-[#2a2a2e]'
+                    : 'bg-transparent text-txt-muted border-glass hover:text-txt-secondary hover:border-[var(--c-border-strong)]'
                 )}
               >
                 {label}
                 {count > 0 && (
                   <span className={cn(
                     'text-[9px] px-1.5 py-0.5 rounded-full font-bold',
-                    filtro === key ? 'bg-accent/20 text-accent-bright' : 'bg-[#1a1a1e] text-[#4b4b55]'
+                    filtro === key ? 'bg-accent/20 text-accent-bright' : 'bg-surface-100 text-txt-dim'
                   )}>
                     {count}
                   </span>
@@ -150,11 +150,11 @@ export const BaseConhecimento: React.FC<BaseConhecimentoProps> = ({
         </div>
       ) : exemplos.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 text-center">
-          <div className="w-14 h-14 rounded-2xl bg-[#111114] border border-[#1e1e22] flex items-center justify-center mb-4">
-            <FileText className="w-6 h-6 text-[#2a2a2e]" />
+          <div className="w-14 h-14 rounded-2xl bg-surface-50 border border-glass flex items-center justify-center mb-4">
+            <FileText className="w-6 h-6 text-txt-dim" />
           </div>
-          <p className="text-[#9ca3af] text-sm font-medium mb-1">Nenhum exemplo cadastrado</p>
-          <p className="text-[#4b4b55] text-xs max-w-xs leading-relaxed">
+          <p className="text-txt-muted text-sm font-medium mb-1">Nenhum exemplo cadastrado</p>
+          <p className="text-txt-dim text-xs max-w-xs leading-relaxed">
             Adicione exemplos de copys reais para melhorar a qualidade das copys geradas.
           </p>
         </div>
@@ -171,7 +171,7 @@ export const BaseConhecimento: React.FC<BaseConhecimentoProps> = ({
             return (
               <div
                 key={ex.id}
-                className="bg-[#111114] border border-[#1e1e22] rounded-xl p-4 hover:border-[#2a2a2e] transition-all group"
+                className="bg-surface-50 border border-glass rounded-xl p-4 hover:border-[var(--c-border-strong)] transition-all group"
               >
                 <div className="flex items-start justify-between gap-3 mb-2">
                   <div className="flex items-center gap-2">
@@ -185,7 +185,7 @@ export const BaseConhecimento: React.FC<BaseConhecimentoProps> = ({
                   <button
                     onClick={() => handleDelete(ex.id)}
                     disabled={deleting === ex.id}
-                    className="opacity-0 group-hover:opacity-100 p-1.5 text-[#4b4b55] hover:text-red-400 hover:bg-red-500/5 rounded-lg transition-all"
+                    className="opacity-0 group-hover:opacity-100 p-1.5 text-txt-dim hover:text-red-400 hover:bg-red-500/5 rounded-lg transition-all"
                   >
                     {deleting === ex.id ? (
                       <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -195,7 +195,7 @@ export const BaseConhecimento: React.FC<BaseConhecimentoProps> = ({
                   </button>
                 </div>
 
-                <p className="text-[12px] text-[#d1d5db] leading-relaxed whitespace-pre-line">
+                <p className="text-[12px] text-txt-secondary leading-relaxed whitespace-pre-line">
                   {isLong && !isExpanded ? content.slice(0, 200) + '...' : content}
                 </p>
 
@@ -210,7 +210,7 @@ export const BaseConhecimento: React.FC<BaseConhecimentoProps> = ({
                 )}
 
                 {ex.metadata?.contexto && (
-                  <p className="mt-2 text-[11px] text-[#4b4b55] italic">
+                  <p className="mt-2 text-[11px] text-txt-dim italic">
                     {ex.metadata.contexto}
                   </p>
                 )}
@@ -221,15 +221,15 @@ export const BaseConhecimento: React.FC<BaseConhecimentoProps> = ({
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="px-5 py-4 border-t border-[#1e1e22] flex items-center justify-between">
-            <span className="text-[11px] text-[#6b7280] font-mono">
+          <div className="px-5 py-4 border-t border-glass flex items-center justify-between">
+            <span className="text-[11px] text-txt-muted font-mono">
               {`${(page - 1) * ITEMS_PER_PAGE + 1}-${Math.min(page * ITEMS_PER_PAGE, exemplos.length)} de ${exemplos.length}`}
             </span>
             <div className="flex items-center gap-1">
               <button
                 onClick={() => setPage(1)}
                 disabled={page === 1}
-                className="p-1.5 border border-[#1e1e22] rounded-lg hover:bg-[#1a1a1e] hover:border-[#2a2a2e] disabled:opacity-30 disabled:cursor-not-allowed transition-all text-[#6b7280] hover:text-[#9ca3af]"
+                className="p-1.5 border border-glass rounded-lg hover:bg-surface-100 hover:border-[var(--c-border-strong)] disabled:opacity-30 disabled:cursor-not-allowed transition-all text-txt-muted hover:text-txt-secondary"
                 title="Primeira página"
               >
                 <ChevronsLeft className="w-3.5 h-3.5" />
@@ -237,7 +237,7 @@ export const BaseConhecimento: React.FC<BaseConhecimentoProps> = ({
               <button
                 onClick={() => setPage(Math.max(1, page - 1))}
                 disabled={page === 1}
-                className="p-1.5 border border-[#1e1e22] rounded-lg hover:bg-[#1a1a1e] hover:border-[#2a2a2e] disabled:opacity-30 disabled:cursor-not-allowed transition-all text-[#6b7280] hover:text-[#9ca3af]"
+                className="p-1.5 border border-glass rounded-lg hover:bg-surface-100 hover:border-[var(--c-border-strong)] disabled:opacity-30 disabled:cursor-not-allowed transition-all text-txt-muted hover:text-txt-secondary"
                 title="Página anterior"
               >
                 <ChevronLeft className="w-3.5 h-3.5" />
@@ -250,7 +250,7 @@ export const BaseConhecimento: React.FC<BaseConhecimentoProps> = ({
                   className={`min-w-[32px] h-[32px] flex items-center justify-center rounded-lg text-[11px] font-mono font-medium transition-all duration-150 ${
                     p === page
                       ? 'bg-primary/15 text-primary border border-primary/30'
-                      : 'border border-[#1e1e22] text-[#6b7280] hover:bg-[#1a1a1e] hover:border-[#2a2a2e] hover:text-[#9ca3af]'
+                      : 'border border-glass text-txt-muted hover:bg-surface-100 hover:border-[var(--c-border-strong)] hover:text-txt-secondary'
                   }`}
                 >
                   {p}
@@ -260,7 +260,7 @@ export const BaseConhecimento: React.FC<BaseConhecimentoProps> = ({
               <button
                 onClick={() => setPage(Math.min(totalPages, page + 1))}
                 disabled={page === totalPages}
-                className="p-1.5 border border-[#1e1e22] rounded-lg hover:bg-[#1a1a1e] hover:border-[#2a2a2e] disabled:opacity-30 disabled:cursor-not-allowed transition-all text-[#6b7280] hover:text-[#9ca3af]"
+                className="p-1.5 border border-glass rounded-lg hover:bg-surface-100 hover:border-[var(--c-border-strong)] disabled:opacity-30 disabled:cursor-not-allowed transition-all text-txt-muted hover:text-txt-secondary"
                 title="Próxima página"
               >
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -268,7 +268,7 @@ export const BaseConhecimento: React.FC<BaseConhecimentoProps> = ({
               <button
                 onClick={() => setPage(totalPages)}
                 disabled={page === totalPages}
-                className="p-1.5 border border-[#1e1e22] rounded-lg hover:bg-[#1a1a1e] hover:border-[#2a2a2e] disabled:opacity-30 disabled:cursor-not-allowed transition-all text-[#6b7280] hover:text-[#9ca3af]"
+                className="p-1.5 border border-glass rounded-lg hover:bg-surface-100 hover:border-[var(--c-border-strong)] disabled:opacity-30 disabled:cursor-not-allowed transition-all text-txt-muted hover:text-txt-secondary"
                 title="Última página"
               >
                 <ChevronsRight className="w-3.5 h-3.5" />

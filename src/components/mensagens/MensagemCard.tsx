@@ -189,8 +189,8 @@ export const MensagemCard: React.FC<MensagemCardProps> = ({
         disabled && 'opacity-50'
       )}
       style={{
-        background: 'rgba(255,255,255,0.04)',
-        border: isModified && !disabled ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid rgba(255,255,255,0.04)',
+        background: 'var(--c-glass)',
+        border: isModified && !disabled ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid var(--c-border)',
         borderRadius: '16px',
       }}
     >
@@ -198,14 +198,14 @@ export const MensagemCard: React.FC<MensagemCardProps> = ({
       <div className="flex items-start justify-between gap-3 mb-4">
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <h3 className="text-sm font-semibold text-white font-display">{mensagem.titulo}</h3>
+            <h3 className="text-sm font-semibold text-txt font-display">{mensagem.titulo}</h3>
             {disabled && (
               <span className="shrink-0 px-1.5 py-0.5 text-[10px] font-semibold rounded" style={{ background: 'rgba(248,113,113,0.12)', color: '#f87171', border: '1px solid rgba(248,113,113,0.2)' }}>
                 Desativado
               </span>
             )}
           </div>
-          <p className="text-[11px] mt-0.5" style={{ color: 'rgba(255,255,255,0.4)' }}>{mensagem.descricao}</p>
+          <p className="text-[11px] mt-0.5" style={{ color: 'var(--c-t-40)' }}>{mensagem.descricao}</p>
         </div>
 
         {showAtivoToggle && (
@@ -219,8 +219,8 @@ export const MensagemCard: React.FC<MensagemCardProps> = ({
             <div
               className="w-[44px] h-[24px] rounded-full transition-all duration-300 relative"
               style={{
-                background: mensagem.ativo ? 'var(--color-primary-bg)' : 'rgba(255,255,255,0.1)',
-                border: mensagem.ativo ? '1px solid var(--color-primary-bg)' : '1px solid rgba(255,255,255,0.15)',
+                background: mensagem.ativo ? 'var(--color-primary-bg)' : 'rgb(var(--c-fg-rgb) / 0.1)',
+                border: mensagem.ativo ? '1px solid var(--color-primary-bg)' : '1px solid var(--c-border-strong)',
               }}
             >
               <div
@@ -250,8 +250,8 @@ export const MensagemCard: React.FC<MensagemCardProps> = ({
                 style={mensagem.tipo_envio === key
                   ? { background: 'var(--color-primary-bg)', border: '1px solid var(--color-primary-bg)', color: 'var(--color-primary-light)' }
                   : isAudioDisabled
-                    ? { background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.02)', color: 'rgba(255,255,255,0.2)', cursor: 'not-allowed' }
-                    : { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.45)' }
+                    ? { background: 'var(--c-glass-2)', border: '1px solid var(--c-border)', color: 'var(--c-t-20)', cursor: 'not-allowed' }
+                    : { background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-45)' }
                 }
               >
                 <Icon className="w-3.5 h-3.5" />
@@ -272,7 +272,7 @@ export const MensagemCard: React.FC<MensagemCardProps> = ({
               className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all duration-200"
               style={activeVariation === idx
                 ? { background: 'var(--color-primary-bg)', border: '1px solid var(--color-primary-bg)', color: 'var(--color-primary-light)' }
-                : { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)' }
+                : { background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-40)' }
               }
             >
               Variação {idx + 1}
@@ -306,7 +306,7 @@ export const MensagemCard: React.FC<MensagemCardProps> = ({
       {/* Tempo de Espera */}
       {hasTempoEspera && (
         <div className="flex items-center gap-2 mb-4">
-          <label className="text-[11px] uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.4)' }}>
+          <label className="text-[11px] uppercase tracking-wider" style={{ color: 'var(--c-t-40)' }}>
             Tempo de espera:
           </label>
           <input
@@ -318,10 +318,10 @@ export const MensagemCard: React.FC<MensagemCardProps> = ({
               const raw = e.target.value.replace(/\D/g, '');
               onUpdate({ tempo_espera_minutos: raw === '' ? null : parseInt(raw, 10) });
             }}
-            className="w-20 px-3 py-1.5 rounded-lg text-[13px] text-white outline-none text-center transition-all"
-            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)' }}
+            className="w-20 px-3 py-1.5 rounded-lg text-[13px] text-txt outline-none text-center transition-all"
+            style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
           />
-          <span className="text-[11px]" style={{ color: 'rgba(255,255,255,0.35)' }}>minutos</span>
+          <span className="text-[11px]" style={{ color: 'var(--c-t-35)' }}>minutos</span>
         </div>
       )}
 
@@ -339,14 +339,14 @@ export const MensagemCard: React.FC<MensagemCardProps> = ({
                 autoResize(e.target);
               }}
               placeholder="Digite a mensagem..."
-              className="w-full px-4 py-3 rounded-xl text-[13px] text-white outline-none transition-all duration-200 resize-none leading-relaxed"
+              className="w-full px-4 py-3 rounded-xl text-[13px] text-txt outline-none transition-all duration-200 resize-none leading-relaxed"
               style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.04)',
+                background: 'var(--c-glass)',
+                border: '1px solid var(--c-border)',
                 minHeight: '80px',
               }}
               onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)' }}
-              onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)' }}
+              onBlur={(e) => { e.currentTarget.style.borderColor = 'var(--c-border)' }}
             />
 
             {!disabled && (
@@ -368,9 +368,9 @@ export const MensagemCard: React.FC<MensagemCardProps> = ({
                   <button
                     onClick={() => removeMessage(index)}
                     className="p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100"
-                    style={{ color: 'rgba(255,255,255,0.3)' }}
+                    style={{ color: 'var(--c-t-30)' }}
                     onMouseEnter={(e) => { e.currentTarget.style.color = '#f87171'; e.currentTarget.style.background = 'rgba(248,113,113,0.08)' }}
-                    onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.3)'; e.currentTarget.style.background = 'transparent' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.3)'; e.currentTarget.style.background = 'transparent' }}
                     title="Remover mensagem"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -396,8 +396,8 @@ export const MensagemCard: React.FC<MensagemCardProps> = ({
 
       {/* Preview */}
       {currentMessages.some((m) => m.trim()) && (
-        <div className="rounded-xl p-4 mb-4 space-y-2" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
-          <p className="text-[10px] font-mono uppercase tracking-wider mb-3" style={{ color: 'rgba(255,255,255,0.3)' }}>
+        <div className="rounded-xl p-4 mb-4 space-y-2" style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}>
+          <p className="text-[10px] font-mono uppercase tracking-wider mb-3" style={{ color: 'var(--c-t-30)' }}>
             Preview {variacoes.length > 1 ? `(Variação ${activeVariation + 1})` : ''}
           </p>
           {renderPreview()}
@@ -409,9 +409,9 @@ export const MensagemCard: React.FC<MensagemCardProps> = ({
         onClick={handleTest}
         disabled={disabled || testing || !currentMessages.some((m) => m.trim())}
         className="flex items-center justify-center gap-2 w-full py-2 rounded-xl text-[12px] font-medium transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
-        style={{ color: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.04)' }}
+        style={{ color: 'var(--c-t-50)', border: '1px solid var(--c-border)' }}
         onMouseEnter={(e) => { if (!disabled && !testing) { e.currentTarget.style.color = 'var(--color-primary-light)'; e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)'; e.currentTarget.style.background = 'rgba(var(--color-primary-rgb),0.04)' } }}
-        onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.5)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)'; e.currentTarget.style.background = 'transparent' }}
+        onMouseLeave={(e) => { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.5)'; e.currentTarget.style.borderColor = 'var(--c-border)'; e.currentTarget.style.background = 'transparent' }}
       >
         {testing ? (
           <>

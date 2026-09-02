@@ -20,6 +20,89 @@ input[type="number"] {
     --color-primary-bg: rgba(16, 185, 129, 0.12);
     --color-primary-light: #34d399;
     transition: --color-primary 0.3s ease, --color-primary-hover 0.3s ease, --color-primary-bg 0.3s ease, --color-primary-light 0.3s ease;
+
+    /* ─── Tema (DARK = default). Canais rgb p/ funcionar com modificador de opacidade do Tailwind ─── */
+    --c-scheme: dark;
+    --c-fg-rgb: 255 255 255;                 /* texto/foreground base */
+    --c-surface-rgb: 10 10 15;               /* #0a0a0f */
+    --c-surface-50-rgb: 13 17 23;            /* #0d1117 */
+    --c-surface-100-rgb: 26 26 30;           /* #1A1A1E */
+    --c-surface-200-rgb: 35 35 40;           /* #232328 */
+    --c-surface-300-rgb: 63 63 70;           /* #3F3F46 */
+    --c-surface-400-rgb: 82 82 91;           /* #52525B */
+    --c-glass: rgba(255, 255, 255, 0.04);
+    --c-glass-2: rgba(255, 255, 255, 0.02);
+    --c-glass-hover: rgba(255, 255, 255, 0.05);
+    --c-border: rgba(255, 255, 255, 0.05);
+    --c-border-strong: rgba(255, 255, 255, 0.1);
+    --c-body-bg: linear-gradient(135deg, #0a0a0f 0%, #0d1117 40%, #0f0a1a 100%);
+    --c-popup-bg: rgba(22, 27, 34, 0.97);
+    --c-select-bg: #161b22;
+    --c-sidebar-bg: #0c0c14;
+    --c-sidebar-border: rgba(255, 255, 255, 0.04);
+    --c-scrollbar: rgba(255, 255, 255, 0.08);
+    --c-scrollbar-hover: rgba(255, 255, 255, 0.14);
+    --c-text-gradient: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
+
+    /* Escala de texto: dark = branco@alpha EXATO (dark nao muda). Light sobrescreve com slates opacos escuros. */
+    --c-t-100: rgb(255 255 255);
+    --c-t-90: rgb(255 255 255 / 0.9);
+    --c-t-80: rgb(255 255 255 / 0.8);
+    --c-t-70: rgb(255 255 255 / 0.7);
+    --c-t-60: rgb(255 255 255 / 0.6);
+    --c-t-55: rgb(255 255 255 / 0.55);
+    --c-t-50: rgb(255 255 255 / 0.5);
+    --c-t-45: rgb(255 255 255 / 0.45);
+    --c-t-40: rgb(255 255 255 / 0.4);
+    --c-t-35: rgb(255 255 255 / 0.35);
+    --c-t-30: rgb(255 255 255 / 0.3);
+    --c-t-25: rgb(255 255 255 / 0.25);
+    --c-t-20: rgb(255 255 255 / 0.2);
+    --c-t-15: rgb(255 255 255 / 0.15);
+    --c-t-12: rgb(255 255 255 / 0.12);
+    --c-t-10: rgb(255 255 255 / 0.1);
+  }
+
+  /* ─── WHITE MODE (só sobrescreve os tokens; dark fica intacto) ─── */
+  :root[data-theme="light"] {
+    --c-scheme: light;
+    --c-fg-rgb: 15 23 42;                    /* slate-900 */
+    --c-surface-rgb: 246 247 249;
+    --c-surface-50-rgb: 255 255 255;
+    --c-surface-100-rgb: 241 243 245;
+    --c-surface-200-rgb: 231 234 238;
+    --c-surface-300-rgb: 148 163 184;        /* slate-400 (bordas/traços/hover mais visíveis) */
+    --c-surface-400-rgb: 100 116 139;        /* slate-500 */
+    --c-glass: rgba(255, 255, 255, 0.66);
+    --c-glass-2: rgba(255, 255, 255, 0.45);
+    --c-glass-hover: rgba(255, 255, 255, 0.85);
+    --c-border: rgba(15, 23, 42, 0.14);
+    --c-border-strong: rgba(15, 23, 42, 0.24);
+    /* Texto escuro e legível no white mode (slates opacos, não translúcidos) */
+    --c-t-100: #0f172a;
+    --c-t-90: #0f172a;
+    --c-t-80: #1e293b;
+    --c-t-70: #1e293b;
+    --c-t-60: #1e293b;
+    --c-t-55: #334155;
+    --c-t-50: #334155;
+    --c-t-45: #334155;
+    --c-t-40: #475569;
+    --c-t-35: #475569;
+    --c-t-30: #64748b;
+    --c-t-25: #64748b;
+    --c-t-20: #94a3b8;
+    --c-t-15: #94a3b8;
+    --c-t-12: #cbd5e1;
+    --c-t-10: #cbd5e1;
+    --c-body-bg: linear-gradient(135deg, #f5f7fa 0%, #eef1f6 40%, #f3f0fa 100%);
+    --c-popup-bg: rgba(255, 255, 255, 0.98);
+    --c-select-bg: #ffffff;
+    --c-sidebar-bg: #ffffff;
+    --c-sidebar-border: rgba(15, 23, 42, 0.08);
+    --c-scrollbar: rgba(15, 23, 42, 0.18);
+    --c-scrollbar-hover: rgba(15, 23, 42, 0.30);
+    --c-text-gradient: linear-gradient(135deg, #0f172a 0%, #475569 100%);
   }
 
   /* Forca verde estatico em secoes que nao seguem cor do expert */
@@ -37,7 +120,7 @@ input[type="number"] {
 
   * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+    scrollbar-color: var(--c-scrollbar) transparent;
   }
 
   *::-webkit-scrollbar {
@@ -50,12 +133,12 @@ input[type="number"] {
   }
 
   *::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--c-scrollbar);
     border-radius: 10px;
   }
 
   *::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.14);
+    background: var(--c-scrollbar-hover);
   }
 
   ::selection {
@@ -70,8 +153,9 @@ input[type="number"] {
 
   body {
     font-family: 'Inter', 'Outfit', sans-serif;
-    background: linear-gradient(135deg, #0a0a0f 0%, #0d1117 40%, #0f0a1a 100%);
-    color: #ffffff;
+    background: var(--c-body-bg);
+    color: rgb(var(--c-fg-rgb));
+    color-scheme: var(--c-scheme);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-variant-numeric: tabular-nums;
@@ -79,7 +163,7 @@ input[type="number"] {
 
   input, select, textarea {
     font-family: 'Inter', 'Outfit', sans-serif;
-    caret-color: rgba(255, 255, 255, 0.7);
+    caret-color: rgb(var(--c-fg-rgb) / 0.7);
     -webkit-appearance: none;
   }
 
@@ -94,57 +178,57 @@ input[type="number"] {
   /* ── Glass Card System ── */
   .glass-card {
     @apply relative rounded-2xl overflow-hidden;
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--c-glass);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--c-border);
     border-radius: 16px;
     transition: all 0.3s ease;
   }
 
   .glass-card:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.05);
+    background: var(--c-glass-hover);
+    border-color: var(--c-border);
   }
 
   /* ── card-glass (alias) ── */
   .card-glass {
     @apply relative rounded-2xl overflow-hidden;
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--c-glass);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--c-border);
     border-radius: 16px;
     transition: all 0.3s ease;
   }
 
   .card-glass:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.05);
+    background: var(--c-glass-hover);
+    border-color: var(--c-border);
   }
 
   /* ── Legacy card-dark mapped to glass ── */
   .card-dark {
     @apply relative rounded-2xl overflow-hidden;
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--c-glass);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--c-border);
     border-radius: 16px;
     transition: all 0.3s ease;
   }
 
   .card-dark:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.05);
+    background: var(--c-glass-hover);
+    border-color: var(--c-border);
   }
 
   .card-dark-elevated {
     @apply relative rounded-2xl overflow-hidden;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--c-glass-hover);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--c-border-strong);
     border-radius: 16px;
     box-shadow:
       0 8px 32px rgba(0, 0, 0, 0.3),
@@ -154,16 +238,16 @@ input[type="number"] {
 
   /* ── Inner Item (for lead list items etc.) ── */
   .inner-item {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.04);
+    background: var(--c-glass-2);
+    border: 1px solid var(--c-border);
     border-radius: 10px;
     padding: 10px 12px;
     transition: all 0.2s ease;
   }
 
   .inner-item:hover {
-    background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(255, 255, 255, 0.04);
+    background: var(--c-glass);
+    border-color: var(--c-border);
   }
 
   /* ── Accent Glow Effects ── */
@@ -182,7 +266,7 @@ input[type="number"] {
 
   /* ── Text Gradients ── */
   .text-gradient {
-    background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
+    background: var(--c-text-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -211,14 +295,14 @@ input[type="number"] {
   /* ── Input System ── */
   .input-dark {
     @apply w-full px-4 py-2.5 rounded-xl text-txt outline-none transition-all duration-300;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    color-scheme: dark;
-    caret-color: rgba(255, 255, 255, 0.6);
+    background: var(--c-glass);
+    border: 1px solid var(--c-border);
+    color-scheme: var(--c-scheme);
+    caret-color: rgb(var(--c-fg-rgb) / 0.6);
   }
 
   .input-dark::placeholder {
-    color: rgba(255, 255, 255, 0.35);
+    color: rgb(var(--c-fg-rgb) / 0.35);
   }
 
   .input-dark:focus {
@@ -226,13 +310,13 @@ input[type="number"] {
     box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.08), 0 0 20px rgba(var(--color-primary-rgb), 0.05);
   }
 
-  /* Force dark dropdowns for select elements */
+  /* Dropdowns de select (seguem o tema) */
   select {
-    color-scheme: dark;
-    background: rgba(22, 27, 34, 0.97);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    color-scheme: var(--c-scheme);
+    background: var(--c-popup-bg);
+    border: 1px solid var(--c-border-strong);
     border-radius: 10px;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgb(var(--c-fg-rgb) / 0.7);
     padding: 8px 32px 8px 12px;
     font-size: 13px;
     font-weight: 500;
@@ -247,20 +331,20 @@ input[type="number"] {
   }
 
   select:hover {
-    border-color: rgba(255, 255, 255, 0.15);
-    color: #fff;
+    border-color: var(--c-border-strong);
+    color: rgb(var(--c-fg-rgb));
   }
 
   select:focus {
     outline: none;
     border-color: rgba(var(--color-primary-rgb), 0.4);
     box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.08);
-    color: #fff;
+    color: rgb(var(--c-fg-rgb));
   }
 
   select option {
-    background: #161b22;
-    color: #ffffff;
+    background: var(--c-select-bg);
+    color: rgb(var(--c-fg-rgb));
     padding: 8px 12px;
   }
 
@@ -270,8 +354,8 @@ input[type="number"] {
   }
 
   select.input-dark {
-    background: rgba(22, 27, 34, 0.97);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--c-popup-bg);
+    border: 1px solid var(--c-border-strong);
   }
 
   /* ── Button Primary ── */
@@ -386,7 +470,7 @@ input[type="number"] {
   /* ── Gradient Border Utility ── */
   .gradient-border {
     position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--c-border);
   }
 
   /* ── Shimmer Loading ── */
@@ -476,7 +560,7 @@ input[type="number"] {
 
   /* ── Glassmorphism Sidebar ── */
   .sidebar-glass {
-    background: #0c0c14;
-    border-right: 1px solid rgba(255, 255, 255, 0.04);
+    background: var(--c-sidebar-bg);
+    border-right: 1px solid var(--c-sidebar-border);
   }
 }

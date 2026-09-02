@@ -35,7 +35,7 @@ const CATEGORIAS: Array<{
   { key: 'contexto_expert', label: 'Contexto Expert', icon: User, placeholder: 'Ex: O expert faz lives diárias às 21h, foco em roleta europeia' },
 ];
 
-const inputClass = "w-full bg-white/[0.02] border border-white/[0.04] text-white rounded-lg py-2.5 px-3.5 text-[13px] placeholder-[#4b5563] focus:outline-none focus:border-[rgba(var(--color-primary-rgb),0.3)] focus:shadow-[0_0_0_3px_rgba(var(--color-primary-rgb),0.08)] transition-all resize-none";
+const inputClass = "w-full bg-glass-2 border border-glass text-txt rounded-lg py-2.5 px-3.5 text-[13px] placeholder-txt-dim focus:outline-none focus:border-[rgba(var(--color-primary-rgb),0.3)] focus:shadow-[0_0_0_3px_rgba(var(--color-primary-rgb),0.08)] transition-all resize-none";
 
 // ─── Card de item ───
 
@@ -76,7 +76,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, onEdit, onDelete }) => {
     return (
       <div
         className="rounded-xl p-3"
-        style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(var(--color-primary-rgb),0.15)' }}
+        style={{ background: 'var(--c-glass)', border: '1px solid rgba(var(--color-primary-rgb),0.15)' }}
       >
         <textarea
           value={editText}
@@ -88,7 +88,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, onEdit, onDelete }) => {
         <div className="flex items-center justify-end gap-2 mt-2">
           <button
             onClick={() => { setEditing(false); setEditText(item.content); }}
-            className="flex items-center gap-1 px-3 py-1.5 text-[11px] font-medium rounded-lg transition-colors text-white/40 hover:text-white/60 hover:bg-white/[0.04]"
+            className="flex items-center gap-1 px-3 py-1.5 text-[11px] font-medium rounded-lg transition-colors text-txt-dim hover:text-txt-muted hover:bg-glass"
           >
             <X className="w-3 h-3" /> Cancelar
           </button>
@@ -108,13 +108,13 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, onEdit, onDelete }) => {
   return (
     <div
       className="group rounded-xl p-3 transition-all duration-150"
-      style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
-      onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)' }}
-      onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)' }}
+      style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
+      onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--c-border)' }}
+      onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--c-border)' }}
     >
       <div className="flex items-start gap-2">
         <p
-          className={`flex-1 text-[13px] text-white/70 leading-relaxed cursor-pointer ${!expanded ? 'line-clamp-2' : ''}`}
+          className={`flex-1 text-[13px] text-txt-secondary leading-relaxed cursor-pointer ${!expanded ? 'line-clamp-2' : ''}`}
           onClick={() => setExpanded(!expanded)}
         >
           {item.content}
@@ -122,7 +122,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, onEdit, onDelete }) => {
         <div className="flex items-center gap-0.5 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
           <button
             onClick={() => { setEditing(true); setEditText(item.content); }}
-            className="p-1.5 rounded-lg text-white/30 hover:text-white/60 hover:bg-white/[0.04] transition-colors"
+            className="p-1.5 rounded-lg text-txt-dim hover:text-txt-muted hover:bg-glass transition-colors"
             title="Editar"
           >
             <Pencil className="w-3.5 h-3.5" />
@@ -218,7 +218,7 @@ export const ConhecimentoTab: React.FC<ConhecimentoTabProps> = ({ showToast }) =
       <div className="overflow-x-auto -mx-1 px-1 pb-1">
         <div
           className="inline-flex gap-1 p-[3px] rounded-xl w-fit"
-          style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
+          style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
         >
           {CATEGORIAS.map((cat) => {
             const Icon = cat.icon;
@@ -231,10 +231,10 @@ export const ConhecimentoTab: React.FC<ConhecimentoTabProps> = ({ showToast }) =
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all duration-200 whitespace-nowrap"
                 style={active
                   ? { background: 'rgba(var(--color-primary-rgb),0.1)', border: '1px solid rgba(var(--color-primary-rgb),0.2)', color: 'var(--color-primary-light)' }
-                  : { background: 'transparent', border: '1px solid transparent', color: 'rgba(255,255,255,0.4)' }
+                  : { background: 'transparent', border: '1px solid transparent', color: 'var(--c-t-40)' }
                 }
-                onMouseEnter={(e) => { if (!active) { e.currentTarget.style.color = 'rgba(255,255,255,0.6)'; e.currentTarget.style.background = 'rgba(255,255,255,0.03)' } }}
-                onMouseLeave={(e) => { if (!active) { e.currentTarget.style.color = 'rgba(255,255,255,0.4)'; e.currentTarget.style.background = 'transparent' } }}
+                onMouseEnter={(e) => { if (!active) { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.6)'; e.currentTarget.style.background = 'var(--c-glass)' } }}
+                onMouseLeave={(e) => { if (!active) { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.4)'; e.currentTarget.style.background = 'transparent' } }}
               >
                 <Icon className="w-3 h-3" />
                 {cat.label}
@@ -242,7 +242,7 @@ export const ConhecimentoTab: React.FC<ConhecimentoTabProps> = ({ showToast }) =
                   className="text-[10px] px-1.5 py-0.5 rounded-full"
                   style={active
                     ? { background: 'rgba(var(--color-primary-rgb),0.15)', color: 'var(--color-primary-light)' }
-                    : { background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.3)' }
+                    : { background: 'var(--c-glass)', color: 'var(--c-t-30)' }
                   }
                 >
                   {loadingContadores ? '·' : count}
@@ -255,7 +255,7 @@ export const ConhecimentoTab: React.FC<ConhecimentoTabProps> = ({ showToast }) =
 
       {/* Header com botão adicionar */}
       <div className="flex items-center justify-between mt-3 mb-3">
-        <p className="text-[12px] text-white/35">
+        <p className="text-[12px] text-txt-dim">
           {catConfig.label} — {loading ? '...' : `${items.length} exemplo${items.length !== 1 ? 's' : ''}`}
         </p>
         {!showAdd && (
@@ -275,7 +275,7 @@ export const ConhecimentoTab: React.FC<ConhecimentoTabProps> = ({ showToast }) =
       {showAdd && (
         <div
           className="rounded-xl p-3 mb-3"
-          style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(var(--color-primary-rgb),0.15)' }}
+          style={{ background: 'var(--c-glass)', border: '1px solid rgba(var(--color-primary-rgb),0.15)' }}
         >
           <textarea
             value={addText}
@@ -288,7 +288,7 @@ export const ConhecimentoTab: React.FC<ConhecimentoTabProps> = ({ showToast }) =
           <div className="flex items-center justify-end gap-2 mt-2">
             <button
               onClick={() => { setShowAdd(false); setAddText(''); }}
-              className="flex items-center gap-1 px-3 py-1.5 text-[11px] font-medium rounded-lg transition-colors text-white/40 hover:text-white/60 hover:bg-white/[0.04]"
+              className="flex items-center gap-1 px-3 py-1.5 text-[11px] font-medium rounded-lg transition-colors text-txt-dim hover:text-txt-muted hover:bg-glass"
             >
               <X className="w-3 h-3" /> Cancelar
             </button>
@@ -307,16 +307,16 @@ export const ConhecimentoTab: React.FC<ConhecimentoTabProps> = ({ showToast }) =
       {/* Conteúdo */}
       {loading ? (
         <div className="flex items-center justify-center py-16">
-          <Loader2 className="w-5 h-5 text-white/20 animate-spin" />
+          <Loader2 className="w-5 h-5 text-txt-dim animate-spin" />
         </div>
       ) : items.length === 0 ? (
         <div
           className="flex flex-col items-center justify-center py-16 rounded-2xl"
-          style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}
+          style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}
         >
-          <BookOpen className="w-8 h-8 mb-3" style={{ color: 'rgba(255,255,255,0.1)' }} />
-          <p className="text-[13px] font-medium mb-1" style={{ color: 'rgba(255,255,255,0.25)' }}>Nenhum exemplo cadastrado nesta categoria</p>
-          <p className="text-[11px] mb-4" style={{ color: 'rgba(255,255,255,0.12)' }}>Adicione frases e comportamentos para os bots usarem</p>
+          <BookOpen className="w-8 h-8 mb-3" style={{ color: 'var(--c-t-10)' }} />
+          <p className="text-[13px] font-medium mb-1" style={{ color: 'var(--c-t-25)' }}>Nenhum exemplo cadastrado nesta categoria</p>
+          <p className="text-[11px] mb-4" style={{ color: 'var(--c-t-12)' }}>Adicione frases e comportamentos para os bots usarem</p>
           <button
             onClick={() => setShowAdd(true)}
             className="flex items-center gap-2 px-4 py-2 text-[12px] font-semibold rounded-xl transition-all"

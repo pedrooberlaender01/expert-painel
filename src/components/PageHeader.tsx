@@ -23,10 +23,10 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
     <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
       <div>
         <div className="flex items-center gap-3">
-          <h1 className="text-[22px] font-bold text-white font-display tracking-tight">{title}</h1>
+          <h1 className="text-[22px] font-bold text-txt font-display tracking-tight">{title}</h1>
           {titleRight}
         </div>
-        {subtitle && <p className="text-[13px] mt-1 font-light" style={{ color: 'rgba(255,255,255,0.45)' }}>{subtitle}</p>}
+        {subtitle && <p className="text-[13px] mt-1 font-light" style={{ color: 'var(--c-t-45)' }}>{subtitle}</p>}
       </div>
 
       <div className="flex items-center gap-3">
@@ -37,9 +37,9 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
             disabled={isRefreshing}
             className="p-2.5 rounded-xl transition-all duration-200 disabled:opacity-50"
             style={{
-              color: 'rgba(255,255,255,0.5)',
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid rgba(255,255,255,0.04)',
+              color: 'var(--c-t-50)',
+              background: 'var(--c-glass)',
+              border: '1px solid var(--c-border)',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = 'var(--color-primary-light)';
@@ -47,9 +47,9 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
               e.currentTarget.style.background = 'rgba(var(--color-primary-rgb),0.08)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.color = 'rgba(255,255,255,0.5)';
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)';
-              e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
+              e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.5)';
+              e.currentTarget.style.borderColor = 'var(--c-border)';
+              e.currentTarget.style.background = 'var(--c-glass)';
             }}
             title="Atualizar dados"
           >

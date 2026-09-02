@@ -65,20 +65,20 @@ export const NovaPerguntaModal: React.FC<Props> = ({ isOpen, onClose, onSave, in
       <div
         className="w-full max-w-lg rounded-2xl animate-slide-up"
         style={{
-          background: 'rgba(22, 27, 34, 0.97)',
-          border: '1px solid rgba(255,255,255,0.08)',
+          background: 'var(--c-popup-bg)',
+          border: '1px solid var(--c-border)',
           boxShadow: '0 25px 50px rgba(0,0,0,0.5)',
         }}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-5" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <h3 className="text-[15px] font-semibold text-white">
+        <div className="flex items-center justify-between p-5" style={{ borderBottom: '1px solid var(--c-border)' }}>
+          <h3 className="text-[15px] font-semibold text-txt">
             {modo === 'criar' ? 'Nova Pergunta' : 'Editar Pergunta'}
           </h3>
           <button
             onClick={onClose}
             className="p-1.5 rounded-lg transition-all duration-200"
-            style={{ color: 'rgba(255,255,255,0.4)', background: 'rgba(255,255,255,0.04)' }}
+            style={{ color: 'var(--c-t-40)', background: 'var(--c-glass)' }}
           >
             <X className="w-4 h-4" />
           </button>
@@ -88,16 +88,16 @@ export const NovaPerguntaModal: React.FC<Props> = ({ isOpen, onClose, onSave, in
         <div className="p-5 space-y-4">
           {/* Categoria */}
           <div>
-            <label className="block text-[12px] font-medium mb-1.5" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <label className="block text-[12px] font-medium mb-1.5" style={{ color: 'var(--c-t-50)' }}>
               Categoria
             </label>
             <div className="relative">
               <button
                 onClick={() => setCatOpen(!catOpen)}
-                className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[13px] text-white transition-all duration-200"
+                className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[13px] text-txt transition-all duration-200"
                 style={{
-                  background: 'rgba(255,255,255,0.04)',
-                  border: catOpen ? '1px solid rgba(var(--color-primary-rgb), 0.4)' : '1px solid rgba(255,255,255,0.08)',
+                  background: 'var(--c-glass)',
+                  border: catOpen ? '1px solid rgba(var(--color-primary-rgb), 0.4)' : '1px solid var(--c-border)',
                 }}
               >
                 <span>{selectedCatLabel}</span>
@@ -107,8 +107,8 @@ export const NovaPerguntaModal: React.FC<Props> = ({ isOpen, onClose, onSave, in
                 <div
                   className="absolute bottom-full left-0 right-0 mb-1 rounded-xl overflow-hidden z-10"
                   style={{
-                    background: 'rgba(22, 27, 34, 0.97)',
-                    border: '1px solid rgba(255,255,255,0.08)',
+                    background: 'var(--c-popup-bg)',
+                    border: '1px solid var(--c-border)',
                     boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
                   }}
                 >
@@ -116,8 +116,8 @@ export const NovaPerguntaModal: React.FC<Props> = ({ isOpen, onClose, onSave, in
                     <button
                       key={cat.value}
                       onClick={() => { setCategoria(cat.value); setCatOpen(false); }}
-                      className="w-full text-left px-3.5 py-2 text-[13px] transition-all duration-150 hover:bg-white/[0.04]"
-                      style={{ color: categoria === cat.value ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.6)' }}
+                      className="w-full text-left px-3.5 py-2 text-[13px] transition-all duration-150 hover:bg-glass"
+                      style={{ color: categoria === cat.value ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.6)' }}
                     >
                       {cat.label}
                     </button>
@@ -129,7 +129,7 @@ export const NovaPerguntaModal: React.FC<Props> = ({ isOpen, onClose, onSave, in
 
           {/* Pergunta */}
           <div>
-            <label className="block text-[12px] font-medium mb-1.5" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <label className="block text-[12px] font-medium mb-1.5" style={{ color: 'var(--c-t-50)' }}>
               Pergunta
             </label>
             <input
@@ -137,17 +137,17 @@ export const NovaPerguntaModal: React.FC<Props> = ({ isOpen, onClose, onSave, in
               value={pergunta}
               onChange={(e) => setPergunta(e.target.value)}
               placeholder="Ex: Como faco meu cadastro?"
-              className="w-full px-3.5 py-2.5 rounded-xl text-[13px] text-white placeholder-white/30 outline-none transition-all duration-200 focus:ring-1"
+              className="w-full px-3.5 py-2.5 rounded-xl text-[13px] text-txt placeholder-txt-dim outline-none transition-all duration-200 focus:ring-1"
               style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.08)',
+                background: 'var(--c-glass)',
+                border: '1px solid var(--c-border)',
               }}
             />
           </div>
 
           {/* Resposta */}
           <div>
-            <label className="block text-[12px] font-medium mb-1.5" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <label className="block text-[12px] font-medium mb-1.5" style={{ color: 'var(--c-t-50)' }}>
               Resposta
             </label>
             <textarea
@@ -155,21 +155,21 @@ export const NovaPerguntaModal: React.FC<Props> = ({ isOpen, onClose, onSave, in
               onChange={(e) => setContent(e.target.value)}
               placeholder="Escreva a resposta completa que o agente usara..."
               rows={4}
-              className="w-full px-3.5 py-2.5 rounded-xl text-[13px] text-white placeholder-white/30 outline-none transition-all duration-200 focus:ring-1 resize-none"
+              className="w-full px-3.5 py-2.5 rounded-xl text-[13px] text-txt placeholder-txt-dim outline-none transition-all duration-200 focus:ring-1 resize-none"
               style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.08)',
+                background: 'var(--c-glass)',
+                border: '1px solid var(--c-border)',
               }}
             />
           </div>
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-3 p-5" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        <div className="flex items-center justify-end gap-3 p-5" style={{ borderTop: '1px solid var(--c-border)' }}>
           <button
             onClick={onClose}
             className="px-4 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200"
-            style={{ color: 'rgba(255,255,255,0.5)', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+            style={{ color: 'var(--c-t-50)', background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
           >
             Cancelar
           </button>
@@ -178,7 +178,7 @@ export const NovaPerguntaModal: React.FC<Props> = ({ isOpen, onClose, onSave, in
             disabled={!canSave || saving}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[13px] font-semibold text-white transition-all duration-200 disabled:opacity-40"
             style={{
-              background: canSave ? 'var(--color-primary)' : 'rgba(255,255,255,0.08)',
+              background: canSave ? 'var(--color-primary)' : 'var(--c-glass-hover)',
             }}
           >
             {saving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}

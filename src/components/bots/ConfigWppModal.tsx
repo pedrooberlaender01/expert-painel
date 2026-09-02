@@ -19,7 +19,7 @@ interface Instancia {
   status_conexao: string;
 }
 
-const inputClass = "w-full bg-white/[0.02] border border-white/[0.04] text-white rounded-lg py-2.5 px-3.5 text-[13px] placeholder-[#4b5563] focus:outline-none focus:border-[rgba(var(--color-primary-rgb),0.3)] focus:shadow-[0_0_0_3px_rgba(var(--color-primary-rgb),0.08)] transition-all";
+const inputClass = "w-full bg-glass-2 border border-glass text-txt rounded-lg py-2.5 px-3.5 text-[13px] placeholder-txt-dim focus:outline-none focus:border-[rgba(var(--color-primary-rgb),0.3)] focus:shadow-[0_0_0_3px_rgba(var(--color-primary-rgb),0.08)] transition-all";
 
 // ─── Dropdown customizado para selecao de instancia ───────────────────
 const InstanciaDropdown: React.FC<{
@@ -66,12 +66,12 @@ const InstanciaDropdown: React.FC<{
             <span className="truncate">{selected.nome || selected.instancia}</span>
           </span>
         ) : (
-          <span className="text-white/30">Selecione uma instância</span>
+          <span className="text-txt-dim">Selecione uma instância</span>
         )}
         <ChevronDown
           className="w-3.5 h-3.5 shrink-0 transition-transform duration-200"
           style={{
-            color: 'rgba(255,255,255,0.3)',
+            color: 'var(--c-t-30)',
             transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
           }}
         />
@@ -82,17 +82,17 @@ const InstanciaDropdown: React.FC<{
         <div
           className="absolute z-50 mt-1.5 w-full rounded-xl overflow-hidden animate-fade-in"
           style={{
-            background: 'rgba(22,27,34,0.97)',
-            border: '1px solid rgba(255,255,255,0.06)',
+            background: 'var(--c-popup-bg)',
+            border: '1px solid var(--c-border)',
             boxShadow: '0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03)',
           }}
         >
           <div
             className="overflow-y-auto py-1"
-            style={{ maxHeight: '220px', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.1) transparent' }}
+            style={{ maxHeight: '220px', scrollbarWidth: 'thin', scrollbarColor: 'rgb(var(--c-fg-rgb) / 0.1) transparent' }}
           >
             {instancias.length === 0 ? (
-              <div className="px-3.5 py-3 text-[13px] text-white/30 text-center">Nenhuma instância disponível</div>
+              <div className="px-3.5 py-3 text-[13px] text-txt-dim text-center">Nenhuma instância disponível</div>
             ) : (
               instancias.map((inst) => {
                 const isSelected = inst.id === value;
@@ -104,18 +104,18 @@ const InstanciaDropdown: React.FC<{
                     onClick={() => { onChange(inst.id); setOpen(false); }}
                     className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-[13px] text-left transition-colors duration-100"
                     style={{
-                      color: isSelected ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.7)',
+                      color: isSelected ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.7)',
                       background: isSelected ? 'rgba(var(--color-primary-rgb),0.08)' : 'transparent',
                     }}
                     onMouseEnter={(e) => {
                       if (!isSelected) {
-                        e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
-                        e.currentTarget.style.color = '#fff';
+                        e.currentTarget.style.background = 'var(--c-glass)';
+                        e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))';
                       }
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.background = isSelected ? 'rgba(var(--color-primary-rgb),0.08)' : 'transparent';
-                      e.currentTarget.style.color = isSelected ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.7)';
+                      e.currentTarget.style.color = isSelected ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.7)';
                     }}
                   >
                     <span
@@ -180,16 +180,16 @@ export const ConfigWppModal: React.FC<ConfigWppModalProps> = ({ personaNome, per
       <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)' }} />
       <div
         className="relative w-full max-w-[420px] rounded-2xl shadow-2xl animate-fade-in"
-        style={{ background: 'rgba(20,20,30,0.95)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
+        style={{ background: 'var(--c-popup-bg)', border: '1px solid var(--c-border-strong)', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: '1px solid var(--c-border)' }}>
           <div className="flex items-center gap-2">
-            <Smartphone className="w-4 h-4 text-white/40" />
-            <h2 className="text-[15px] font-bold text-white">Configurar Perfil WhatsApp</h2>
+            <Smartphone className="w-4 h-4 text-txt-dim" />
+            <h2 className="text-[15px] font-bold text-txt">Configurar Perfil WhatsApp</h2>
           </div>
-          <button onClick={onClose} className="p-1.5 text-white/40 hover:text-white/70 hover:bg-white/[0.04] rounded-lg transition-colors">
+          <button onClick={onClose} className="p-1.5 text-txt-dim hover:text-txt-secondary hover:bg-glass rounded-lg transition-colors">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -197,17 +197,17 @@ export const ConfigWppModal: React.FC<ConfigWppModalProps> = ({ personaNome, per
         {/* Content */}
         <div className="px-5 py-4 space-y-4">
           <div>
-            <label className="block text-[11px] uppercase tracking-wider text-white/40 font-medium mb-1.5">Nome no WhatsApp</label>
+            <label className="block text-[11px] uppercase tracking-wider text-txt-dim font-medium mb-1.5">Nome no WhatsApp</label>
             <input type="text" value={nomeWpp} onChange={(e) => setNomeWpp(e.target.value)} className={inputClass} placeholder="Nome exibido no WhatsApp" />
           </div>
           <div>
-            <label className="block text-[11px] uppercase tracking-wider text-white/40 font-medium mb-1.5">Foto de perfil (URL)</label>
+            <label className="block text-[11px] uppercase tracking-wider text-txt-dim font-medium mb-1.5">Foto de perfil (URL)</label>
             <input type="url" value={fotoWpp} onChange={(e) => setFotoWpp(e.target.value)} className={inputClass} placeholder="https://..." />
           </div>
           <div>
-            <label className="block text-[11px] uppercase tracking-wider text-white/40 font-medium mb-1.5">Instância WhatsApp</label>
+            <label className="block text-[11px] uppercase tracking-wider text-txt-dim font-medium mb-1.5">Instância WhatsApp</label>
             {loading ? (
-              <div className="text-[13px] text-white/30 py-2">Carregando instâncias...</div>
+              <div className="text-[13px] text-txt-dim py-2">Carregando instâncias...</div>
             ) : (
               <InstanciaDropdown
                 instancias={instancias}
@@ -219,13 +219,13 @@ export const ConfigWppModal: React.FC<ConfigWppModalProps> = ({ personaNome, per
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-3 px-5 py-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        <div className="flex items-center justify-end gap-3 px-5 py-4" style={{ borderTop: '1px solid var(--c-border)' }}>
           <button
             onClick={onClose}
             className="px-4 py-2.5 text-[13px] font-medium rounded-xl transition-all"
-            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)' }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
+            style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border-strong)', color: 'var(--c-t-60)' }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass-hover)' }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--c-glass)' }}
           >
             Cancelar
           </button>

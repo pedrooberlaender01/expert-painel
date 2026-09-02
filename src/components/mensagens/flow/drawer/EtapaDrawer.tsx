@@ -256,9 +256,9 @@ export const EtapaDrawer: React.FC<EtapaDrawerProps> = ({ open, onClose, secao, 
             <button
               onClick={handleClose}
               className="px-4 py-2 text-[13px] font-medium rounded-xl transition-colors duration-150"
-              style={{ color: 'rgba(255,255,255,0.5)' }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = '#fff'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.5)'; }}
+              style={{ color: 'var(--c-t-50)' }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.5)'; }}
             >
               Cancelar
             </button>
@@ -266,7 +266,7 @@ export const EtapaDrawer: React.FC<EtapaDrawerProps> = ({ open, onClose, secao, 
               onClick={handleSave}
               disabled={!isDirty || saving}
               className={`flex items-center gap-2 px-5 py-2 text-[13px] font-semibold rounded-xl transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed border ${isDirty ? 'flow-drawer-save-ready' : ''}`}
-              style={isDirty ? {} : { background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.25)' }}
+              style={isDirty ? {} : { background: 'var(--c-glass)', borderColor: 'var(--c-border)', color: 'var(--c-t-25)' }}
             >
               {saving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
               {saving ? 'Salvando...' : 'Salvar alterações'}
@@ -275,7 +275,7 @@ export const EtapaDrawer: React.FC<EtapaDrawerProps> = ({ open, onClose, secao, 
         }
       >
         {cenarios.length === 0 ? (
-          <p className="text-[13px] italic" style={{ color: 'rgba(255,255,255,0.4)' }}>
+          <p className="text-[13px] italic" style={{ color: 'var(--c-t-40)' }}>
             Nenhum cenário encontrado nesta seção.
           </p>
         ) : (
@@ -284,11 +284,11 @@ export const EtapaDrawer: React.FC<EtapaDrawerProps> = ({ open, onClose, secao, 
             {cenarios.length > 1 && (
               <div
                 className="sticky top-0 z-10 pb-4 -mx-5 px-5 mb-4"
-                style={{ background: 'rgba(22,27,34,0.97)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}
+                style={{ background: 'var(--c-popup-bg)', borderBottom: '1px solid var(--c-border)' }}
               >
                 <div
                   className="flex gap-1 p-1 rounded-lg overflow-x-auto"
-                  style={{ background: 'rgba(255,255,255,0.04)', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.1) transparent' }}
+                  style={{ background: 'var(--c-glass)', scrollbarWidth: 'thin', scrollbarColor: 'rgb(var(--c-fg-rgb) / 0.1) transparent' }}
                   role="tablist"
                 >
                   {cenarios.map((c) => {
@@ -300,9 +300,9 @@ export const EtapaDrawer: React.FC<EtapaDrawerProps> = ({ open, onClose, secao, 
                         aria-selected={isActive}
                         onClick={() => handleTabClick(c.id)}
                         className={`shrink-0 px-3 py-1.5 rounded-md text-[12px] text-center transition-colors duration-150 whitespace-nowrap ${isActive ? 'flow-drawer-tab-active font-medium' : ''}`}
-                        style={isActive ? {} : { color: 'rgba(255,255,255,0.6)' }}
-                        onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.color = 'rgba(255,255,255,0.8)'; }}
-                        onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.color = 'rgba(255,255,255,0.6)'; }}
+                        style={isActive ? {} : { color: 'var(--c-t-60)' }}
+                        onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.8)'; }}
+                        onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.6)'; }}
                       >
                         {c.titulo || formatCenarioLabel(c.cenario)}
                       </button>
@@ -316,9 +316,9 @@ export const EtapaDrawer: React.FC<EtapaDrawerProps> = ({ open, onClose, secao, 
               <div className="space-y-5" role="tabpanel" tabIndex={0}>
                 {/* ── Zona B: Info do cenario ── */}
                 <div>
-                  <h3 className="text-[14px] font-medium text-white">{editado.titulo || formatCenarioLabel(editado.cenario)}</h3>
+                  <h3 className="text-[14px] font-medium text-txt">{editado.titulo || formatCenarioLabel(editado.cenario)}</h3>
                   {editado.descricao && (
-                    <p className="text-[12px] mt-0.5 leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                    <p className="text-[12px] mt-0.5 leading-relaxed" style={{ color: 'var(--c-t-50)' }}>
                       {editado.descricao}
                     </p>
                   )}
@@ -326,7 +326,7 @@ export const EtapaDrawer: React.FC<EtapaDrawerProps> = ({ open, onClose, secao, 
                     {editado.tempo_espera_minutos != null && editado.tempo_espera_minutos > 0 && (
                       <span
                         className="flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px]"
-                        style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
+                        style={{ background: 'var(--c-glass-hover)', border: '1px solid var(--c-border-strong)', color: 'var(--c-t-60)' }}
                       >
                         <Clock className="w-2.5 h-2.5" />
                         {editado.tempo_espera_minutos} min
@@ -335,7 +335,7 @@ export const EtapaDrawer: React.FC<EtapaDrawerProps> = ({ open, onClose, secao, 
                     {editado.status_alvo && (
                       <span
                         className="flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px]"
-                        style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
+                        style={{ background: 'var(--c-glass-hover)', border: '1px solid var(--c-border-strong)', color: 'var(--c-t-60)' }}
                       >
                         <Target className="w-2.5 h-2.5" />
                         {editado.status_alvo}
@@ -348,17 +348,17 @@ export const EtapaDrawer: React.FC<EtapaDrawerProps> = ({ open, onClose, secao, 
                       role="switch"
                       aria-checked={editado.ativo}
                     >
-                      <span className="text-[11px]" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                      <span className="text-[11px]" style={{ color: 'var(--c-t-50)' }}>
                         {editado.ativo ? 'Ativo' : 'Inativo'}
                       </span>
                       <div
                         className={`relative w-8 h-[18px] rounded-full transition-colors duration-150 ${editado.ativo ? 'flow-drawer-toggle-on' : ''}`}
-                        style={editado.ativo ? {} : { background: 'rgba(255,255,255,0.1)' }}
+                        style={editado.ativo ? {} : { background: 'rgb(var(--c-fg-rgb) / 0.1)' }}
                       >
                         <div
                           className={`absolute top-[2px] w-[14px] h-[14px] rounded-full transition-transform duration-150 ${editado.ativo ? 'flow-drawer-toggle-dot-on' : ''}`}
                           style={{
-                            background: editado.ativo ? undefined : 'rgba(255,255,255,0.3)',
+                            background: editado.ativo ? undefined : 'rgb(var(--c-fg-rgb) / 0.3)',
                             transform: editado.ativo ? 'translateX(16px)' : 'translateX(2px)',
                           }}
                         />
@@ -381,7 +381,7 @@ export const EtapaDrawer: React.FC<EtapaDrawerProps> = ({ open, onClose, secao, 
                         aria-checked={isActive}
                         onClick={() => toggleTipoEnvio(tipo)}
                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] transition-colors duration-150 border ${isActive ? 'flow-drawer-tipo-active' : ''}`}
-                        style={isActive ? {} : { background: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
+                        style={isActive ? {} : { background: 'var(--c-glass)', borderColor: 'var(--c-border-strong)', color: 'var(--c-t-60)' }}
                       >
                         <Icon className="w-3.5 h-3.5" />
                         {label}
@@ -392,7 +392,7 @@ export const EtapaDrawer: React.FC<EtapaDrawerProps> = ({ open, onClose, secao, 
 
                 {/* ── Zona D: Variacoes ── */}
                 <div>
-                  <p className="text-[11px] uppercase tracking-[0.08em] mb-2" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                  <p className="text-[11px] uppercase tracking-[0.08em] mb-2" style={{ color: 'var(--c-t-40)' }}>
                     Variações
                   </p>
                   <div className="flex items-center gap-1.5 flex-wrap">
@@ -405,7 +405,7 @@ export const EtapaDrawer: React.FC<EtapaDrawerProps> = ({ open, onClose, secao, 
                           aria-pressed={isActive}
                           onClick={() => setVariacaoIdx(i)}
                           className={`px-2.5 py-1 rounded-md text-[11px] transition-colors duration-150 border ${isActive ? 'flow-drawer-var-active' : ''}`}
-                          style={isActive ? {} : { background: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.5)' }}
+                          style={isActive ? {} : { background: 'var(--c-glass)', borderColor: 'var(--c-border-strong)', color: 'var(--c-t-50)' }}
                         >
                           v{i + 1}
                         </button>
@@ -414,9 +414,9 @@ export const EtapaDrawer: React.FC<EtapaDrawerProps> = ({ open, onClose, secao, 
                     <button
                       onClick={addVariacao}
                       className="flex items-center gap-1 px-2 py-1 text-[11px] rounded-md transition-colors duration-150"
-                      style={{ color: 'rgba(255,255,255,0.4)' }}
+                      style={{ color: 'var(--c-t-40)' }}
                       onMouseEnter={(e) => { e.currentTarget.style.color = '#10b981'; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.4)'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.4)'; }}
                     >
                       <Plus className="w-3 h-3" />
                       Nova
@@ -425,9 +425,9 @@ export const EtapaDrawer: React.FC<EtapaDrawerProps> = ({ open, onClose, secao, 
                       <button
                         onClick={() => removeVariacao(variacaoIdx)}
                         className="p-1 rounded-md transition-colors duration-150 ml-auto"
-                        style={{ color: 'rgba(255,255,255,0.3)' }}
+                        style={{ color: 'var(--c-t-30)' }}
                         onMouseEnter={(e) => { e.currentTarget.style.color = '#f87171'; e.currentTarget.style.background = 'rgba(248,113,113,0.1)'; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.3)'; e.currentTarget.style.background = 'transparent'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.3)'; e.currentTarget.style.background = 'transparent'; }}
                         title="Remover variação"
                       >
                         <Trash2 className="w-3 h-3" />
@@ -439,7 +439,7 @@ export const EtapaDrawer: React.FC<EtapaDrawerProps> = ({ open, onClose, secao, 
                 {/* ── Zona E: Editor ── */}
                 <div>
                   {editado.tipo_envio === 'audio' && (
-                    <p className="text-[11px] mb-2" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                    <p className="text-[11px] mb-2" style={{ color: 'var(--c-t-40)' }}>
                       Este texto será convertido em áudio com a voz clonada do expert (MiniMax)
                     </p>
                   )}
@@ -448,10 +448,10 @@ export const EtapaDrawer: React.FC<EtapaDrawerProps> = ({ open, onClose, secao, 
                     value={textoAtivo}
                     onChange={(e) => updateTexto(e.target.value)}
                     aria-label="Mensagem do cenário"
-                    className="w-full rounded-lg p-3 text-[13px] text-white leading-relaxed resize-none outline-none transition-colors duration-150 flow-drawer-focus-border"
+                    className="w-full rounded-lg p-3 text-[13px] text-txt leading-relaxed resize-none outline-none transition-colors duration-150 flow-drawer-focus-border"
                     style={{
-                      background: 'rgba(255,255,255,0.03)',
-                      border: '1px solid rgba(255,255,255,0.1)',
+                      background: 'var(--c-glass)',
+                      border: '1px solid var(--c-border-strong)',
                       minHeight: '120px',
                       maxHeight: '320px',
                     }}
@@ -461,7 +461,7 @@ export const EtapaDrawer: React.FC<EtapaDrawerProps> = ({ open, onClose, secao, 
 
                 {/* ── Zona F: Placeholders ── */}
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.08em] mb-2" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                  <p className="text-[10px] uppercase tracking-[0.08em] mb-2" style={{ color: 'var(--c-t-40)' }}>
                     Placeholders disponíveis
                   </p>
                   <div className="flex flex-wrap gap-1.5">
@@ -486,17 +486,17 @@ export const EtapaDrawer: React.FC<EtapaDrawerProps> = ({ open, onClose, secao, 
 
                 {/* ── Zona G: Preview ── */}
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.08em] mb-2" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                  <p className="text-[10px] uppercase tracking-[0.08em] mb-2" style={{ color: 'var(--c-t-40)' }}>
                     Preview
                   </p>
                   <div
                     className="p-3 rounded-lg text-[12px] leading-relaxed whitespace-pre-wrap"
-                    style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.08)' }}
+                    style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}
                   >
                     {previewTexto ? (
-                      <span style={{ color: 'rgba(255,255,255,0.7)' }}>{previewTexto}</span>
+                      <span style={{ color: 'var(--c-t-70)' }}>{previewTexto}</span>
                     ) : (
-                      <span className="italic" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                      <span className="italic" style={{ color: 'var(--c-t-30)' }}>
                         Escreva uma mensagem para ver o preview
                       </span>
                     )}

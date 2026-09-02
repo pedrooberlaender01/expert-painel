@@ -150,7 +150,7 @@ export const SectionLockedPage: React.FC<SectionLockedPageProps> = ({ section })
       <div className="flex-1 flex items-center justify-center p-8">
         <div className="text-center">
           <Lock className="w-12 h-12 mx-auto mb-4 opacity-30" />
-          <p className="text-white/40 text-sm">Secao indisponivel no seu plano atual.</p>
+          <p className="text-txt-dim text-sm">Secao indisponivel no seu plano atual.</p>
         </div>
       </div>
     );
@@ -179,8 +179,8 @@ export const SectionLockedPage: React.FC<SectionLockedPageProps> = ({ section })
         <div
           className="relative rounded-2xl overflow-hidden"
           style={{
-            background: 'rgba(255, 255, 255, 0.02)',
-            border: '1px solid rgba(255, 255, 255, 0.06)',
+            background: 'var(--c-glass-2)',
+            border: '1px solid var(--c-border)',
           }}
         >
           {/* Header com icone e cadeado */}
@@ -208,7 +208,7 @@ export const SectionLockedPage: React.FC<SectionLockedPageProps> = ({ section })
               <div
                 className="absolute -bottom-2 -right-2 w-8 h-8 rounded-xl flex items-center justify-center shadow-lg"
                 style={{
-                  background: 'rgba(22, 27, 34, 0.97)',
+                  background: 'var(--c-popup-bg)',
                   border: '1px solid rgba(250, 204, 60, 0.3)',
                 }}
               >
@@ -217,22 +217,22 @@ export const SectionLockedPage: React.FC<SectionLockedPageProps> = ({ section })
             </div>
 
             {/* Titulo */}
-            <h2 className="text-xl font-bold text-white font-display tracking-tight mb-2">
+            <h2 className="text-xl font-bold text-txt font-display tracking-tight mb-2">
               {info.titulo}
             </h2>
 
             {/* Descricao */}
-            <p className="text-[13px] leading-relaxed max-w-[380px] mx-auto" style={{ color: 'rgba(255, 255, 255, 0.45)' }}>
+            <p className="text-[13px] leading-relaxed max-w-[380px] mx-auto" style={{ color: 'var(--c-t-45)' }}>
               {info.descricao}
             </p>
           </div>
 
           {/* Divisor */}
-          <div className="mx-8" style={{ borderTop: '1px solid rgba(255, 255, 255, 0.05)' }} />
+          <div className="mx-8" style={{ borderTop: '1px solid var(--c-border)' }} />
 
           {/* Lista de recursos */}
           <div className="px-8 py-6">
-            <p className="text-[11px] font-medium uppercase tracking-wider mb-4" style={{ color: 'rgba(255, 255, 255, 0.3)' }}>
+            <p className="text-[11px] font-medium uppercase tracking-wider mb-4" style={{ color: 'var(--c-t-30)' }}>
               Recursos inclusos
             </p>
             <div className="space-y-3">
@@ -242,7 +242,7 @@ export const SectionLockedPage: React.FC<SectionLockedPageProps> = ({ section })
                     className="w-1.5 h-1.5 rounded-full shrink-0"
                     style={{ background: 'var(--color-primary)', opacity: 0.4 }}
                   />
-                  <span className="text-[13px]" style={{ color: 'rgba(255, 255, 255, 0.35)' }}>
+                  <span className="text-[13px]" style={{ color: 'var(--c-t-35)' }}>
                     {recurso}
                   </span>
                 </div>
@@ -251,7 +251,7 @@ export const SectionLockedPage: React.FC<SectionLockedPageProps> = ({ section })
           </div>
 
           {/* Divisor */}
-          <div className="mx-8" style={{ borderTop: '1px solid rgba(255, 255, 255, 0.05)' }} />
+          <div className="mx-8" style={{ borderTop: '1px solid var(--c-border)' }} />
 
           {/* Footer com mensagem */}
           <div className="px-8 py-6">
@@ -267,7 +267,7 @@ export const SectionLockedPage: React.FC<SectionLockedPageProps> = ({ section })
                 <p className="text-[13px] font-medium" style={{ color: 'rgba(250, 204, 60, 0.8)' }}>
                   Secao indisponivel no seu plano
                 </p>
-                <p className="text-[12px] mt-1 leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.35)' }}>
+                <p className="text-[12px] mt-1 leading-relaxed" style={{ color: 'var(--c-t-35)' }}>
                   Entre em contato com o administrador para liberar o acesso a esta funcionalidade.
                 </p>
               </div>

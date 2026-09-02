@@ -20,7 +20,7 @@ import { AdicionarBotModal } from './AdicionarBotModal';
 // ─── Helpers ───
 
 const STATUS_STYLES: Record<string, { bg: string; border: string; color: string; label: string }> = {
-  pendente: { bg: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.4)', label: 'Pendente' },
+  pendente: { bg: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-40)', label: 'Pendente' },
   warmup: { bg: 'rgba(250,204,60,0.08)', border: '1px solid rgba(250,204,60,0.2)', color: '#facc3c', label: 'Warmup' },
   ativo: { bg: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.2)', color: '#34d399', label: 'Ativo' },
   ausente: { bg: 'rgba(251,146,60,0.08)', border: '1px solid rgba(251,146,60,0.2)', color: '#fb923c', label: 'Ausente' },
@@ -33,7 +33,7 @@ function gerarCorDoNome(nome: string): string {
   return `hsl(${Math.abs(hash) % 360}, 55%, 45%)`;
 }
 
-const inputClass = "w-full bg-white/[0.02] border border-white/[0.04] text-white rounded-lg py-2.5 px-3.5 text-[13px] placeholder-[#4b5563] focus:outline-none focus:border-[rgba(var(--color-primary-rgb),0.3)] focus:shadow-[0_0_0_3px_rgba(var(--color-primary-rgb),0.08)] transition-all";
+const inputClass = "w-full bg-glass-2 border border-glass text-txt rounded-lg py-2.5 px-3.5 text-[13px] placeholder-txt-dim focus:outline-none focus:border-[rgba(var(--color-primary-rgb),0.3)] focus:shadow-[0_0_0_3px_rgba(var(--color-primary-rgb),0.08)] transition-all";
 
 // ─── Toggle component ───
 
@@ -56,7 +56,7 @@ const Toggle: React.FC<{ checked: boolean; onChange: (v: boolean) => void; size?
         height: trackH,
         background: checked
           ? 'rgba(var(--color-primary-rgb),0.5)'
-          : 'rgba(255,255,255,0.08)',
+          : 'var(--c-glass-hover)',
         boxShadow: checked
           ? '0 0 8px rgba(var(--color-primary-rgb),0.15), inset 0 1px 2px rgba(0,0,0,0.1)'
           : 'inset 0 1px 2px rgba(0,0,0,0.2)',
@@ -67,7 +67,7 @@ const Toggle: React.FC<{ checked: boolean; onChange: (v: boolean) => void; size?
         style={{
           width: thumbSize,
           height: thumbSize,
-          background: checked ? '#fff' : 'rgba(255,255,255,0.35)',
+          background: checked ? '#fff' : 'rgb(var(--c-fg-rgb) / 0.35)',
           transform: checked ? `translateX(${thumbOn}px)` : 'translateX(3px)',
           boxShadow: checked
             ? '0 1px 3px rgba(0,0,0,0.3), 0 0 4px rgba(var(--color-primary-rgb),0.2)'
@@ -239,7 +239,7 @@ const GrupoCard: React.FC<GrupoCardProps> = ({ grupo, showToast, hookFns, instan
   return (
     <div
       className="rounded-2xl overflow-hidden transition-all duration-200"
-      style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
+      style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
     >
       {/* Header — sempre visível */}
       <div
@@ -247,7 +247,7 @@ const GrupoCard: React.FC<GrupoCardProps> = ({ grupo, showToast, hookFns, instan
         onClick={() => setExpanded(!expanded)}
       >
         <div className="flex-1 min-w-0 flex items-center gap-3">
-          <h3 className="text-[14px] font-semibold text-white truncate">{grupo.grupo_nome}</h3>
+          <h3 className="text-[14px] font-semibold text-txt truncate">{grupo.grupo_nome}</h3>
           <span
             className="shrink-0 text-[10px] font-medium px-2 py-0.5 rounded-full"
             style={{ background: 'rgba(var(--color-primary-rgb),0.08)', color: 'var(--color-primary-light)', border: '1px solid rgba(var(--color-primary-rgb),0.15)' }}
@@ -259,18 +259,18 @@ const GrupoCard: React.FC<GrupoCardProps> = ({ grupo, showToast, hookFns, instan
           <Toggle checked={grupo.ativo} onChange={handleToggleAtivo} size="sm" />
         </div>
         {expanded
-          ? <ChevronUp className="w-4 h-4 text-white/30 shrink-0" />
-          : <ChevronDown className="w-4 h-4 text-white/30 shrink-0" />
+          ? <ChevronUp className="w-4 h-4 text-txt-dim shrink-0" />
+          : <ChevronDown className="w-4 h-4 text-txt-dim shrink-0" />
         }
       </div>
 
       {/* Conteúdo expandido */}
       {expanded && (
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+        <div style={{ borderTop: '1px solid var(--c-border)' }}>
           {/* ─── Seção: Bots no Grupo ─── */}
           <div className="px-4 py-3">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-[11px] uppercase tracking-wider text-white/30 font-medium">Bots no Grupo</p>
+              <p className="text-[11px] uppercase tracking-wider text-txt-dim font-medium">Bots no Grupo</p>
               <button
                 onClick={handleOpenAddBot}
                 className="flex items-center gap-1 px-3 py-1.5 text-[11px] font-medium rounded-lg transition-all"
@@ -284,10 +284,10 @@ const GrupoCard: React.FC<GrupoCardProps> = ({ grupo, showToast, hookFns, instan
 
             {loadingBots ? (
               <div className="flex items-center justify-center py-6">
-                <Loader2 className="w-5 h-5 text-white/20 animate-spin" />
+                <Loader2 className="w-5 h-5 text-txt-dim animate-spin" />
               </div>
             ) : bots.length === 0 ? (
-              <p className="text-[12px] text-white/30 text-center py-4">Nenhum bot neste grupo</p>
+              <p className="text-[12px] text-txt-dim text-center py-4">Nenhum bot neste grupo</p>
             ) : (
               <div className="space-y-2">
                 {bots.map((bot) => {
@@ -296,7 +296,7 @@ const GrupoCard: React.FC<GrupoCardProps> = ({ grupo, showToast, hookFns, instan
                     <div
                       key={bot.id}
                       className="flex items-center gap-3 p-3 rounded-xl"
-                      style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}
+                      style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}
                     >
                       {/* Avatar */}
                       {bot.persona_foto_url ? (
@@ -310,7 +310,7 @@ const GrupoCard: React.FC<GrupoCardProps> = ({ grupo, showToast, hookFns, instan
                       {/* Info */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className="text-[13px] font-medium text-white truncate">{bot.persona_nome}</span>
+                          <span className="text-[13px] font-medium text-txt truncate">{bot.persona_nome}</span>
                           <span
                             className="shrink-0 text-[9px] font-medium px-1.5 py-0.5 rounded-full"
                             style={{ background: statusStyle.bg, border: statusStyle.border, color: statusStyle.color }}
@@ -318,7 +318,7 @@ const GrupoCard: React.FC<GrupoCardProps> = ({ grupo, showToast, hookFns, instan
                             {statusStyle.label}
                           </span>
                         </div>
-                        <p className="text-[11px] text-white/35 truncate">
+                        <p className="text-[11px] text-txt-dim truncate">
                           {bot.instancia_nome} · {bot.instancia_numero} · Msgs hoje: {bot.msgs_enviadas_hoje}/{bot.persona_msgs_por_dia_max}
                         </p>
                       </div>
@@ -327,7 +327,7 @@ const GrupoCard: React.FC<GrupoCardProps> = ({ grupo, showToast, hookFns, instan
                       <div className="flex items-center gap-1 shrink-0">
                         <button
                           onClick={() => handleToggleBotStatus(bot)}
-                          className="p-1.5 rounded-lg text-white/30 hover:text-white/60 hover:bg-white/[0.04] transition-colors"
+                          className="p-1.5 rounded-lg text-txt-dim hover:text-txt-muted hover:bg-glass transition-colors"
                           title={bot.status === 'pausado' ? 'Ativar' : 'Pausar'}
                         >
                           {bot.status === 'pausado' ? <Play className="w-3.5 h-3.5" /> : <Pause className="w-3.5 h-3.5" />}
@@ -348,16 +348,16 @@ const GrupoCard: React.FC<GrupoCardProps> = ({ grupo, showToast, hookFns, instan
           </div>
 
           {/* ─── Seção: Configurações ─── */}
-          <div className="px-4 py-3" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
-            <p className="text-[11px] uppercase tracking-wider text-white/30 font-medium mb-3">Configurações</p>
+          <div className="px-4 py-3" style={{ borderTop: '1px solid var(--c-border)' }}>
+            <p className="text-[11px] uppercase tracking-wider text-txt-dim font-medium mb-3">Configurações</p>
 
             {/* Triggers */}
             <div className="mb-4">
-              <p className="text-[12px] text-white/50 font-medium mb-2">Triggers</p>
+              <p className="text-[12px] text-txt-muted font-medium mb-2">Triggers</p>
               <div className="space-y-2">
                 {triggerLabels.map(({ key, label }) => (
                   <div key={key} className="flex items-center justify-between">
-                    <span className="text-[12px] text-white/50">{label}</span>
+                    <span className="text-[12px] text-txt-muted">{label}</span>
                     <Toggle
                       checked={localConfig.triggers_ativos[key]}
                       onChange={(v) => setLocalConfig((prev) => ({ ...prev, triggers_ativos: { ...prev.triggers_ativos, [key]: v } }))}
@@ -370,10 +370,10 @@ const GrupoCard: React.FC<GrupoCardProps> = ({ grupo, showToast, hookFns, instan
 
             {/* Silêncio */}
             <div className="mb-4">
-              <p className="text-[12px] text-white/50 font-medium mb-2">Detecção de Silêncio</p>
+              <p className="text-[12px] text-txt-muted font-medium mb-2">Detecção de Silêncio</p>
               <div className="space-y-2">
                 <div>
-                  <label className="block text-[11px] text-white/35 mb-1">Minutos de silêncio para ativar</label>
+                  <label className="block text-[11px] text-txt-dim mb-1">Minutos de silêncio para ativar</label>
                   <input
                     type="number"
                     value={localConfig.silencio_minutos}
@@ -384,7 +384,7 @@ const GrupoCard: React.FC<GrupoCardProps> = ({ grupo, showToast, hookFns, instan
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] text-white/35 mb-1">Frases para quebrar silêncio (1 por linha)</label>
+                  <label className="block text-[11px] text-txt-dim mb-1">Frases para quebrar silêncio (1 por linha)</label>
                   <textarea
                     value={(localConfig.silencio_frases || []).join('\n')}
                     onChange={(e) => setLocalConfig((prev) => ({ ...prev, silencio_frases: e.target.value.split('\n').filter(Boolean) }))}
@@ -398,10 +398,10 @@ const GrupoCard: React.FC<GrupoCardProps> = ({ grupo, showToast, hookFns, instan
 
             {/* Delays */}
             <div className="mb-4">
-              <p className="text-[12px] text-white/50 font-medium mb-2">Delays entre bots</p>
+              <p className="text-[12px] text-txt-muted font-medium mb-2">Delays entre bots</p>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] text-white/35 mb-1">Mínimo (seg)</label>
+                  <label className="block text-[11px] text-txt-dim mb-1">Mínimo (seg)</label>
                   <input
                     type="number"
                     value={localConfig.delay_entre_bots_min}
@@ -412,7 +412,7 @@ const GrupoCard: React.FC<GrupoCardProps> = ({ grupo, showToast, hookFns, instan
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] text-white/35 mb-1">Máximo (seg)</label>
+                  <label className="block text-[11px] text-txt-dim mb-1">Máximo (seg)</label>
                   <input
                     type="number"
                     value={localConfig.delay_entre_bots_max}
@@ -426,16 +426,16 @@ const GrupoCard: React.FC<GrupoCardProps> = ({ grupo, showToast, hookFns, instan
             </div>
 
             {/* ─── Reatividade ─── */}
-            <div className="mb-5 rounded-xl p-4" style={{ background: 'rgba(255,255,255,0.015)', border: '1px solid rgba(255,255,255,0.04)' }}>
+            <div className="mb-5 rounded-xl p-4" style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}>
               <div className="flex items-center gap-2 mb-4">
                 <Zap className="w-3.5 h-3.5" style={{ color: 'var(--color-primary-light)' }} />
-                <p className="text-[12px] text-white/60 font-semibold tracking-wide">Reatividade</p>
+                <p className="text-[12px] text-txt-muted font-semibold tracking-wide">Reatividade</p>
               </div>
 
               {/* Chance de Responder — Slider */}
               <div className="mb-5">
                 <div className="flex items-center justify-between mb-2">
-                  <label className="block text-[11px] text-white/35">Chance de responder</label>
+                  <label className="block text-[11px] text-txt-dim">Chance de responder</label>
                   <span className="text-[12px] font-bold tabular-nums" style={{
                     color: localConfig.chance_responder <= 30 ? '#60a5fa'
                       : localConfig.chance_responder <= 60 ? '#34d399'
@@ -456,7 +456,7 @@ const GrupoCard: React.FC<GrupoCardProps> = ({ grupo, showToast, hookFns, instan
                 {/* Slider track + thumb */}
                 <div className="relative h-8 flex items-center">
                   {/* Track background (segmentos de cor) */}
-                  <div className="absolute inset-x-0 h-[6px] rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.04)' }}>
+                  <div className="absolute inset-x-0 h-[6px] rounded-full overflow-hidden" style={{ background: 'var(--c-glass)' }}>
                     <div className="h-full rounded-full transition-all duration-150" style={{
                       width: `${localConfig.chance_responder}%`,
                       background: localConfig.chance_responder <= 30
@@ -482,7 +482,7 @@ const GrupoCard: React.FC<GrupoCardProps> = ({ grupo, showToast, hookFns, instan
                         className="absolute w-px h-3 rounded-full"
                         style={{
                           left: `${mark}%`,
-                          background: 'rgba(255,255,255,0.08)',
+                          background: 'var(--c-glass-hover)',
                         }}
                       />
                     ))}
@@ -509,14 +509,14 @@ const GrupoCard: React.FC<GrupoCardProps> = ({ grupo, showToast, hookFns, instan
                   <span className="text-[9px] text-red-400/40 font-medium">Intenso</span>
                 </div>
 
-                <p className="text-[10px] text-white/20 mt-2 leading-relaxed">
+                <p className="text-[10px] text-txt-dim mt-2 leading-relaxed">
                   Porcentagem de chance do bot responder quando alguém manda mensagem no grupo
                 </p>
               </div>
 
               {/* Cooldown entre Respostas */}
               <div>
-                <label className="block text-[11px] text-white/35 mb-2">Intervalo mínimo entre respostas</label>
+                <label className="block text-[11px] text-txt-dim mb-2">Intervalo mínimo entre respostas</label>
                 <div className="flex items-center gap-2 mb-2.5">
                   <div className="relative flex-1">
                     <input
@@ -528,7 +528,7 @@ const GrupoCard: React.FC<GrupoCardProps> = ({ grupo, showToast, hookFns, instan
                       style={{ paddingRight: '70px' }}
                       min={0}
                     />
-                    <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[11px] text-white/20 font-medium pointer-events-none">
+                    <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[11px] text-txt-dim font-medium pointer-events-none">
                       segundos
                     </span>
                   </div>
@@ -550,23 +550,23 @@ const GrupoCard: React.FC<GrupoCardProps> = ({ grupo, showToast, hookFns, instan
                         onClick={() => setLocalConfig((prev) => ({ ...prev, cooldown_reativo_segundos: preset.value }))}
                         className="px-3 py-1.5 text-[11px] font-medium rounded-lg transition-all duration-150"
                         style={{
-                          background: isActive ? 'rgba(var(--color-primary-rgb),0.15)' : 'rgba(255,255,255,0.03)',
-                          border: `1px solid ${isActive ? 'rgba(var(--color-primary-rgb),0.3)' : 'rgba(255,255,255,0.06)'}`,
-                          color: isActive ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.35)',
+                          background: isActive ? 'rgba(var(--color-primary-rgb),0.15)' : 'var(--c-glass)',
+                          border: `1px solid ${isActive ? 'rgba(var(--color-primary-rgb),0.3)' : 'var(--c-border)'}`,
+                          color: isActive ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.35)',
                           boxShadow: isActive ? '0 0 8px rgba(var(--color-primary-rgb),0.1)' : 'none',
                         }}
                         onMouseEnter={(e) => {
                           if (!isActive) {
-                            e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
-                            e.currentTarget.style.color = 'rgba(255,255,255,0.6)';
-                            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+                            e.currentTarget.style.background = 'var(--c-glass-hover)';
+                            e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.6)';
+                            e.currentTarget.style.borderColor = 'var(--c-border-strong)';
                           }
                         }}
                         onMouseLeave={(e) => {
                           if (!isActive) {
-                            e.currentTarget.style.background = 'rgba(255,255,255,0.03)';
-                            e.currentTarget.style.color = 'rgba(255,255,255,0.35)';
-                            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)';
+                            e.currentTarget.style.background = 'var(--c-glass)';
+                            e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.35)';
+                            e.currentTarget.style.borderColor = 'var(--c-border)';
                           }
                         }}
                       >
@@ -577,7 +577,7 @@ const GrupoCard: React.FC<GrupoCardProps> = ({ grupo, showToast, hookFns, instan
                   })}
                 </div>
 
-                <p className="text-[10px] text-white/20 mt-2 leading-relaxed">
+                <p className="text-[10px] text-txt-dim mt-2 leading-relaxed">
                   Tempo mínimo entre respostas reativas do bot
                 </p>
               </div>
@@ -585,7 +585,7 @@ const GrupoCard: React.FC<GrupoCardProps> = ({ grupo, showToast, hookFns, instan
 
             {/* Contexto */}
             <div className="mb-4">
-              <p className="text-[12px] text-white/50 font-medium mb-2">Contexto do grupo</p>
+              <p className="text-[12px] text-txt-muted font-medium mb-2">Contexto do grupo</p>
               <textarea
                 value={localConfig.contexto_grupo}
                 onChange={(e) => setLocalConfig((prev) => ({ ...prev, contexto_grupo: e.target.value }))}
@@ -608,7 +608,7 @@ const GrupoCard: React.FC<GrupoCardProps> = ({ grupo, showToast, hookFns, instan
           </div>
 
           {/* Botão remover grupo */}
-          <div className="px-4 py-3 flex justify-end" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+          <div className="px-4 py-3 flex justify-end" style={{ borderTop: '1px solid var(--c-border)' }}>
             <button
               onClick={handleDeleteGrupo}
               className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-medium rounded-lg transition-all"
@@ -685,7 +685,7 @@ export const GruposAtivosTab: React.FC<GruposAtivosTabProps> = ({ showToast }) =
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="w-6 h-6 text-white/20 animate-spin" />
+        <Loader2 className="w-6 h-6 text-txt-dim animate-spin" />
       </div>
     );
   }
@@ -696,13 +696,13 @@ export const GruposAtivosTab: React.FC<GruposAtivosTabProps> = ({ showToast }) =
       <>
         <div
           className="flex flex-col items-center justify-center py-20 rounded-2xl"
-          style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}
+          style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}
         >
-          <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
-            <Users className="w-7 h-7" style={{ color: 'rgba(255,255,255,0.15)' }} />
+          <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4" style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}>
+            <Users className="w-7 h-7" style={{ color: 'var(--c-t-15)' }} />
           </div>
-          <p className="text-[15px] font-medium mb-1" style={{ color: 'rgba(255,255,255,0.3)' }}>Nenhum grupo configurado</p>
-          <p className="text-[12px] mb-5" style={{ color: 'rgba(255,255,255,0.15)' }}>Adicione grupos para os bots atuarem</p>
+          <p className="text-[15px] font-medium mb-1" style={{ color: 'var(--c-t-30)' }}>Nenhum grupo configurado</p>
+          <p className="text-[12px] mb-5" style={{ color: 'var(--c-t-15)' }}>Adicione grupos para os bots atuarem</p>
           <button
             onClick={handleOpenAddGrupo}
             className="flex items-center gap-2 px-5 py-2.5 text-[13px] font-semibold rounded-xl transition-all"
@@ -732,7 +732,7 @@ export const GruposAtivosTab: React.FC<GruposAtivosTabProps> = ({ showToast }) =
     <>
       {/* Header com botão */}
       <div className="flex items-center justify-between mb-4">
-        <p className="text-[13px] text-white/40">{grupos.length} grupo{grupos.length !== 1 ? 's' : ''} configurado{grupos.length !== 1 ? 's' : ''}</p>
+        <p className="text-[13px] text-txt-dim">{grupos.length} grupo{grupos.length !== 1 ? 's' : ''} configurado{grupos.length !== 1 ? 's' : ''}</p>
         <button
           onClick={handleOpenAddGrupo}
           className="flex items-center gap-2 px-4 py-2 text-[12px] font-semibold rounded-xl transition-all"

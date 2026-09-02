@@ -33,16 +33,16 @@ export const OpcoesExtras: React.FC<OpcoesExtrasProps> = ({ opcoes, onChange }) 
             key={key}
             className="group flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer transition-all duration-200"
             style={{
-              background: opcoes[key] ? 'rgba(var(--color-primary-rgb),0.04)' : 'rgba(255,255,255,0.04)',
-              border: opcoes[key] ? '1px solid rgba(var(--color-primary-rgb),0.2)' : '1px solid rgba(255,255,255,0.04)',
+              background: opcoes[key] ? 'rgba(var(--color-primary-rgb),0.04)' : 'var(--c-glass)',
+              border: opcoes[key] ? '1px solid rgba(var(--color-primary-rgb),0.2)' : '1px solid var(--c-border)',
             }}
           >
             {/* Glass toggle */}
             <div
               className="relative w-[44px] h-[24px] rounded-full transition-all duration-300 shrink-0 cursor-pointer"
               style={{
-                background: opcoes[key] ? 'rgba(var(--color-primary-rgb),0.35)' : 'rgba(255,255,255,0.1)',
-                border: opcoes[key] ? '1px solid rgba(var(--color-primary-rgb),0.5)' : '1px solid rgba(255,255,255,0.15)',
+                background: opcoes[key] ? 'rgba(var(--color-primary-rgb),0.35)' : 'rgb(var(--c-fg-rgb) / 0.1)',
+                border: opcoes[key] ? '1px solid rgba(var(--color-primary-rgb),0.5)' : '1px solid var(--c-border-strong)',
               }}
               onClick={(e) => { e.preventDefault(); toggle(key); }}
             >
@@ -60,7 +60,7 @@ export const OpcoesExtras: React.FC<OpcoesExtrasProps> = ({ opcoes, onChange }) 
               onChange={() => toggle(key)}
               className="sr-only"
             />
-            <span className="text-[13px] font-medium" style={{ color: opcoes[key] ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.6)' }}>
+            <span className="text-[13px] font-medium" style={{ color: opcoes[key] ? 'rgb(var(--c-fg-rgb) / 0.8)' : 'rgb(var(--c-fg-rgb) / 0.6)' }}>
               {label}
             </span>
           </label>
@@ -73,15 +73,15 @@ export const OpcoesExtras: React.FC<OpcoesExtrasProps> = ({ opcoes, onChange }) 
           value={opcoes.link}
           onChange={(e) => onChange({ ...opcoes, link: e.target.value })}
           placeholder="https://..."
-          className="w-full text-white text-[13px] outline-none transition-all duration-200 animate-[slideDown_150ms_ease-out]"
+          className="w-full text-txt text-[13px] outline-none transition-all duration-200 animate-[slideDown_150ms_ease-out]"
           style={{
-            background: 'rgba(255,255,255,0.04)',
-            border: '1px solid rgba(255,255,255,0.1)',
+            background: 'var(--c-glass)',
+            border: '1px solid var(--c-border-strong)',
             borderRadius: '12px',
             padding: '10px 16px',
           }}
           onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(var(--color-primary-rgb),0.08)' }}
-          onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.boxShadow = 'none' }}
+          onBlur={(e) => { e.currentTarget.style.borderColor = 'var(--c-border-strong)'; e.currentTarget.style.boxShadow = 'none' }}
         />
       )}
     </div>

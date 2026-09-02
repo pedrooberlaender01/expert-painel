@@ -83,12 +83,12 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
       <div className="glass-card p-6">
         <div className="flex items-center gap-2.5 mb-5">
           <Settings className="w-[18px] h-[18px]" style={{ color: 'var(--color-primary-light)' }} />
-          <h3 className="text-[15px] font-semibold text-white">Identidade do Agente</h3>
+          <h3 className="text-[15px] font-semibold text-txt">Identidade do Agente</h3>
         </div>
 
         <div className="space-y-4">
           <div>
-            <label className="block text-[12px] font-medium mb-1.5" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <label className="block text-[12px] font-medium mb-1.5" style={{ color: 'var(--c-t-50)' }}>
               Nome do agente
             </label>
             <input
@@ -96,10 +96,10 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
               value={form.nome_agente}
               onChange={(e) => setForm((prev) => ({ ...prev, nome_agente: e.target.value }))}
               placeholder="Ex: Assistente de Suporte"
-              className="w-full px-3.5 py-2.5 rounded-xl text-[13px] text-white placeholder-white/30 outline-none transition-all duration-200 focus:ring-1"
+              className="w-full px-3.5 py-2.5 rounded-xl text-[13px] text-txt placeholder-txt-dim outline-none transition-all duration-200 focus:ring-1"
               style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.08)',
+                background: 'var(--c-glass)',
+                border: '1px solid var(--c-border)',
               }}
             />
           </div>
@@ -107,8 +107,8 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
           {/* Toggle ativo */}
           <div className="flex items-center justify-between py-1">
             <div>
-              <span className="text-[13px] text-white font-medium">Agente ativo</span>
-              <p className="text-[11px] mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>
+              <span className="text-[13px] text-txt font-medium">Agente ativo</span>
+              <p className="text-[11px] mt-0.5" style={{ color: 'var(--c-t-35)' }}>
                 Quando desativado, o agente ignora todas as mensagens recebidas
               </p>
             </div>
@@ -123,15 +123,15 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
                 onClick={() => setForm((prev) => ({ ...prev, ativo: !prev.ativo }))}
                 className="relative w-11 h-6 rounded-full transition-all duration-200"
                 style={{
-                  background: form.ativo ? 'rgba(var(--color-primary-rgb), 0.4)' : 'rgba(255,255,255,0.08)',
-                  border: form.ativo ? '1px solid rgba(var(--color-primary-rgb), 0.6)' : '1px solid rgba(255,255,255,0.12)',
+                  background: form.ativo ? 'rgba(var(--color-primary-rgb), 0.4)' : 'var(--c-glass-hover)',
+                  border: form.ativo ? '1px solid rgba(var(--color-primary-rgb), 0.6)' : '1px solid var(--c-border-strong)',
                 }}
               >
                 <div
                   className="absolute top-0.5 w-5 h-5 rounded-full transition-all duration-200"
                   style={{
                     left: form.ativo ? '22px' : '2px',
-                    background: form.ativo ? 'var(--color-primary)' : 'rgba(255,255,255,0.3)',
+                    background: form.ativo ? 'var(--color-primary)' : 'rgb(var(--c-fg-rgb) / 0.3)',
                   }}
                 />
               </button>
@@ -144,13 +144,13 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
       <div className="glass-card p-6">
         <div className="flex items-center gap-2.5 mb-5">
           <Brain className="w-[18px] h-[18px]" style={{ color: 'var(--color-primary-light)' }} />
-          <h3 className="text-[15px] font-semibold text-white">Comportamento</h3>
+          <h3 className="text-[15px] font-semibold text-txt">Comportamento</h3>
         </div>
 
         <div className="space-y-5">
           {/* Prompt do sistema com counter */}
           <div>
-            <label className="block text-[12px] font-medium mb-1.5" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <label className="block text-[12px] font-medium mb-1.5" style={{ color: 'var(--c-t-50)' }}>
               Prompt do sistema
             </label>
             <div className="relative">
@@ -159,15 +159,15 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
                 onChange={(e) => setForm((prev) => ({ ...prev, prompt_sistema: e.target.value }))}
                 placeholder="Voce e um assistente de suporte especializado em... Responda de forma educada e objetiva. Use a base de conhecimento para fundamentar suas respostas."
                 rows={5}
-                className="w-full px-3.5 py-2.5 pb-7 rounded-xl text-[13px] text-white placeholder-white/30 outline-none transition-all duration-200 focus:ring-1 resize-none"
+                className="w-full px-3.5 py-2.5 pb-7 rounded-xl text-[13px] text-txt placeholder-txt-dim outline-none transition-all duration-200 focus:ring-1 resize-none"
                 style={{
-                  background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid rgba(255,255,255,0.08)',
+                  background: 'var(--c-glass)',
+                  border: '1px solid var(--c-border)',
                 }}
               />
               <span
                 className="absolute bottom-2.5 right-3.5 text-[10px] font-mono pointer-events-none"
-                style={{ color: 'rgba(255,255,255,0.2)' }}
+                style={{ color: 'var(--c-t-20)' }}
               >
                 {form.prompt_sistema.length} caracteres
               </span>
@@ -175,11 +175,11 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
           </div>
 
           {/* Divisor */}
-          <div className="h-px" style={{ background: 'rgba(255,255,255,0.06)' }} />
+          <div className="h-px" style={{ background: 'var(--c-glass-hover)' }} />
 
           {/* Mensagem de boas-vindas com preview */}
           <div>
-            <label className="block text-[12px] font-medium mb-1.5" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <label className="block text-[12px] font-medium mb-1.5" style={{ color: 'var(--c-t-50)' }}>
               Mensagem de boas-vindas
             </label>
             <textarea
@@ -187,10 +187,10 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
               onChange={(e) => setForm((prev) => ({ ...prev, mensagem_boas_vindas: e.target.value }))}
               placeholder="Ola! Sou o assistente de suporte. Como posso te ajudar?"
               rows={2}
-              className="w-full px-3.5 py-2.5 rounded-xl text-[13px] text-white placeholder-white/30 outline-none transition-all duration-200 focus:ring-1 resize-none"
+              className="w-full px-3.5 py-2.5 rounded-xl text-[13px] text-txt placeholder-txt-dim outline-none transition-all duration-200 focus:ring-1 resize-none"
               style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.08)',
+                background: 'var(--c-glass)',
+                border: '1px solid var(--c-border)',
               }}
             />
             {form.mensagem_boas_vindas && (
@@ -200,7 +200,7 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
                   style={{
                     background: 'rgba(var(--color-primary-rgb), 0.1)',
                     border: '1px solid rgba(var(--color-primary-rgb), 0.06)',
-                    color: 'rgba(255,255,255,0.6)',
+                    color: 'var(--c-t-60)',
                   }}
                 >
                   {form.mensagem_boas_vindas}
@@ -212,7 +212,7 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
 
           {/* Mensagem quando nao sabe com preview */}
           <div>
-            <label className="block text-[12px] font-medium mb-1.5" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <label className="block text-[12px] font-medium mb-1.5" style={{ color: 'var(--c-t-50)' }}>
               Mensagem quando nao sabe responder
             </label>
             <textarea
@@ -220,10 +220,10 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
               onChange={(e) => setForm((prev) => ({ ...prev, mensagem_nao_sabe: e.target.value }))}
               placeholder="Desculpe, nao consegui encontrar uma resposta..."
               rows={2}
-              className="w-full px-3.5 py-2.5 rounded-xl text-[13px] text-white placeholder-white/30 outline-none transition-all duration-200 focus:ring-1 resize-none"
+              className="w-full px-3.5 py-2.5 rounded-xl text-[13px] text-txt placeholder-txt-dim outline-none transition-all duration-200 focus:ring-1 resize-none"
               style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.08)',
+                background: 'var(--c-glass)',
+                border: '1px solid var(--c-border)',
               }}
             />
             {form.mensagem_nao_sabe && (
@@ -233,7 +233,7 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
                   style={{
                     background: 'rgba(248,113,113,0.07)',
                     border: '1px solid rgba(248,113,113,0.05)',
-                    color: 'rgba(255,255,255,0.6)',
+                    color: 'var(--c-t-60)',
                   }}
                 >
                   {form.mensagem_nao_sabe}
@@ -249,25 +249,25 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
       <div className="glass-card p-6">
         <div className="flex items-center gap-2.5 mb-5">
           <Zap className="w-[18px] h-[18px]" style={{ color: '#facc3c' }} />
-          <h3 className="text-[15px] font-semibold text-white">Configuracoes Tecnicas</h3>
+          <h3 className="text-[15px] font-semibold text-txt">Configuracoes Tecnicas</h3>
         </div>
 
         {/* Bloco: Debounce */}
         <div
           className="rounded-xl p-4 mb-5"
-          style={{ background: 'rgba(255,255,255,0.015)', border: '1px solid rgba(255,255,255,0.04)' }}
+          style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}
         >
           <div className="flex items-center gap-2 mb-1">
             <Timer className="w-3.5 h-3.5" style={{ color: '#34d399' }} />
-            <p className="text-[12px] text-white/60 font-semibold tracking-wide">Tempo de espera (debounce)</p>
+            <p className="text-[12px] text-txt-muted font-semibold tracking-wide">Tempo de espera (debounce)</p>
           </div>
-          <p className="text-[10px] mb-4 leading-relaxed" style={{ color: 'rgba(255,255,255,0.25)' }}>
+          <p className="text-[10px] mb-4 leading-relaxed" style={{ color: 'var(--c-t-25)' }}>
             Segundos que o agente aguarda antes de responder. Se o cliente mandar varias mensagens seguidas, elas sao combinadas em uma so.
           </p>
 
           <div>
             <div className="flex items-center justify-between mb-2">
-              <label className="text-[11px] text-white/35">Tempo de espera para juntar mensagens</label>
+              <label className="text-[11px] text-txt-dim">Tempo de espera para juntar mensagens</label>
               <span
                 className="text-[12px] font-bold font-mono tabular-nums"
                 style={{
@@ -280,7 +280,7 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
               </span>
             </div>
             <div className="relative h-8 flex items-center">
-              <div className="absolute inset-x-0 h-[6px] rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.04)' }}>
+              <div className="absolute inset-x-0 h-[6px] rounded-full overflow-hidden" style={{ background: 'var(--c-glass)' }}>
                 <div
                   className="h-full rounded-full transition-all duration-150"
                   style={{
@@ -310,13 +310,13 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
         {/* Bloco: Delay de Digitacao */}
         <div
           className="rounded-xl p-4 mb-5"
-          style={{ background: 'rgba(255,255,255,0.015)', border: '1px solid rgba(255,255,255,0.04)' }}
+          style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}
         >
           <div className="flex items-center gap-2 mb-1">
             <Timer className="w-3.5 h-3.5" style={{ color: '#60a5fa' }} />
-            <p className="text-[12px] text-white/60 font-semibold tracking-wide">Delay de Digitacao</p>
+            <p className="text-[12px] text-txt-muted font-semibold tracking-wide">Delay de Digitacao</p>
           </div>
-          <p className="text-[10px] mb-4 leading-relaxed" style={{ color: 'rgba(255,255,255,0.25)' }}>
+          <p className="text-[10px] mb-4 leading-relaxed" style={{ color: 'var(--c-t-25)' }}>
             Simula tempo de digitacao antes de enviar a resposta
           </p>
 
@@ -324,7 +324,7 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
             {/* Delay Min */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="text-[11px] text-white/35">Minimo</label>
+                <label className="text-[11px] text-txt-dim">Minimo</label>
                 <span
                   className="text-[12px] font-bold font-mono tabular-nums"
                   style={{
@@ -337,7 +337,7 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
                 </span>
               </div>
               <div className="relative h-8 flex items-center">
-                <div className="absolute inset-x-0 h-[6px] rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.04)' }}>
+                <div className="absolute inset-x-0 h-[6px] rounded-full overflow-hidden" style={{ background: 'var(--c-glass)' }}>
                   <div
                     className="h-full rounded-full transition-all duration-150"
                     style={{
@@ -373,7 +373,7 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
             {/* Delay Max */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="text-[11px] text-white/35">Maximo</label>
+                <label className="text-[11px] text-txt-dim">Maximo</label>
                 <span
                   className="text-[12px] font-bold font-mono tabular-nums"
                   style={{
@@ -386,7 +386,7 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
                 </span>
               </div>
               <div className="relative h-8 flex items-center">
-                <div className="absolute inset-x-0 h-[6px] rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.04)' }}>
+                <div className="absolute inset-x-0 h-[6px] rounded-full overflow-hidden" style={{ background: 'var(--c-glass)' }}>
                   <div
                     className="h-full rounded-full transition-all duration-150"
                     style={{
@@ -424,20 +424,20 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
         {/* Bloco: Inteligencia Artificial */}
         <div
           className="rounded-xl p-4"
-          style={{ background: 'rgba(255,255,255,0.015)', border: '1px solid rgba(255,255,255,0.04)' }}
+          style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}
         >
           <div className="flex items-center gap-2 mb-1">
             <Sparkles className="w-3.5 h-3.5" style={{ color: '#a78bfa' }} />
-            <p className="text-[12px] text-white/60 font-semibold tracking-wide">Inteligencia Artificial</p>
+            <p className="text-[12px] text-txt-muted font-semibold tracking-wide">Inteligencia Artificial</p>
           </div>
-          <p className="text-[10px] mb-5 leading-relaxed" style={{ color: 'rgba(255,255,255,0.25)' }}>
+          <p className="text-[10px] mb-5 leading-relaxed" style={{ color: 'var(--c-t-25)' }}>
             Ajuste a precisao e criatividade das respostas do agente
           </p>
 
           {/* Similaridade minima RAG */}
           <div className="mb-5">
             <div className="flex items-center justify-between mb-2">
-              <label className="text-[11px] text-white/35">Similaridade minima RAG</label>
+              <label className="text-[11px] text-txt-dim">Similaridade minima RAG</label>
               <span
                 className="text-[12px] font-bold font-mono tabular-nums"
                 style={{
@@ -450,7 +450,7 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
               </span>
             </div>
             <div className="relative h-8 flex items-center">
-              <div className="absolute inset-x-0 h-[6px] rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.04)' }}>
+              <div className="absolute inset-x-0 h-[6px] rounded-full overflow-hidden" style={{ background: 'var(--c-glass)' }}>
                 <div
                   className="h-full rounded-full transition-all duration-150"
                   style={{
@@ -474,18 +474,18 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
               <span className="text-[9px] font-medium" style={{ color: 'rgba(251,191,36,0.5)' }}>Mais flexivel</span>
               <span className="text-[9px] font-medium" style={{ color: 'rgba(52,211,153,0.5)' }}>Mais preciso</span>
             </div>
-            <p className="text-[10px] mt-2 leading-relaxed" style={{ color: 'rgba(255,255,255,0.2)' }}>
+            <p className="text-[10px] mt-2 leading-relaxed" style={{ color: 'var(--c-t-20)' }}>
               Quao similar a pergunta deve ser para usar a base de conhecimento
             </p>
           </div>
 
           {/* Divisor */}
-          <div className="h-px mb-5" style={{ background: 'rgba(255,255,255,0.06)' }} />
+          <div className="h-px mb-5" style={{ background: 'var(--c-glass-hover)' }} />
 
           {/* Temperatura */}
           <div className="mb-5">
             <div className="flex items-center justify-between mb-2">
-              <label className="text-[11px] text-white/35">Temperatura</label>
+              <label className="text-[11px] text-txt-dim">Temperatura</label>
               <span
                 className="text-[12px] font-bold font-mono tabular-nums"
                 style={{
@@ -504,7 +504,7 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
               </span>
             </div>
             <div className="relative h-8 flex items-center">
-              <div className="absolute inset-x-0 h-[6px] rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.04)' }}>
+              <div className="absolute inset-x-0 h-[6px] rounded-full overflow-hidden" style={{ background: 'var(--c-glass)' }}>
                 <div
                   className="h-full rounded-full transition-all duration-150"
                   style={{
@@ -521,7 +521,7 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
                     className="absolute w-px h-3 rounded-full"
                     style={{
                       left: `${((mark - 0.1) / (1.0 - 0.1)) * 100}%`,
-                      background: 'rgba(255,255,255,0.08)',
+                      background: 'var(--c-glass-hover)',
                     }}
                   />
                 ))}
@@ -541,18 +541,18 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
               <span className="text-[9px] font-medium" style={{ color: 'rgba(96,165,250,0.5)' }}>Mais objetivo</span>
               <span className="text-[9px] font-medium" style={{ color: 'rgba(167,139,250,0.5)' }}>Mais criativo</span>
             </div>
-            <p className="text-[10px] mt-2 leading-relaxed" style={{ color: 'rgba(255,255,255,0.2)' }}>
+            <p className="text-[10px] mt-2 leading-relaxed" style={{ color: 'var(--c-t-20)' }}>
               Valores baixos geram respostas mais previsiveis e factuais
             </p>
           </div>
 
           {/* Divisor */}
-          <div className="h-px mb-5" style={{ background: 'rgba(255,255,255,0.06)' }} />
+          <div className="h-px mb-5" style={{ background: 'var(--c-glass-hover)' }} />
 
           {/* Contexto maximo */}
           <div>
-            <label className="block text-[11px] text-white/35 mb-1">Ultimas mensagens para contexto</label>
-            <p className="text-[10px] mb-2.5 leading-relaxed" style={{ color: 'rgba(255,255,255,0.2)' }}>
+            <label className="block text-[11px] text-txt-dim mb-1">Ultimas mensagens para contexto</label>
+            <p className="text-[10px] mb-2.5 leading-relaxed" style={{ color: 'var(--c-t-20)' }}>
               Quantas mensagens anteriores o agente considera ao responder
             </p>
             <input
@@ -561,10 +561,10 @@ export const ConfiguracaoAgente: React.FC<Props> = ({ config, loading, onSave, s
               max={30}
               value={form.contexto_max_mensagens}
               onChange={(e) => setForm((prev) => ({ ...prev, contexto_max_mensagens: Math.min(30, Math.max(1, Number(e.target.value))) }))}
-              className="w-32 px-3.5 py-2.5 rounded-xl text-[13px] text-white outline-none transition-all duration-200 focus:ring-1"
+              className="w-32 px-3.5 py-2.5 rounded-xl text-[13px] text-txt outline-none transition-all duration-200 focus:ring-1"
               style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.08)',
+                background: 'var(--c-glass)',
+                border: '1px solid var(--c-border)',
               }}
             />
           </div>

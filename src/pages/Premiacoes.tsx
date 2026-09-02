@@ -71,35 +71,35 @@ const DayPicker: React.FC<{
         top: pos.top,
         left: pos.left,
         zIndex: 9999,
-        background: 'rgba(15, 18, 25, 0.75)',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
+        background: 'var(--c-popup-bg)',
+        border: '1px solid var(--c-border)',
         borderRadius: '14px',
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.06)',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgb(var(--c-fg-rgb) / 0.04), inset 0 1px 0 rgb(var(--c-fg-rgb) / 0.06)',
         backdropFilter: 'blur(20px) saturate(1.2)',
         WebkitBackdropFilter: 'blur(20px) saturate(1.2)',
       }}
     >
       <div style={{ padding: '16px 16px 4px' }}>
-        <span className="text-[11px] uppercase font-medium" style={{ color: 'rgba(255,255,255,0.4)', letterSpacing: '0.5px' }}>{label}</span>
+        <span className="text-[11px] uppercase font-medium" style={{ color: 'var(--c-t-40)', letterSpacing: '0.5px' }}>{label}</span>
       </div>
 
       <div className="flex items-center justify-between" style={{ padding: '8px 16px' }}>
         <button
           onClick={() => setViewMonth(m => Math.max(0, m - 1))}
           className="transition-all duration-150"
-          style={{ color: 'rgba(255,255,255,0.4)', background: 'transparent', border: 'none', padding: '4px 8px', borderRadius: '6px', cursor: 'pointer' }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.4)'; }}
+          style={{ color: 'var(--c-t-40)', background: 'transparent', border: 'none', padding: '4px 8px', borderRadius: '6px', cursor: 'pointer' }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.7)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.4)'; }}
         >
           <ChevronLeft className="w-3.5 h-3.5" />
         </button>
-        <span className="text-[14px] font-semibold text-white">{MONTHS_SHORT[viewMonth]}</span>
+        <span className="text-[14px] font-semibold text-txt">{MONTHS_SHORT[viewMonth]}</span>
         <button
           onClick={() => setViewMonth(m => Math.min(11, m + 1))}
           className="transition-all duration-150"
-          style={{ color: viewMonth >= getMonth(now) ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.4)', background: 'transparent', border: 'none', padding: '4px 8px', borderRadius: '6px', cursor: viewMonth >= getMonth(now) ? 'default' : 'pointer' }}
-          onMouseEnter={(e) => { if (viewMonth < getMonth(now)) { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; } }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = viewMonth >= getMonth(now) ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.4)'; }}
+          style={{ color: viewMonth >= getMonth(now) ? 'rgb(var(--c-fg-rgb) / 0.15)' : 'rgb(var(--c-fg-rgb) / 0.4)', background: 'transparent', border: 'none', padding: '4px 8px', borderRadius: '6px', cursor: viewMonth >= getMonth(now) ? 'default' : 'pointer' }}
+          onMouseEnter={(e) => { if (viewMonth < getMonth(now)) { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.7)'; } }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = viewMonth >= getMonth(now) ? 'rgb(var(--c-fg-rgb) / 0.15)' : 'rgb(var(--c-fg-rgb) / 0.4)'; }}
           disabled={viewMonth >= getMonth(now)}
         >
           <ChevronRight className="w-3.5 h-3.5" />
@@ -109,7 +109,7 @@ const DayPicker: React.FC<{
       <div style={{ padding: '0 16px 16px' }}>
         <div className="grid grid-cols-7" style={{ gap: '2px' }}>
           {['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map((d, i) => (
-            <div key={i} className="text-[11px] text-center font-medium" style={{ color: 'rgba(255,255,255,0.35)', padding: '6px 0' }}>{d}</div>
+            <div key={i} className="text-[11px] text-center font-medium" style={{ color: 'var(--c-t-35)', padding: '6px 0' }}>{d}</div>
           ))}
           {Array.from({ length: new Date(currentYear, viewMonth, 1).getDay() }).map((_, i) => (
             <div key={`pad-${i}`} />
@@ -132,13 +132,13 @@ const DayPicker: React.FC<{
                   borderRadius: '8px',
                   fontSize: '13px',
                   background: isSelected ? 'var(--color-primary)' : 'transparent',
-                  color: isFuture ? 'rgba(255,255,255,0.15)' : isSelected ? '#fff' : isToday ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.7)',
+                  color: isFuture ? 'rgb(var(--c-fg-rgb) / 0.15)' : isSelected ? '#fff' : isToday ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.7)',
                   fontWeight: isSelected || isToday ? 600 : 400,
                   cursor: isFuture ? 'not-allowed' : 'pointer',
                   border: isToday && !isSelected ? '1px solid rgba(var(--color-primary-rgb),0.4)' : '1px solid transparent',
                 }}
-                onMouseEnter={(e) => { if (!isFuture && !isSelected) { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#fff'; } }}
-                onMouseLeave={(e) => { if (!isFuture && !isSelected) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = isToday ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.7)'; } }}
+                onMouseEnter={(e) => { if (!isFuture && !isSelected) { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; } }}
+                onMouseLeave={(e) => { if (!isFuture && !isSelected) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = isToday ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.7)'; } }}
               >
                 {day}
               </button>
@@ -300,7 +300,7 @@ const FotoPreviewModal: React.FC<{ url: string; onClose: () => void }> = ({ url,
       <button
         onClick={onClose}
         className="absolute -top-3 -right-3 w-8 h-8 rounded-full flex items-center justify-center z-10"
-        style={{ background: 'rgba(20,20,30,0.95)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
+        style={{ background: 'var(--c-popup-bg)', border: '1px solid var(--c-border-strong)', color: 'var(--c-t-60)' }}
       >
         <X className="w-4 h-4" />
       </button>
@@ -471,15 +471,15 @@ const RelatorioModal: React.FC<{
       <div
         className="w-full max-w-2xl max-h-[85vh] flex flex-col animate-slide-up overflow-hidden"
         style={{
-          background: 'rgba(20,20,30,0.95)',
-          border: '1px solid rgba(255,255,255,0.1)',
+          background: 'var(--c-popup-bg)',
+          border: '1px solid var(--c-border-strong)',
           borderRadius: '20px',
           boxShadow: '0 24px 64px rgba(0,0,0,0.5)',
         }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-white/[0.06] shrink-0">
+        <div className="flex items-center justify-between p-5 border-b border-glass shrink-0">
           <div className="flex items-center gap-3">
             <div
               className="w-9 h-9 rounded-xl flex items-center justify-center"
@@ -487,12 +487,12 @@ const RelatorioModal: React.FC<{
             >
               <FileText className="w-4 h-4" style={{ color: 'var(--color-primary-light)' }} />
             </div>
-            <h3 className="text-[16px] font-semibold text-white font-display">Enviar Relatorio WhatsApp</h3>
+            <h3 className="text-[16px] font-semibold text-txt font-display">Enviar Relatorio WhatsApp</h3>
           </div>
           <button
             onClick={onClose}
             className="w-8 h-8 rounded-lg flex items-center justify-center transition-all"
-            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)' }}
+            style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-40)' }}
           >
             <X className="w-4 h-4" />
           </button>
@@ -503,14 +503,14 @@ const RelatorioModal: React.FC<{
           {/* Filtros do modal */}
           <div className="flex flex-col sm:flex-row gap-2">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5" style={{ color: 'rgba(255,255,255,0.3)' }} />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5" style={{ color: 'var(--c-t-30)' }} />
               <input
                 type="text"
                 value={busca}
                 onChange={(e) => setBusca(e.target.value)}
                 placeholder="Buscar Instagram ou ID..."
                 className="w-full text-[12px] rounded-lg py-2 pl-9 pr-3 outline-none"
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: '#fff' }}
+                style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-100)' }}
               />
             </div>
             <div className="flex gap-1">
@@ -542,22 +542,22 @@ const RelatorioModal: React.FC<{
                 className="w-4 h-4 rounded border flex items-center justify-center"
                 style={selecionados.size === filtradas.length && filtradas.length > 0
                   ? { background: 'var(--color-primary)', borderColor: 'var(--color-primary)' }
-                  : { background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.15)' }
+                  : { background: 'var(--c-glass)', borderColor: 'var(--c-border-strong)' }
                 }
               >
                 {selecionados.size === filtradas.length && filtradas.length > 0 && <Check className="w-3 h-3 text-white" strokeWidth={3} />}
               </div>
               {selecionados.size === filtradas.length && filtradas.length > 0 ? 'Limpar selecao' : 'Selecionar todos'}
             </button>
-            <span className="text-[11px] font-mono" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <span className="text-[11px] font-mono" style={{ color: 'var(--c-t-40)' }}>
               {selecionados.size} de {filtradas.length} selecionado{selecionados.size !== 1 ? 's' : ''}
             </span>
           </div>
 
           {/* Lista de premiacoes */}
-          <div className="space-y-1.5 max-h-[240px] overflow-y-auto pr-1" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.1) transparent' }}>
+          <div className="space-y-1.5 max-h-[240px] overflow-y-auto pr-1" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgb(var(--c-fg-rgb) / 0.1) transparent' }}>
             {filtradas.length === 0 ? (
-              <p className="text-[12px] text-center py-6" style={{ color: 'rgba(255,255,255,0.3)' }}>Nenhuma premiacao encontrada</p>
+              <p className="text-[12px] text-center py-6" style={{ color: 'var(--c-t-30)' }}>Nenhuma premiacao encontrada</p>
             ) : (
               filtradas.map(p => {
                 const checked = selecionados.has(p.id);
@@ -568,22 +568,22 @@ const RelatorioModal: React.FC<{
                     onClick={() => toggleSelecionado(p.id)}
                     className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-150 text-left"
                     style={{
-                      background: checked ? 'rgba(var(--color-primary-rgb),0.08)' : 'rgba(255,255,255,0.02)',
-                      border: `1px solid ${checked ? 'rgba(var(--color-primary-rgb),0.2)' : 'rgba(255,255,255,0.04)'}`,
+                      background: checked ? 'rgba(var(--color-primary-rgb),0.08)' : 'var(--c-glass-2)',
+                      border: `1px solid ${checked ? 'rgba(var(--color-primary-rgb),0.2)' : 'var(--c-border)'}`,
                     }}
                   >
                     <div
                       className="w-4 h-4 rounded border shrink-0 flex items-center justify-center"
                       style={checked
                         ? { background: 'var(--color-primary)', borderColor: 'var(--color-primary)' }
-                        : { background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.15)' }
+                        : { background: 'var(--c-glass)', borderColor: 'var(--c-border-strong)' }
                       }
                     >
                       {checked && <Check className="w-3 h-3 text-white" strokeWidth={3} />}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className="text-[12px] font-medium text-white truncate">@{p.instagram_username}</span>
+                        <span className="text-[12px] font-medium text-txt truncate">@{p.instagram_username}</span>
                         <span
                           className="text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded"
                           style={p.status === 'recebido'
@@ -594,11 +594,11 @@ const RelatorioModal: React.FC<{
                           {p.status}
                         </span>
                       </div>
-                      <span className="text-[11px]" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                      <span className="text-[11px]" style={{ color: 'var(--c-t-35)' }}>
                         ID: {p.id_conta} — R$ {Number(p.valor).toFixed(2).replace('.', ',')}
                       </span>
                     </div>
-                    {p.foto_url && <Image className="w-3.5 h-3.5 shrink-0" style={{ color: 'rgba(255,255,255,0.2)' }} />}
+                    {p.foto_url && <Image className="w-3.5 h-3.5 shrink-0" style={{ color: 'var(--c-t-20)' }} />}
                   </button>
                 );
               })
@@ -606,28 +606,28 @@ const RelatorioModal: React.FC<{
           </div>
 
           {/* Separador */}
-          <div className="h-px" style={{ background: 'rgba(255,255,255,0.06)' }} />
+          <div className="h-px" style={{ background: 'var(--c-border)' }} />
 
           {/* Config de envio */}
           <div className="space-y-4">
-            <h4 className="text-[11px] font-semibold uppercase tracking-[0.5px]" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <h4 className="text-[11px] font-semibold uppercase tracking-[0.5px]" style={{ color: 'var(--c-t-40)' }}>
               Configuracao de envio
             </h4>
 
             {/* Instancia */}
             <div>
-              <label className="block text-[11px] font-medium mb-1.5" style={{ color: 'rgba(255,255,255,0.35)' }}>Instancia WhatsApp</label>
+              <label className="block text-[11px] font-medium mb-1.5" style={{ color: 'var(--c-t-35)' }}>Instancia WhatsApp</label>
               {loadingInst ? (
                 <div className="flex items-center gap-2 py-2">
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" style={{ color: 'rgba(255,255,255,0.3)' }} />
-                  <span className="text-[12px]" style={{ color: 'rgba(255,255,255,0.3)' }}>Carregando...</span>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" style={{ color: 'var(--c-t-30)' }} />
+                  <span className="text-[12px]" style={{ color: 'var(--c-t-30)' }}>Carregando...</span>
                 </div>
               ) : (
                 <select
                   value={instanciaSelecionada}
                   onChange={(e) => setInstanciaSelecionada(e.target.value)}
                   className="w-full text-[13px] rounded-lg py-2.5 px-3 outline-none"
-                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: '#fff' }}
+                  style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-100)' }}
                 >
                   <option value="">Selecione uma instancia</option>
                   {instancias.map(i => (
@@ -639,27 +639,27 @@ const RelatorioModal: React.FC<{
 
             {/* Telefone */}
             <div>
-              <label className="block text-[11px] font-medium mb-1.5" style={{ color: 'rgba(255,255,255,0.35)' }}>Telefone destino</label>
+              <label className="block text-[11px] font-medium mb-1.5" style={{ color: 'var(--c-t-35)' }}>Telefone destino</label>
               <input
                 type="text"
                 value={telefone}
                 onChange={(e) => setTelefone(e.target.value)}
                 placeholder="5511999999999"
                 className="w-full text-[13px] rounded-lg py-2.5 px-3 outline-none font-mono"
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: '#fff' }}
+                style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-100)' }}
               />
             </div>
 
             {/* Toggle enviar prints */}
             <div className="flex items-center justify-between">
-              <span className="text-[12px] font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Enviar prints junto</span>
+              <span className="text-[12px] font-medium" style={{ color: 'var(--c-t-50)' }}>Enviar prints junto</span>
               <button
                 type="button"
                 onClick={() => setEnviarPrints(!enviarPrints)}
                 role="switch"
                 aria-checked={enviarPrints}
                 className="relative w-10 h-[22px] rounded-full transition-colors duration-200"
-                style={{ background: enviarPrints ? 'var(--color-primary)' : 'rgba(255,255,255,0.1)' }}
+                style={{ background: enviarPrints ? 'var(--color-primary)' : 'rgb(var(--c-fg-rgb) / 0.1)' }}
               >
                 <div
                   className="absolute top-[3px] w-4 h-4 rounded-full bg-white transition-all duration-200"
@@ -671,12 +671,12 @@ const RelatorioModal: React.FC<{
         </div>
 
         {/* Footer */}
-        <div className="p-5 border-t border-white/[0.06] shrink-0">
+        <div className="p-5 border-t border-glass shrink-0">
           <div className="flex gap-3">
             <button
               onClick={onClose}
               className="flex-1 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200"
-              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.6)' }}
+              style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-60)' }}
             >
               Cancelar
             </button>
@@ -865,17 +865,17 @@ export const Premiacoes: React.FC = () => {
 
       {/* ── Formulario: Enviar Banca ── */}
       <div className="glass-card p-6 space-y-5">
-        <h2 className="text-[15px] font-semibold text-white font-display mb-1">Enviar Banca</h2>
+        <h2 className="text-[15px] font-semibold text-txt font-display mb-1">Enviar Banca</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Instagram */}
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'var(--c-t-40)' }}>
                 @ do Instagram
               </label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[13px] font-medium" style={{ color: 'rgba(255,255,255,0.3)' }}>@</span>
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[13px] font-medium" style={{ color: 'var(--c-t-30)' }}>@</span>
                 <input
                   type="text"
                   value={instagram}
@@ -888,7 +888,7 @@ export const Premiacoes: React.FC = () => {
 
             {/* ID da Banca */}
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'var(--c-t-40)' }}>
                 ID da Banca
               </label>
               <input
@@ -903,7 +903,7 @@ export const Premiacoes: React.FC = () => {
 
           {/* Valor */}
           <div>
-            <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'var(--c-t-40)' }}>
               Valor
             </label>
             <div className="flex gap-3">
@@ -916,11 +916,11 @@ export const Premiacoes: React.FC = () => {
                     'flex-1 py-2.5 rounded-xl text-[14px] font-semibold transition-all duration-200 border',
                     valor === v
                       ? 'text-white'
-                      : 'text-white/50 hover:text-white/70 hover:bg-white/[0.04]'
+                      : 'text-txt-muted hover:text-txt-secondary hover:bg-glass'
                   )}
                   style={valor === v
                     ? { background: 'rgba(var(--color-primary-rgb),0.15)', borderColor: 'rgba(var(--color-primary-rgb),0.4)', color: 'var(--color-primary-light)' }
-                    : { background: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.06)' }
+                    : { background: 'var(--c-glass)', borderColor: 'var(--c-border)' }
                   }
                 >
                   R$ {v},00
@@ -931,12 +931,12 @@ export const Premiacoes: React.FC = () => {
 
           {/* Upload de foto */}
           <div>
-            <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'var(--c-t-40)' }}>
               Print do Direct (opcional)
             </label>
             {fotoPreview ? (
               <div className="relative inline-block">
-                <img src={fotoPreview} alt="Preview" className="h-24 rounded-xl object-cover border border-white/[0.08]" />
+                <img src={fotoPreview} alt="Preview" className="h-24 rounded-xl object-cover border border-glass" />
                 <button
                   type="button"
                   onClick={() => handleFileChange(null)}
@@ -950,18 +950,18 @@ export const Premiacoes: React.FC = () => {
               <div
                 onClick={() => fileInputRef.current?.click()}
                 className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all duration-200"
-                style={{ borderColor: 'rgba(255,255,255,0.08)' }}
+                style={{ borderColor: 'var(--c-border)' }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)';
                   e.currentTarget.style.background = 'rgba(var(--color-primary-rgb),0.02)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
+                  e.currentTarget.style.borderColor = 'var(--c-border)';
                   e.currentTarget.style.background = 'transparent';
                 }}
               >
-                <Upload className="w-5 h-5 mx-auto mb-1.5" style={{ color: 'rgba(255,255,255,0.3)' }} />
-                <p className="text-[12px]" style={{ color: 'rgba(255,255,255,0.35)' }}>Arraste uma imagem ou clique para selecionar</p>
+                <Upload className="w-5 h-5 mx-auto mb-1.5" style={{ color: 'var(--c-t-30)' }} />
+                <p className="text-[12px]" style={{ color: 'var(--c-t-35)' }}>Arraste uma imagem ou clique para selecionar</p>
               </div>
             )}
             <input
@@ -975,7 +975,7 @@ export const Premiacoes: React.FC = () => {
 
           {/* Observacoes */}
           <div>
-            <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'var(--c-t-40)' }}>
               Observacoes (opcional)
             </label>
             <textarea
@@ -1015,7 +1015,7 @@ export const Premiacoes: React.FC = () => {
         <div className="flex flex-col md:flex-row gap-3 items-start md:items-center">
           {/* Busca */}
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'rgba(255,255,255,0.3)' }} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--c-t-30)' }} />
             <input
               type="text"
               value={filtroBusca}
@@ -1060,7 +1060,7 @@ export const Premiacoes: React.FC = () => {
                   "px-2 py-1 rounded-lg transition-all duration-200 tabular-nums",
                   startPickerOpen
                     ? "bg-primary-bg text-primary-light border border-primary-bg"
-                    : "text-txt-secondary hover:text-txt hover:bg-white/[0.03] border border-transparent"
+                    : "text-txt-secondary hover:text-txt hover:bg-glass border border-transparent"
                 )}
               >
                 {dateStart ? format(dateStart, 'dd/MM') : '-- /--'}
@@ -1090,7 +1090,7 @@ export const Premiacoes: React.FC = () => {
                   "px-2 py-1 rounded-lg transition-all duration-200 tabular-nums",
                   endPickerOpen
                     ? "bg-primary-bg text-primary-light border border-primary-bg"
-                    : "text-txt-secondary hover:text-txt hover:bg-white/[0.03] border border-transparent"
+                    : "text-txt-secondary hover:text-txt hover:bg-glass border border-transparent"
                 )}
               >
                 {dateEnd ? format(dateEnd, 'dd/MM') : '-- /--'}
@@ -1113,7 +1113,7 @@ export const Premiacoes: React.FC = () => {
             {(dateStart || dateEnd) && (
               <button
                 onClick={() => { setDateStart(null); setDateEnd(null); }}
-                className="p-1 rounded-md transition-all duration-200 text-txt-dim hover:text-txt hover:bg-white/[0.04]"
+                className="p-1 rounded-md transition-all duration-200 text-txt-dim hover:text-txt hover:bg-glass"
                 title="Limpar periodo"
               >
                 <X className="w-3 h-3" />
@@ -1171,24 +1171,24 @@ export const Premiacoes: React.FC = () => {
                 {p.foto_url ? (
                   <button
                     onClick={() => setFotoModal(p.foto_url)}
-                    className="w-11 h-11 rounded-xl overflow-hidden shrink-0 border transition-all duration-200 hover:border-white/20"
-                    style={{ borderColor: 'rgba(255,255,255,0.06)' }}
+                    className="w-11 h-11 rounded-xl overflow-hidden shrink-0 border transition-all duration-200 hover:border-[rgb(var(--c-fg-rgb)/0.2)]"
+                    style={{ borderColor: 'var(--c-border)' }}
                   >
                     <img src={p.foto_url} alt="Print" className="w-full h-full object-cover" />
                   </button>
                 ) : (
                   <div
                     className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
+                    style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
                   >
-                    <Image className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.2)' }} />
+                    <Image className="w-4 h-4" style={{ color: 'var(--c-t-20)' }} />
                   </div>
                 )}
 
                 {/* Info */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2.5 flex-wrap">
-                    <span className="text-[14px] font-semibold text-white truncate">
+                    <span className="text-[14px] font-semibold text-txt truncate">
                       @{p.instagram_username}
                     </span>
                     <StatusBadge status={p.status} />
@@ -1200,10 +1200,10 @@ export const Premiacoes: React.FC = () => {
                     </span>
                   </div>
                   <div className="flex items-center gap-3 mt-1 flex-wrap">
-                    <span className="text-[12px]" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                    <span className="text-[12px]" style={{ color: 'var(--c-t-40)' }}>
                       ID: {p.id_conta}
                     </span>
-                    <span className="text-[11px]" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                    <span className="text-[11px]" style={{ color: 'var(--c-t-30)' }}>
                       Lancado: {formatarData(p.data_lancamento)}
                     </span>
                     {p.data_recebimento && (
@@ -1212,7 +1212,7 @@ export const Premiacoes: React.FC = () => {
                       </span>
                     )}
                     {p.observacoes && (
-                      <span className="text-[11px] italic" style={{ color: 'rgba(255,255,255,0.25)' }}>
+                      <span className="text-[11px] italic" style={{ color: 'var(--c-t-25)' }}>
                         {p.observacoes}
                       </span>
                     )}

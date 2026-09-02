@@ -23,15 +23,15 @@ const TOM_VOZ_OPTIONS = [
 const Section: React.FC<{ title: string; icon: React.ReactNode; defaultOpen?: boolean; children: React.ReactNode }> = ({ title, icon, defaultOpen = false, children }) => {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div style={{ border: '1px solid rgba(255,255,255,0.04)', borderRadius: '12px', overflow: 'hidden' }}>
+    <div style={{ border: '1px solid var(--c-border)', borderRadius: '12px', overflow: 'hidden' }}>
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between px-4 py-3 text-[13px] font-medium text-white/70 hover:text-white/90 transition-colors"
-        style={{ background: 'rgba(255,255,255,0.02)' }}
+        className="w-full flex items-center justify-between px-4 py-3 text-[13px] font-medium text-txt-secondary hover:text-txt-secondary transition-colors"
+        style={{ background: 'var(--c-glass-2)' }}
       >
         <span className="flex items-center gap-2">{icon}{title}</span>
-        {open ? <ChevronUp className="w-4 h-4 text-white/30" /> : <ChevronDown className="w-4 h-4 text-white/30" />}
+        {open ? <ChevronUp className="w-4 h-4 text-txt-dim" /> : <ChevronDown className="w-4 h-4 text-txt-dim" />}
       </button>
       {open && <div className="px-4 pb-4 pt-2 space-y-3">{children}</div>}
     </div>
@@ -41,12 +41,12 @@ const Section: React.FC<{ title: string; icon: React.ReactNode; defaultOpen?: bo
 // Campo com label
 const Field: React.FC<{ label: string; children: React.ReactNode; className?: string }> = ({ label, children, className = '' }) => (
   <div className={className}>
-    <label className="block text-[11px] uppercase tracking-wider text-white/40 font-medium mb-1.5">{label}</label>
+    <label className="block text-[11px] uppercase tracking-wider text-txt-dim font-medium mb-1.5">{label}</label>
     {children}
   </div>
 );
 
-const inputClass = "w-full bg-white/[0.02] border border-white/[0.04] text-white rounded-lg py-2.5 px-3.5 text-[13px] placeholder-[#4b5563] focus:outline-none focus:border-[rgba(var(--color-primary-rgb),0.3)] focus:shadow-[0_0_0_3px_rgba(var(--color-primary-rgb),0.08)] transition-all";
+const inputClass = "w-full bg-glass-2 border border-glass text-txt rounded-lg py-2.5 px-3.5 text-[13px] placeholder-txt-dim focus:outline-none focus:border-[rgba(var(--color-primary-rgb),0.3)] focus:shadow-[0_0_0_3px_rgba(var(--color-primary-rgb),0.08)] transition-all";
 
 // ─── Arrays de horas/minutos (formato 24h) ───────────────────────────
 const HOURS_24 = Array.from({ length: 24 }, (_, i) => {
@@ -95,26 +95,26 @@ const TimeDropdown: React.FC<{
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-center gap-1 font-mono text-[13px] transition-all duration-200 outline-none"
         style={{
-          background: 'rgba(255,255,255,0.04)',
-          border: open ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid rgba(255,255,255,0.04)',
+          background: 'var(--c-glass)',
+          border: open ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid var(--c-border)',
           borderRadius: '10px',
           padding: '8px 6px',
-          color: selected ? '#fff' : 'rgba(255,255,255,0.35)',
+          color: selected ? 'rgb(var(--c-fg-rgb))' : 'rgb(var(--c-fg-rgb) / 0.35)',
           boxShadow: open ? '0 0 0 3px rgba(var(--color-primary-rgb),0.08)' : 'none',
         }}
       >
         <span className="tabular-nums">{selected?.label ?? placeholder ?? '—'}</span>
         <ChevronDown
           className="w-3 h-3 transition-transform duration-200 shrink-0"
-          style={{ color: 'rgba(255,255,255,0.3)', transform: open ? 'rotate(180deg)' : 'none' }}
+          style={{ color: 'var(--c-t-30)', transform: open ? 'rotate(180deg)' : 'none' }}
         />
       </button>
       {open && (
         <div
           className="absolute z-50 mt-1 left-1/2 -translate-x-1/2 animate-fade-in"
           style={{
-            background: 'rgba(16,16,28,0.97)',
-            border: '1px solid rgba(255,255,255,0.12)',
+            background: 'var(--c-popup-bg)',
+            border: '1px solid var(--c-border-strong)',
             borderRadius: '12px',
             boxShadow: '0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04) inset',
             width: '56px',
@@ -124,7 +124,7 @@ const TimeDropdown: React.FC<{
           <div
             ref={listRef}
             className="overflow-y-auto py-1"
-            style={{ maxHeight: '200px', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.1) transparent' }}
+            style={{ maxHeight: '200px', scrollbarWidth: 'thin', scrollbarColor: 'rgb(var(--c-fg-rgb) / 0.1) transparent' }}
           >
             {options.map((opt) => {
               const isSelected = opt.value === value;
@@ -137,11 +137,11 @@ const TimeDropdown: React.FC<{
                   className="w-full text-center px-4 py-1.5 text-[13px] font-mono tabular-nums transition-all duration-150 outline-none"
                   style={{
                     background: isSelected ? 'rgba(var(--color-primary-rgb),0.15)' : 'transparent',
-                    color: isSelected ? 'var(--color-primary)' : 'rgba(255,255,255,0.6)',
+                    color: isSelected ? 'var(--color-primary)' : 'rgb(var(--c-fg-rgb) / 0.6)',
                     fontWeight: isSelected ? 600 : 400,
                   }}
-                  onMouseEnter={(e) => { if (!isSelected) { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = '#fff'; } }}
-                  onMouseLeave={(e) => { if (!isSelected) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.6)'; } }}
+                  onMouseEnter={(e) => { if (!isSelected) { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; } }}
+                  onMouseLeave={(e) => { if (!isSelected) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.6)'; } }}
                 >
                   {opt.label}
                 </button>
@@ -171,7 +171,7 @@ const TimePicker24h: React.FC<{
         placeholder="HH"
         onChange={(v) => onChange(`${v}:${mm}`)}
       />
-      <span className="font-bold text-[14px]" style={{ color: 'rgba(255,255,255,0.2)' }}>:</span>
+      <span className="font-bold text-[14px]" style={{ color: 'var(--c-t-20)' }}>:</span>
       <TimeDropdown
         value={mm}
         options={MINUTES_60}
@@ -246,19 +246,19 @@ export const PersonaFormModal: React.FC<PersonaFormModalProps> = ({ initial, tit
       <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)' }} />
       <div
         className="relative w-full max-w-[640px] max-h-[85vh] flex flex-col rounded-2xl shadow-2xl animate-fade-in"
-        style={{ background: 'rgba(20,20,30,0.95)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
+        style={{ background: 'var(--c-popup-bg)', border: '1px solid var(--c-border-strong)', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 shrink-0" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <h2 className="text-[16px] font-bold text-white">{title}</h2>
-          <button onClick={onClose} className="p-1.5 text-white/40 hover:text-white/70 hover:bg-white/[0.04] rounded-lg transition-colors">
+        <div className="flex items-center justify-between px-6 py-4 shrink-0" style={{ borderBottom: '1px solid var(--c-border)' }}>
+          <h2 className="text-[16px] font-bold text-txt">{title}</h2>
+          <button onClick={onClose} className="p-1.5 text-txt-dim hover:text-txt-secondary hover:bg-glass rounded-lg transition-colors">
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Content — scroll */}
-        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto px-6 py-4 space-y-3" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.1) transparent' }}>
+        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto px-6 py-4 space-y-3" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgb(var(--c-fg-rgb) / 0.1) transparent' }}>
 
           {/* ── Identidade ── */}
           <Section title="Identidade" icon={<User className="w-4 h-4" />} defaultOpen={true}>
@@ -308,7 +308,7 @@ export const PersonaFormModal: React.FC<PersonaFormModalProps> = ({ initial, tit
                       <ChevronDown
                         className="w-3.5 h-3.5 shrink-0 transition-transform duration-200"
                         style={{
-                          color: 'rgba(255,255,255,0.3)',
+                          color: 'var(--c-t-30)',
                           transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
                         }}
                       />
@@ -317,8 +317,8 @@ export const PersonaFormModal: React.FC<PersonaFormModalProps> = ({ initial, tit
                       <div
                         className="absolute z-50 mt-1.5 w-full rounded-xl py-1.5 overflow-hidden"
                         style={{
-                          background: 'rgba(22,27,34,0.97)',
-                          border: '1px solid rgba(255,255,255,0.06)',
+                          background: 'var(--c-popup-bg)',
+                          border: '1px solid var(--c-border)',
                           boxShadow: '0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03)',
                         }}
                       >
@@ -331,18 +331,18 @@ export const PersonaFormModal: React.FC<PersonaFormModalProps> = ({ initial, tit
                               onClick={() => { set('tom_voz', o.value); setOpen(false); }}
                               className="w-full flex items-center gap-2.5 px-3.5 py-2 text-[13px] text-left transition-colors duration-100"
                               style={{
-                                color: isSelected ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.7)',
+                                color: isSelected ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.7)',
                                 background: isSelected ? 'rgba(var(--color-primary-rgb),0.08)' : 'transparent',
                               }}
                               onMouseEnter={(e) => {
                                 if (!isSelected) {
-                                  e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
-                                  e.currentTarget.style.color = '#fff';
+                                  e.currentTarget.style.background = 'var(--c-glass)';
+                                  e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))';
                                 }
                               }}
                               onMouseLeave={(e) => {
                                 e.currentTarget.style.background = isSelected ? 'rgba(var(--color-primary-rgb),0.08)' : 'transparent';
-                                e.currentTarget.style.color = isSelected ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.7)';
+                                e.currentTarget.style.color = isSelected ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.7)';
                               }}
                             >
                               <span className="flex-1">{o.label}</span>
@@ -409,7 +409,7 @@ export const PersonaFormModal: React.FC<PersonaFormModalProps> = ({ initial, tit
                 onChange={(e) => set('chance_so_reagir', parseInt(e.target.value))}
                 className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
                 style={{
-                  background: `linear-gradient(to right, var(--color-primary) 0%, var(--color-primary) ${form.chance_so_reagir}%, rgba(255,255,255,0.1) ${form.chance_so_reagir}%, rgba(255,255,255,0.1) 100%)`,
+                  background: `linear-gradient(to right, var(--color-primary) 0%, var(--color-primary) ${form.chance_so_reagir}%, rgb(var(--c-fg-rgb) / 0.1) ${form.chance_so_reagir}%, rgb(var(--c-fg-rgb) / 0.1) 100%)`,
                   accentColor: 'var(--color-primary)',
                 }}
               />
@@ -445,7 +445,7 @@ export const PersonaFormModal: React.FC<PersonaFormModalProps> = ({ initial, tit
           {/* ── Ausência ── */}
           <Section title="Ausência" icon={<EyeOff className="w-4 h-4" />}>
             <div className="flex items-center justify-between">
-              <span className="text-[13px] text-white/60">Ausência habilitada</span>
+              <span className="text-[13px] text-txt-muted">Ausência habilitada</span>
               <button
                 type="button"
                 role="switch"
@@ -455,7 +455,7 @@ export const PersonaFormModal: React.FC<PersonaFormModalProps> = ({ initial, tit
                 style={{
                   background: form.ausencia_habilitada
                     ? 'rgba(var(--color-primary-rgb),0.5)'
-                    : 'rgba(255,255,255,0.08)',
+                    : 'var(--c-glass-hover)',
                   boxShadow: form.ausencia_habilitada
                     ? '0 0 8px rgba(var(--color-primary-rgb),0.15), inset 0 1px 2px rgba(0,0,0,0.1)'
                     : 'inset 0 1px 2px rgba(0,0,0,0.2)',
@@ -464,7 +464,7 @@ export const PersonaFormModal: React.FC<PersonaFormModalProps> = ({ initial, tit
                 <span
                   className="pointer-events-none block h-[16px] w-[16px] rounded-full transition-all duration-200"
                   style={{
-                    background: form.ausencia_habilitada ? '#fff' : 'rgba(255,255,255,0.35)',
+                    background: form.ausencia_habilitada ? '#fff' : 'rgb(var(--c-fg-rgb) / 0.35)',
                     transform: form.ausencia_habilitada ? 'translateX(23px)' : 'translateX(3px)',
                     boxShadow: form.ausencia_habilitada
                       ? '0 1px 3px rgba(0,0,0,0.3), 0 0 4px rgba(var(--color-primary-rgb),0.2)'
@@ -500,14 +500,14 @@ export const PersonaFormModal: React.FC<PersonaFormModalProps> = ({ initial, tit
         </form>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-3 px-6 py-4 shrink-0" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        <div className="flex items-center justify-end gap-3 px-6 py-4 shrink-0" style={{ borderTop: '1px solid var(--c-border)' }}>
           <button
             type="button"
             onClick={onClose}
             className="px-4 py-2.5 text-[13px] font-medium rounded-xl transition-all"
-            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)' }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
+            style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border-strong)', color: 'var(--c-t-60)' }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass-hover)' }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--c-glass)' }}
           >
             Cancelar
           </button>

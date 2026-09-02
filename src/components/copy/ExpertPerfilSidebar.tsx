@@ -96,11 +96,11 @@ export const ExpertPerfilSidebar: React.FC<ExpertPerfilSidebarProps> = ({
   };
 
   const inputStyle: React.CSSProperties = {
-    background: 'rgba(255,255,255,0.05)',
-    border: '1px solid rgba(255,255,255,0.1)',
+    background: 'var(--c-glass-hover)',
+    border: '1px solid var(--c-border-strong)',
     borderRadius: '10px',
     padding: '10px 14px',
-    color: '#fff',
+    color: 'var(--c-t-100)',
     fontSize: '13px',
     width: '100%',
     outline: 'none',
@@ -110,12 +110,12 @@ export const ExpertPerfilSidebar: React.FC<ExpertPerfilSidebarProps> = ({
   const focusInput = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)';
     e.currentTarget.style.boxShadow = '0 0 0 3px rgba(var(--color-primary-rgb),0.08)';
-    e.currentTarget.style.background = 'rgba(255,255,255,0.07)';
+    e.currentTarget.style.background = 'var(--c-glass-hover)';
   };
   const blurInput = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+    e.currentTarget.style.borderColor = 'var(--c-border-strong)';
     e.currentTarget.style.boxShadow = 'none';
-    e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
+    e.currentTarget.style.background = 'var(--c-glass-hover)';
   };
 
   // Collapsed state — hidden on mobile, thin bar on desktop (skip if forceExpanded)
@@ -123,14 +123,14 @@ export const ExpertPerfilSidebar: React.FC<ExpertPerfilSidebarProps> = ({
     return (
       <div
         className="hidden lg:flex flex-col items-center py-4 px-2 w-[52px] shrink-0 h-full"
-        style={{ background: '#0c0c14', borderRight: '1px solid rgba(255,255,255,0.04)' }}
+        style={{ background: 'var(--c-sidebar-bg)', borderRight: '1px solid var(--c-sidebar-border)' }}
       >
         <button
           onClick={toggleCollapse}
           className="p-2 rounded-lg transition-all mb-4"
-          style={{ color: 'rgba(255,255,255,0.4)', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)' }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)' }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'rgba(255,255,255,0.4)' }}
+          style={{ color: 'var(--c-t-40)', background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.7)' }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.4)' }}
         >
           <ChevronRight className="w-4 h-4" />
         </button>
@@ -139,7 +139,7 @@ export const ExpertPerfilSidebar: React.FC<ExpertPerfilSidebarProps> = ({
             {(nomeExpert || 'E').charAt(0).toUpperCase()}
           </span>
         </div>
-        <p className="text-[9px] text-center leading-tight" style={{ writingMode: 'vertical-rl', textOrientation: 'mixed', color: 'rgba(255,255,255,0.3)' }}>
+        <p className="text-[9px] text-center leading-tight" style={{ writingMode: 'vertical-rl', textOrientation: 'mixed', color: 'var(--c-t-30)' }}>
           {nomeExpert || 'Expert'}
         </p>
       </div>
@@ -149,20 +149,20 @@ export const ExpertPerfilSidebar: React.FC<ExpertPerfilSidebarProps> = ({
   return (
     <div
       className="flex flex-col w-full lg:w-[480px] shrink-0 overflow-hidden h-full"
-      style={{ background: '#0c0c14', borderRight: '1px solid rgba(255,255,255,0.04)' }}
+      style={{ background: 'var(--c-sidebar-bg)', borderRight: '1px solid var(--c-sidebar-border)' }}
     >
       {/* Header */}
       <div
         className="flex items-center justify-between px-5 h-[42px]"
-        style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}
+        style={{ borderBottom: '1px solid var(--c-border)' }}
       >
-        <h3 className="text-[16px] font-bold text-white font-display tracking-tight">Perfil do Expert</h3>
+        <h3 className="text-[16px] font-bold text-txt font-display tracking-tight">Perfil do Expert</h3>
         <div className="flex items-center gap-2">
           {/* Mobile: close button (calls onCollapse to hide panel) */}
           <button
             onClick={() => { if (onCollapse) onCollapse(); }}
             className="p-1.5 rounded-lg transition-all flex lg:hidden"
-            style={{ color: 'rgba(255,255,255,0.4)', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)' }}
+            style={{ color: 'var(--c-t-40)', background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
           >
             <ChevronLeft className="w-3.5 h-3.5" />
           </button>
@@ -170,9 +170,9 @@ export const ExpertPerfilSidebar: React.FC<ExpertPerfilSidebarProps> = ({
           <button
             onClick={toggleCollapse}
             className="p-1.5 rounded-lg transition-all hidden lg:flex"
-            style={{ color: 'rgba(255,255,255,0.4)', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)' }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)' }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'rgba(255,255,255,0.4)' }}
+            style={{ color: 'var(--c-t-40)', background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.7)' }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.4)' }}
           >
             <ChevronLeft className="w-3.5 h-3.5" />
           </button>
@@ -180,7 +180,7 @@ export const ExpertPerfilSidebar: React.FC<ExpertPerfilSidebarProps> = ({
       </div>
 
       {/* Form — scrollable */}
-      <div className="flex-1 overflow-y-auto px-5 py-5 space-y-5" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.04) transparent' }}>
+      <div className="flex-1 overflow-y-auto px-5 py-5 space-y-5" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgb(var(--c-fg-rgb) / 0.04) transparent' }}>
         {loading ? (
           <div className="flex items-center justify-center py-12">
             <div className="w-5 h-5 border-2 rounded-full animate-spin" style={{ borderColor: 'rgba(var(--color-primary-rgb),0.2)', borderTopColor: 'var(--color-primary)' }} />
@@ -189,7 +189,7 @@ export const ExpertPerfilSidebar: React.FC<ExpertPerfilSidebarProps> = ({
           <>
             {/* Nome */}
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-[0.8px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Nome</label>
+              <label className="block text-[11px] font-semibold uppercase tracking-[0.8px] mb-1.5" style={{ color: 'var(--c-t-40)' }}>Nome</label>
               <input
                 value={nomeExpert}
                 onChange={(e) => setNomeExpert(e.target.value)}
@@ -202,7 +202,7 @@ export const ExpertPerfilSidebar: React.FC<ExpertPerfilSidebarProps> = ({
 
             {/* Nicho */}
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-[0.8px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Nicho</label>
+              <label className="block text-[11px] font-semibold uppercase tracking-[0.8px] mb-1.5" style={{ color: 'var(--c-t-40)' }}>Nicho</label>
               <input
                 value={nicho}
                 onChange={(e) => setNicho(e.target.value)}
@@ -215,7 +215,7 @@ export const ExpertPerfilSidebar: React.FC<ExpertPerfilSidebarProps> = ({
 
             {/* Tom de voz */}
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-[0.8px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Tom de voz</label>
+              <label className="block text-[11px] font-semibold uppercase tracking-[0.8px] mb-1.5" style={{ color: 'var(--c-t-40)' }}>Tom de voz</label>
               <div className="flex gap-1 flex-wrap">
                 {TOM_OPTIONS.map(({ key, label }) => (
                   <button
@@ -225,10 +225,10 @@ export const ExpertPerfilSidebar: React.FC<ExpertPerfilSidebarProps> = ({
                     className="px-3.5 py-1.5 rounded-lg text-[12px] font-medium transition-all duration-200"
                     style={tomVoz === key
                       ? { background: 'rgba(var(--color-primary-rgb),0.15)', border: '1px solid rgba(var(--color-primary-rgb),0.3)', color: 'var(--color-primary-light)' }
-                      : { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.45)' }
+                      : { background: 'var(--c-glass)', border: '1px solid var(--c-border-strong)', color: 'var(--c-t-45)' }
                     }
-                    onMouseEnter={(e) => { if (tomVoz !== key) { e.currentTarget.style.background = 'rgba(255,255,255,0.07)'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)' } }}
-                    onMouseLeave={(e) => { if (tomVoz !== key) { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'rgba(255,255,255,0.45)' } }}
+                    onMouseEnter={(e) => { if (tomVoz !== key) { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.7)' } }}
+                    onMouseLeave={(e) => { if (tomVoz !== key) { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.45)' } }}
                   >
                     {label}
                   </button>
@@ -238,7 +238,7 @@ export const ExpertPerfilSidebar: React.FC<ExpertPerfilSidebarProps> = ({
 
             {/* Palavras frequentes */}
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-[0.8px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Palavras frequentes</label>
+              <label className="block text-[11px] font-semibold uppercase tracking-[0.8px] mb-1.5" style={{ color: 'var(--c-t-40)' }}>Palavras frequentes</label>
               <TagInput
                 tags={palavrasFrequentes}
                 onChange={setPalavrasFrequentes}
@@ -249,7 +249,7 @@ export const ExpertPerfilSidebar: React.FC<ExpertPerfilSidebarProps> = ({
 
             {/* Palavras proibidas */}
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-[0.8px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Palavras proibidas</label>
+              <label className="block text-[11px] font-semibold uppercase tracking-[0.8px] mb-1.5" style={{ color: 'var(--c-t-40)' }}>Palavras proibidas</label>
               <TagInput
                 tags={palavrasProibidas}
                 onChange={setPalavrasProibidas}
@@ -260,7 +260,7 @@ export const ExpertPerfilSidebar: React.FC<ExpertPerfilSidebarProps> = ({
 
             {/* Emojis frequentes */}
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-[0.8px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Emojis frequentes</label>
+              <label className="block text-[11px] font-semibold uppercase tracking-[0.8px] mb-1.5" style={{ color: 'var(--c-t-40)' }}>Emojis frequentes</label>
               <TagInput
                 tags={emojisFrequentes}
                 onChange={setEmojisFrequentes}
@@ -271,7 +271,7 @@ export const ExpertPerfilSidebar: React.FC<ExpertPerfilSidebarProps> = ({
 
             {/* Contexto extra */}
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-[0.8px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Contexto extra</label>
+              <label className="block text-[11px] font-semibold uppercase tracking-[0.8px] mb-1.5" style={{ color: 'var(--c-t-40)' }}>Contexto extra</label>
               <textarea
                 value={contextoExtra}
                 onChange={(e) => setContextoExtra(e.target.value)}
@@ -285,7 +285,7 @@ export const ExpertPerfilSidebar: React.FC<ExpertPerfilSidebarProps> = ({
 
             {/* Exemplos de copys */}
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-[0.8px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Exemplos de copys</label>
+              <label className="block text-[11px] font-semibold uppercase tracking-[0.8px] mb-1.5" style={{ color: 'var(--c-t-40)' }}>Exemplos de copys</label>
               <textarea
                 value={exemplosCopys}
                 onChange={(e) => setExemplosCopys(e.target.value)}
@@ -301,18 +301,18 @@ export const ExpertPerfilSidebar: React.FC<ExpertPerfilSidebarProps> = ({
       </div>
 
       {/* Save button — sticky */}
-      <div className="px-5 py-3" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+      <div className="px-5 py-3" style={{ borderTop: '1px solid var(--c-border)' }}>
         <button
           onClick={handleSave}
           disabled={saving || loading}
           className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-[14px] font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           style={{
-            background: saving || loading ? 'rgba(255,255,255,0.04)' : 'var(--color-primary-bg)',
-            border: saving || loading ? '1px solid rgba(255,255,255,0.04)' : '1px solid var(--color-primary-bg)',
-            color: saving || loading ? 'rgba(255,255,255,0.35)' : 'var(--color-primary-light)',
+            background: saving || loading ? 'var(--c-glass)' : 'var(--color-primary-bg)',
+            border: saving || loading ? '1px solid var(--c-border)' : '1px solid var(--color-primary-bg)',
+            color: saving || loading ? 'rgb(var(--c-fg-rgb) / 0.35)' : 'var(--color-primary-light)',
           }}
           onMouseEnter={(e) => { if (!saving && !loading) { e.currentTarget.style.background = 'var(--color-primary-bg)'; e.currentTarget.style.boxShadow = '0 0 20px var(--color-primary-bg)' } }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = saving || loading ? 'rgba(255,255,255,0.04)' : 'var(--color-primary-bg)'; e.currentTarget.style.boxShadow = 'none' }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = saving || loading ? 'var(--c-glass)' : 'var(--color-primary-bg)'; e.currentTarget.style.boxShadow = 'none' }}
         >
           {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
           {saving ? 'Salvando...' : 'Salvar Perfil'}

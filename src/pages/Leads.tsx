@@ -56,9 +56,9 @@ const CustomSelect: React.FC<{
         onClick={() => setOpen(!open)}
         className="relative flex items-center gap-2 text-[13px] font-medium transition-all duration-150"
         style={{
-          background: open ? 'rgba(59,130,246,0.12)' : 'rgba(22, 27, 34, 0.97)',
-          border: open ? '1px solid rgba(59,130,246,0.25)' : '1px solid rgba(255,255,255,0.1)',
-          color: open ? '#60a5fa' : 'rgba(255,255,255,0.7)',
+          background: open ? 'rgba(59,130,246,0.12)' : 'var(--c-popup-bg)',
+          border: open ? '1px solid rgba(59,130,246,0.25)' : '1px solid var(--c-border-strong)',
+          color: open ? '#60a5fa' : 'rgb(var(--c-fg-rgb) / 0.7)',
           borderRadius: '10px',
           padding: '8px 32px 8px 12px',
         }}
@@ -77,8 +77,8 @@ const CustomSelect: React.FC<{
             width: pos.width,
             maxHeight: '280px',
             zIndex: 9999,
-            background: 'rgba(22, 27, 34, 0.97)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            background: 'var(--c-popup-bg)',
+            border: '1px solid var(--c-border-strong)',
             borderRadius: '14px',
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06)',
           }}
@@ -93,10 +93,10 @@ const CustomSelect: React.FC<{
                   className="flex items-center justify-between w-full px-3 py-2 rounded-lg text-[12px] transition-all duration-150 text-left"
                   style={{
                     background: active ? 'rgba(59,130,246,0.1)' : 'transparent',
-                    color: active ? '#60a5fa' : 'rgba(255,255,255,0.5)',
+                    color: active ? '#60a5fa' : 'rgb(var(--c-fg-rgb) / 0.5)',
                   }}
-                  onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = '#fff'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.background = active ? 'rgba(59,130,246,0.1)' : 'transparent'; e.currentTarget.style.color = active ? '#60a5fa' : 'rgba(255,255,255,0.5)'; }}
+                  onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = active ? 'rgba(59,130,246,0.1)' : 'transparent'; e.currentTarget.style.color = active ? '#60a5fa' : 'rgb(var(--c-fg-rgb) / 0.5)'; }}
                 >
                   <span>{o.label}</span>
                   {active && <Check size={12} className="text-[#60a5fa] flex-shrink-0" />}
@@ -118,21 +118,21 @@ const CustomSelect: React.FC<{
           />
           <div
             ref={dropRef}
-            className="relative w-full rounded-t-3xl border-t border-white/10 animate-slide-up"
+            className="relative w-full rounded-t-3xl border-t border-glass animate-slide-up"
             style={{
-              background: 'rgba(22,27,34,0.98)',
+              background: 'var(--c-popup-bg)',
               maxHeight: '80vh',
               boxShadow: '0 -20px 60px rgba(0,0,0,0.6)',
             }}
           >
             <div className="flex justify-center pt-3 pb-1">
-              <div className="w-10 h-1 rounded-full bg-white/15" />
+              <div className="w-10 h-1 rounded-full bg-glass-hover" />
             </div>
-            <div className="flex items-center justify-between px-5 py-3 border-b border-white/5">
-              <h4 className="text-[14px] font-semibold text-white font-display">{placeholder}</h4>
+            <div className="flex items-center justify-between px-5 py-3 border-b border-glass">
+              <h4 className="text-[14px] font-semibold text-txt font-display">{placeholder}</h4>
               <button
                 onClick={() => setOpen(false)}
-                className="w-8 h-8 rounded-lg flex items-center justify-center bg-white/5 text-white/40 hover:text-white hover:bg-white/10 transition-colors"
+                className="w-8 h-8 rounded-lg flex items-center justify-center bg-glass text-txt-dim hover:text-txt hover:bg-glass-hover transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -149,9 +149,9 @@ const CustomSelect: React.FC<{
                     onClick={() => { onChange(o.value); setOpen(false); }}
                     className="flex items-center justify-between w-full px-4 py-3.5 rounded-xl text-[13px] font-medium transition-all duration-150 text-left"
                     style={{
-                      background: active ? 'rgba(59,130,246,0.12)' : 'rgba(255,255,255,0.03)',
-                      border: active ? '1px solid rgba(59,130,246,0.3)' : '1px solid rgba(255,255,255,0.05)',
-                      color: active ? '#60a5fa' : 'rgba(255,255,255,0.7)',
+                      background: active ? 'rgba(59,130,246,0.12)' : 'var(--c-glass)',
+                      border: active ? '1px solid rgba(59,130,246,0.3)' : '1px solid var(--c-border)',
+                      color: active ? '#60a5fa' : 'rgb(var(--c-fg-rgb) / 0.7)',
                     }}
                   >
                     <span>{o.label}</span>
@@ -233,7 +233,7 @@ const PREMIUM_STATUS_OPTIONS: { value: StatusPremium; label: string }[] = [
 const PREMIUM_STATUS_COLORS: Record<StatusPremium, string> = {
   primeiro_audio_enviado: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
   em_andamento: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-  encerrado: 'bg-zinc-500/10 text-zinc-400 border-zinc-500/20',
+  encerrado: 'bg-zinc-500/10 text-txt-muted border-zinc-500/20',
 };
 
 type TabKey = 'automatico' | 'premium' | 'monitoramento';
@@ -581,13 +581,13 @@ export const Leads: React.FC = () => {
         rightContent={activeTab === 'monitoramento' ? (
           <div
             className="flex items-center gap-2 px-3.5 py-1.5 rounded-full"
-            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)' }}
+            style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
           >
             <div
               className="w-2 h-2 rounded-full animate-breathe"
               style={{ background: 'var(--color-primary-light)', boxShadow: '0 0 8px var(--color-primary-bg)' }}
             />
-            <span className="text-[12px] font-mono tabular-nums" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <span className="text-[12px] font-mono tabular-nums" style={{ color: 'var(--c-t-50)' }}>
               {funilLastUpdated.toLocaleTimeString()}
             </span>
           </div>
@@ -605,7 +605,7 @@ export const Leads: React.FC = () => {
       {/* Tabs — Glass Pill Selector */}
       <div
         className="grid grid-cols-2 md:inline-flex gap-1 p-1 rounded-[14px] w-full md:w-fit"
-        style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
+        style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
       >
         <button
           onClick={() => setActiveTab('automatico')}
@@ -613,10 +613,10 @@ export const Leads: React.FC = () => {
           style={activeTab === 'automatico' ? {
             background: 'var(--color-primary-bg)', border: '1px solid var(--color-primary-bg)', color: 'var(--color-primary-light)',
           } : {
-            background: 'transparent', border: '1px solid transparent', color: 'rgba(255,255,255,0.45)',
+            background: 'transparent', border: '1px solid transparent', color: 'var(--c-t-45)',
           }}
-          onMouseEnter={(e) => { if (activeTab !== 'automatico') { e.currentTarget.style.color = 'rgba(255,255,255,0.65)'; e.currentTarget.style.background = 'rgba(255,255,255,0.03)' } }}
-          onMouseLeave={(e) => { if (activeTab !== 'automatico') { e.currentTarget.style.color = 'rgba(255,255,255,0.45)'; e.currentTarget.style.background = 'transparent' } }}
+          onMouseEnter={(e) => { if (activeTab !== 'automatico') { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.65)'; e.currentTarget.style.background = 'var(--c-glass)' } }}
+          onMouseLeave={(e) => { if (activeTab !== 'automatico') { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.45)'; e.currentTarget.style.background = 'transparent' } }}
         >
           <Bot className="w-4 h-4 shrink-0" style={{ opacity: activeTab === 'automatico' ? 1 : 0.45 }} />
           <span className="md:hidden">Assistente</span>
@@ -628,10 +628,10 @@ export const Leads: React.FC = () => {
           style={activeTab === 'monitoramento' ? {
             background: 'rgba(167,139,250,0.1)', border: '1px solid rgba(167,139,250,0.2)', color: '#a78bfa',
           } : {
-            background: 'transparent', border: '1px solid transparent', color: 'rgba(255,255,255,0.45)',
+            background: 'transparent', border: '1px solid transparent', color: 'var(--c-t-45)',
           }}
-          onMouseEnter={(e) => { if (activeTab !== 'monitoramento') { e.currentTarget.style.color = 'rgba(255,255,255,0.65)'; e.currentTarget.style.background = 'rgba(255,255,255,0.03)' } }}
-          onMouseLeave={(e) => { if (activeTab !== 'monitoramento') { e.currentTarget.style.color = 'rgba(255,255,255,0.45)'; e.currentTarget.style.background = 'transparent' } }}
+          onMouseEnter={(e) => { if (activeTab !== 'monitoramento') { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.65)'; e.currentTarget.style.background = 'var(--c-glass)' } }}
+          onMouseLeave={(e) => { if (activeTab !== 'monitoramento') { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.45)'; e.currentTarget.style.background = 'transparent' } }}
         >
           <Activity className="w-4 h-4 shrink-0" style={{ opacity: activeTab === 'monitoramento' ? 1 : 0.45 }} />
           Monitoramento
@@ -690,15 +690,15 @@ export const Leads: React.FC = () => {
                   {loading && leads.length === 0 && (
                     Array.from({ length: 5 }).map((_, i) => (
                       <tr key={`skel-${i}`} className="border-b border-surface-300/10 animate-pulse">
-                        <td className="px-5 py-4"><div className="h-4 bg-white/[0.04] rounded w-20" /></td>
+                        <td className="px-5 py-4"><div className="h-4 bg-[rgb(var(--c-fg-rgb)/0.04)] rounded w-20" /></td>
                         <td className="px-5 py-4">
-                          <div className="h-4 bg-white/[0.04] rounded w-32 mb-1" />
-                          <div className="h-3 bg-white/[0.03] rounded w-24" />
+                          <div className="h-4 bg-[rgb(var(--c-fg-rgb)/0.04)] rounded w-32 mb-1" />
+                          <div className="h-3 bg-[rgb(var(--c-fg-rgb)/0.03)] rounded w-24" />
                         </td>
-                        <td className="px-5 py-4"><div className="h-5 bg-white/[0.04] rounded-lg w-24" /></td>
-                        <td className="px-5 py-4"><div className="h-4 bg-white/[0.04] rounded w-20" /></td>
-                        <td className="px-5 py-4"><div className="h-4 bg-white/[0.04] rounded w-10" /></td>
-                        <td className="px-5 py-4"><div className="h-6 bg-white/[0.04] rounded w-6 mx-auto" /></td>
+                        <td className="px-5 py-4"><div className="h-5 bg-[rgb(var(--c-fg-rgb)/0.04)] rounded-lg w-24" /></td>
+                        <td className="px-5 py-4"><div className="h-4 bg-[rgb(var(--c-fg-rgb)/0.04)] rounded w-20" /></td>
+                        <td className="px-5 py-4"><div className="h-4 bg-[rgb(var(--c-fg-rgb)/0.04)] rounded w-10" /></td>
+                        <td className="px-5 py-4"><div className="h-6 bg-[rgb(var(--c-fg-rgb)/0.04)] rounded w-6 mx-auto" /></td>
                       </tr>
                     ))
                   )}
@@ -841,14 +841,14 @@ export const Leads: React.FC = () => {
                     Array.from({ length: 5 }).map((_, i) => (
                       <tr key={`skel-p-${i}`} className="border-b border-surface-300/10 animate-pulse">
                         <td className="px-5 py-4">
-                          <div className="h-4 bg-white/[0.04] rounded w-32 mb-1" />
-                          <div className="h-3 bg-white/[0.03] rounded w-24" />
+                          <div className="h-4 bg-[rgb(var(--c-fg-rgb)/0.04)] rounded w-32 mb-1" />
+                          <div className="h-3 bg-[rgb(var(--c-fg-rgb)/0.03)] rounded w-24" />
                         </td>
-                        <td className="px-5 py-4"><div className="h-5 bg-white/[0.04] rounded-lg w-24" /></td>
-                        <td className="px-5 py-4"><div className="h-5 bg-white/[0.04] rounded-lg w-28" /></td>
-                        <td className="px-5 py-4"><div className="h-4 bg-white/[0.04] rounded w-16" /></td>
-                        <td className="px-5 py-4"><div className="h-4 bg-white/[0.04] rounded w-20" /></td>
-                        <td className="px-5 py-4"><div className="h-6 bg-white/[0.04] rounded w-6 mx-auto" /></td>
+                        <td className="px-5 py-4"><div className="h-5 bg-[rgb(var(--c-fg-rgb)/0.04)] rounded-lg w-24" /></td>
+                        <td className="px-5 py-4"><div className="h-5 bg-[rgb(var(--c-fg-rgb)/0.04)] rounded-lg w-28" /></td>
+                        <td className="px-5 py-4"><div className="h-4 bg-[rgb(var(--c-fg-rgb)/0.04)] rounded w-16" /></td>
+                        <td className="px-5 py-4"><div className="h-4 bg-[rgb(var(--c-fg-rgb)/0.04)] rounded w-20" /></td>
+                        <td className="px-5 py-4"><div className="h-6 bg-[rgb(var(--c-fg-rgb)/0.04)] rounded w-6 mx-auto" /></td>
                       </tr>
                     ))
                   )}
@@ -929,7 +929,7 @@ export const Leads: React.FC = () => {
             <>
               {/* Summary progress bar */}
               <div className="flex items-center gap-3 px-1">
-                <div className="flex-1 h-[6px] rounded-[6px] overflow-hidden flex" style={{ background: 'rgba(255,255,255,0.04)' }}>
+                <div className="flex-1 h-[6px] rounded-[6px] overflow-hidden flex" style={{ background: 'var(--c-glass)' }}>
                   {FUNIL_COLUMNS.map((status) => {
                     const col = funilColumns[status];
                     const percentage = col ? col.percentual : 0;
@@ -947,14 +947,14 @@ export const Leads: React.FC = () => {
                 </div>
                 <span
                   className="text-[12px] font-medium font-mono shrink-0 px-3 py-1 rounded-lg"
-                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.5)' }}
+                  style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-50)' }}
                 >
                   {funilTotal} leads
                 </span>
               </div>
 
               {/* Kanban columns */}
-              <div className="md:overflow-x-auto pb-4" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.04) transparent' }}>
+              <div className="md:overflow-x-auto pb-4" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgb(var(--c-fg-rgb) / 0.04) transparent' }}>
                 <div className="flex flex-col md:flex-row gap-3 md:min-w-[1200px]" style={{ height: 'auto' }}>
                   {FUNIL_COLUMNS.map((status, colIndex) => {
                     const col = funilColumns[status];
@@ -974,13 +974,13 @@ export const Leads: React.FC = () => {
                           `stagger-${colIndex + 1}`
                         )}
                         style={{
-                          background: 'rgba(255, 255, 255, 0.02)',
-                          border: isHighVolume ? `1px solid ${style.border}` : '1px solid rgba(255, 255, 255, 0.04)',
+                          background: 'var(--c-glass-2)',
+                          border: isHighVolume ? `1px solid ${style.border}` : '1px solid var(--c-border)',
                           borderRadius: '16px',
                           boxShadow: isHighVolume ? `0 0 20px ${style.bg}` : 'none',
                           transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
                           scrollbarWidth: 'thin',
-                          scrollbarColor: 'rgba(255,255,255,0.04) transparent',
+                          scrollbarColor: 'rgb(var(--c-fg-rgb) / 0.04) transparent',
                         }}
                       >
                         {/* Column header — clickable on mobile, sticky on desktop */}
@@ -989,8 +989,8 @@ export const Leads: React.FC = () => {
                           onClick={() => toggleFunilCol(status)}
                           className="p-3.5 md:sticky md:top-0 md:z-10 md:cursor-default text-left w-full"
                           style={{
-                            background: 'rgba(12, 12, 20, 0.85)',
-                            borderBottom: '1px solid rgba(255, 255, 255, 0.04)',
+                            background: 'rgb(var(--c-surface-rgb) / 0.85)',
+                            borderBottom: '1px solid var(--c-border)',
                           }}
                         >
                           <div className="flex items-center justify-between mb-2">
@@ -999,7 +999,7 @@ export const Leads: React.FC = () => {
                                 className="w-2 h-2 rounded-full shrink-0"
                                 style={{ background: style.color, boxShadow: style.dotShadow }}
                               />
-                              <h3 className="font-semibold text-white text-[13px] font-display tracking-tight leading-none truncate">
+                              <h3 className="font-semibold text-txt text-[13px] font-display tracking-tight leading-none truncate">
                                 {getStatusLabel(status)}
                               </h3>
                             </div>
@@ -1016,18 +1016,18 @@ export const Leads: React.FC = () => {
                                   "w-4 h-4 md:hidden transition-transform duration-200",
                                   isExpanded && "rotate-180"
                                 )}
-                                style={{ color: 'rgba(255,255,255,0.4)' }}
+                                style={{ color: 'var(--c-t-40)' }}
                               />
                             </div>
                           </div>
                           <div className="flex items-center gap-2">
-                            <div className="flex-1 h-[3px] rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.04)' }}>
+                            <div className="flex-1 h-[3px] rounded-full overflow-hidden" style={{ background: 'var(--c-glass)' }}>
                               <div
                                 className="h-full rounded-full transition-all duration-1000 ease-out"
                                 style={{ width: `${percentage}%`, background: style.color }}
                               />
                             </div>
-                            <span className="text-[11px] font-mono tabular-nums shrink-0" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                            <span className="text-[11px] font-mono tabular-nums shrink-0" style={{ color: 'var(--c-t-35)' }}>
                               {percentage}%
                             </span>
                           </div>
@@ -1045,27 +1045,27 @@ export const Leads: React.FC = () => {
                                 key={lead.id}
                                 className="p-3 cursor-default group transition-all duration-200"
                                 style={{
-                                  background: 'rgba(255, 255, 255, 0.03)',
-                                  border: '1px solid rgba(255, 255, 255, 0.05)',
+                                  background: 'var(--c-glass)',
+                                  border: '1px solid var(--c-border)',
                                   borderRadius: '12px',
                                   opacity: hasExited ? 0.7 : 1,
                                 }}
                                 onMouseEnter={(e) => {
-                                  e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
-                                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+                                  e.currentTarget.style.background = 'var(--c-glass-hover)';
+                                  e.currentTarget.style.borderColor = 'var(--c-border-strong)';
                                   e.currentTarget.style.transform = 'translateY(-1px)';
                                 }}
                                 onMouseLeave={(e) => {
-                                  e.currentTarget.style.background = 'rgba(255,255,255,0.03)';
-                                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)';
+                                  e.currentTarget.style.background = 'var(--c-glass)';
+                                  e.currentTarget.style.borderColor = 'var(--c-border)';
                                   e.currentTarget.style.transform = 'translateY(0)';
                                 }}
                               >
                                 <div className="flex justify-between items-start mb-1.5">
-                                  <span className="font-semibold text-white text-[13px] leading-tight">
+                                  <span className="font-semibold text-txt text-[13px] leading-tight">
                                     {lead.nome || 'Sem nome'}
                                   </span>
-                                  <div className="flex items-center gap-1" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                                  <div className="flex items-center gap-1" style={{ color: 'var(--c-t-30)' }}>
                                     <Clock className="w-[10px] h-[10px]" style={{ opacity: 0.4 }} />
                                     <span className="text-[10px] font-mono">
                                       {lead.ultima_interacao ? formatRelativeTime(lead.ultima_interacao) : '-'}
@@ -1073,8 +1073,8 @@ export const Leads: React.FC = () => {
                                   </div>
                                 </div>
                                 <div className="flex items-center gap-1.5">
-                                  <Phone className="w-[11px] h-[11px]" style={{ color: 'rgba(255,255,255,0.2)' }} />
-                                  <span className="text-[11px] font-mono" style={{ color: 'rgba(255,255,255,0.4)' }}>{formatTelefone(lead.telefone)}</span>
+                                  <Phone className="w-[11px] h-[11px]" style={{ color: 'var(--c-t-20)' }} />
+                                  <span className="text-[11px] font-mono" style={{ color: 'var(--c-t-40)' }}>{formatTelefone(lead.telefone)}</span>
                                 </div>
                                 {lead.observacoes && (
                                   <div
@@ -1093,7 +1093,7 @@ export const Leads: React.FC = () => {
                             );
                           })}
                           {colLeads.length === 0 && (
-                            <div className="text-center py-8 text-[12px] italic" style={{ color: 'rgba(255,255,255,0.15)' }}>
+                            <div className="text-center py-8 text-[12px] italic" style={{ color: 'var(--c-t-15)' }}>
                               Vazio
                             </div>
                           )}

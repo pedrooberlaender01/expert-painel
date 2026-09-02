@@ -374,7 +374,7 @@ export const Mensagens: React.FC = () => {
       {/* Tabs — Glass Pill */}
       <div
         className="flex flex-wrap md:inline-flex gap-1 p-1 rounded-[14px] w-full md:w-fit mb-8"
-        style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
+        style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
       >
         {visibleTabs.map((tab) => {
           const isActive = activeTab === tab.key;
@@ -394,9 +394,9 @@ export const Mensagens: React.FC = () => {
                 setActiveTab(tab.key);
               }}
               className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-3 rounded-[10px] text-[11px] sm:text-[13px] font-medium transition-all duration-250 whitespace-nowrap"
-              style={isActive && !isDisabled ? activeStyle : { background: 'transparent', border: '1px solid transparent', color: isDisabled ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.45)' }}
-              onMouseEnter={(e) => { if (!isActive) { e.currentTarget.style.color = isDisabled ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.65)'; e.currentTarget.style.background = 'rgba(255,255,255,0.03)' } }}
-              onMouseLeave={(e) => { if (!isActive) { e.currentTarget.style.color = isDisabled ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.45)'; e.currentTarget.style.background = 'transparent' } }}
+              style={isActive && !isDisabled ? activeStyle : { background: 'transparent', border: '1px solid transparent', color: isDisabled ? 'rgb(var(--c-fg-rgb) / 0.25)' : 'rgb(var(--c-fg-rgb) / 0.45)' }}
+              onMouseEnter={(e) => { if (!isActive) { e.currentTarget.style.color = isDisabled ? 'rgb(var(--c-fg-rgb) / 0.3)' : 'rgb(var(--c-fg-rgb) / 0.65)'; e.currentTarget.style.background = 'var(--c-glass)' } }}
+              onMouseLeave={(e) => { if (!isActive) { e.currentTarget.style.color = isDisabled ? 'rgb(var(--c-fg-rgb) / 0.25)' : 'rgb(var(--c-fg-rgb) / 0.45)'; e.currentTarget.style.background = 'transparent' } }}
             >
               <tab.icon className="w-4 h-4" style={{ opacity: isActive && !isDisabled ? 1 : 0.45 }} />
               {tab.label}
@@ -449,19 +449,19 @@ export const Mensagens: React.FC = () => {
                   onClick={() => toggleSection(secao.key)}
                   className="w-full flex items-center justify-between gap-3 px-6 py-5 transition-all duration-200 group"
                   style={{
-                    background: isExpanded ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.03)',
-                    border: `1px solid ${isExpanded ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.04)'}`,
+                    background: isExpanded ? 'var(--c-glass)' : 'var(--c-glass)',
+                    border: `1px solid ${isExpanded ? 'var(--c-border-strong)' : 'var(--c-border)'}`,
                     borderRadius: '14px',
                     borderLeft: `4px solid rgba(var(--color-primary-rgb),${isExpanded ? '0.5' : '0.2'})`,
                   }}
-                  onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)' }}
-                  onMouseLeave={(e) => { e.currentTarget.style.background = isExpanded ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.03)'; e.currentTarget.style.borderColor = isExpanded ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.04)' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.borderColor = 'var(--c-border-strong)' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = isExpanded ? 'var(--c-glass)' : 'var(--c-glass)'; e.currentTarget.style.borderColor = isExpanded ? 'var(--c-border-strong)' : 'var(--c-border)' }}
                 >
                   <div className="text-left">
-                    <h2 className="text-[14px] font-semibold text-white font-display tracking-tight">
+                    <h2 className="text-[14px] font-semibold text-txt font-display tracking-tight">
                       {secao.titulo}
                     </h2>
-                    <p className="text-[12px] mt-1" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                    <p className="text-[12px] mt-1" style={{ color: 'var(--c-t-35)' }}>
                       {mensagens.length} {mensagens.length === 1 ? 'mensagem' : 'mensagens'} configuradas
                     </p>
                   </div>
@@ -479,7 +479,7 @@ export const Mensagens: React.FC = () => {
                         'w-5 h-5 transition-all duration-300',
                         isExpanded && 'rotate-180'
                       )}
-                      style={{ color: 'rgba(255,255,255,0.3)' }}
+                      style={{ color: 'var(--c-t-30)' }}
                     />
                   </div>
                 </button>
@@ -535,7 +535,7 @@ export const Mensagens: React.FC = () => {
                         className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
                         style={hasChanges
                           ? { background: 'var(--color-primary-bg)', border: '1px solid var(--color-primary-bg)', color: 'var(--color-primary-light)' }
-                          : { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.25)' }
+                          : { background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-25)' }
                         }
                         onMouseEnter={(e) => { if (hasChanges) { e.currentTarget.style.background = 'var(--color-primary-bg)'; e.currentTarget.style.boxShadow = '0 0 20px var(--color-primary-bg)' } }}
                         onMouseLeave={(e) => { if (hasChanges) { e.currentTarget.style.background = 'var(--color-primary-bg)'; e.currentTarget.style.boxShadow = 'none' } }}
@@ -586,10 +586,10 @@ export const Mensagens: React.FC = () => {
             </div>
 
             {followups.length === 0 ? (
-              <div className="p-8 flex flex-col items-center justify-center gap-2 mt-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '16px' }}>
-                <Clock className="w-8 h-8" style={{ color: 'rgba(255,255,255,0.15)' }} />
-                <p className="text-[13px]" style={{ color: 'rgba(255,255,255,0.5)' }}>Nenhum follow-up configurado</p>
-                <p className="text-[11px]" style={{ color: 'rgba(255,255,255,0.25)' }}>Clique em "+ Novo Follow-up" para criar</p>
+              <div className="p-8 flex flex-col items-center justify-center gap-2 mt-4" style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', borderRadius: '16px' }}>
+                <Clock className="w-8 h-8" style={{ color: 'var(--c-t-15)' }} />
+                <p className="text-[13px]" style={{ color: 'var(--c-t-50)' }}>Nenhum follow-up configurado</p>
+                <p className="text-[11px]" style={{ color: 'var(--c-t-25)' }}>Clique em "+ Novo Follow-up" para criar</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
@@ -640,10 +640,10 @@ export const Mensagens: React.FC = () => {
                 <UserPlus className="w-5 h-5" style={{ color: '#34d399' }} />
               </div>
               <div>
-                <h2 className="text-[15px] font-bold text-white tracking-tight">
+                <h2 className="text-[15px] font-bold text-txt tracking-tight">
                   Boas-vindas no Grupo
                 </h2>
-                <p className="text-[12px] mt-1" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                <p className="text-[12px] mt-1" style={{ color: 'var(--c-t-45)' }}>
                   Mensagem automática enviada quando um novo membro entra no grupo pela primeira vez.
                   Configure mensagens diferentes para o dia e para a noite.
                 </p>
@@ -660,13 +660,13 @@ export const Mensagens: React.FC = () => {
           {boasVindas.length === 0 ? (
             <div
               className="p-10 flex flex-col items-center justify-center gap-3"
-              style={{ background: 'rgba(255,255,255,0.02)', border: '1px dashed rgba(52,211,153,0.15)', borderRadius: '16px' }}
+              style={{ background: 'var(--c-glass-2)', border: '1px dashed rgba(52,211,153,0.15)', borderRadius: '16px' }}
             >
               <UserPlus className="w-9 h-9" style={{ color: 'rgba(52,211,153,0.25)' }} />
-              <p className="text-[13px] font-medium" style={{ color: 'rgba(255,255,255,0.45)' }}>
+              <p className="text-[13px] font-medium" style={{ color: 'var(--c-t-45)' }}>
                 Nenhuma mensagem de boas-vindas configurada
               </p>
-              <p className="text-[11px]" style={{ color: 'rgba(255,255,255,0.25)' }}>
+              <p className="text-[11px]" style={{ color: 'var(--c-t-25)' }}>
                 As mensagens de boas-vindas são criadas automaticamente para cada expert
               </p>
             </div>
@@ -712,15 +712,15 @@ export const Mensagens: React.FC = () => {
         >
           <div
             className="w-full max-w-md animate-slide-up"
-            style={{ background: 'rgba(20,20,30,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '28px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
+            style={{ background: 'var(--c-popup-bg)', border: '1px solid var(--c-border-strong)', borderRadius: '20px', padding: '28px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-5">
-              <h3 className="text-[16px] font-semibold text-white font-display">Novo Follow-up</h3>
+              <h3 className="text-[16px] font-semibold text-txt font-display">Novo Follow-up</h3>
               <button
                 onClick={() => setShowCreateModal(false)}
                 className="w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200"
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)' }}
+                style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-40)' }}
               >
                 <X className="w-4 h-4" />
               </button>
@@ -732,27 +732,27 @@ export const Mensagens: React.FC = () => {
                 { label: 'Descrição', value: createForm.descricao, key: 'descricao', placeholder: 'Explicação curta do cenário' },
               ].map((field) => (
                 <div key={field.key}>
-                  <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>{field.label}</label>
+                  <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'var(--c-t-40)' }}>{field.label}</label>
                   <input
                     type="text"
                     value={field.value}
                     onChange={(e) => setCreateForm((p) => ({ ...p, [field.key]: e.target.value }))}
                     placeholder={field.placeholder}
-                    className="w-full text-white text-[13px] outline-none transition-all duration-200"
-                    style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 14px' }}
+                    className="w-full text-txt text-[13px] outline-none transition-all duration-200"
+                    style={{ background: 'var(--c-glass-hover)', border: '1px solid var(--c-border-strong)', borderRadius: '10px', padding: '10px 14px' }}
                     onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(var(--color-primary-rgb),0.08)' }}
-                    onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.boxShadow = 'none' }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = 'var(--c-border-strong)'; e.currentTarget.style.boxShadow = 'none' }}
                   />
                 </div>
               ))}
 
               <div>
-                <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Status alvo *</label>
+                <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'var(--c-t-40)' }}>Status alvo *</label>
                 <select
                   value={createForm.status_alvo}
                   onChange={(e) => setCreateForm((p) => ({ ...p, status_alvo: e.target.value }))}
-                  className="w-full text-white text-[13px] outline-none cursor-pointer appearance-none transition-all duration-200"
-                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 36px 10px 14px', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
+                  className="w-full text-txt text-[13px] outline-none cursor-pointer appearance-none transition-all duration-200"
+                  style={{ background: 'var(--c-glass-hover)', border: '1px solid var(--c-border-strong)', borderRadius: '10px', padding: '10px 36px 10px 14px', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
                 >
                   <option value="" disabled>Selecione o status</option>
                   {STATUS_OPTIONS.map((status) => (
@@ -762,21 +762,21 @@ export const Mensagens: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Tempo de espera (minutos) *</label>
+                <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'var(--c-t-40)' }}>Tempo de espera (minutos) *</label>
                 <input
                   type="text"
                   inputMode="numeric"
                   value={createForm.tempo_espera_minutos}
                   onChange={(e) => { const raw = e.target.value.replace(/\D/g, ''); setCreateForm((p) => ({ ...p, tempo_espera_minutos: raw === '' ? 0 : parseInt(raw, 10) })); }}
-                  className="text-white text-[13px] text-center outline-none transition-all duration-200 w-32"
-                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 14px' }}
+                  className="text-txt text-[13px] text-center outline-none transition-all duration-200 w-32"
+                  style={{ background: 'var(--c-glass-hover)', border: '1px solid var(--c-border-strong)', borderRadius: '10px', padding: '10px 14px' }}
                   onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(var(--color-primary-rgb),0.08)' }}
-                  onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.boxShadow = 'none' }}
+                  onBlur={(e) => { e.currentTarget.style.borderColor = 'var(--c-border-strong)'; e.currentTarget.style.boxShadow = 'none' }}
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Tipo de envio</label>
+                <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'var(--c-t-40)' }}>Tipo de envio</label>
                 <select
                   value={createForm.tipo_envio}
                   onChange={(e) => {
@@ -784,8 +784,8 @@ export const Mensagens: React.FC = () => {
                     if (val === 'audio' && !hasVoiceId) return;
                     setCreateForm((p) => ({ ...p, tipo_envio: val }));
                   }}
-                  className="w-full text-white text-[13px] outline-none cursor-pointer appearance-none transition-all duration-200"
-                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 36px 10px 14px', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
+                  className="w-full text-txt text-[13px] outline-none cursor-pointer appearance-none transition-all duration-200"
+                  style={{ background: 'var(--c-glass-hover)', border: '1px solid var(--c-border-strong)', borderRadius: '10px', padding: '10px 36px 10px 14px', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
                 >
                   <option value="texto">Texto</option>
                   <option value="audio" disabled={!hasVoiceId}>Áudio{!hasVoiceId ? ' (indisponível)' : ''}</option>
@@ -793,18 +793,18 @@ export const Mensagens: React.FC = () => {
                   <option value="video">Vídeo</option>
                 </select>
                 {!hasVoiceId && (
-                  <p className="text-[11px] mt-1" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                  <p className="text-[11px] mt-1" style={{ color: 'var(--c-t-35)' }}>
                     Audio indisponivel — configure voice_id no painel admin
                   </p>
                 )}
               </div>
             </div>
 
-            <div className="flex gap-3 mt-6" style={{ paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+            <div className="flex gap-3 mt-6" style={{ paddingTop: '20px', borderTop: '1px solid var(--c-border)' }}>
               <button
                 onClick={() => setShowCreateModal(false)}
                 className="flex-1 py-2.5 rounded-[10px] text-[13px] font-medium transition-all duration-200"
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
+                style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border-strong)', color: 'var(--c-t-60)' }}
               >
                 Cancelar
               </button>
@@ -833,27 +833,27 @@ export const Mensagens: React.FC = () => {
         >
           <div
             className="w-full max-w-sm animate-slide-up"
-            style={{ background: 'rgba(20,20,30,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '28px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
+            style={{ background: 'var(--c-popup-bg)', border: '1px solid var(--c-border-strong)', borderRadius: '20px', padding: '28px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(248,113,113,0.12)' }}>
                 <AlertTriangle className="w-5 h-5" style={{ color: '#f87171' }} />
               </div>
-              <h3 className="text-[16px] font-semibold text-white font-display">Excluir follow-up</h3>
+              <h3 className="text-[16px] font-semibold text-txt font-display">Excluir follow-up</h3>
             </div>
 
-            <p className="text-[13px] leading-relaxed mb-6" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <p className="text-[13px] leading-relaxed mb-6" style={{ color: 'var(--c-t-50)' }}>
               Tem certeza que deseja excluir o follow-up{' '}
-              <span className="font-semibold text-white">"{deleteTarget.titulo}"</span>?
+              <span className="font-semibold text-txt">"{deleteTarget.titulo}"</span>?
               Esta ação não pode ser desfeita.
             </p>
 
-            <div className="flex gap-3" style={{ paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+            <div className="flex gap-3" style={{ paddingTop: '20px', borderTop: '1px solid var(--c-border)' }}>
               <button
                 onClick={() => setDeleteTarget(null)}
                 className="flex-1 py-2.5 rounded-[10px] text-[13px] font-medium transition-all duration-200"
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
+                style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border-strong)', color: 'var(--c-t-60)' }}
               >
                 Cancelar
               </button>

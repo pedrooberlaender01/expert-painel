@@ -109,9 +109,9 @@ export const GatilhoDrawer: React.FC<GatilhoDrawerProps> = ({ open, onClose, onS
             <button
               onClick={onClose}
               className="px-4 py-2 text-[13px] font-medium rounded-xl transition-colors duration-150"
-              style={{ color: 'rgba(255,255,255,0.5)' }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = '#fff'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.5)'; }}
+              style={{ color: 'var(--c-t-50)' }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.5)'; }}
             >
               Cancelar
             </button>
@@ -120,9 +120,9 @@ export const GatilhoDrawer: React.FC<GatilhoDrawerProps> = ({ open, onClose, onS
               disabled={!hasChanges || saving}
               className="flex items-center gap-2 px-5 py-2 text-[13px] font-semibold rounded-xl transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
               style={{
-                background: hasChanges ? 'rgba(250,204,60,0.15)' : 'rgba(255,255,255,0.04)',
-                border: `1px solid ${hasChanges ? 'rgba(250,204,60,0.3)' : 'rgba(255,255,255,0.06)'}`,
-                color: hasChanges ? '#facc3c' : 'rgba(255,255,255,0.25)',
+                background: hasChanges ? 'rgba(250,204,60,0.15)' : 'var(--c-glass)',
+                border: `1px solid ${hasChanges ? 'rgba(250,204,60,0.3)' : 'var(--c-border)'}`,
+                color: hasChanges ? '#facc3c' : 'rgb(var(--c-fg-rgb) / 0.25)',
               }}
             >
               {saving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
@@ -135,22 +135,22 @@ export const GatilhoDrawer: React.FC<GatilhoDrawerProps> = ({ open, onClose, onS
           {/* Callout informativo */}
           <div
             className="flex gap-3 p-3.5 rounded-xl"
-            style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}
+            style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
           >
-            <Info className="w-3.5 h-3.5 shrink-0 mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }} />
-            <p className="text-[12px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>
+            <Info className="w-3.5 h-3.5 shrink-0 mt-0.5" style={{ color: 'var(--c-t-35)' }} />
+            <p className="text-[12px] leading-relaxed" style={{ color: 'var(--c-t-55)' }}>
               Quando o lead envia uma mensagem contendo uma destas palavras, a assistente é ativada automaticamente. Use palavras relacionadas às origens dos seus links (redes, campanhas, anúncios).
             </p>
           </div>
 
           {/* Lista de palavras */}
           <div>
-            <p className="text-[13px] font-medium mb-3" style={{ color: 'rgba(255,255,255,0.9)' }}>
+            <p className="text-[13px] font-medium mb-3" style={{ color: 'var(--c-t-90)' }}>
               Palavras de ativação
             </p>
             <div className="flex flex-wrap gap-2 mb-3">
               {palavras.length === 0 && (
-                <span className="text-[12px] italic" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                <span className="text-[12px] italic" style={{ color: 'var(--c-t-30)' }}>
                   Nenhuma palavra configurada
                 </span>
               )}
@@ -187,13 +187,13 @@ export const GatilhoDrawer: React.FC<GatilhoDrawerProps> = ({ open, onClose, onS
                 onChange={(e) => setInputVal(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Nova palavra..."
-                className="flex-1 px-3 py-1.5 rounded-lg text-[13px] text-white outline-none transition-colors duration-150"
+                className="flex-1 px-3 py-1.5 rounded-lg text-[13px] text-txt outline-none transition-colors duration-150"
                 style={{
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.1)',
+                  background: 'var(--c-glass-hover)',
+                  border: '1px solid var(--c-border-strong)',
                 }}
                 onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(250,204,60,0.4)'; }}
-                onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}
+                onBlur={(e) => { e.currentTarget.style.borderColor = 'var(--c-border-strong)'; }}
               />
               <button
                 onClick={() => { if (inputVal.trim()) addPalavras(inputVal); }}
@@ -211,19 +211,19 @@ export const GatilhoDrawer: React.FC<GatilhoDrawerProps> = ({ open, onClose, onS
 
           {/* Preview */}
           <div>
-            <p className="text-[11px] uppercase tracking-[0.08em] mb-2" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <p className="text-[11px] uppercase tracking-[0.08em] mb-2" style={{ color: 'var(--c-t-40)' }}>
               Como o lead vê
             </p>
             <div
               className="p-3 rounded-lg text-[12px] leading-relaxed"
-              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
+              style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
             >
               {previewWord ? (
-                <span style={{ color: 'rgba(255,255,255,0.7)' }}>
+                <span style={{ color: 'var(--c-t-70)' }}>
                   Oi, vim pelo <strong style={{ color: '#facc3c' }}>{previewWord}</strong>!
                 </span>
               ) : (
-                <span style={{ color: 'rgba(255,255,255,0.3)' }}>
+                <span style={{ color: 'var(--c-t-30)' }}>
                   Adicione pelo menos uma palavra para ver o preview
                 </span>
               )}

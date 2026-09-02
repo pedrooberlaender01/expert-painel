@@ -15,7 +15,7 @@ const COLOR_PALETTE = [
   '#ec4899', '#14b8a6', '#f97316', '#6366f1', '#06b6d4',
 ];
 
-const INPUT_CLASS = 'w-full px-3 py-2.5 rounded-xl text-sm text-white bg-white/[0.04] border border-white/[0.06] focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 placeholder-white/[0.25] transition-all';
+const INPUT_CLASS = 'w-full px-3 py-2.5 rounded-xl text-sm text-txt bg-glass border border-glass focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 placeholder-txt-dim transition-all';
 
 const SECTION_KEYS = [
   { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -82,7 +82,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ label, value, onChange }) => 
 
   return (
     <div>
-      <label className="block text-xs text-white/50 mb-2">{label}</label>
+      <label className="block text-xs text-txt-muted mb-2">{label}</label>
       <div className="flex items-center gap-2 flex-wrap">
         {COLOR_PALETTE.map((color) => (
           <button
@@ -92,26 +92,26 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ label, value, onChange }) => 
             className="w-8 h-8 rounded-full cursor-pointer border-2 transition-all flex-shrink-0"
             style={{
               background: color,
-              borderColor: value === color ? 'white' : 'transparent',
+              borderColor: value === color ? 'rgb(var(--c-fg-rgb))' : 'transparent',
               boxShadow: value === color ? `0 0 0 2px ${color}40` : 'none',
             }}
           />
         ))}
         {/* Live preview */}
         <div
-          className="w-8 h-8 rounded-full border border-white/10 flex-shrink-0"
+          className="w-8 h-8 rounded-full border border-glass flex-shrink-0"
           style={{ background: value }}
         />
       </div>
       <div className="flex items-center gap-2 mt-2">
-        <span className="text-xs text-white/30">#</span>
+        <span className="text-xs text-txt-dim">#</span>
         <input
           type="text"
           value={customHex ? customHex.replace('#', '') : value.replace('#', '')}
           onChange={(e) => handleCustomChange(`#${e.target.value.replace('#', '')}`)}
           placeholder="hex"
           maxLength={7}
-          className="w-28 px-2 py-1.5 rounded-lg text-xs text-white bg-white/[0.04] border border-white/[0.06] focus:border-primary/50 focus:outline-none placeholder-white/[0.25]"
+          className="w-28 px-2 py-1.5 rounded-lg text-xs text-txt bg-glass border border-glass focus:border-primary/50 focus:outline-none placeholder-txt-dim"
         />
       </div>
     </div>
@@ -498,10 +498,10 @@ export const AdminExpertForm: React.FC = () => {
 
         {/* Section 1: Dados Basicos */}
         <div className="glass-card p-5 space-y-4">
-          <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Dados Basicos</h3>
+          <h3 className="text-sm font-semibold text-txt-secondary uppercase tracking-wider">Dados Basicos</h3>
 
           <div>
-            <label className="block text-xs text-white/50 mb-1.5">Nome *</label>
+            <label className="block text-xs text-txt-muted mb-1.5">Nome *</label>
             <input
               type="text"
               value={form.nome}
@@ -513,7 +513,7 @@ export const AdminExpertForm: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs text-white/50 mb-1.5">Slug</label>
+            <label className="block text-xs text-txt-muted mb-1.5">Slug</label>
             <input
               type="text"
               value={form.slug}
@@ -524,7 +524,7 @@ export const AdminExpertForm: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs text-white/50 mb-1.5">Nome da Plataforma</label>
+            <label className="block text-xs text-txt-muted mb-1.5">Nome da Plataforma</label>
             <input
               type="text"
               value={form.nome_plataforma}
@@ -535,7 +535,7 @@ export const AdminExpertForm: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs text-white/50 mb-1.5">Nome da Assistente</label>
+            <label className="block text-xs text-txt-muted mb-1.5">Nome da Assistente</label>
             <input
               type="text"
               value={form.nome_assistente}
@@ -548,7 +548,7 @@ export const AdminExpertForm: React.FC = () => {
 
         {/* Section 2: Cores */}
         <div className="glass-card p-5 space-y-4">
-          <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Cores</h3>
+          <h3 className="text-sm font-semibold text-txt-secondary uppercase tracking-wider">Cores</h3>
           <ColorPicker
             label="Cor Primaria"
             value={form.cor_primaria}
@@ -563,19 +563,19 @@ export const AdminExpertForm: React.FC = () => {
 
         {/* Section 3: Logo */}
         <div className="glass-card p-5 space-y-4">
-          <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Logo</h3>
+          <h3 className="text-sm font-semibold text-txt-secondary uppercase tracking-wider">Logo</h3>
 
           {form.logo_url && (
             <div className="flex items-center gap-3">
               <img
                 src={form.logo_url}
                 alt="Logo"
-                className="w-16 h-16 rounded-xl object-cover border border-white/10"
+                className="w-16 h-16 rounded-xl object-cover border border-glass"
               />
               <button
                 type="button"
                 onClick={() => setForm((prev) => ({ ...prev, logo_url: null }))}
-                className="p-1.5 rounded-lg text-white/40 hover:text-red-400 hover:bg-red-500/10 transition-all"
+                className="p-1.5 rounded-lg text-txt-dim hover:text-red-400 hover:bg-red-500/10 transition-all"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -586,14 +586,14 @@ export const AdminExpertForm: React.FC = () => {
             onDrop={handleDrop}
             onDragOver={(e) => e.preventDefault()}
             onClick={() => fileInputRef.current?.click()}
-            className="border-2 border-dashed border-white/[0.08] rounded-xl p-8 text-center cursor-pointer hover:border-primary/30 hover:bg-primary/[0.02] transition-all"
+            className="border-2 border-dashed border-glass rounded-xl p-8 text-center cursor-pointer hover:border-primary/30 hover:bg-primary/[0.02] transition-all"
           >
             {uploadingLogo ? (
               <Loader2 className="w-6 h-6 text-primary-light animate-spin mx-auto" />
             ) : (
               <>
-                <Upload className="w-6 h-6 text-white/30 mx-auto mb-2" />
-                <p className="text-xs text-white/40">Arraste uma imagem ou clique para selecionar</p>
+                <Upload className="w-6 h-6 text-txt-dim mx-auto mb-2" />
+                <p className="text-xs text-txt-dim">Arraste uma imagem ou clique para selecionar</p>
               </>
             )}
           </div>
@@ -611,20 +611,20 @@ export const AdminExpertForm: React.FC = () => {
 
         {/* Section 3.5: Favicon */}
         <div className="glass-card p-5 space-y-4">
-          <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Favicon</h3>
-          <p className="text-[11px] text-white/35">Icone exibido na aba do navegador. Recomendado: imagem quadrada, 32x32 ou 64x64.</p>
+          <h3 className="text-sm font-semibold text-txt-secondary uppercase tracking-wider">Favicon</h3>
+          <p className="text-[11px] text-txt-dim">Icone exibido na aba do navegador. Recomendado: imagem quadrada, 32x32 ou 64x64.</p>
 
           {form.favicon_url && (
             <div className="flex items-center gap-3">
               <img
                 src={form.favicon_url}
                 alt="Favicon"
-                className="w-8 h-8 rounded object-cover border border-white/10"
+                className="w-8 h-8 rounded object-cover border border-glass"
               />
               <button
                 type="button"
                 onClick={() => setForm((prev) => ({ ...prev, favicon_url: null }))}
-                className="p-1.5 rounded-lg text-white/40 hover:text-red-400 hover:bg-red-500/10 transition-all"
+                className="p-1.5 rounded-lg text-txt-dim hover:text-red-400 hover:bg-red-500/10 transition-all"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -635,14 +635,14 @@ export const AdminExpertForm: React.FC = () => {
             onDrop={(e) => { e.preventDefault(); const file = e.dataTransfer.files[0]; if (file && file.type.startsWith('image/')) handleFaviconUpload(file); }}
             onDragOver={(e) => e.preventDefault()}
             onClick={() => faviconInputRef.current?.click()}
-            className="border-2 border-dashed border-white/[0.08] rounded-xl p-6 text-center cursor-pointer hover:border-primary/30 hover:bg-primary/[0.02] transition-all"
+            className="border-2 border-dashed border-glass rounded-xl p-6 text-center cursor-pointer hover:border-primary/30 hover:bg-primary/[0.02] transition-all"
           >
             {uploadingFavicon ? (
               <Loader2 className="w-5 h-5 text-primary-light animate-spin mx-auto" />
             ) : (
               <>
-                <Upload className="w-5 h-5 text-white/30 mx-auto mb-2" />
-                <p className="text-xs text-white/40">Arraste ou clique para enviar</p>
+                <Upload className="w-5 h-5 text-txt-dim mx-auto mb-2" />
+                <p className="text-xs text-txt-dim">Arraste ou clique para enviar</p>
               </>
             )}
           </div>
@@ -660,7 +660,7 @@ export const AdminExpertForm: React.FC = () => {
 
         {/* Section 4: Plano */}
         <div className="glass-card p-5 space-y-4">
-          <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Plano</h3>
+          <h3 className="text-sm font-semibold text-txt-secondary uppercase tracking-wider">Plano</h3>
           <select
             value={form.plano_id || ''}
             onChange={(e) => setForm((prev) => ({ ...prev, plano_id: e.target.value || null }))}
@@ -672,7 +672,7 @@ export const AdminExpertForm: React.FC = () => {
             ))}
           </select>
           {selectedPlano && (
-            <div className="text-xs text-white/40 space-y-1 mt-2 pl-1">
+            <div className="text-xs text-txt-dim space-y-1 mt-2 pl-1">
               <p>Max Leads: {selectedPlano.max_leads ?? 'Ilimitado'}</p>
               <p>Max Instancias: {selectedPlano.max_instancias}</p>
               <p>Max Envios/Mes: {selectedPlano.max_envios_mes ?? 'Ilimitado'}</p>
@@ -683,8 +683,8 @@ export const AdminExpertForm: React.FC = () => {
 
         {/* Section 4.5: Secoes do Painel */}
         <div className="glass-card p-5 space-y-4">
-          <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Secoes do Painel</h3>
-          <p className="text-xs text-white/30">Controle a visibilidade de cada secao: visivel, cadeado ou oculta</p>
+          <h3 className="text-sm font-semibold text-txt-secondary uppercase tracking-wider">Secoes do Painel</h3>
+          <p className="text-xs text-txt-dim">Controle a visibilidade de cada secao: visivel, cadeado ou oculta</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {SECTION_KEYS.map(({ key, label, icon: Icon }) => {
               // Resolve estado: retrocompat com formato boolean antigo
@@ -703,9 +703,9 @@ export const AdminExpertForm: React.FC = () => {
               const nextState = state === 'enabled' ? 'disabled' : state === 'disabled' ? 'hidden' : 'enabled';
 
               const stateConfig = {
-                enabled: { border: 'rgba(var(--color-primary-rgb),0.3)', bg: 'rgba(var(--color-primary-rgb),0.06)', iconColor: 'var(--color-primary-light)', labelColor: '#fff', badge: 'Visivel', badgeBg: 'rgba(var(--color-primary-rgb),0.15)', badgeBorder: 'rgba(var(--color-primary-rgb),0.25)', badgeColor: 'var(--color-primary-light)' },
-                disabled: { border: 'rgba(250,204,21,0.25)', bg: 'rgba(250,204,21,0.04)', iconColor: '#facc15', labelColor: 'rgba(255,255,255,0.5)', badge: 'Cadeado', badgeBg: 'rgba(250,204,21,0.1)', badgeBorder: 'rgba(250,204,21,0.2)', badgeColor: '#facc15' },
-                hidden: { border: 'rgba(255,255,255,0.04)', bg: 'rgba(255,255,255,0.02)', iconColor: 'rgba(255,255,255,0.15)', labelColor: 'rgba(255,255,255,0.25)', badge: 'Oculta', badgeBg: 'rgba(255,255,255,0.04)', badgeBorder: 'rgba(255,255,255,0.06)', badgeColor: 'rgba(255,255,255,0.3)' },
+                enabled: { border: 'rgba(var(--color-primary-rgb),0.3)', bg: 'rgba(var(--color-primary-rgb),0.06)', iconColor: 'var(--color-primary-light)', labelColor: 'rgb(var(--c-fg-rgb))', badge: 'Visivel', badgeBg: 'rgba(var(--color-primary-rgb),0.15)', badgeBorder: 'rgba(var(--color-primary-rgb),0.25)', badgeColor: 'var(--color-primary-light)' },
+                disabled: { border: 'rgba(250,204,21,0.25)', bg: 'rgba(250,204,21,0.04)', iconColor: '#facc15', labelColor: 'rgb(var(--c-fg-rgb) / 0.5)', badge: 'Cadeado', badgeBg: 'rgba(250,204,21,0.1)', badgeBorder: 'rgba(250,204,21,0.2)', badgeColor: '#facc15' },
+                hidden: { border: 'var(--c-border)', bg: 'var(--c-glass-2)', iconColor: 'rgb(var(--c-fg-rgb) / 0.15)', labelColor: 'rgb(var(--c-fg-rgb) / 0.25)', badge: 'Oculta', badgeBg: 'var(--c-glass)', badgeBorder: 'var(--c-border)', badgeColor: 'rgb(var(--c-fg-rgb) / 0.3)' },
               }[state];
 
               return (
@@ -728,7 +728,7 @@ export const AdminExpertForm: React.FC = () => {
                   <div className="relative">
                     <Icon className="w-5 h-5" style={{ color: stateConfig.iconColor }} />
                     {state === 'disabled' && <Lock className="w-2.5 h-2.5 absolute -bottom-0.5 -right-1" style={{ color: '#facc15' }} />}
-                    {state === 'hidden' && <EyeOff className="w-2.5 h-2.5 absolute -bottom-0.5 -right-1" style={{ color: 'rgba(255,255,255,0.25)' }} />}
+                    {state === 'hidden' && <EyeOff className="w-2.5 h-2.5 absolute -bottom-0.5 -right-1" style={{ color: 'var(--c-t-25)' }} />}
                   </div>
                   <span className="text-[11px] font-medium text-center leading-tight" style={{ color: stateConfig.labelColor }}>{label}</span>
                   <span
@@ -745,8 +745,8 @@ export const AdminExpertForm: React.FC = () => {
 
         {/* Section 4.6: Funcionalidades de Grupos */}
         <div className="glass-card p-5 space-y-4">
-          <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Funcionalidades de Grupos</h3>
-          <p className="text-xs text-white/30">Controle as funcionalidades disponíveis dentro da aba Grupos</p>
+          <h3 className="text-sm font-semibold text-txt-secondary uppercase tracking-wider">Funcionalidades de Grupos</h3>
+          <p className="text-xs text-txt-dim">Controle as funcionalidades disponíveis dentro da aba Grupos</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {GRUPOS_SUB_KEYS.map(({ key, label, icon: Icon }) => {
               const raw = form.secoes_habilitadas?.[key];
@@ -758,9 +758,9 @@ export const AdminExpertForm: React.FC = () => {
               const nextState = state === 'enabled' ? 'disabled' : state === 'disabled' ? 'hidden' : 'enabled';
 
               const stateConfig = {
-                enabled: { border: 'rgba(var(--color-primary-rgb),0.3)', bg: 'rgba(var(--color-primary-rgb),0.06)', iconColor: 'var(--color-primary-light)', labelColor: '#fff', badge: 'Visivel', badgeBg: 'rgba(var(--color-primary-rgb),0.15)', badgeBorder: 'rgba(var(--color-primary-rgb),0.25)', badgeColor: 'var(--color-primary-light)' },
-                disabled: { border: 'rgba(250,204,21,0.25)', bg: 'rgba(250,204,21,0.04)', iconColor: '#facc15', labelColor: 'rgba(255,255,255,0.5)', badge: 'Cadeado', badgeBg: 'rgba(250,204,21,0.1)', badgeBorder: 'rgba(250,204,21,0.2)', badgeColor: '#facc15' },
-                hidden: { border: 'rgba(255,255,255,0.04)', bg: 'rgba(255,255,255,0.02)', iconColor: 'rgba(255,255,255,0.15)', labelColor: 'rgba(255,255,255,0.25)', badge: 'Oculta', badgeBg: 'rgba(255,255,255,0.04)', badgeBorder: 'rgba(255,255,255,0.06)', badgeColor: 'rgba(255,255,255,0.3)' },
+                enabled: { border: 'rgba(var(--color-primary-rgb),0.3)', bg: 'rgba(var(--color-primary-rgb),0.06)', iconColor: 'var(--color-primary-light)', labelColor: 'rgb(var(--c-fg-rgb))', badge: 'Visivel', badgeBg: 'rgba(var(--color-primary-rgb),0.15)', badgeBorder: 'rgba(var(--color-primary-rgb),0.25)', badgeColor: 'var(--color-primary-light)' },
+                disabled: { border: 'rgba(250,204,21,0.25)', bg: 'rgba(250,204,21,0.04)', iconColor: '#facc15', labelColor: 'rgb(var(--c-fg-rgb) / 0.5)', badge: 'Cadeado', badgeBg: 'rgba(250,204,21,0.1)', badgeBorder: 'rgba(250,204,21,0.2)', badgeColor: '#facc15' },
+                hidden: { border: 'var(--c-border)', bg: 'var(--c-glass-2)', iconColor: 'rgb(var(--c-fg-rgb) / 0.15)', labelColor: 'rgb(var(--c-fg-rgb) / 0.25)', badge: 'Oculta', badgeBg: 'var(--c-glass)', badgeBorder: 'var(--c-border)', badgeColor: 'rgb(var(--c-fg-rgb) / 0.3)' },
               }[state];
 
               return (
@@ -779,7 +779,7 @@ export const AdminExpertForm: React.FC = () => {
                   <div className="relative">
                     <Icon className="w-5 h-5" style={{ color: stateConfig.iconColor }} />
                     {state === 'disabled' && <Lock className="w-2.5 h-2.5 absolute -bottom-0.5 -right-1" style={{ color: '#facc15' }} />}
-                    {state === 'hidden' && <EyeOff className="w-2.5 h-2.5 absolute -bottom-0.5 -right-1" style={{ color: 'rgba(255,255,255,0.25)' }} />}
+                    {state === 'hidden' && <EyeOff className="w-2.5 h-2.5 absolute -bottom-0.5 -right-1" style={{ color: 'var(--c-t-25)' }} />}
                   </div>
                   <span className="text-[11px] font-medium text-center leading-tight" style={{ color: stateConfig.labelColor }}>{label}</span>
                   <span
@@ -796,8 +796,8 @@ export const AdminExpertForm: React.FC = () => {
 
         {/* Section 4.65: Funcionalidades de Moderação */}
         <div className="glass-card p-5 space-y-4">
-          <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Abas de Moderação</h3>
-          <p className="text-xs text-white/30">Controle as abas disponíveis dentro de Grupos → Moderação</p>
+          <h3 className="text-sm font-semibold text-txt-secondary uppercase tracking-wider">Abas de Moderação</h3>
+          <p className="text-xs text-txt-dim">Controle as abas disponíveis dentro de Grupos → Moderação</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {MODERACAO_SUB_KEYS.map(({ key, label, icon: Icon }) => {
               const raw = form.secoes_habilitadas?.[key];
@@ -809,9 +809,9 @@ export const AdminExpertForm: React.FC = () => {
               const nextState = state === 'enabled' ? 'disabled' : state === 'disabled' ? 'hidden' : 'enabled';
 
               const stateConfig = {
-                enabled: { border: 'rgba(var(--color-primary-rgb),0.3)', bg: 'rgba(var(--color-primary-rgb),0.06)', iconColor: 'var(--color-primary-light)', labelColor: '#fff', badge: 'Visivel', badgeBg: 'rgba(var(--color-primary-rgb),0.15)', badgeBorder: 'rgba(var(--color-primary-rgb),0.25)', badgeColor: 'var(--color-primary-light)' },
-                disabled: { border: 'rgba(250,204,21,0.25)', bg: 'rgba(250,204,21,0.04)', iconColor: '#facc15', labelColor: 'rgba(255,255,255,0.5)', badge: 'Cadeado', badgeBg: 'rgba(250,204,21,0.1)', badgeBorder: 'rgba(250,204,21,0.2)', badgeColor: '#facc15' },
-                hidden: { border: 'rgba(255,255,255,0.04)', bg: 'rgba(255,255,255,0.02)', iconColor: 'rgba(255,255,255,0.15)', labelColor: 'rgba(255,255,255,0.25)', badge: 'Oculta', badgeBg: 'rgba(255,255,255,0.04)', badgeBorder: 'rgba(255,255,255,0.06)', badgeColor: 'rgba(255,255,255,0.3)' },
+                enabled: { border: 'rgba(var(--color-primary-rgb),0.3)', bg: 'rgba(var(--color-primary-rgb),0.06)', iconColor: 'var(--color-primary-light)', labelColor: 'rgb(var(--c-fg-rgb))', badge: 'Visivel', badgeBg: 'rgba(var(--color-primary-rgb),0.15)', badgeBorder: 'rgba(var(--color-primary-rgb),0.25)', badgeColor: 'var(--color-primary-light)' },
+                disabled: { border: 'rgba(250,204,21,0.25)', bg: 'rgba(250,204,21,0.04)', iconColor: '#facc15', labelColor: 'rgb(var(--c-fg-rgb) / 0.5)', badge: 'Cadeado', badgeBg: 'rgba(250,204,21,0.1)', badgeBorder: 'rgba(250,204,21,0.2)', badgeColor: '#facc15' },
+                hidden: { border: 'var(--c-border)', bg: 'var(--c-glass-2)', iconColor: 'rgb(var(--c-fg-rgb) / 0.15)', labelColor: 'rgb(var(--c-fg-rgb) / 0.25)', badge: 'Oculta', badgeBg: 'var(--c-glass)', badgeBorder: 'var(--c-border)', badgeColor: 'rgb(var(--c-fg-rgb) / 0.3)' },
               }[state];
 
               return (
@@ -830,7 +830,7 @@ export const AdminExpertForm: React.FC = () => {
                   <div className="relative">
                     <Icon className="w-5 h-5" style={{ color: stateConfig.iconColor }} />
                     {state === 'disabled' && <Lock className="w-2.5 h-2.5 absolute -bottom-0.5 -right-1" style={{ color: '#facc15' }} />}
-                    {state === 'hidden' && <EyeOff className="w-2.5 h-2.5 absolute -bottom-0.5 -right-1" style={{ color: 'rgba(255,255,255,0.25)' }} />}
+                    {state === 'hidden' && <EyeOff className="w-2.5 h-2.5 absolute -bottom-0.5 -right-1" style={{ color: 'var(--c-t-25)' }} />}
                   </div>
                   <span className="text-[11px] font-medium text-center leading-tight" style={{ color: stateConfig.labelColor }}>{label}</span>
                   <span
@@ -847,8 +847,8 @@ export const AdminExpertForm: React.FC = () => {
 
         {/* Section 4.7: Funcionalidades de Torneios */}
         <div className="glass-card p-5 space-y-4">
-          <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Funcionalidades de Torneios</h3>
-          <p className="text-xs text-white/30">Controle as funcionalidades disponíveis dentro da aba Torneios</p>
+          <h3 className="text-sm font-semibold text-txt-secondary uppercase tracking-wider">Funcionalidades de Torneios</h3>
+          <p className="text-xs text-txt-dim">Controle as funcionalidades disponíveis dentro da aba Torneios</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {TORNEIOS_SUB_KEYS.map(({ key, label, icon: Icon }) => {
               const raw = form.secoes_habilitadas?.[key];
@@ -860,9 +860,9 @@ export const AdminExpertForm: React.FC = () => {
               const nextState = state === 'enabled' ? 'disabled' : state === 'disabled' ? 'hidden' : 'enabled';
 
               const stateConfig = {
-                enabled: { border: 'rgba(var(--color-primary-rgb),0.3)', bg: 'rgba(var(--color-primary-rgb),0.06)', iconColor: 'var(--color-primary-light)', labelColor: '#fff', badge: 'Visivel', badgeBg: 'rgba(var(--color-primary-rgb),0.15)', badgeBorder: 'rgba(var(--color-primary-rgb),0.25)', badgeColor: 'var(--color-primary-light)' },
-                disabled: { border: 'rgba(250,204,21,0.25)', bg: 'rgba(250,204,21,0.04)', iconColor: '#facc15', labelColor: 'rgba(255,255,255,0.5)', badge: 'Cadeado', badgeBg: 'rgba(250,204,21,0.1)', badgeBorder: 'rgba(250,204,21,0.2)', badgeColor: '#facc15' },
-                hidden: { border: 'rgba(255,255,255,0.04)', bg: 'rgba(255,255,255,0.02)', iconColor: 'rgba(255,255,255,0.15)', labelColor: 'rgba(255,255,255,0.25)', badge: 'Oculta', badgeBg: 'rgba(255,255,255,0.04)', badgeBorder: 'rgba(255,255,255,0.06)', badgeColor: 'rgba(255,255,255,0.3)' },
+                enabled: { border: 'rgba(var(--color-primary-rgb),0.3)', bg: 'rgba(var(--color-primary-rgb),0.06)', iconColor: 'var(--color-primary-light)', labelColor: 'rgb(var(--c-fg-rgb))', badge: 'Visivel', badgeBg: 'rgba(var(--color-primary-rgb),0.15)', badgeBorder: 'rgba(var(--color-primary-rgb),0.25)', badgeColor: 'var(--color-primary-light)' },
+                disabled: { border: 'rgba(250,204,21,0.25)', bg: 'rgba(250,204,21,0.04)', iconColor: '#facc15', labelColor: 'rgb(var(--c-fg-rgb) / 0.5)', badge: 'Cadeado', badgeBg: 'rgba(250,204,21,0.1)', badgeBorder: 'rgba(250,204,21,0.2)', badgeColor: '#facc15' },
+                hidden: { border: 'var(--c-border)', bg: 'var(--c-glass-2)', iconColor: 'rgb(var(--c-fg-rgb) / 0.15)', labelColor: 'rgb(var(--c-fg-rgb) / 0.25)', badge: 'Oculta', badgeBg: 'var(--c-glass)', badgeBorder: 'var(--c-border)', badgeColor: 'rgb(var(--c-fg-rgb) / 0.3)' },
               }[state];
 
               return (
@@ -881,7 +881,7 @@ export const AdminExpertForm: React.FC = () => {
                   <div className="relative">
                     <Icon className="w-5 h-5" style={{ color: stateConfig.iconColor }} />
                     {state === 'disabled' && <Lock className="w-2.5 h-2.5 absolute -bottom-0.5 -right-1" style={{ color: '#facc15' }} />}
-                    {state === 'hidden' && <EyeOff className="w-2.5 h-2.5 absolute -bottom-0.5 -right-1" style={{ color: 'rgba(255,255,255,0.25)' }} />}
+                    {state === 'hidden' && <EyeOff className="w-2.5 h-2.5 absolute -bottom-0.5 -right-1" style={{ color: 'var(--c-t-25)' }} />}
                   </div>
                   <span className="text-[11px] font-medium text-center leading-tight" style={{ color: stateConfig.labelColor }}>{label}</span>
                   <span
@@ -898,8 +898,8 @@ export const AdminExpertForm: React.FC = () => {
 
         {/* Section 4.8: Funcionalidades de Mensagens */}
         <div className="glass-card p-5 space-y-4">
-          <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Funcionalidades de Mensagens</h3>
-          <p className="text-xs text-white/30">Controle as abas disponíveis dentro da página Mensagens</p>
+          <h3 className="text-sm font-semibold text-txt-secondary uppercase tracking-wider">Funcionalidades de Mensagens</h3>
+          <p className="text-xs text-txt-dim">Controle as abas disponíveis dentro da página Mensagens</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {MENSAGENS_SUB_KEYS.map(({ key, label, icon: Icon }) => {
               const raw = form.secoes_habilitadas?.[key];
@@ -911,9 +911,9 @@ export const AdminExpertForm: React.FC = () => {
               const nextState = state === 'enabled' ? 'disabled' : state === 'disabled' ? 'hidden' : 'enabled';
 
               const stateConfig = {
-                enabled: { border: 'rgba(var(--color-primary-rgb),0.3)', bg: 'rgba(var(--color-primary-rgb),0.06)', iconColor: 'var(--color-primary-light)', labelColor: '#fff', badge: 'Visivel', badgeBg: 'rgba(var(--color-primary-rgb),0.15)', badgeBorder: 'rgba(var(--color-primary-rgb),0.25)', badgeColor: 'var(--color-primary-light)' },
-                disabled: { border: 'rgba(250,204,21,0.25)', bg: 'rgba(250,204,21,0.04)', iconColor: '#facc15', labelColor: 'rgba(255,255,255,0.5)', badge: 'Cadeado', badgeBg: 'rgba(250,204,21,0.1)', badgeBorder: 'rgba(250,204,21,0.2)', badgeColor: '#facc15' },
-                hidden: { border: 'rgba(255,255,255,0.04)', bg: 'rgba(255,255,255,0.02)', iconColor: 'rgba(255,255,255,0.15)', labelColor: 'rgba(255,255,255,0.25)', badge: 'Oculta', badgeBg: 'rgba(255,255,255,0.04)', badgeBorder: 'rgba(255,255,255,0.06)', badgeColor: 'rgba(255,255,255,0.3)' },
+                enabled: { border: 'rgba(var(--color-primary-rgb),0.3)', bg: 'rgba(var(--color-primary-rgb),0.06)', iconColor: 'var(--color-primary-light)', labelColor: 'rgb(var(--c-fg-rgb))', badge: 'Visivel', badgeBg: 'rgba(var(--color-primary-rgb),0.15)', badgeBorder: 'rgba(var(--color-primary-rgb),0.25)', badgeColor: 'var(--color-primary-light)' },
+                disabled: { border: 'rgba(250,204,21,0.25)', bg: 'rgba(250,204,21,0.04)', iconColor: '#facc15', labelColor: 'rgb(var(--c-fg-rgb) / 0.5)', badge: 'Cadeado', badgeBg: 'rgba(250,204,21,0.1)', badgeBorder: 'rgba(250,204,21,0.2)', badgeColor: '#facc15' },
+                hidden: { border: 'var(--c-border)', bg: 'var(--c-glass-2)', iconColor: 'rgb(var(--c-fg-rgb) / 0.15)', labelColor: 'rgb(var(--c-fg-rgb) / 0.25)', badge: 'Oculta', badgeBg: 'var(--c-glass)', badgeBorder: 'var(--c-border)', badgeColor: 'rgb(var(--c-fg-rgb) / 0.3)' },
               }[state];
 
               return (
@@ -932,7 +932,7 @@ export const AdminExpertForm: React.FC = () => {
                   <div className="relative">
                     <Icon className="w-5 h-5" style={{ color: stateConfig.iconColor }} />
                     {state === 'disabled' && <Lock className="w-2.5 h-2.5 absolute -bottom-0.5 -right-1" style={{ color: '#facc15' }} />}
-                    {state === 'hidden' && <EyeOff className="w-2.5 h-2.5 absolute -bottom-0.5 -right-1" style={{ color: 'rgba(255,255,255,0.25)' }} />}
+                    {state === 'hidden' && <EyeOff className="w-2.5 h-2.5 absolute -bottom-0.5 -right-1" style={{ color: 'var(--c-t-25)' }} />}
                   </div>
                   <span className="text-[11px] font-medium text-center leading-tight" style={{ color: stateConfig.labelColor }}>{label}</span>
                   <span
@@ -949,8 +949,8 @@ export const AdminExpertForm: React.FC = () => {
 
         {/* Section 4.9: Funcionalidades de Envios */}
         <div className="glass-card p-5 space-y-4">
-          <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Funcionalidades de Envios</h3>
-          <p className="text-xs text-white/30">Controle as abas disponíveis dentro da página Envios</p>
+          <h3 className="text-sm font-semibold text-txt-secondary uppercase tracking-wider">Funcionalidades de Envios</h3>
+          <p className="text-xs text-txt-dim">Controle as abas disponíveis dentro da página Envios</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {ENVIOS_SUB_KEYS.map(({ key, label, icon: Icon }) => {
               const raw = form.secoes_habilitadas?.[key];
@@ -962,9 +962,9 @@ export const AdminExpertForm: React.FC = () => {
               const nextState = state === 'enabled' ? 'disabled' : state === 'disabled' ? 'hidden' : 'enabled';
 
               const stateConfig = {
-                enabled: { border: 'rgba(var(--color-primary-rgb),0.3)', bg: 'rgba(var(--color-primary-rgb),0.06)', iconColor: 'var(--color-primary-light)', labelColor: '#fff', badge: 'Visivel', badgeBg: 'rgba(var(--color-primary-rgb),0.15)', badgeBorder: 'rgba(var(--color-primary-rgb),0.25)', badgeColor: 'var(--color-primary-light)' },
-                disabled: { border: 'rgba(250,204,21,0.25)', bg: 'rgba(250,204,21,0.04)', iconColor: '#facc15', labelColor: 'rgba(255,255,255,0.5)', badge: 'Cadeado', badgeBg: 'rgba(250,204,21,0.1)', badgeBorder: 'rgba(250,204,21,0.2)', badgeColor: '#facc15' },
-                hidden: { border: 'rgba(255,255,255,0.04)', bg: 'rgba(255,255,255,0.02)', iconColor: 'rgba(255,255,255,0.15)', labelColor: 'rgba(255,255,255,0.25)', badge: 'Oculta', badgeBg: 'rgba(255,255,255,0.04)', badgeBorder: 'rgba(255,255,255,0.06)', badgeColor: 'rgba(255,255,255,0.3)' },
+                enabled: { border: 'rgba(var(--color-primary-rgb),0.3)', bg: 'rgba(var(--color-primary-rgb),0.06)', iconColor: 'var(--color-primary-light)', labelColor: 'rgb(var(--c-fg-rgb))', badge: 'Visivel', badgeBg: 'rgba(var(--color-primary-rgb),0.15)', badgeBorder: 'rgba(var(--color-primary-rgb),0.25)', badgeColor: 'var(--color-primary-light)' },
+                disabled: { border: 'rgba(250,204,21,0.25)', bg: 'rgba(250,204,21,0.04)', iconColor: '#facc15', labelColor: 'rgb(var(--c-fg-rgb) / 0.5)', badge: 'Cadeado', badgeBg: 'rgba(250,204,21,0.1)', badgeBorder: 'rgba(250,204,21,0.2)', badgeColor: '#facc15' },
+                hidden: { border: 'var(--c-border)', bg: 'var(--c-glass-2)', iconColor: 'rgb(var(--c-fg-rgb) / 0.15)', labelColor: 'rgb(var(--c-fg-rgb) / 0.25)', badge: 'Oculta', badgeBg: 'var(--c-glass)', badgeBorder: 'var(--c-border)', badgeColor: 'rgb(var(--c-fg-rgb) / 0.3)' },
               }[state];
 
               return (
@@ -983,7 +983,7 @@ export const AdminExpertForm: React.FC = () => {
                   <div className="relative">
                     <Icon className="w-5 h-5" style={{ color: stateConfig.iconColor }} />
                     {state === 'disabled' && <Lock className="w-2.5 h-2.5 absolute -bottom-0.5 -right-1" style={{ color: '#facc15' }} />}
-                    {state === 'hidden' && <EyeOff className="w-2.5 h-2.5 absolute -bottom-0.5 -right-1" style={{ color: 'rgba(255,255,255,0.25)' }} />}
+                    {state === 'hidden' && <EyeOff className="w-2.5 h-2.5 absolute -bottom-0.5 -right-1" style={{ color: 'var(--c-t-25)' }} />}
                   </div>
                   <span className="text-[11px] font-medium text-center leading-tight" style={{ color: stateConfig.labelColor }}>{label}</span>
                   <span
@@ -1000,11 +1000,11 @@ export const AdminExpertForm: React.FC = () => {
 
         {/* Section 5: Credenciais de Acesso */}
         <div className="glass-card p-5 space-y-4">
-          <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Credenciais de Acesso</h3>
-          <p className="text-xs text-white/30">Estas credenciais permitem ao expert acessar o painel</p>
+          <h3 className="text-sm font-semibold text-txt-secondary uppercase tracking-wider">Credenciais de Acesso</h3>
+          <p className="text-xs text-txt-dim">Estas credenciais permitem ao expert acessar o painel</p>
 
           <div>
-            <label className="block text-xs text-white/50 mb-1.5">Email {!isEditing && '*'}</label>
+            <label className="block text-xs text-txt-muted mb-1.5">Email {!isEditing && '*'}</label>
             <input
               type="email"
               value={form.email || ''}
@@ -1017,9 +1017,9 @@ export const AdminExpertForm: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs text-white/50 mb-1.5">
+            <label className="block text-xs text-txt-muted mb-1.5">
               Senha {!isEditing && '*'}
-              {isEditing && <span className="text-white/30 ml-1">(digite a nova senha e clique em Alterar)</span>}
+              {isEditing && <span className="text-txt-dim ml-1">(digite a nova senha e clique em Alterar)</span>}
             </label>
             <div className="flex gap-2">
               <input
@@ -1071,26 +1071,26 @@ export const AdminExpertForm: React.FC = () => {
         {/* Section 6: Instancias UAZAPI (edit only) */}
         {isEditing && detail && (
           <div className="glass-card p-5 space-y-4">
-            <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Instancias UAZAPI</h3>
+            <h3 className="text-sm font-semibold text-txt-secondary uppercase tracking-wider">Instancias UAZAPI</h3>
             {detail.instancias.length === 0 ? (
-              <p className="text-xs text-white/30">Nenhuma instancia atribuida a este expert</p>
+              <p className="text-xs text-txt-dim">Nenhuma instancia atribuida a este expert</p>
             ) : (
               <div className="space-y-2">
                 {detail.instancias.map((inst) => (
                   <div
                     key={inst.id}
                     className="flex items-center justify-between px-3 py-2 rounded-xl"
-                    style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}
+                    style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}
                   >
                     <div className="flex items-center gap-2">
                       <span
                         className="w-2 h-2 rounded-full"
                         style={{ background: inst.ativo ? '#10b981' : '#ef4444' }}
                       />
-                      <span className="text-sm text-white/80">{inst.nome}</span>
-                      <span className="text-xs text-white/30 font-mono">{inst.numero}</span>
+                      <span className="text-sm text-txt-secondary">{inst.nome}</span>
+                      <span className="text-xs text-txt-dim font-mono">{inst.numero}</span>
                     </div>
-                    <span className="text-xs text-white/30 font-mono">{inst.instancia}</span>
+                    <span className="text-xs text-txt-dim font-mono">{inst.instancia}</span>
                   </div>
                 ))}
               </div>
@@ -1101,8 +1101,8 @@ export const AdminExpertForm: React.FC = () => {
         {/* Section 6b: Links de Trafego (edit only) */}
         {isEditing && id && (
           <div className="glass-card p-5 space-y-4">
-            <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Links de Trafego</h3>
-            <p className="text-xs text-white/30">URLs para campanhas de trafego. Cada link direciona leads para as instancias deste expert.</p>
+            <h3 className="text-sm font-semibold text-txt-secondary uppercase tracking-wider">Links de Trafego</h3>
+            <p className="text-xs text-txt-dim">URLs para campanhas de trafego. Cada link direciona leads para as instancias deste expert.</p>
 
             {[
               { label: 'Link Instagram', path: 'whatsapp-rotacao' },
@@ -1112,7 +1112,7 @@ export const AdminExpertForm: React.FC = () => {
               const isCopied = copiedLink === path;
               return (
                 <div key={path}>
-                  <label className="block text-xs text-white/50 mb-1.5">{label}</label>
+                  <label className="block text-xs text-txt-muted mb-1.5">{label}</label>
                   <div className="flex items-center gap-2">
                     <input
                       type="text"
@@ -1127,8 +1127,8 @@ export const AdminExpertForm: React.FC = () => {
                         setCopiedLink(path);
                         setTimeout(() => setCopiedLink(null), 2000);
                       }}
-                      className="flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-xs text-white/60 hover:text-white/90 transition-all flex-shrink-0"
-                      style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
+                      className="flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-xs text-txt-muted hover:text-txt-secondary transition-all flex-shrink-0"
+                      style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
                     >
                       {isCopied ? (
                         <><CheckCheck className="w-3.5 h-3.5 text-emerald-400" /><span className="text-emerald-400">Copiado</span></>
@@ -1145,9 +1145,9 @@ export const AdminExpertForm: React.FC = () => {
 
         {/* Section 7: Voice */}
         <div className="glass-card p-5 space-y-4">
-          <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Voice</h3>
+          <h3 className="text-sm font-semibold text-txt-secondary uppercase tracking-wider">Voice</h3>
           <div>
-            <label className="block text-xs text-white/50 mb-1.5">Voice ID</label>
+            <label className="block text-xs text-txt-muted mb-1.5">Voice ID</label>
             <input
               type="text"
               value={form.voice_id || ''}
@@ -1155,7 +1155,7 @@ export const AdminExpertForm: React.FC = () => {
               placeholder="ID da voz no Minimax"
               className={INPUT_CLASS}
             />
-            <p className="text-xs text-white/25 mt-1.5">ID da voz no Minimax. Configuracao manual para MVP.</p>
+            <p className="text-xs text-txt-dim mt-1.5">ID da voz no Minimax. Configuracao manual para MVP.</p>
           </div>
         </div>
 
@@ -1166,7 +1166,7 @@ export const AdminExpertForm: React.FC = () => {
               <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(56,189,248,0.12)' }}>
                 <Send className="w-3.5 h-3.5 text-sky-400" />
               </div>
-              <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">Telegram</h3>
+              <h3 className="text-sm font-semibold text-txt-secondary uppercase tracking-wider">Telegram</h3>
             </div>
 
             {/* Feedback */}
@@ -1185,9 +1185,9 @@ export const AdminExpertForm: React.FC = () => {
             {!tgBot ? (
               /* Estado: Sem bot */
               <div className="space-y-3">
-                <p className="text-xs text-white/35">Crie um bot no @BotFather do Telegram e cole o token aqui</p>
+                <p className="text-xs text-txt-dim">Crie um bot no @BotFather do Telegram e cole o token aqui</p>
                 <div>
-                  <label className="block text-xs text-white/50 mb-1.5">Token do Bot</label>
+                  <label className="block text-xs text-txt-muted mb-1.5">Token do Bot</label>
                   <div className="relative">
                     <input
                       type={tgShowToken ? 'text' : 'password'}
@@ -1199,7 +1199,7 @@ export const AdminExpertForm: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setTgShowToken(!tgShowToken)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-txt-dim hover:text-txt-muted transition-colors"
                     >
                       {tgShowToken ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
@@ -1220,14 +1220,14 @@ export const AdminExpertForm: React.FC = () => {
               /* Estado: Bot configurado */
               <div className="space-y-4">
                 {/* Info do bot */}
-                <div className="flex items-center justify-between px-3.5 py-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}>
+                <div className="flex items-center justify-between px-3.5 py-3 rounded-xl" style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}>
                   <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'rgba(56,189,248,0.1)' }}>
                       <Bot className="w-4.5 h-4.5 text-sky-400" />
                     </div>
                     <div>
-                      <p className="text-sm text-white font-medium">{tgBot.nome}</p>
-                      <p className="text-xs text-white/40 font-mono">@{tgBot.username}</p>
+                      <p className="text-sm text-txt font-medium">{tgBot.nome}</p>
+                      <p className="text-xs text-txt-dim font-mono">@{tgBot.username}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-1.5">
@@ -1235,7 +1235,7 @@ export const AdminExpertForm: React.FC = () => {
                       className="w-2 h-2 rounded-full"
                       style={{ background: tgWebhookOk === true ? '#10b981' : tgWebhookOk === false ? '#f59e0b' : '#6b7280' }}
                     />
-                    <span className="text-[11px]" style={{ color: tgWebhookOk === true ? '#34d399' : tgWebhookOk === false ? '#fbbf24' : 'rgba(255,255,255,0.3)' }}>
+                    <span className="text-[11px]" style={{ color: tgWebhookOk === true ? '#34d399' : tgWebhookOk === false ? '#fbbf24' : 'rgb(var(--c-fg-rgb) / 0.3)' }}>
                       {tgWebhookOk === true ? 'Webhook ativo' : tgWebhookOk === false ? 'Webhook inativo' : 'Verificando...'}
                     </span>
                   </div>
@@ -1243,8 +1243,8 @@ export const AdminExpertForm: React.FC = () => {
 
                 {/* Token mascarado */}
                 <div>
-                  <label className="block text-xs text-white/50 mb-1.5">Token</label>
-                  <p className="text-xs text-white/30 font-mono px-3 py-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.02)' }}>
+                  <label className="block text-xs text-txt-muted mb-1.5">Token</label>
+                  <p className="text-xs text-txt-dim font-mono px-3 py-2 rounded-lg" style={{ background: 'var(--c-glass-2)' }}>
                     {'••••••••••••' + (tgBot.bot_token ? ':' + tgBot.bot_token.slice(-4) : '')}
                   </p>
                 </div>
@@ -1265,8 +1265,8 @@ export const AdminExpertForm: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setTgConfirmRemove(true)}
-                      className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium text-white/40 hover:text-red-400 hover:bg-red-500/10 hover:border-red-500/20 transition-all"
-                      style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
+                      className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium text-txt-dim hover:text-red-400 hover:bg-red-500/10 hover:border-red-500/20 transition-all"
+                      style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                       Remover Bot
@@ -1286,7 +1286,7 @@ export const AdminExpertForm: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => setTgConfirmRemove(false)}
-                        className="text-xs text-white/40 hover:text-white/60 transition-colors"
+                        className="text-xs text-txt-dim hover:text-txt-muted transition-colors"
                       >
                         Não
                       </button>
@@ -1297,20 +1297,20 @@ export const AdminExpertForm: React.FC = () => {
                 {/* Lista de canais */}
                 {tgCanais.length > 0 && (
                   <div>
-                    <label className="block text-xs text-white/50 mb-2">Canais ({tgCanais.length})</label>
+                    <label className="block text-xs text-txt-muted mb-2">Canais ({tgCanais.length})</label>
                     <div className="space-y-1.5">
                       {tgCanais.map((canal) => (
                         <div
                           key={canal.chat_id}
                           className="flex items-center justify-between px-3 py-2 rounded-xl"
-                          style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}
+                          style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}
                         >
                           <div className="flex items-center gap-2">
                             <span className="w-2 h-2 rounded-full bg-sky-400" />
-                            <span className="text-sm text-white/80">{canal.nome}</span>
-                            {canal.username && <span className="text-xs text-white/30 font-mono">@{canal.username}</span>}
+                            <span className="text-sm text-txt-secondary">{canal.nome}</span>
+                            {canal.username && <span className="text-xs text-txt-dim font-mono">@{canal.username}</span>}
                           </div>
-                          <span className="text-[10px] text-white/25 font-mono uppercase">{canal.tipo}</span>
+                          <span className="text-[10px] text-txt-dim font-mono uppercase">{canal.tipo}</span>
                         </div>
                       ))}
                     </div>
@@ -1335,8 +1335,8 @@ export const AdminExpertForm: React.FC = () => {
           <button
             type="button"
             onClick={() => navigate('/admin/experts')}
-            className="px-6 py-2.5 rounded-xl text-sm text-white/60 transition-all"
-            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
+            className="px-6 py-2.5 rounded-xl text-sm text-txt-muted transition-all"
+            style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
           >
             Cancelar
           </button>

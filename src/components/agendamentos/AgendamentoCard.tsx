@@ -214,19 +214,6 @@ export const AgendamentoCard: React.FC<AgendamentoCardProps> = ({
                 Fila Rotativa
               </span>
             )}
-            {agendamento.modo_teste && (
-              <span
-                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide shrink-0"
-                style={{
-                  background: 'rgba(245,158,11,0.1)',
-                  border: '1px solid rgba(245,158,11,0.3)',
-                  color: '#fbbf24',
-                }}
-                title="Disparado via pg_cron (modo teste)"
-              >
-                TESTE
-              </span>
-            )}
             {todasApagadas && (
               <span
                 className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide shrink-0"
@@ -344,10 +331,10 @@ export const AgendamentoCard: React.FC<AgendamentoCardProps> = ({
               onClick={() => onTrocarInstancia(agendamento)}
               className="p-2 rounded-lg transition-all"
               style={{
-                color: precisaTrocarInstancia ? '#f87171' : 'var(--tw-text-opacity, rgba(255,255,255,0.35))',
+                color: precisaTrocarInstancia ? '#f87171' : 'var(--tw-text-opacity, rgb(var(--c-fg-rgb) / 0.35))',
               }}
               onMouseEnter={(e) => { e.currentTarget.style.color = '#a78bfa'; e.currentTarget.style.background = 'rgba(167,139,250,0.08)' }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = precisaTrocarInstancia ? '#f87171' : 'rgba(255,255,255,0.35)'; e.currentTarget.style.background = 'transparent' }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = precisaTrocarInstancia ? '#f87171' : 'rgb(var(--c-fg-rgb) / 0.35)'; e.currentTarget.style.background = 'transparent' }}
               title="Trocar instância"
             >
               <ArrowLeftRight className="w-3.5 h-3.5" />

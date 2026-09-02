@@ -233,7 +233,7 @@ export const ColetaInstanciaCard: React.FC<ColetaInstanciaCardProps> = ({
         {numero.instancia && (
           <div className="flex items-center gap-2 text-[13px]">
             <Server className="w-3.5 h-3.5 text-txt-dim shrink-0" />
-            <span className="inline-flex items-center px-2 py-0.5 text-[11px] font-medium rounded-md bg-zinc-700/40 text-zinc-400 border border-zinc-600/30">
+            <span className="inline-flex items-center px-2 py-0.5 text-[11px] font-medium rounded-md bg-surface-200/40 text-txt-muted border border-surface-300/30">
               {numero.instancia}
             </span>
           </div>
@@ -253,20 +253,20 @@ export const ColetaInstanciaCard: React.FC<ColetaInstanciaCardProps> = ({
       {/* Connecting state: Estado 1 — pairing code válido */}
       {status === 'connecting' && pairingCode && !pairingExpired && (
         <div className="mb-3 space-y-2.5">
-          <div className="relative px-4 py-3.5 rounded-xl bg-zinc-800/80 border border-zinc-700/60 text-center">
-            <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-semibold mb-2">Código de Pareamento</p>
-            <p className="text-2xl font-mono font-bold text-white tracking-[0.15em] select-all">
+          <div className="relative px-4 py-3.5 rounded-xl bg-surface-100/80 border border-surface-300/60 text-center">
+            <p className="text-[10px] uppercase tracking-widest text-txt-muted font-semibold mb-2">Código de Pareamento</p>
+            <p className="text-2xl font-mono font-bold text-txt tracking-[0.15em] select-all">
               {pairingCode}
             </p>
             <button
               onClick={() => handleCopyCode(pairingCode)}
-              className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 text-[11px] font-medium text-zinc-400 hover:text-white bg-zinc-700/50 hover:bg-zinc-700/80 rounded-lg transition-all"
+              className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 text-[11px] font-medium text-txt-muted hover:text-txt bg-surface-200/50 hover:bg-surface-200/80 rounded-lg transition-all"
             >
               {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
               {copied ? 'Copiado!' : 'Copiar código'}
             </button>
             {numero.pairing_code_expires_at && (
-              <div className="mt-2.5 pt-2 border-t border-zinc-700/40">
+              <div className="mt-2.5 pt-2 border-t border-surface-300/40">
                 <CountdownTimer expiresAt={numero.pairing_code_expires_at} />
               </div>
             )}
@@ -278,16 +278,16 @@ export const ColetaInstanciaCard: React.FC<ColetaInstanciaCardProps> = ({
               <img
                 src={numero.qr_code_base64.startsWith('data:') ? numero.qr_code_base64 : `data:image/png;base64,${numero.qr_code_base64}`}
                 alt="QR Code"
-                className="max-w-[200px] rounded-lg border border-zinc-700 bg-zinc-800 p-2"
+                className="max-w-[200px] rounded-lg border border-surface-300 bg-surface-100 p-2"
               />
             ) : (
-              <div className="flex flex-col items-center justify-center w-[200px] h-[200px] rounded-lg border border-zinc-700 bg-zinc-800">
-                <Loader2 className="w-5 h-5 text-zinc-500 animate-spin mb-2" />
-                <span className="text-[12px] text-zinc-500">QR Code carregando...</span>
+              <div className="flex flex-col items-center justify-center w-[200px] h-[200px] rounded-lg border border-surface-300 bg-surface-100">
+                <Loader2 className="w-5 h-5 text-txt-muted animate-spin mb-2" />
+                <span className="text-[12px] text-txt-muted">QR Code carregando...</span>
               </div>
             )}
           </div>
-          <p className="text-[11px] text-zinc-500 text-center">Use o código acima ou escaneie o QR Code</p>
+          <p className="text-[11px] text-txt-muted text-center">Use o código acima ou escaneie o QR Code</p>
         </div>
       )}
 
@@ -299,16 +299,16 @@ export const ColetaInstanciaCard: React.FC<ColetaInstanciaCardProps> = ({
               <img
                 src={numero.qr_code_base64.startsWith('data:') ? numero.qr_code_base64 : `data:image/png;base64,${numero.qr_code_base64}`}
                 alt="QR Code"
-                className="max-w-[280px] rounded-lg border border-zinc-700 bg-zinc-800 p-3"
+                className="max-w-[280px] rounded-lg border border-surface-300 bg-surface-100 p-3"
               />
             ) : (
-              <div className="flex flex-col items-center justify-center w-[280px] h-[280px] rounded-lg border border-zinc-700 bg-zinc-800">
-                <Loader2 className="w-6 h-6 text-zinc-500 animate-spin mb-2" />
-                <span className="text-[12px] text-zinc-500">Aguardando QR Code...</span>
+              <div className="flex flex-col items-center justify-center w-[280px] h-[280px] rounded-lg border border-surface-300 bg-surface-100">
+                <Loader2 className="w-6 h-6 text-txt-muted animate-spin mb-2" />
+                <span className="text-[12px] text-txt-muted">Aguardando QR Code...</span>
               </div>
             )}
           </div>
-          <p className="text-[11px] text-zinc-500 text-center leading-relaxed">
+          <p className="text-[11px] text-txt-muted text-center leading-relaxed">
             Escaneie com WhatsApp → Dispositivos Vinculados → Vincular Dispositivo
           </p>
           <button
@@ -334,19 +334,19 @@ export const ColetaInstanciaCard: React.FC<ColetaInstanciaCardProps> = ({
       {/* Local pairing code (from reconectar response) */}
       {status === 'disconnected' && localPairingCode && (
         <div className="mb-3">
-          <div className="relative px-4 py-3.5 rounded-xl bg-zinc-800/80 border border-zinc-700/60 text-center">
-            <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-semibold mb-2">Código de Pareamento</p>
-            <p className="text-2xl font-mono font-bold text-white tracking-[0.15em] select-all">
+          <div className="relative px-4 py-3.5 rounded-xl bg-surface-100/80 border border-surface-300/60 text-center">
+            <p className="text-[10px] uppercase tracking-widest text-txt-muted font-semibold mb-2">Código de Pareamento</p>
+            <p className="text-2xl font-mono font-bold text-txt tracking-[0.15em] select-all">
               {localPairingCode}
             </p>
             <button
               onClick={() => handleCopyCode(localPairingCode)}
-              className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 text-[11px] font-medium text-zinc-400 hover:text-white bg-zinc-700/50 hover:bg-zinc-700/80 rounded-lg transition-all"
+              className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 text-[11px] font-medium text-txt-muted hover:text-txt bg-surface-200/50 hover:bg-surface-200/80 rounded-lg transition-all"
             >
               {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
               {copied ? 'Copiado!' : 'Copiar código'}
             </button>
-            <p className="text-[11px] text-zinc-500 mt-2">
+            <p className="text-[11px] text-txt-muted mt-2">
               Insira este código no WhatsApp do aparelho
             </p>
           </div>
@@ -357,7 +357,7 @@ export const ColetaInstanciaCard: React.FC<ColetaInstanciaCardProps> = ({
       {status === 'disconnected' && !localPairingCode && (
         <div className="mb-3 space-y-2">
           {numero.last_disconnect_reason && (
-            <div className="flex items-start gap-2 text-[11px] text-zinc-500">
+            <div className="flex items-start gap-2 text-[11px] text-txt-muted">
               <AlertCircle className="w-3 h-3 shrink-0 mt-0.5" />
               <span>{numero.last_disconnect_reason}</span>
             </div>

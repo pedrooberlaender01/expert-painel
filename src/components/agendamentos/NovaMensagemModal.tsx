@@ -273,29 +273,29 @@ export const NovaMensagemModal: React.FC<NovaMensagemModalProps> = ({
           <label
             className="flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer transition-all duration-200"
             style={{
-              background: mencionarTodos ? 'var(--color-primary-bg)' : 'rgba(255,255,255,0.03)',
-              border: mencionarTodos ? '1px solid var(--color-primary-bg)' : '1px solid rgba(255,255,255,0.04)',
+              background: mencionarTodos ? 'var(--color-primary-bg)' : 'var(--c-glass)',
+              border: mencionarTodos ? '1px solid var(--color-primary-bg)' : '1px solid var(--c-border)',
             }}
           >
             <div
               className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
-              style={{ background: mencionarTodos ? 'var(--color-primary-bg)' : 'rgba(255,255,255,0.04)' }}
+              style={{ background: mencionarTodos ? 'var(--color-primary-bg)' : 'var(--c-glass)' }}
             >
-              <Megaphone className="w-4 h-4" style={{ color: mencionarTodos ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.3)' }} />
+              <Megaphone className="w-4 h-4" style={{ color: mencionarTodos ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.3)' }} />
             </div>
             <div className="flex-1 min-w-0">
-              <span className="text-[13px] font-medium block" style={{ color: mencionarTodos ? '#fff' : 'rgba(255,255,255,0.6)' }}>
+              <span className="text-[13px] font-medium block" style={{ color: mencionarTodos ? 'rgb(var(--c-fg-rgb))' : 'rgb(var(--c-fg-rgb) / 0.6)' }}>
                 Mencionar todos (@everyone)
               </span>
-              <span className="text-[11px] block mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>
+              <span className="text-[11px] block mt-0.5" style={{ color: 'var(--c-t-35)' }}>
                 Notifica todos os membros ao enviar
               </span>
             </div>
             <div
               className="relative w-[44px] h-[24px] rounded-full transition-all duration-300 shrink-0"
               style={{
-                background: mencionarTodos ? 'var(--color-primary-bg)' : 'rgba(255,255,255,0.1)',
-                border: mencionarTodos ? '1px solid var(--color-primary-bg)' : '1px solid rgba(255,255,255,0.15)',
+                background: mencionarTodos ? 'var(--color-primary-bg)' : 'rgb(var(--c-fg-rgb) / 0.1)',
+                border: mencionarTodos ? '1px solid var(--color-primary-bg)' : '1px solid var(--c-border-strong)',
               }}
               onClick={(e) => { e.preventDefault(); setMencionarTodos(!mencionarTodos); }}
             >

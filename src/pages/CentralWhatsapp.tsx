@@ -296,27 +296,27 @@ export const CentralWhatsapp: React.FC = () => {
         <div className="flex items-center gap-2.5 mb-3">
           <Bell className="w-[22px] h-[22px]" strokeWidth={1.6} style={{ color: '#facc3c' }} />
           <div>
-            <h3 className="text-white text-[14px] font-semibold">Configurações de Alerta</h3>
-            <p className="text-white/40 text-[11px]">Notificações de desconexão de instâncias</p>
+            <h3 className="text-txt text-[14px] font-semibold">Configurações de Alerta</h3>
+            <p className="text-txt-dim text-[11px]">Notificações de desconexão de instâncias</p>
           </div>
         </div>
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="flex-1">
-            <label className="text-white/50 text-[11px] mb-1.5 block">Número para alertas de desconexão</label>
+            <label className="text-txt-muted text-[11px] mb-1.5 block">Número para alertas de desconexão</label>
             <input
               type="text"
               value={numeroAlerta}
               onChange={(e) => { setNumeroAlerta(e.target.value.replace(/\D/g, '')); setErroAlerta(''); }}
               placeholder="Ex: 5524999999999"
-              className="w-full text-white text-[13px] outline-none transition-all duration-200"
-              style={{ background: 'rgba(255,255,255,0.04)', border: erroAlerta ? '1px solid rgba(239,68,68,0.5)' : '1px solid rgba(255,255,255,0.06)', borderRadius: '10px', padding: '9px 14px' }}
+              className="w-full text-txt text-[13px] outline-none transition-all duration-200"
+              style={{ background: 'var(--c-glass)', border: erroAlerta ? '1px solid rgba(239,68,68,0.5)' : '1px solid var(--c-border)', borderRadius: '10px', padding: '9px 14px' }}
               onFocus={(e) => { if (!erroAlerta) e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.3)' }}
-              onBlur={(e) => { if (!erroAlerta) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)' }}
+              onBlur={(e) => { if (!erroAlerta) e.currentTarget.style.borderColor = 'var(--c-border)' }}
             />
             {erroAlerta ? (
               <p className="text-red-400 text-[11px] mt-1">{erroAlerta}</p>
             ) : (
-              <p className="text-white/30 text-[11px] mt-1">Esse número receberá uma mensagem no WhatsApp sempre que uma instância desconectar</p>
+              <p className="text-txt-dim text-[11px] mt-1">Esse número receberá uma mensagem no WhatsApp sempre que uma instância desconectar</p>
             )}
           </div>
           <div className="flex items-start pt-[22px]">
@@ -336,7 +336,7 @@ export const CentralWhatsapp: React.FC = () => {
       {/* Tabs */}
       <div
         className="grid grid-cols-2 md:flex md:w-fit gap-1 p-1 rounded-[14px] w-full mb-8"
-        style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
+        style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
       >
         {TABS.map((tab) => {
           const isActive = activeTab === tab.key;
@@ -347,7 +347,7 @@ export const CentralWhatsapp: React.FC = () => {
               className="flex items-center justify-center gap-2 px-3 md:px-5 py-2.5 rounded-[10px] text-[12px] md:text-[13px] font-medium transition-all duration-200"
               style={isActive
                 ? { background: 'rgba(var(--color-primary-rgb),0.1)', border: '1px solid rgba(var(--color-primary-rgb),0.2)', color: 'var(--color-primary-light)' }
-                : { background: 'transparent', border: '1px solid transparent', color: 'rgba(255,255,255,0.45)' }
+                : { background: 'transparent', border: '1px solid transparent', color: 'var(--c-t-45)' }
               }
             >
               <tab.icon className="w-3.5 h-3.5 shrink-0" style={{ opacity: isActive ? 1 : 0.5 }} />
@@ -401,7 +401,7 @@ export const CentralWhatsapp: React.FC = () => {
             </p>
           </div>
 
-          <p className="text-sm text-white mb-5">
+          <p className="text-sm text-txt mb-5">
             Números que fazem parte da automação do funil. São as instâncias que disparam e captam as mensagens dos leads automaticamente.
           </p>
 
@@ -468,7 +468,7 @@ export const CentralWhatsapp: React.FC = () => {
             </p>
           </div>
 
-          <p className="text-sm text-white mb-5">
+          <p className="text-sm text-txt mb-5">
             Instâncias responsáveis por coletar eventos dos grupos, como entradas e saídas de membros. Também podem monitorar abertura e fechamento de grupos, se configurado. Recomendado: 1 instância configurada.
           </p>
 

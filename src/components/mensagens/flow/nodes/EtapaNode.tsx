@@ -44,10 +44,10 @@ export const EtapaNode = memo(({ data, selected }: NodeProps & { data: EtapaNode
       </div>
 
       {/* Titulo */}
-      <p className="text-[13px] font-medium text-white mt-1.5">{data.titulo}</p>
+      <p className="text-[13px] font-medium text-txt mt-1.5">{data.titulo}</p>
 
       {/* Subtitulo */}
-      <p className="text-[11px] mt-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
+      <p className="text-[11px] mt-1" style={{ color: 'var(--c-t-50)' }}>
         {data.subtitulo}
       </p>
 

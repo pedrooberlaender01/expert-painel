@@ -331,20 +331,20 @@ const ScrollCol: React.FC<{
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-center gap-0.5 font-mono text-[13px] tabular-nums transition-all duration-200 outline-none"
         style={{
-          background: 'rgba(255,255,255,0.04)',
-          border: open ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid rgba(255,255,255,0.06)',
+          background: 'var(--c-glass)',
+          border: open ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid var(--c-border)',
           borderRadius: '10px',
           padding: '8px 4px',
-          color: selected ? '#fff' : 'rgba(255,255,255,0.3)',
+          color: selected ? 'rgb(var(--c-fg-rgb))' : 'rgb(var(--c-fg-rgb) / 0.3)',
           boxShadow: open ? '0 0 0 3px rgba(var(--color-primary-rgb),0.08)' : 'none',
         }}
       >
         {selected?.label ?? placeholder}
-        <ChevronDown className="w-3 h-3 shrink-0 transition-transform duration-200" style={{ color: 'rgba(255,255,255,0.25)', transform: open ? 'rotate(180deg)' : 'none' }} />
+        <ChevronDown className="w-3 h-3 shrink-0 transition-transform duration-200" style={{ color: 'var(--c-t-25)', transform: open ? 'rotate(180deg)' : 'none' }} />
       </button>
       {open && (
-        <div className="absolute z-50 mt-1 left-1/2 -translate-x-1/2 animate-fade-in" style={{ background: 'rgba(16,16,28,0.97)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', boxShadow: '0 12px 40px rgba(0,0,0,0.5)', width: Math.max(parseInt(width), 56), overflow: 'hidden' }}>
-          <div ref={listRef} className="overflow-y-auto py-1" style={{ maxHeight: '180px', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.1) transparent' }}>
+        <div className="absolute z-50 mt-1 left-1/2 -translate-x-1/2 animate-fade-in" style={{ background: 'var(--c-popup-bg)', border: '1px solid var(--c-border-strong)', borderRadius: '12px', boxShadow: '0 12px 40px rgba(0,0,0,0.5)', width: Math.max(parseInt(width), 56), overflow: 'hidden' }}>
+          <div ref={listRef} className="overflow-y-auto py-1" style={{ maxHeight: '180px', scrollbarWidth: 'thin', scrollbarColor: 'rgb(var(--c-fg-rgb) / 0.1) transparent' }}>
             {options.map((opt) => {
               const isSel = opt.value === value;
               return (
@@ -354,9 +354,9 @@ const ScrollCol: React.FC<{
                   data-value={opt.value}
                   onClick={() => { onChange(opt.value); setOpen(false); }}
                   className="w-full text-center px-3 py-1.5 text-[13px] font-mono tabular-nums transition-all duration-100 outline-none"
-                  style={{ background: isSel ? 'rgba(var(--color-primary-rgb),0.15)' : 'transparent', color: isSel ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.6)', fontWeight: isSel ? 600 : 400 }}
-                  onMouseEnter={(e) => { if (!isSel) { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = '#fff' } }}
-                  onMouseLeave={(e) => { if (!isSel) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.6)' } }}
+                  style={{ background: isSel ? 'rgba(var(--color-primary-rgb),0.15)' : 'transparent', color: isSel ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.6)', fontWeight: isSel ? 600 : 400 }}
+                  onMouseEnter={(e) => { if (!isSel) { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))' } }}
+                  onMouseLeave={(e) => { if (!isSel) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.6)' } }}
                 >
                   {opt.label}
                 </button>
@@ -419,8 +419,8 @@ const TorneioModal: React.FC<ModalProps> = ({ torneio, onClose, onSave, saving }
     onSave({ nome: nome.trim(), data_inicio: buildISO(inicio), data_fim: buildISO(fim), status, logica_ganhador: logica });
   };
 
-  const sep = <span className="font-bold text-[14px]" style={{ color: 'rgba(255,255,255,0.15)' }}>/</span>;
-  const timeSep = <span className="font-bold text-[14px]" style={{ color: 'rgba(255,255,255,0.15)' }}>:</span>;
+  const sep = <span className="font-bold text-[14px]" style={{ color: 'var(--c-t-15)' }}>/</span>;
+  const timeSep = <span className="font-bold text-[14px]" style={{ color: 'var(--c-t-15)' }}>:</span>;
 
   const renderDateTimePicker = (parts: typeof inicio, setParts: React.Dispatch<React.SetStateAction<typeof inicio>>, label: string) => (
     <div>
@@ -435,7 +435,7 @@ const TorneioModal: React.FC<ModalProps> = ({ torneio, onClose, onSave, saving }
           <ScrollCol value={parts.yyyy} options={YEARS_OPT} onChange={(v) => setParts(p => ({ ...p, yyyy: v }))} width="64px" placeholder="AAAA" />
         </div>
 
-        <div className="w-px h-6" style={{ background: 'rgba(255,255,255,0.06)' }} />
+        <div className="w-px h-6" style={{ background: 'var(--c-border)' }} />
 
         {/* Hora hh:mm */}
         <div className="flex items-center gap-1">
@@ -473,7 +473,7 @@ const TorneioModal: React.FC<ModalProps> = ({ torneio, onClose, onSave, saving }
             {/* Status — segment control */}
             <div>
               <label className="block text-[10px] font-mono font-semibold text-txt-muted mb-2.5 uppercase tracking-widest">Status</label>
-              <div className="flex gap-1.5 p-1 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}>
+              <div className="flex gap-1.5 p-1 rounded-xl" style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}>
                 {([
                   { value: 'ativo' as const, label: 'Ativo', color: '#34d399', bg: 'rgba(52,211,153,0.12)', border: 'rgba(52,211,153,0.25)' },
                   { value: 'pausado' as const, label: 'Pausado', color: '#fbbf24', bg: 'rgba(251,191,36,0.12)', border: 'rgba(251,191,36,0.25)' },
@@ -488,7 +488,7 @@ const TorneioModal: React.FC<ModalProps> = ({ torneio, onClose, onSave, saving }
                       style={{
                         background: active ? opt.bg : 'transparent',
                         border: `1px solid ${active ? opt.border : 'transparent'}`,
-                        color: active ? opt.color : 'rgba(255,255,255,0.35)',
+                        color: active ? opt.color : 'rgb(var(--c-fg-rgb) / 0.35)',
                       }}
                     >
                       {opt.label}
@@ -506,20 +506,20 @@ const TorneioModal: React.FC<ModalProps> = ({ torneio, onClose, onSave, saving }
                 onClick={() => setLogicaOpen(!logicaOpen)}
                 className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200"
                 style={{
-                  background: 'rgba(255,255,255,0.04)',
-                  border: logicaOpen ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid rgba(255,255,255,0.06)',
-                  color: '#fff',
+                  background: 'var(--c-glass)',
+                  border: logicaOpen ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid var(--c-border)',
+                  color: 'var(--c-t-100)',
                   boxShadow: logicaOpen ? '0 0 0 3px rgba(var(--color-primary-rgb),0.08)' : 'none',
                 }}
               >
                 <span>{{ quantidade: 'Maior Quantidade de Greens', lucro: 'Maior Lucro', sequencia: 'Maior Sequência de Greens' }[logica]}</span>
-                <ChevronDown className="w-3.5 h-3.5 shrink-0 transition-transform duration-200" style={{ color: 'rgba(255,255,255,0.3)', transform: logicaOpen ? 'rotate(180deg)' : 'none' }} />
+                <ChevronDown className="w-3.5 h-3.5 shrink-0 transition-transform duration-200" style={{ color: 'var(--c-t-30)', transform: logicaOpen ? 'rotate(180deg)' : 'none' }} />
               </button>
 
               {logicaOpen && (
                 <div
                   className="absolute z-50 bottom-full mb-1.5 w-full animate-fade-in"
-                  style={{ background: 'rgba(16,16,28,0.97)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', boxShadow: '0 -12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04) inset', overflow: 'hidden' }}
+                  style={{ background: 'var(--c-popup-bg)', border: '1px solid var(--c-border-strong)', borderRadius: '12px', boxShadow: '0 -12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgb(var(--c-fg-rgb) / 0.04) inset', overflow: 'hidden' }}
                 >
                   <div className="py-1">
                     {([
@@ -536,13 +536,13 @@ const TorneioModal: React.FC<ModalProps> = ({ torneio, onClose, onSave, saving }
                           className="w-full text-left px-3.5 py-2.5 transition-colors duration-100"
                           style={{
                             background: active ? 'rgba(var(--color-primary-rgb),0.1)' : 'transparent',
-                            color: active ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.7)',
+                            color: active ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.7)',
                           }}
-                          onMouseEnter={(e) => { if (!active) { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = '#fff' } }}
-                          onMouseLeave={(e) => { if (!active) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)' } }}
+                          onMouseEnter={(e) => { if (!active) { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))' } }}
+                          onMouseLeave={(e) => { if (!active) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.7)' } }}
                         >
                           <p className="text-[13px] font-medium">{opt.label}</p>
-                          <p className="text-[10px] mt-0.5" style={{ color: active ? 'rgba(var(--color-primary-rgb),0.6)' : 'rgba(255,255,255,0.25)' }}>{opt.desc}</p>
+                          <p className="text-[10px] mt-0.5" style={{ color: active ? 'rgba(var(--color-primary-rgb),0.6)' : 'rgb(var(--c-fg-rgb) / 0.25)' }}>{opt.desc}</p>
                         </button>
                       );
                     })}
@@ -755,7 +755,7 @@ const EnviarRankingModal: React.FC<EnviarRankingModalProps> = ({ ranking, tornei
             <textarea
               readOnly
               value={mensagemPreview}
-              className="w-full rounded-xl border border-surface-300/20 bg-[#0a0a0a] text-[12px] text-txt-secondary font-mono p-3 resize-none"
+              className="w-full rounded-xl border border-surface-300/20 bg-[rgb(var(--c-surface-rgb))] text-[12px] text-txt-secondary font-mono p-3 resize-none"
               style={{ minHeight: 180, maxHeight: 300 }}
             />
           </div>
@@ -1549,8 +1549,8 @@ export const Torneios: React.FC = () => {
                   activeTab === tab.key
                     ? 'shadow-sm'
                     : isBlocked
-                    ? 'text-white/20 cursor-not-allowed'
-                    : 'text-[#A8A8B3] hover:text-[#D4D4DB] hover:bg-surface-200/20'
+                    ? 'text-txt-dim cursor-not-allowed'
+                    : 'text-txt-muted hover:text-txt hover:bg-surface-200/20'
                 )}
                 style={activeTab === tab.key ? { background: 'var(--color-primary-bg)', color: 'var(--color-primary-light)' } : undefined}
               >
@@ -1819,7 +1819,7 @@ export const Torneios: React.FC = () => {
               {(() => {
                 const sel = rankTorneios.find(t => t.id === rankTorneioId);
                 const selDs = sel ? getDisplayStatus(sel) : '';
-                const statusColors: Record<string, string> = { agendado: '#22d3ee', ativo: '#34d399', pausado: '#fbbf24', encerrado: 'rgba(255,255,255,0.35)' };
+                const statusColors: Record<string, string> = { agendado: '#22d3ee', ativo: '#34d399', pausado: '#fbbf24', encerrado: 'rgb(var(--c-fg-rgb) / 0.35)' };
                 const statusLabels: Record<string, string> = { agendado: 'Agendado', ativo: 'Ativo', pausado: 'Pausado', encerrado: 'Encerrado' };
                 return (
                   <>
@@ -1828,8 +1828,8 @@ export const Torneios: React.FC = () => {
                       onClick={() => setRankSelectorOpen(!rankSelectorOpen)}
                       className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200"
                       style={{
-                        background: 'rgba(255,255,255,0.03)',
-                        border: rankSelectorOpen ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid rgba(255,255,255,0.06)',
+                        background: 'var(--c-glass)',
+                        border: rankSelectorOpen ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid var(--c-border)',
                         boxShadow: rankSelectorOpen ? '0 0 0 3px rgba(var(--color-primary-rgb),0.06)' : 'none',
                       }}
                     >
@@ -1837,22 +1837,22 @@ export const Torneios: React.FC = () => {
                         <Trophy className="w-4 h-4" style={{ color: 'var(--color-primary-light)' }} />
                       </div>
                       <div className="flex-1 min-w-0 text-left">
-                        <p className="text-[13px] font-semibold text-white truncate">{sel?.nome || 'Selecione...'}</p>
+                        <p className="text-[13px] font-semibold text-txt truncate">{sel?.nome || 'Selecione...'}</p>
                         {sel && (
-                          <p className="text-[10px] text-white/25 font-mono mt-0.5">
+                          <p className="text-[10px] text-txt-dim font-mono mt-0.5">
                             <span className="font-semibold mr-1.5" style={{ color: statusColors[selDs] || statusColors.encerrado }}>{statusLabels[selDs] || selDs}</span>
                             {fmtDate(sel.data_inicio)} — {fmtDate(sel.data_fim)}
                           </p>
                         )}
                       </div>
-                      <ChevronDown className="w-4 h-4 shrink-0 transition-transform duration-200" style={{ color: 'rgba(255,255,255,0.3)', transform: rankSelectorOpen ? 'rotate(180deg)' : 'rotate(0)' }} />
+                      <ChevronDown className="w-4 h-4 shrink-0 transition-transform duration-200" style={{ color: 'var(--c-t-30)', transform: rankSelectorOpen ? 'rotate(180deg)' : 'rotate(0)' }} />
                     </button>
                     {rankSelectorOpen && (
                       <div
                         className="absolute z-50 mt-2 w-full animate-fade-in"
-                        style={{ background: 'rgba(16,16,28,0.97)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '16px', boxShadow: '0 16px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset', overflow: 'hidden' }}
+                        style={{ background: 'var(--c-popup-bg)', border: '1px solid var(--c-border-strong)', borderRadius: '16px', boxShadow: '0 16px 48px rgba(0,0,0,0.6), 0 0 0 1px rgb(var(--c-fg-rgb) / 0.04) inset', overflow: 'hidden' }}
                       >
-                        <div className="overflow-y-auto py-1.5" style={{ maxHeight: '280px', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.1) transparent' }}>
+                        <div className="overflow-y-auto py-1.5" style={{ maxHeight: '280px', scrollbarWidth: 'thin', scrollbarColor: 'rgb(var(--c-fg-rgb) / 0.1) transparent' }}>
                           {rankTorneios.map(t => {
                             const ds = getDisplayStatus(t);
                             const isSelected = t.id === rankTorneioId;
@@ -1864,13 +1864,13 @@ export const Torneios: React.FC = () => {
                                 onClick={() => { setRankTorneioId(t.id); setRankSelectorOpen(false); }}
                                 className="w-full flex items-center gap-3 px-4 py-3 text-left transition-colors duration-100"
                                 style={{ background: isSelected ? 'rgba(var(--color-primary-rgb),0.08)' : 'transparent' }}
-                                onMouseEnter={e => { if (!isSelected) e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; }}
+                                onMouseEnter={e => { if (!isSelected) e.currentTarget.style.background = 'var(--c-glass)'; }}
                                 onMouseLeave={e => { if (!isSelected) e.currentTarget.style.background = 'transparent'; }}
                               >
                                 <span className="w-2 h-2 rounded-full shrink-0" style={{ background: color, boxShadow: ds === 'ativo' ? `0 0 6px ${color}60` : 'none' }} />
                                 <div className="flex-1 min-w-0">
-                                  <p className="text-[13px] font-semibold truncate" style={{ color: isSelected ? 'var(--color-primary-light)' : '#fff' }}>{t.nome}</p>
-                                  <p className="text-[10px] text-white/25 font-mono mt-0.5">{statusLabels[ds] || ds} · {fmtDate(t.data_inicio)} — {fmtDate(t.data_fim)}</p>
+                                  <p className="text-[13px] font-semibold truncate" style={{ color: isSelected ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb))' }}>{t.nome}</p>
+                                  <p className="text-[10px] text-txt-dim font-mono mt-0.5">{statusLabels[ds] || ds} · {fmtDate(t.data_inicio)} — {fmtDate(t.data_fim)}</p>
                                 </div>
                                 {isSelected && <Check className="w-4 h-4 shrink-0" style={{ color: 'var(--color-primary-light)' }} />}
                               </button>
@@ -2146,7 +2146,7 @@ export const Torneios: React.FC = () => {
               {(() => {
                 const sel = partTorneios.find(t => t.id === partTorneioId);
                 const selDs = sel ? getDisplayStatus(sel) : '';
-                const statusColors: Record<string, string> = { agendado: '#22d3ee', ativo: '#34d399', pausado: '#fbbf24', encerrado: 'rgba(255,255,255,0.35)' };
+                const statusColors: Record<string, string> = { agendado: '#22d3ee', ativo: '#34d399', pausado: '#fbbf24', encerrado: 'rgb(var(--c-fg-rgb) / 0.35)' };
                 const statusLabels: Record<string, string> = { agendado: 'Agendado', ativo: 'Ativo', pausado: 'Pausado', encerrado: 'Encerrado' };
                 return (
                   <>
@@ -2155,8 +2155,8 @@ export const Torneios: React.FC = () => {
                       onClick={() => setPartSelectorOpen(!partSelectorOpen)}
                       className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200"
                       style={{
-                        background: 'rgba(255,255,255,0.03)',
-                        border: partSelectorOpen ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid rgba(255,255,255,0.06)',
+                        background: 'var(--c-glass)',
+                        border: partSelectorOpen ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid var(--c-border)',
                         boxShadow: partSelectorOpen ? '0 0 0 3px rgba(var(--color-primary-rgb),0.06)' : 'none',
                       }}
                     >
@@ -2164,22 +2164,22 @@ export const Torneios: React.FC = () => {
                         <Trophy className="w-4 h-4" style={{ color: 'var(--color-primary-light)' }} />
                       </div>
                       <div className="flex-1 min-w-0 text-left">
-                        <p className="text-[13px] font-semibold text-white truncate">{sel?.nome || 'Selecione...'}</p>
+                        <p className="text-[13px] font-semibold text-txt truncate">{sel?.nome || 'Selecione...'}</p>
                         {sel && (
-                          <p className="text-[10px] text-white/25 font-mono mt-0.5">
+                          <p className="text-[10px] text-txt-dim font-mono mt-0.5">
                             <span className="font-semibold mr-1.5" style={{ color: statusColors[selDs] || statusColors.encerrado }}>{statusLabels[selDs] || selDs}</span>
                             {fmtDate(sel.data_inicio)} — {fmtDate(sel.data_fim)}
                           </p>
                         )}
                       </div>
-                      <ChevronDown className="w-4 h-4 shrink-0 transition-transform duration-200" style={{ color: 'rgba(255,255,255,0.3)', transform: partSelectorOpen ? 'rotate(180deg)' : 'rotate(0)' }} />
+                      <ChevronDown className="w-4 h-4 shrink-0 transition-transform duration-200" style={{ color: 'var(--c-t-30)', transform: partSelectorOpen ? 'rotate(180deg)' : 'rotate(0)' }} />
                     </button>
                     {partSelectorOpen && (
                       <div
                         className="absolute z-50 mt-2 w-full animate-fade-in"
-                        style={{ background: 'rgba(16,16,28,0.97)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '16px', boxShadow: '0 16px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset', overflow: 'hidden' }}
+                        style={{ background: 'var(--c-popup-bg)', border: '1px solid var(--c-border-strong)', borderRadius: '16px', boxShadow: '0 16px 48px rgba(0,0,0,0.6), 0 0 0 1px rgb(var(--c-fg-rgb) / 0.04) inset', overflow: 'hidden' }}
                       >
-                        <div className="overflow-y-auto py-1.5" style={{ maxHeight: '280px', scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.1) transparent' }}>
+                        <div className="overflow-y-auto py-1.5" style={{ maxHeight: '280px', scrollbarWidth: 'thin', scrollbarColor: 'rgb(var(--c-fg-rgb) / 0.1) transparent' }}>
                           {partTorneios.map(t => {
                             const ds = getDisplayStatus(t);
                             const isSelected = t.id === partTorneioId;
@@ -2191,13 +2191,13 @@ export const Torneios: React.FC = () => {
                                 onClick={() => { setPartTorneioId(t.id); setPartSelectorOpen(false); }}
                                 className="w-full flex items-center gap-3 px-4 py-3 text-left transition-colors duration-100"
                                 style={{ background: isSelected ? 'rgba(var(--color-primary-rgb),0.08)' : 'transparent' }}
-                                onMouseEnter={e => { if (!isSelected) e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; }}
+                                onMouseEnter={e => { if (!isSelected) e.currentTarget.style.background = 'var(--c-glass)'; }}
                                 onMouseLeave={e => { if (!isSelected) e.currentTarget.style.background = 'transparent'; }}
                               >
                                 <span className="w-2 h-2 rounded-full shrink-0" style={{ background: color, boxShadow: ds === 'ativo' ? `0 0 6px ${color}60` : 'none' }} />
                                 <div className="flex-1 min-w-0">
-                                  <p className="text-[13px] font-semibold truncate" style={{ color: isSelected ? 'var(--color-primary-light)' : '#fff' }}>{t.nome}</p>
-                                  <p className="text-[10px] text-white/25 font-mono mt-0.5">{statusLabels[ds] || ds} · {fmtDate(t.data_inicio)} — {fmtDate(t.data_fim)}</p>
+                                  <p className="text-[13px] font-semibold truncate" style={{ color: isSelected ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb))' }}>{t.nome}</p>
+                                  <p className="text-[10px] text-txt-dim font-mono mt-0.5">{statusLabels[ds] || ds} · {fmtDate(t.data_inicio)} — {fmtDate(t.data_fim)}</p>
                                 </div>
                                 {isSelected && <Check className="w-4 h-4 shrink-0" style={{ color: 'var(--color-primary-light)' }} />}
                               </button>
@@ -2431,9 +2431,9 @@ export const Torneios: React.FC = () => {
                                         disabled={upDisabled}
                                         onClick={() => tie.prevId && handleSwapDesempate(p.participante_id, tie.prevId, 'up')}
                                         className={cn(
-                                          'w-5 h-5 flex items-center justify-center rounded-md border border-white/[0.08] bg-white/[0.04] text-txt-muted',
+                                          'w-5 h-5 flex items-center justify-center rounded-md border border-glass bg-glass text-txt-muted',
                                           'hover:bg-[var(--color-primary)]/15 hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]/30',
-                                          'disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white/[0.04] disabled:hover:text-txt-muted disabled:hover:border-white/[0.08]'
+                                          'disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-glass disabled:hover:text-txt-muted disabled:hover:border-glass'
                                         )}
                                         title="Subir desempate"
                                       >
@@ -2444,9 +2444,9 @@ export const Torneios: React.FC = () => {
                                         disabled={downDisabled}
                                         onClick={() => tie.nextId && handleSwapDesempate(p.participante_id, tie.nextId, 'down')}
                                         className={cn(
-                                          'w-5 h-5 flex items-center justify-center rounded-md border border-white/[0.08] bg-white/[0.04] text-txt-muted',
+                                          'w-5 h-5 flex items-center justify-center rounded-md border border-glass bg-glass text-txt-muted',
                                           'hover:bg-[var(--color-primary)]/15 hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]/30',
-                                          'disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white/[0.04] disabled:hover:text-txt-muted disabled:hover:border-white/[0.08]'
+                                          'disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-glass disabled:hover:text-txt-muted disabled:hover:border-glass'
                                         )}
                                         title="Descer desempate"
                                       >
@@ -2630,7 +2630,7 @@ export const Torneios: React.FC = () => {
                                 type="button"
                                 disabled={!tie.prevId || swapLoading === p.participante_id}
                                 onClick={() => tie.prevId && handleSwapDesempate(p.participante_id, tie.prevId, 'up')}
-                                className="w-5 h-5 flex items-center justify-center rounded-md border border-white/[0.08] bg-white/[0.04] text-txt-muted disabled:opacity-30"
+                                className="w-5 h-5 flex items-center justify-center rounded-md border border-glass bg-glass text-txt-muted disabled:opacity-30"
                                 title="Subir desempate"
                               >
                                 <ChevronUp className="w-3 h-3" />
@@ -2639,7 +2639,7 @@ export const Torneios: React.FC = () => {
                                 type="button"
                                 disabled={!tie.nextId || swapLoading === p.participante_id}
                                 onClick={() => tie.nextId && handleSwapDesempate(p.participante_id, tie.nextId, 'down')}
-                                className="w-5 h-5 flex items-center justify-center rounded-md border border-white/[0.08] bg-white/[0.04] text-txt-muted disabled:opacity-30"
+                                className="w-5 h-5 flex items-center justify-center rounded-md border border-glass bg-glass text-txt-muted disabled:opacity-30"
                                 title="Descer desempate"
                               >
                                 <ChevronDown className="w-3 h-3" />
@@ -2823,7 +2823,7 @@ export const Torneios: React.FC = () => {
                 </p>
               </div>
 
-              <p className="text-sm text-white mb-5">
+              <p className="text-sm text-txt mb-5">
                 Instância dedicada ao torneio para receber prints e mensagens dos participantes via WhatsApp.
               </p>
 
@@ -2847,7 +2847,7 @@ export const Torneios: React.FC = () => {
 
               <button
                 onClick={() => setTorneioInstanciaModal(true)}
-                className="w-full flex items-center justify-center gap-2 py-4 rounded-xl border-2 border-dashed border-white/[0.12] text-white/50 hover:text-primary-light hover:border-primary-bg hover:bg-primary-bg transition-all duration-200 text-[13px] font-medium"
+                className="w-full flex items-center justify-center gap-2 py-4 rounded-xl border-2 border-dashed border-[var(--c-border-strong)] text-txt-muted hover:text-primary-light hover:border-primary-bg hover:bg-primary-bg transition-all duration-200 text-[13px] font-medium"
               >
                 <Plus className="w-4 h-4" />
                 Nova Instância Torneio

@@ -87,17 +87,17 @@ const DayPicker: React.FC<{
       ref={ref}
       className="absolute top-full mt-2 z-[100] animate-fade-in w-[260px] overflow-hidden"
       style={{
-        background: 'rgba(22, 27, 34, 0.97)',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
+        background: 'var(--c-popup-bg)',
+        border: '1px solid var(--c-border-strong)',
         borderRadius: '14px',
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06)',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--c-border)',
         backdropFilter: 'none',
         WebkitBackdropFilter: 'none',
       }}
     >
       {/* Label */}
       <div style={{ padding: '16px 16px 4px' }}>
-        <span className="text-[11px] uppercase font-medium" style={{ color: 'rgba(255,255,255,0.4)', letterSpacing: '0.5px' }}>{label}</span>
+        <span className="text-[11px] uppercase font-medium" style={{ color: 'var(--c-t-40)', letterSpacing: '0.5px' }}>{label}</span>
       </div>
 
       {/* Month nav */}
@@ -105,19 +105,19 @@ const DayPicker: React.FC<{
         <button
           onClick={() => setViewMonth(m => Math.max(0, m - 1))}
           className="transition-all duration-150"
-          style={{ color: 'rgba(255,255,255,0.4)', background: 'transparent', border: 'none', padding: '4px 8px', borderRadius: '6px', cursor: 'pointer' }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.4)'; }}
+          style={{ color: 'var(--c-t-40)', background: 'transparent', border: 'none', padding: '4px 8px', borderRadius: '6px', cursor: 'pointer' }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.7)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.4)'; }}
         >
           <ChevronLeft className="w-3.5 h-3.5" />
         </button>
-        <span className="text-[14px] font-semibold text-white">{MONTHS_SHORT[viewMonth]}</span>
+        <span className="text-[14px] font-semibold text-txt">{MONTHS_SHORT[viewMonth]}</span>
         <button
           onClick={() => setViewMonth(m => Math.min(11, m + 1))}
           className="transition-all duration-150"
-          style={{ color: viewMonth >= getMonth(now) ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.4)', background: 'transparent', border: 'none', padding: '4px 8px', borderRadius: '6px', cursor: viewMonth >= getMonth(now) ? 'default' : 'pointer' }}
-          onMouseEnter={(e) => { if (viewMonth < getMonth(now)) { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; } }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = viewMonth >= getMonth(now) ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.4)'; }}
+          style={{ color: viewMonth >= getMonth(now) ? 'rgb(var(--c-fg-rgb) / 0.15)' : 'rgb(var(--c-fg-rgb) / 0.4)', background: 'transparent', border: 'none', padding: '4px 8px', borderRadius: '6px', cursor: viewMonth >= getMonth(now) ? 'default' : 'pointer' }}
+          onMouseEnter={(e) => { if (viewMonth < getMonth(now)) { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.7)'; } }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = viewMonth >= getMonth(now) ? 'rgb(var(--c-fg-rgb) / 0.15)' : 'rgb(var(--c-fg-rgb) / 0.4)'; }}
           disabled={viewMonth >= getMonth(now)}
         >
           <ChevronRight className="w-3.5 h-3.5" />
@@ -128,7 +128,7 @@ const DayPicker: React.FC<{
       <div style={{ padding: '0 16px 16px' }}>
         <div className="grid grid-cols-7" style={{ gap: '2px' }}>
           {['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map((d, i) => (
-            <div key={i} className="text-[11px] text-center font-medium" style={{ color: 'rgba(255,255,255,0.35)', padding: '6px 0' }}>{d}</div>
+            <div key={i} className="text-[11px] text-center font-medium" style={{ color: 'var(--c-t-35)', padding: '6px 0' }}>{d}</div>
           ))}
           {Array.from({ length: new Date(currentYear, viewMonth, 1).getDay() }).map((_, i) => (
             <div key={`pad-${i}`} />
@@ -151,13 +151,13 @@ const DayPicker: React.FC<{
                   borderRadius: '8px',
                   fontSize: '13px',
                   background: isSelected ? 'var(--color-primary)' : 'transparent',
-                  color: isFuture ? 'rgba(255,255,255,0.15)' : isSelected ? '#fff' : isToday ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.7)',
+                  color: isFuture ? 'rgb(var(--c-fg-rgb) / 0.15)' : isSelected ? '#fff' : isToday ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.7)',
                   fontWeight: isSelected || isToday ? 600 : 400,
                   cursor: isFuture ? 'not-allowed' : 'pointer',
                   border: isToday && !isSelected ? '1px solid rgba(var(--color-primary-rgb),0.4)' : '1px solid transparent',
                 }}
-                onMouseEnter={(e) => { if (!isFuture && !isSelected) { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#fff'; } }}
-                onMouseLeave={(e) => { if (!isFuture && !isSelected) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = isToday ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.7)'; } }}
+                onMouseEnter={(e) => { if (!isFuture && !isSelected) { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; } }}
+                onMouseLeave={(e) => { if (!isFuture && !isSelected) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = isToday ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.7)'; } }}
               >
                 {day}
               </button>
@@ -191,7 +191,7 @@ const PeriodSelector: React.FC<{
               "px-3 py-1.5 rounded-full text-[11px] font-medium font-display transition-all duration-300",
               activePreset === key
                 ? "text-[var(--color-primary-light)]"
-                : "text-white/[0.4] hover:text-white/[0.6] bg-transparent"
+                : "text-txt-dim hover:text-txt-muted bg-transparent"
             )}
             style={activePreset === key ? {
               background: 'rgba(var(--color-primary-rgb),0.15)',
@@ -206,7 +206,7 @@ const PeriodSelector: React.FC<{
       </div>
 
       {/* Separator */}
-      <div className="hidden sm:block w-px h-5 bg-white/[0.06]" />
+      <div className="hidden sm:block w-px h-5 bg-glass-hover" />
 
       {/* Date range display */}
       <div className="flex items-center gap-2 text-[11px] font-mono">
@@ -220,7 +220,7 @@ const PeriodSelector: React.FC<{
               "px-2 py-1 rounded-lg transition-all duration-200 tabular-nums",
               startPickerOpen
                 ? "bg-primary-bg text-primary-light border border-primary-bg"
-                : "text-txt-secondary hover:text-txt hover:bg-white/[0.03] border border-transparent"
+                : "text-txt-secondary hover:text-txt hover:bg-glass border border-transparent"
             )}
           >
             {format(dateRange.start, 'dd/MM')}
@@ -247,7 +247,7 @@ const PeriodSelector: React.FC<{
               "px-2 py-1 rounded-lg transition-all duration-200 tabular-nums",
               endPickerOpen
                 ? "bg-primary-bg text-primary-light border border-primary-bg"
-                : "text-txt-secondary hover:text-txt hover:bg-white/[0.03] border border-transparent"
+                : "text-txt-secondary hover:text-txt hover:bg-glass border border-transparent"
             )}
           >
             {format(dateRange.end, 'dd/MM')}
@@ -288,7 +288,7 @@ const KpiDateRangePicker: React.FC<{
             "px-2 py-1 rounded-lg transition-all duration-200 tabular-nums",
             startPickerOpen
               ? "bg-primary-bg text-primary-light border border-primary-bg"
-              : "text-txt-secondary hover:text-txt hover:bg-white/[0.03] border border-transparent"
+              : "text-txt-secondary hover:text-txt hover:bg-glass border border-transparent"
           )}
         >
           {format(dateRange.start, 'dd/MM')}
@@ -315,7 +315,7 @@ const KpiDateRangePicker: React.FC<{
             "px-2 py-1 rounded-lg transition-all duration-200 tabular-nums",
             endPickerOpen
               ? "bg-primary-bg text-primary-light border border-primary-bg"
-              : "text-txt-secondary hover:text-txt hover:bg-white/[0.03] border border-transparent"
+              : "text-txt-secondary hover:text-txt hover:bg-glass border border-transparent"
           )}
         >
           {format(dateRange.end, 'dd/MM')}
@@ -344,13 +344,13 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
   return (
     <div className="relative rounded-xl p-3.5 shadow-2xl overflow-hidden"
       style={{
-        background: 'rgba(255, 255, 255, 0.04)',
+        background: 'var(--c-glass)',
         backdropFilter: 'blur(24px)',
         WebkitBackdropFilter: 'blur(24px)',
-        border: '1px solid rgba(255, 255, 255, 0.04)',
+        border: '1px solid var(--c-border)',
       }}
     >
-      <p className="text-[10px] font-mono mb-2.5 uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.45)' }}>
+      <p className="text-[10px] font-mono mb-2.5 uppercase tracking-wider" style={{ color: 'var(--c-t-45)' }}>
         {label ? format(parseLocalDate(label), "EEE, dd 'de' MMM", { locale: ptBR }) : ''}
       </p>
       <div className="space-y-1.5">
@@ -371,13 +371,13 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
 // ─── Skeleton Loader ───
 const DashboardSkeleton: React.FC = () => (
   <div className="space-y-6 animate-pulse">
-    <div className="h-10 bg-white/[0.03] rounded-xl w-64" />
+    <div className="h-10 bg-glass rounded-xl w-64" />
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       {[1, 2, 3].map(i => (
         <div key={i} className="card-dark p-5 h-44">
-          <div className="h-4 bg-white/[0.04] rounded w-20 mb-4" />
-          <div className="h-8 bg-white/[0.04] rounded w-16 mb-2" />
-          <div className="h-3 bg-white/[0.03] rounded w-32" />
+          <div className="h-4 bg-glass rounded w-20 mb-4" />
+          <div className="h-8 bg-glass rounded w-16 mb-2" />
+          <div className="h-3 bg-glass rounded w-32" />
         </div>
       ))}
     </div>
@@ -508,7 +508,7 @@ export const Dashboard: React.FC = () => {
           <button
             onClick={() => setIsNotificationsOpen(true)}
             className="relative p-2.5 rounded-xl transition-all duration-300 group"
-            style={{ color: 'rgba(255,255,255,0.5)', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)' }}
+            style={{ color: 'var(--c-t-50)', background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
             aria-label="Abrir notificacoes"
           >
             <Bell className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
@@ -582,7 +582,7 @@ export const Dashboard: React.FC = () => {
               <div className="p-1.5 rounded-xl" style={{ background: 'rgba(var(--color-primary-rgb),0.12)' }}>
                 <Activity className="w-3.5 h-3.5 text-[var(--color-primary-light)]" />
               </div>
-              <h3 className="text-sm font-semibold text-white font-display">{chartTitle}</h3>
+              <h3 className="text-sm font-semibold text-txt font-display">{chartTitle}</h3>
             </div>
 
             {/* Compact period stats */}
@@ -593,15 +593,15 @@ export const Dashboard: React.FC = () => {
                 { label: 'Melhor dia', value: periodSummary.best },
               ].map(({ label, value }) => (
                 <div key={label} className="text-right">
-                  <div className="text-[9px] font-mono uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.35)' }}>{label}</div>
-                  <div className="text-sm font-bold text-white font-display tabular-nums leading-tight">{value}</div>
+                  <div className="text-[9px] font-mono uppercase tracking-wider" style={{ color: 'var(--c-t-35)' }}>{label}</div>
+                  <div className="text-sm font-bold text-txt font-display tabular-nums leading-tight">{value}</div>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Chart header row 2: Period selector + Legend */}
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 mb-5 pb-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 mb-5 pb-4" style={{ borderBottom: '1px solid var(--c-border)' }}>
             <PeriodSelector
               activePreset={activePreset}
               dateRange={dateRange}
@@ -621,7 +621,7 @@ export const Dashboard: React.FC = () => {
                     className="w-2 h-2 rounded-full transition-transform duration-200 group-hover/legend:scale-125"
                     style={{ backgroundColor: color, boxShadow: `0 0 6px ${color}30` }}
                   />
-                  <span className="text-[10px] font-mono transition-colors" style={{ color: 'rgba(255,255,255,0.35)' }}>{label}</span>
+                  <span className="text-[10px] font-mono transition-colors" style={{ color: 'var(--c-t-35)' }}>{label}</span>
                 </div>
               ))}
             </div>
@@ -649,7 +649,7 @@ export const Dashboard: React.FC = () => {
                   <CartesianGrid
                     strokeDasharray="3 3"
                     vertical={false}
-                    stroke="rgba(255,255,255,0.04)"
+                    stroke="rgb(var(--c-fg-rgb) / 0.04)"
                   />
                   <XAxis
                     dataKey="data"
@@ -659,7 +659,7 @@ export const Dashboard: React.FC = () => {
                     fontFamily="JetBrains Mono"
                     tickLine={false}
                     axisLine={false}
-                    tick={{ fill: 'rgba(255,255,255,0.3)' }}
+                    tick={{ fill: 'rgb(var(--c-fg-rgb) / 0.3)' }}
                   />
                   <YAxis
                     stroke="transparent"
@@ -667,7 +667,7 @@ export const Dashboard: React.FC = () => {
                     fontFamily="JetBrains Mono"
                     tickLine={false}
                     axisLine={false}
-                    tick={{ fill: 'rgba(255,255,255,0.3)' }}
+                    tick={{ fill: 'rgb(var(--c-fg-rgb) / 0.3)' }}
                     width={30}
                   />
                   <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(59, 130, 246, 0.03)' }} />
@@ -680,7 +680,7 @@ export const Dashboard: React.FC = () => {
                     strokeWidth={1.5}
                     strokeOpacity={0.6}
                     dot={false}
-                    activeDot={{ r: 4, fill: '#FBBF24', stroke: '#0A0A0B', strokeWidth: 2 }}
+                    activeDot={{ r: 4, fill: '#FBBF24', stroke: 'rgb(var(--c-surface-rgb))', strokeWidth: 2 }}
                     animationDuration={600}
                     animationEasing="ease-out"
                   />
@@ -693,7 +693,7 @@ export const Dashboard: React.FC = () => {
                     strokeWidth={1.5}
                     strokeOpacity={0.5}
                     dot={false}
-                    activeDot={{ r: 3, fill: '#34D399', stroke: '#0A0A0B', strokeWidth: 2 }}
+                    activeDot={{ r: 3, fill: '#34D399', stroke: 'rgb(var(--c-surface-rgb))', strokeWidth: 2 }}
                     animationDuration={700}
                     animationEasing="ease-out"
                   />
@@ -706,7 +706,7 @@ export const Dashboard: React.FC = () => {
                     strokeWidth={1.5}
                     strokeOpacity={0.5}
                     dot={false}
-                    activeDot={{ r: 3, fill: 'var(--color-primary)', stroke: '#0A0A0B', strokeWidth: 2 }}
+                    activeDot={{ r: 3, fill: 'var(--color-primary)', stroke: 'rgb(var(--c-surface-rgb))', strokeWidth: 2 }}
                     animationDuration={800}
                     animationEasing="ease-out"
                   />
@@ -715,9 +715,9 @@ export const Dashboard: React.FC = () => {
             ) : (
               <div className="h-full flex items-center justify-center">
                 <div className="text-center">
-                  <Calendar className="w-8 h-8 mx-auto mb-2" style={{ color: 'rgba(255,255,255,0.15)' }} />
-                  <p className="text-sm" style={{ color: 'rgba(255,255,255,0.3)' }}>Sem dados para o periodo selecionado</p>
-                  <p className="text-[11px] mt-1" style={{ color: 'rgba(255,255,255,0.2)' }}>Selecione um periodo com dados disponiveis</p>
+                  <Calendar className="w-8 h-8 mx-auto mb-2" style={{ color: 'var(--c-t-15)' }} />
+                  <p className="text-sm" style={{ color: 'var(--c-t-30)' }}>Sem dados para o periodo selecionado</p>
+                  <p className="text-[11px] mt-1" style={{ color: 'var(--c-t-20)' }}>Selecione um periodo com dados disponiveis</p>
                 </div>
               </div>
             )}
@@ -727,7 +727,7 @@ export const Dashboard: React.FC = () => {
         {/* Recent leads */}
         <div className="glass-card p-5 flex flex-col animate-slide-up stagger-5 opacity-0">
           <div className="flex justify-between items-center mb-5">
-            <h3 className="text-sm font-semibold text-white font-display">
+            <h3 className="text-sm font-semibold text-txt font-display">
               {kpiIsToday ? 'Leads de Hoje' : kpiIsSingleDay ? `Leads - ${format(kpiRange.start, 'dd/MM')}` : 'Leads do Periodo'}
             </h3>
             <span className="text-[10px] text-[var(--color-primary-light)] font-mono font-semibold px-2.5 py-1 rounded-lg" style={{ background: 'rgba(var(--color-primary-rgb),0.10)', border: '1px solid rgba(var(--color-primary-rgb),0.20)' }}>
@@ -743,17 +743,17 @@ export const Dashboard: React.FC = () => {
                 style={{ animationDelay: `${0.3 + i * 0.03}s` }}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-semibold font-mono shrink-0" style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.04)' }}>
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-semibold font-mono shrink-0" style={{ background: 'var(--c-glass)', color: 'var(--c-t-50)', border: '1px solid var(--c-border)' }}>
                     {(lead.nome || '?')[0].toUpperCase()}
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[13px] font-medium text-white group-hover:text-[var(--color-primary-light)] transition-colors duration-300">{lead.nome || 'Sem nome'}</span>
-                    <span className="text-[10px] font-mono" style={{ color: 'rgba(255,255,255,0.35)' }}>{formatTelefone(lead.telefone)}</span>
+                    <span className="text-[13px] font-medium text-txt group-hover:text-[var(--color-primary-light)] transition-colors duration-300">{lead.nome || 'Sem nome'}</span>
+                    <span className="text-[10px] font-mono" style={{ color: 'var(--c-t-35)' }}>{formatTelefone(lead.telefone)}</span>
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-1.5">
                   <LeadBadge status={lead.status as StatusLead} />
-                  <span className="text-[9px] font-mono tabular-nums" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                  <span className="text-[9px] font-mono tabular-nums" style={{ color: 'var(--c-t-35)' }}>
                     {lead.ultima_interacao ? formatRelativeTime(lead.ultima_interacao) : formatTime(lead.data_primeiro_contato ?? lead.created_at)}
                   </span>
                 </div>
@@ -761,13 +761,13 @@ export const Dashboard: React.FC = () => {
             ))}
             {leadsPeriodo.length === 0 && (
               <div className="text-center py-12 flex flex-col items-center gap-2">
-                <Users className="w-8 h-8" style={{ color: 'rgba(255,255,255,0.15)' }} />
-                <p className="text-sm" style={{ color: 'rgba(255,255,255,0.3)' }}>Nenhum lead no periodo.</p>
+                <Users className="w-8 h-8" style={{ color: 'var(--c-t-15)' }} />
+                <p className="text-sm" style={{ color: 'var(--c-t-30)' }}>Nenhum lead no periodo.</p>
               </div>
             )}
           </div>
 
-          <div className="mt-4 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+          <div className="mt-4 pt-4" style={{ borderTop: '1px solid var(--c-border)' }}>
             <button
               onClick={() => navigate('/leads')}
               className="flex items-center justify-center w-full text-xs text-[var(--color-primary-light)] font-medium hover:underline transition-colors duration-300 group py-1"
@@ -787,7 +787,7 @@ export const Dashboard: React.FC = () => {
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
           <div className="w-full max-w-2xl relative z-10" onClick={(e) => e.stopPropagation()}>
             <div className="card-dark-elevated overflow-hidden flex flex-col max-h-[70vh] animate-slide-up">
-              <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.04]">
+              <div className="flex items-center justify-between px-5 py-4 border-b border-glass">
                 <div className="flex items-center gap-2.5">
                   <div className="p-1.5 rounded-lg bg-primary-bg ring-1 ring-primary-bg">
                     <Bell className="w-4 h-4 text-[var(--color-primary-light)]" />
@@ -803,7 +803,7 @@ export const Dashboard: React.FC = () => {
                   {notificacoes.length > 0 && (
                     <button
                       onClick={marcarTodasComoLidas}
-                      className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] text-primary-light hover:text-white/70 font-medium transition-colors rounded-lg hover:bg-primary-bg"
+                      className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] text-primary-light hover:text-txt-secondary font-medium transition-colors rounded-lg hover:bg-primary-bg"
                     >
                       <CheckCheck className="w-3.5 h-3.5" />
                       Marcar todas como lidas
@@ -811,7 +811,7 @@ export const Dashboard: React.FC = () => {
                   )}
                   <button
                     onClick={() => setIsNotificationsOpen(false)}
-                    className="p-2 rounded-xl hover:bg-white/[0.04] text-txt-muted hover:text-txt transition-all duration-300"
+                    className="p-2 rounded-xl hover:bg-glass text-txt-muted hover:text-txt transition-all duration-300"
                   >
                     <X className="w-4 h-4" />
                   </button>

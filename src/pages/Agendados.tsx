@@ -71,21 +71,21 @@ const ReagendarTimePicker: React.FC<{ value: string; onChange: (v: string) => vo
   }, []);
 
   return (
-    <div className="rounded-xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+    <div className="rounded-xl overflow-hidden" style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}>
       {/* Display selecionado */}
-      <div className="flex items-center justify-center gap-1 py-3 border-b" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
-        <span className="text-[22px] font-mono font-bold tabular-nums" style={{ color: curH >= 0 ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.2)' }}>
+      <div className="flex items-center justify-center gap-1 py-3 border-b" style={{ borderColor: 'var(--c-border)' }}>
+        <span className="text-[22px] font-mono font-bold tabular-nums" style={{ color: curH >= 0 ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.2)' }}>
           {curH >= 0 ? String(curH).padStart(2, '0') : '--'}
         </span>
-        <span className="text-[18px] font-mono font-bold" style={{ color: 'rgba(255,255,255,0.25)' }}>:</span>
-        <span className="text-[22px] font-mono font-bold tabular-nums" style={{ color: curM >= 0 ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.2)' }}>
+        <span className="text-[18px] font-mono font-bold" style={{ color: 'var(--c-t-25)' }}>:</span>
+        <span className="text-[22px] font-mono font-bold tabular-nums" style={{ color: curM >= 0 ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.2)' }}>
           {curM >= 0 ? String(curM).padStart(2, '0') : '--'}
         </span>
       </div>
       <div className="grid grid-cols-2" style={{ borderTop: 'none' }}>
         {/* Hora */}
-        <div className="p-2" style={{ borderRight: '1px solid rgba(255,255,255,0.06)' }}>
-          <p className="text-[9px] uppercase tracking-widest text-center mb-2 font-semibold" style={{ color: 'rgba(255,255,255,0.2)' }}>Hora</p>
+        <div className="p-2" style={{ borderRight: '1px solid var(--c-border)' }}>
+          <p className="text-[9px] uppercase tracking-widest text-center mb-2 font-semibold" style={{ color: 'var(--c-t-20)' }}>Hora</p>
           <div
             ref={hoursRef}
             className="overflow-y-auto pr-1"
@@ -103,13 +103,13 @@ const ReagendarTimePicker: React.FC<{ value: string; onChange: (v: string) => vo
                     className="rounded-lg flex items-center justify-center text-[11px] font-mono font-medium transition-colors duration-100"
                     style={{
                       height: '30px',
-                      background: active ? 'rgba(var(--color-primary-rgb),0.2)' : 'rgba(255,255,255,0.03)',
+                      background: active ? 'rgba(var(--color-primary-rgb),0.2)' : 'var(--c-glass)',
                       border: active ? '1px solid rgba(var(--color-primary-rgb),0.4)' : '1px solid transparent',
-                      color: active ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.6)',
+                      color: active ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.6)',
                       boxShadow: active ? '0 0 8px rgba(var(--color-primary-rgb),0.15)' : 'none',
                     }}
-                    onMouseEnter={(e) => { if (!active) { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#fff'; } }}
-                    onMouseLeave={(e) => { if (!active) { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.color = 'rgba(255,255,255,0.6)'; } }}
+                    onMouseEnter={(e) => { if (!active) { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; } }}
+                    onMouseLeave={(e) => { if (!active) { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.6)'; } }}
                   >
                     {String(h).padStart(2, '0')}
                   </button>
@@ -120,7 +120,7 @@ const ReagendarTimePicker: React.FC<{ value: string; onChange: (v: string) => vo
         </div>
         {/* Minuto — todos 60 */}
         <div className="p-2">
-          <p className="text-[9px] uppercase tracking-widest text-center mb-2 font-semibold" style={{ color: 'rgba(255,255,255,0.2)' }}>Minuto</p>
+          <p className="text-[9px] uppercase tracking-widest text-center mb-2 font-semibold" style={{ color: 'var(--c-t-20)' }}>Minuto</p>
           <div
             ref={minutesRef}
             className="overflow-y-auto pr-1"
@@ -138,13 +138,13 @@ const ReagendarTimePicker: React.FC<{ value: string; onChange: (v: string) => vo
                     className="rounded-lg flex items-center justify-center text-[11px] font-mono font-medium transition-colors duration-100"
                     style={{
                       height: '30px',
-                      background: active ? 'rgba(var(--color-primary-rgb),0.2)' : 'rgba(255,255,255,0.03)',
+                      background: active ? 'rgba(var(--color-primary-rgb),0.2)' : 'var(--c-glass)',
                       border: active ? '1px solid rgba(var(--color-primary-rgb),0.4)' : '1px solid transparent',
-                      color: active ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.6)',
+                      color: active ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.6)',
                       boxShadow: active ? '0 0 8px rgba(var(--color-primary-rgb),0.15)' : 'none',
                     }}
-                    onMouseEnter={(e) => { if (!active) { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#fff'; } }}
-                    onMouseLeave={(e) => { if (!active) { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.color = 'rgba(255,255,255,0.6)'; } }}
+                    onMouseEnter={(e) => { if (!active) { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; } }}
+                    onMouseLeave={(e) => { if (!active) { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.6)'; } }}
                   >
                     {String(m).padStart(2, '0')}
                   </button>
@@ -505,17 +505,17 @@ const Agendados: React.FC = () => {
         <p className="text-[12px] text-txt-dim font-mono">
           {agendamentosFiltrados.length} agendamento{agendamentosFiltrados.length !== 1 ? 's' : ''}
           {filtroData && (
-            <span className="text-white/30 ml-1">
+            <span className="text-txt-dim ml-1">
               em {filtroData.split('-').reverse().join('/')}
             </span>
           )}
           {filtroHora !== null && (
-            <span className="text-white/30 ml-1">
+            <span className="text-txt-dim ml-1">
               às {String(filtroHora).padStart(2, '0')}:00
             </span>
           )}
           {filtroCanal && (
-            <span className="text-white/30 ml-1">
+            <span className="text-txt-dim ml-1">
               via {filtroCanal === 'whatsapp' ? 'WhatsApp' : 'Telegram'}
             </span>
           )}
@@ -528,9 +528,9 @@ const Agendados: React.FC = () => {
             onClick={() => setCanalOpen(!canalOpen)}
             className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-[12px] font-medium transition-all duration-200"
             style={{
-              background: filtroCanal ? 'rgba(var(--color-primary-rgb),0.1)' : 'rgba(255,255,255,0.04)',
-              border: `1px solid ${filtroCanal ? 'rgba(var(--color-primary-rgb),0.25)' : 'rgba(255,255,255,0.06)'}`,
-              color: filtroCanal ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.5)',
+              background: filtroCanal ? 'rgba(var(--color-primary-rgb),0.1)' : 'var(--c-glass)',
+              border: `1px solid ${filtroCanal ? 'rgba(var(--color-primary-rgb),0.25)' : 'var(--c-border)'}`,
+              color: filtroCanal ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.5)',
             }}
           >
             <MessagesSquare className="w-3.5 h-3.5" />
@@ -552,8 +552,8 @@ const Agendados: React.FC = () => {
             <div
               className="hidden md:block absolute right-0 top-full mt-2 z-50 animate-fade-in"
               style={{
-                background: 'rgba(16,16,28,0.97)',
-                border: '1px solid rgba(255,255,255,0.1)',
+                background: 'var(--c-popup-bg)',
+                border: '1px solid var(--c-border-strong)',
                 borderRadius: '14px',
                 boxShadow: '0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset',
                 padding: '6px',
@@ -574,10 +574,10 @@ const Agendados: React.FC = () => {
                     style={{
                       background: active ? opt.bg : 'transparent',
                       border: `1px solid ${active ? opt.border : 'transparent'}`,
-                      color: active ? opt.color : 'rgba(255,255,255,0.55)',
+                      color: active ? opt.color : 'rgb(var(--c-fg-rgb) / 0.55)',
                     }}
-                    onMouseEnter={(e) => { if (!active) { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.color = '#fff' } }}
-                    onMouseLeave={(e) => { if (!active) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.55)' } }}
+                    onMouseEnter={(e) => { if (!active) { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))' } }}
+                    onMouseLeave={(e) => { if (!active) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.55)' } }}
                   >
                     <IconComp className="w-3.5 h-3.5" />
                     {opt.label}
@@ -597,21 +597,21 @@ const Agendados: React.FC = () => {
               />
               <div
                 ref={canalSheetRef}
-                className="relative w-full rounded-t-3xl border-t border-white/10 animate-slide-up"
+                className="relative w-full rounded-t-3xl border-t border-glass animate-slide-up"
                 style={{
-                  background: 'rgba(22,27,34,0.98)',
+                  background: 'var(--c-popup-bg)',
                   maxHeight: '70vh',
                   boxShadow: '0 -20px 60px rgba(0,0,0,0.6)',
                 }}
               >
                 <div className="flex justify-center pt-3 pb-1">
-                  <div className="w-10 h-1 rounded-full bg-white/15" />
+                  <div className="w-10 h-1 rounded-full bg-glass-hover" />
                 </div>
-                <div className="flex items-center justify-between px-5 py-3 border-b border-white/5">
-                  <h4 className="text-[14px] font-semibold text-white font-display">Filtrar por canal</h4>
+                <div className="flex items-center justify-between px-5 py-3 border-b border-glass">
+                  <h4 className="text-[14px] font-semibold text-txt font-display">Filtrar por canal</h4>
                   <button
                     onClick={() => setCanalOpen(false)}
-                    className="w-8 h-8 rounded-lg flex items-center justify-center bg-white/5 text-white/40 hover:text-white hover:bg-white/10 transition-colors"
+                    className="w-8 h-8 rounded-lg flex items-center justify-center bg-glass-2 text-txt-dim hover:text-txt hover:bg-glass-hover transition-colors"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -629,9 +629,9 @@ const Agendados: React.FC = () => {
                         onClick={() => { setFiltroCanal(active ? null : opt.key); setCanalOpen(false); }}
                         className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-[13px] font-medium transition-all"
                         style={{
-                          background: active ? opt.bg : 'rgba(255,255,255,0.03)',
-                          border: `1px solid ${active ? opt.border : 'rgba(255,255,255,0.05)'}`,
-                          color: active ? opt.color : 'rgba(255,255,255,0.7)',
+                          background: active ? opt.bg : 'var(--c-glass)',
+                          border: `1px solid ${active ? opt.border : 'var(--c-border)'}`,
+                          color: active ? opt.color : 'rgb(var(--c-fg-rgb) / 0.7)',
                         }}
                       >
                         <IconComp className="w-4 h-4" />
@@ -653,9 +653,9 @@ const Agendados: React.FC = () => {
             onClick={() => setHoraOpen(!horaOpen)}
             className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-[12px] font-medium transition-all duration-200"
             style={{
-              background: filtroHora !== null ? 'rgba(var(--color-primary-rgb),0.1)' : 'rgba(255,255,255,0.04)',
-              border: `1px solid ${filtroHora !== null ? 'rgba(var(--color-primary-rgb),0.25)' : 'rgba(255,255,255,0.06)'}`,
-              color: filtroHora !== null ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.5)',
+              background: filtroHora !== null ? 'rgba(var(--color-primary-rgb),0.1)' : 'var(--c-glass)',
+              border: `1px solid ${filtroHora !== null ? 'rgba(var(--color-primary-rgb),0.25)' : 'var(--c-border)'}`,
+              color: filtroHora !== null ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.5)',
             }}
           >
             <Clock className="w-3.5 h-3.5" />
@@ -686,19 +686,19 @@ const Agendados: React.FC = () => {
                       disabled={!hasAgendamentos && !isSelected}
                       className="aspect-square rounded-lg flex items-center justify-center text-[11px] font-medium font-mono transition-all duration-150 relative"
                       style={{
-                        background: isSelected ? 'rgba(var(--color-primary-rgb),0.2)' : hasAgendamentos ? 'rgba(255,255,255,0.04)' : 'transparent',
+                        background: isSelected ? 'rgba(var(--color-primary-rgb),0.2)' : hasAgendamentos ? 'var(--c-glass)' : 'transparent',
                         border: isSelected
                           ? '1px solid rgba(var(--color-primary-rgb),0.4)'
-                          : hasAgendamentos ? '1px solid rgba(255,255,255,0.06)' : '1px solid transparent',
+                          : hasAgendamentos ? '1px solid var(--c-border)' : '1px solid transparent',
                         color: isSelected
                           ? 'var(--color-primary-light)'
-                          : hasAgendamentos ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.2)',
+                          : hasAgendamentos ? 'rgb(var(--c-fg-rgb) / 0.8)' : 'rgb(var(--c-fg-rgb) / 0.2)',
                         boxShadow: isSelected ? '0 0 10px rgba(var(--color-primary-rgb),0.15)' : 'none',
                         cursor: !hasAgendamentos && !isSelected ? 'not-allowed' : 'pointer',
                         opacity: !hasAgendamentos && !isSelected ? 0.4 : 1,
                       }}
-                      onMouseEnter={(e) => { if (!isSelected && hasAgendamentos) { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#fff' } }}
-                      onMouseLeave={(e) => { if (!isSelected && hasAgendamentos) { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'rgba(255,255,255,0.8)' } }}
+                      onMouseEnter={(e) => { if (!isSelected && hasAgendamentos) { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))' } }}
+                      onMouseLeave={(e) => { if (!isSelected && hasAgendamentos) { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.8)' } }}
                     >
                       {String(h).padStart(2, '0')}
                       {hasAgendamentos && (
@@ -718,8 +718,8 @@ const Agendados: React.FC = () => {
                 <div
                   className="hidden md:block absolute right-0 top-full mt-2 z-50 animate-fade-in"
                   style={{
-                    background: 'rgba(16,16,28,0.97)',
-                    border: '1px solid rgba(255,255,255,0.1)',
+                    background: 'var(--c-popup-bg)',
+                    border: '1px solid var(--c-border-strong)',
                     borderRadius: '16px',
                     boxShadow: '0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset',
                     padding: '14px',
@@ -727,10 +727,10 @@ const Agendados: React.FC = () => {
                   }}
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                    <span className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: 'var(--c-t-45)' }}>
                       Horário do envio
                     </span>
-                    <span className="text-[10px] font-mono" style={{ color: 'rgba(255,255,255,0.25)' }}>
+                    <span className="text-[10px] font-mono" style={{ color: 'var(--c-t-25)' }}>
                       {horasComAgendamento.size} horário{horasComAgendamento.size !== 1 ? 's' : ''}
                     </span>
                   </div>
@@ -739,9 +739,9 @@ const Agendados: React.FC = () => {
                     <button
                       onClick={() => { setFiltroHora(null); setHoraOpen(false); }}
                       className="w-full mt-3 py-2 rounded-lg text-[11px] font-medium transition-colors"
-                      style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.4)' }}
-                      onMouseEnter={(e) => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.background = 'rgba(255,255,255,0.08)' }}
-                      onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.4)'; e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
+                      style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-40)' }}
+                      onMouseEnter={(e) => { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; e.currentTarget.style.background = 'var(--c-glass-hover)' }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.4)'; e.currentTarget.style.background = 'var(--c-glass)' }}
                     >
                       Limpar filtro
                     </button>
@@ -758,26 +758,26 @@ const Agendados: React.FC = () => {
                     />
                     <div
                       ref={horaSheetRef}
-                      className="relative w-full rounded-t-3xl border-t border-white/10 animate-slide-up"
+                      className="relative w-full rounded-t-3xl border-t border-glass animate-slide-up"
                       style={{
-                        background: 'rgba(22,27,34,0.98)',
+                        background: 'var(--c-popup-bg)',
                         maxHeight: '80vh',
                         boxShadow: '0 -20px 60px rgba(0,0,0,0.6)',
                       }}
                     >
                       <div className="flex justify-center pt-3 pb-1">
-                        <div className="w-10 h-1 rounded-full bg-white/15" />
+                        <div className="w-10 h-1 rounded-full bg-glass-hover" />
                       </div>
-                      <div className="flex items-center justify-between px-5 py-3 border-b border-white/5">
+                      <div className="flex items-center justify-between px-5 py-3 border-b border-glass">
                         <div>
-                          <h4 className="text-[14px] font-semibold text-white font-display">Filtrar por horário</h4>
-                          <p className="text-[10px] font-mono mt-0.5" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                          <h4 className="text-[14px] font-semibold text-txt font-display">Filtrar por horário</h4>
+                          <p className="text-[10px] font-mono mt-0.5" style={{ color: 'var(--c-t-30)' }}>
                             {horasComAgendamento.size} horário{horasComAgendamento.size !== 1 ? 's' : ''} disponível{horasComAgendamento.size !== 1 ? 'is' : ''}
                           </p>
                         </div>
                         <button
                           onClick={() => setHoraOpen(false)}
-                          className="w-8 h-8 rounded-lg flex items-center justify-center bg-white/5 text-white/40 hover:text-white hover:bg-white/10 transition-colors"
+                          className="w-8 h-8 rounded-lg flex items-center justify-center bg-glass-2 text-txt-dim hover:text-txt hover:bg-glass-hover transition-colors"
                         >
                           <X className="w-4 h-4" />
                         </button>
@@ -809,9 +809,9 @@ const Agendados: React.FC = () => {
             onClick={() => { setCalendarOpen(!calendarOpen); if (!calendarOpen) { const d = filtroData ? new Date(filtroData) : new Date(); setCalendarMonth(d.getMonth()); setCalendarYear(d.getFullYear()); } }}
             className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-[12px] font-medium transition-all duration-200"
             style={{
-              background: filtroData ? 'rgba(var(--color-primary-rgb),0.1)' : 'rgba(255,255,255,0.04)',
-              border: `1px solid ${filtroData ? 'rgba(var(--color-primary-rgb),0.25)' : 'rgba(255,255,255,0.06)'}`,
-              color: filtroData ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.5)',
+              background: filtroData ? 'rgba(var(--color-primary-rgb),0.1)' : 'var(--c-glass)',
+              border: `1px solid ${filtroData ? 'rgba(var(--color-primary-rgb),0.25)' : 'var(--c-border)'}`,
+              color: filtroData ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.5)',
             }}
           >
             <Calendar className="w-3.5 h-3.5" />
@@ -850,21 +850,21 @@ const Agendados: React.FC = () => {
                 <button
                   onClick={() => { if (calendarMonth === 0) { setCalendarMonth(11); setCalendarYear(calendarYear - 1); } else setCalendarMonth(calendarMonth - 1); }}
                   className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors"
-                  style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.5)' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#fff' }}
-                  onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'rgba(255,255,255,0.5)' }}
+                  style={{ background: 'var(--c-glass)', color: 'var(--c-t-50)' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.5)' }}
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
-                <span className="text-[13px] font-semibold text-white">
+                <span className="text-[13px] font-semibold text-txt">
                   {monthNames[calendarMonth]} {calendarYear}
                 </span>
                 <button
                   onClick={() => { if (calendarMonth === 11) { setCalendarMonth(0); setCalendarYear(calendarYear + 1); } else setCalendarMonth(calendarMonth + 1); }}
                   className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors"
-                  style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.5)' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#fff' }}
-                  onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'rgba(255,255,255,0.5)' }}
+                  style={{ background: 'var(--c-glass)', color: 'var(--c-t-50)' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.5)' }}
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
@@ -875,7 +875,7 @@ const Agendados: React.FC = () => {
               <>
                 <div className="grid grid-cols-7 gap-1 mb-1">
                   {['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'].map((d) => (
-                    <div key={d} className="text-center text-[10px] font-semibold uppercase tracking-wider py-1" style={{ color: 'rgba(255,255,255,0.25)' }}>
+                    <div key={d} className="text-center text-[10px] font-semibold uppercase tracking-wider py-1" style={{ color: 'var(--c-t-25)' }}>
                       {d}
                     </div>
                   ))}
@@ -896,13 +896,13 @@ const Agendados: React.FC = () => {
                         onClick={() => { setFiltroData(isSelected ? null : dateStr); setCalendarOpen(false); }}
                         className="w-full aspect-square rounded-lg flex flex-col items-center justify-center text-[12px] font-medium transition-all duration-150 relative"
                         style={{
-                          background: isSelected ? 'rgba(var(--color-primary-rgb),0.2)' : isToday ? 'rgba(255,255,255,0.06)' : 'transparent',
-                          border: isSelected ? '1px solid rgba(var(--color-primary-rgb),0.4)' : isToday ? '1px solid rgba(255,255,255,0.1)' : '1px solid transparent',
-                          color: isSelected ? 'var(--color-primary-light)' : isToday ? '#fff' : hasAgendamentos ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.35)',
+                          background: isSelected ? 'rgba(var(--color-primary-rgb),0.2)' : isToday ? 'var(--c-glass-hover)' : 'transparent',
+                          border: isSelected ? '1px solid rgba(var(--color-primary-rgb),0.4)' : isToday ? '1px solid var(--c-border-strong)' : '1px solid transparent',
+                          color: isSelected ? 'var(--color-primary-light)' : isToday ? 'rgb(var(--c-fg-rgb))' : hasAgendamentos ? 'rgb(var(--c-fg-rgb) / 0.8)' : 'rgb(var(--c-fg-rgb) / 0.35)',
                           boxShadow: isSelected ? '0 0 10px rgba(var(--color-primary-rgb),0.15)' : 'none',
                         }}
-                        onMouseEnter={(e) => { if (!isSelected) { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = '#fff' } }}
-                        onMouseLeave={(e) => { if (!isSelected) { e.currentTarget.style.background = isToday ? 'rgba(255,255,255,0.06)' : 'transparent'; e.currentTarget.style.color = isToday ? '#fff' : hasAgendamentos ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.35)' } }}
+                        onMouseEnter={(e) => { if (!isSelected) { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))' } }}
+                        onMouseLeave={(e) => { if (!isSelected) { e.currentTarget.style.background = isToday ? 'var(--c-glass-hover)' : 'transparent'; e.currentTarget.style.color = isToday ? 'rgb(var(--c-fg-rgb))' : hasAgendamentos ? 'rgb(var(--c-fg-rgb) / 0.8)' : 'rgb(var(--c-fg-rgb) / 0.35)' } }}
                       >
                         {day}
                         {hasAgendamentos && (
@@ -924,8 +924,8 @@ const Agendados: React.FC = () => {
                 <div
                   className="hidden md:block absolute right-0 top-full mt-2 z-50 animate-fade-in"
                   style={{
-                    background: 'rgba(16,16,28,0.97)',
-                    border: '1px solid rgba(255,255,255,0.1)',
+                    background: 'var(--c-popup-bg)',
+                    border: '1px solid var(--c-border-strong)',
                     borderRadius: '16px',
                     boxShadow: '0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset',
                     padding: '16px',
@@ -938,9 +938,9 @@ const Agendados: React.FC = () => {
                     <button
                       onClick={() => { setFiltroData(null); setCalendarOpen(false); }}
                       className="w-full mt-3 py-2 rounded-lg text-[11px] font-medium transition-colors"
-                      style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.4)' }}
-                      onMouseEnter={(e) => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.background = 'rgba(255,255,255,0.08)' }}
-                      onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.4)'; e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
+                      style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-40)' }}
+                      onMouseEnter={(e) => { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; e.currentTarget.style.background = 'var(--c-glass-hover)' }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.4)'; e.currentTarget.style.background = 'var(--c-glass)' }}
                     >
                       Limpar filtro
                     </button>
@@ -957,21 +957,21 @@ const Agendados: React.FC = () => {
                     />
                     <div
                       ref={calSheetRef}
-                      className="relative w-full rounded-t-3xl border-t border-white/10 animate-slide-up"
+                      className="relative w-full rounded-t-3xl border-t border-glass animate-slide-up"
                       style={{
-                        background: 'rgba(22,27,34,0.98)',
+                        background: 'var(--c-popup-bg)',
                         maxHeight: '85vh',
                         boxShadow: '0 -20px 60px rgba(0,0,0,0.6)',
                       }}
                     >
                       <div className="flex justify-center pt-3 pb-1">
-                        <div className="w-10 h-1 rounded-full bg-white/15" />
+                        <div className="w-10 h-1 rounded-full bg-glass-hover" />
                       </div>
-                      <div className="flex items-center justify-between px-5 py-3 border-b border-white/5">
-                        <h4 className="text-[14px] font-semibold text-white font-display">Filtrar por data</h4>
+                      <div className="flex items-center justify-between px-5 py-3 border-b border-glass">
+                        <h4 className="text-[14px] font-semibold text-txt font-display">Filtrar por data</h4>
                         <button
                           onClick={() => setCalendarOpen(false)}
-                          className="w-8 h-8 rounded-lg flex items-center justify-center bg-white/5 text-white/40 hover:text-white hover:bg-white/10 transition-colors"
+                          className="w-8 h-8 rounded-lg flex items-center justify-center bg-glass-2 text-txt-dim hover:text-txt hover:bg-glass-hover transition-colors"
                         >
                           <X className="w-4 h-4" />
                         </button>
@@ -1083,7 +1083,7 @@ const Agendados: React.FC = () => {
         >
           <div
             className="w-full max-w-sm animate-slide-up"
-            style={{ background: 'rgba(20,20,30,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '28px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
+            style={{ background: 'var(--c-popup-bg)', border: '1px solid var(--c-border-strong)', borderRadius: '20px', padding: '28px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-5">
@@ -1091,24 +1091,24 @@ const Agendados: React.FC = () => {
                 <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'rgba(56,189,248,0.12)' }}>
                   <Clock className="w-4 h-4" style={{ color: '#38bdf8' }} />
                 </div>
-                <h3 className="text-[16px] font-semibold text-white font-display">Alterar horário</h3>
+                <h3 className="text-[16px] font-semibold text-txt font-display">Alterar horário</h3>
               </div>
               <button
                 onClick={() => setReagendarModal(null)}
                 className="w-8 h-8 rounded-lg flex items-center justify-center transition-all"
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)' }}
+                style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-40)' }}
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <p className="text-[13px] mb-5" style={{ color: 'rgba(255,255,255,0.4)' }}>
-              Mensagem: <span className="text-white font-medium">{reagendarModal.mensagem?.nome || '—'}</span>
+            <p className="text-[13px] mb-5" style={{ color: 'var(--c-t-40)' }}>
+              Mensagem: <span className="text-txt font-medium">{reagendarModal.mensagem?.nome || '—'}</span>
             </p>
 
             {/* ── Custom Date Picker ──────────────────── */}
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-2" style={{ color: 'rgba(255,255,255,0.35)' }}>Data</label>
+              <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-2" style={{ color: 'var(--c-t-35)' }}>Data</label>
               {/* Display button */}
               <button
                 type="button"
@@ -1122,19 +1122,19 @@ const Agendados: React.FC = () => {
                 }}
                 className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[13px] font-mono font-medium transition-all duration-200"
                 style={{
-                  background: reagCalOpen ? 'rgba(var(--color-primary-rgb),0.08)' : 'rgba(255,255,255,0.04)',
-                  border: reagCalOpen ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid rgba(255,255,255,0.08)',
-                  color: reagendarData ? '#fff' : 'rgba(255,255,255,0.3)',
+                  background: reagCalOpen ? 'rgba(var(--color-primary-rgb),0.08)' : 'var(--c-glass)',
+                  border: reagCalOpen ? '1px solid rgba(var(--color-primary-rgb),0.3)' : '1px solid var(--c-border)',
+                  color: reagendarData ? 'rgb(var(--c-fg-rgb))' : 'rgb(var(--c-fg-rgb) / 0.3)',
                   boxShadow: reagCalOpen ? '0 0 0 3px rgba(var(--color-primary-rgb),0.06)' : 'none',
                 }}
               >
                 <div className="flex items-center gap-2.5">
-                  <Calendar className="w-4 h-4" style={{ color: reagCalOpen ? 'var(--color-primary-light)' : 'rgba(255,255,255,0.35)' }} />
+                  <Calendar className="w-4 h-4" style={{ color: reagCalOpen ? 'var(--color-primary-light)' : 'rgb(var(--c-fg-rgb) / 0.35)' }} />
                   <span>{reagendarData ? reagendarData.split('-').reverse().join('/') : 'Selecionar data'}</span>
                 </div>
                 <ChevronLeft
                   className="w-3.5 h-3.5 transition-transform duration-200"
-                  style={{ color: 'rgba(255,255,255,0.25)', transform: reagCalOpen ? 'rotate(-90deg)' : 'rotate(-90deg) rotate(180deg)' }}
+                  style={{ color: 'var(--c-t-25)', transform: reagCalOpen ? 'rotate(-90deg)' : 'rotate(-90deg) rotate(180deg)' }}
                 />
               </button>
 
@@ -1146,27 +1146,27 @@ const Agendados: React.FC = () => {
                 const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
                 const MONTHS = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
                 return (
-                  <div className="mt-2 rounded-xl overflow-hidden animate-fade-in" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', padding: '14px' }}>
+                  <div className="mt-2 rounded-xl overflow-hidden animate-fade-in" style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', padding: '14px' }}>
                     {/* Nav */}
                     <div className="flex items-center justify-between mb-3">
                       <button
                         type="button"
                         onClick={() => { if (reagCalMonth === 0) { setReagCalMonth(11); setReagCalYear(reagCalYear - 1); } else setReagCalMonth(reagCalMonth - 1); }}
                         className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors"
-                        style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.5)' }}
-                        onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = '#fff'; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'rgba(255,255,255,0.5)'; }}
+                        style={{ background: 'var(--c-glass)', color: 'var(--c-t-50)' }}
+                        onMouseEnter={(e) => { e.currentTarget.style.background = 'rgb(var(--c-fg-rgb) / 0.1)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.5)'; }}
                       >
                         <ChevronLeft className="w-3.5 h-3.5" />
                       </button>
-                      <span className="text-[12px] font-semibold text-white">{MONTHS[reagCalMonth]} {reagCalYear}</span>
+                      <span className="text-[12px] font-semibold text-txt">{MONTHS[reagCalMonth]} {reagCalYear}</span>
                       <button
                         type="button"
                         onClick={() => { if (reagCalMonth === 11) { setReagCalMonth(0); setReagCalYear(reagCalYear + 1); } else setReagCalMonth(reagCalMonth + 1); }}
                         className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors"
-                        style={{ background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.5)' }}
-                        onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = '#fff'; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'rgba(255,255,255,0.5)'; }}
+                        style={{ background: 'var(--c-glass)', color: 'var(--c-t-50)' }}
+                        onMouseEnter={(e) => { e.currentTarget.style.background = 'rgb(var(--c-fg-rgb) / 0.1)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.5)'; }}
                       >
                         <ChevronRight className="w-3.5 h-3.5" />
                       </button>
@@ -1174,7 +1174,7 @@ const Agendados: React.FC = () => {
                     {/* Day headers */}
                     <div className="grid grid-cols-7 gap-1 mb-1">
                       {['D','S','T','Q','Q','S','S'].map((d, i) => (
-                        <div key={i} className="text-center text-[9px] font-bold uppercase tracking-wider py-0.5" style={{ color: 'rgba(255,255,255,0.2)' }}>{d}</div>
+                        <div key={i} className="text-center text-[9px] font-bold uppercase tracking-wider py-0.5" style={{ color: 'var(--c-t-20)' }}>{d}</div>
                       ))}
                     </div>
                     {/* Days grid */}
@@ -1192,13 +1192,13 @@ const Agendados: React.FC = () => {
                             onClick={() => { setReagendarData(dateStr); setReagCalOpen(false); }}
                             className="aspect-square rounded-lg flex items-center justify-center text-[11px] font-medium transition-all duration-100"
                             style={{
-                              background: isSelected ? 'rgba(var(--color-primary-rgb),0.25)' : isToday ? 'rgba(255,255,255,0.07)' : 'transparent',
-                              border: isSelected ? '1px solid rgba(var(--color-primary-rgb),0.45)' : isToday ? '1px solid rgba(255,255,255,0.1)' : '1px solid transparent',
-                              color: isSelected ? 'var(--color-primary-light)' : isToday ? '#fff' : 'rgba(255,255,255,0.7)',
+                              background: isSelected ? 'rgba(var(--color-primary-rgb),0.25)' : isToday ? 'var(--c-glass-hover)' : 'transparent',
+                              border: isSelected ? '1px solid rgba(var(--color-primary-rgb),0.45)' : isToday ? '1px solid var(--c-border-strong)' : '1px solid transparent',
+                              color: isSelected ? 'var(--color-primary-light)' : isToday ? 'rgb(var(--c-fg-rgb))' : 'rgb(var(--c-fg-rgb) / 0.7)',
                               boxShadow: isSelected ? '0 0 8px rgba(var(--color-primary-rgb),0.2)' : 'none',
                             }}
-                            onMouseEnter={(e) => { if (!isSelected) { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#fff'; } }}
-                            onMouseLeave={(e) => { if (!isSelected) { e.currentTarget.style.background = isToday ? 'rgba(255,255,255,0.07)' : 'transparent'; e.currentTarget.style.color = isToday ? '#fff' : 'rgba(255,255,255,0.7)'; } }}
+                            onMouseEnter={(e) => { if (!isSelected) { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; } }}
+                            onMouseLeave={(e) => { if (!isSelected) { e.currentTarget.style.background = isToday ? 'var(--c-glass-hover)' : 'transparent'; e.currentTarget.style.color = isToday ? 'rgb(var(--c-fg-rgb))' : 'rgb(var(--c-fg-rgb) / 0.7)'; } }}
                           >
                             {day}
                           </button>
@@ -1212,15 +1212,15 @@ const Agendados: React.FC = () => {
 
             {/* ── Custom Time Picker ──────────────────── */}
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-2" style={{ color: 'rgba(255,255,255,0.35)' }}>Horário</label>
+              <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-2" style={{ color: 'var(--c-t-35)' }}>Horário</label>
               <ReagendarTimePicker value={reagendarHora} onChange={setReagendarHora} />
             </div>
 
-            <div className="flex gap-3 mt-6" style={{ paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+            <div className="flex gap-3 mt-6" style={{ paddingTop: '20px', borderTop: '1px solid var(--c-border)' }}>
               <button
                 onClick={() => setReagendarModal(null)}
                 className="flex-1 py-2.5 rounded-[10px] text-[13px] font-medium transition-all duration-200"
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
+                style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border-strong)', color: 'var(--c-t-60)' }}
               >
                 Cancelar
               </button>
@@ -1246,7 +1246,7 @@ const Agendados: React.FC = () => {
         >
           <div
             className="w-full max-w-sm animate-slide-up"
-            style={{ background: 'rgba(20,20,30,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '28px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
+            style={{ background: 'var(--c-popup-bg)', border: '1px solid var(--c-border-strong)', borderRadius: '20px', padding: '28px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-5">
@@ -1255,22 +1255,22 @@ const Agendados: React.FC = () => {
                   <ArrowLeftRight className="w-4 h-4" style={{ color: '#a78bfa' }} />
                 </div>
                 <div>
-                  <h3 className="text-[16px] font-semibold text-white font-display">Trocar instância</h3>
-                  <p className="text-[11px] text-white/30 mt-0.5">{trocaInstanciaModal.mensagem?.nome || 'Agendamento'}</p>
+                  <h3 className="text-[16px] font-semibold text-txt font-display">Trocar instância</h3>
+                  <p className="text-[11px] text-txt-dim mt-0.5">{trocaInstanciaModal.mensagem?.nome || 'Agendamento'}</p>
                 </div>
               </div>
               <button
                 onClick={() => setTrocaInstanciaModal(null)}
                 className="w-8 h-8 rounded-lg flex items-center justify-center transition-all"
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)' }}
+                style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-40)' }}
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* Instancia atual */}
-            <div className="rounded-xl px-3.5 py-2.5 mb-4" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}>
-              <p className="text-[10px] uppercase tracking-wider text-white/30 font-semibold mb-1">Instância atual</p>
+            <div className="rounded-xl px-3.5 py-2.5 mb-4" style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}>
+              <p className="text-[10px] uppercase tracking-wider text-txt-dim font-semibold mb-1">Instância atual</p>
               <div className="flex items-center gap-2">
                 {(() => {
                   const inst = getInstanciaAgendamento(trocaInstanciaModal);
@@ -1278,7 +1278,7 @@ const Agendados: React.FC = () => {
                   return (
                     <>
                       {connected ? <Wifi className="w-3 h-3 text-emerald-400" /> : <WifiOff className="w-3 h-3 text-red-400" />}
-                      <span className="text-[13px] text-white/70 font-medium">{inst?.nome || trocaInstanciaModal.instancia}</span>
+                      <span className="text-[13px] text-txt-secondary font-medium">{inst?.nome || trocaInstanciaModal.instancia}</span>
                       <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-md ${connected ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'}`}>
                         {connected ? 'Conectada' : 'Desconectada'}
                       </span>
@@ -1289,7 +1289,7 @@ const Agendados: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Nova instância</label>
+              <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-1.5" style={{ color: 'var(--c-t-40)' }}>Nova instância</label>
               <div className="space-y-1.5">
                 {instancias
                   .filter((i) => i.status_conexao === 'connected')
@@ -1301,14 +1301,14 @@ const Agendados: React.FC = () => {
                         onClick={() => setNovaInstancia(i.instancia)}
                         className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-left transition-all duration-150"
                         style={{
-                          background: isSelected ? 'rgba(167,139,250,0.08)' : 'rgba(255,255,255,0.02)',
-                          border: `1px solid ${isSelected ? 'rgba(167,139,250,0.3)' : 'rgba(255,255,255,0.04)'}`,
+                          background: isSelected ? 'rgba(167,139,250,0.08)' : 'var(--c-glass-2)',
+                          border: `1px solid ${isSelected ? 'rgba(167,139,250,0.3)' : 'var(--c-border)'}`,
                         }}
                       >
                         <Wifi className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                         <div className="flex-1 min-w-0">
-                          <p className="text-[13px] font-medium truncate" style={{ color: isSelected ? '#a78bfa' : 'rgba(255,255,255,0.7)' }}>{i.nome}</p>
-                          <p className="text-[11px] text-white/30 font-mono">{i.numero}</p>
+                          <p className="text-[13px] font-medium truncate" style={{ color: isSelected ? '#a78bfa' : 'rgb(var(--c-fg-rgb) / 0.7)' }}>{i.nome}</p>
+                          <p className="text-[11px] text-txt-dim font-mono">{i.numero}</p>
                         </div>
                         {isSelected && (
                           <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md" style={{ background: 'rgba(167,139,250,0.15)', color: '#a78bfa' }}>
@@ -1319,16 +1319,16 @@ const Agendados: React.FC = () => {
                     );
                   })}
                 {instancias.filter((i) => i.status_conexao === 'connected').length === 0 && (
-                  <p className="text-[12px] text-white/30 text-center py-4">Nenhuma instância conectada disponível</p>
+                  <p className="text-[12px] text-txt-dim text-center py-4">Nenhuma instância conectada disponível</p>
                 )}
               </div>
             </div>
 
-            <div className="flex gap-3 mt-6" style={{ paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+            <div className="flex gap-3 mt-6" style={{ paddingTop: '20px', borderTop: '1px solid var(--c-border)' }}>
               <button
                 onClick={() => setTrocaInstanciaModal(null)}
                 className="flex-1 py-2.5 rounded-[10px] text-[13px] font-medium transition-all duration-200"
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
+                style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border-strong)', color: 'var(--c-t-60)' }}
               >
                 Cancelar
               </button>
@@ -1372,8 +1372,8 @@ const Agendados: React.FC = () => {
             <div
               className="w-full max-w-md animate-slide-up flex flex-col overflow-hidden"
               style={{
-                background: 'rgba(20,20,30,0.95)',
-                border: '1px solid rgba(255,255,255,0.1)',
+                background: 'var(--c-popup-bg)',
+                border: '1px solid var(--c-border-strong)',
                 borderRadius: '20px',
                 boxShadow: '0 24px 64px rgba(0,0,0,0.5)',
                 maxHeight: 'min(86vh, 720px)',
@@ -1381,7 +1381,7 @@ const Agendados: React.FC = () => {
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
-              <div className="px-6 pt-6 pb-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+              <div className="px-6 pt-6 pb-4" style={{ borderBottom: '1px solid var(--c-border)' }}>
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3 min-w-0">
                     <div
@@ -1391,8 +1391,8 @@ const Agendados: React.FC = () => {
                       <UsersRound className="w-4 h-4" style={{ color: accent }} />
                     </div>
                     <div className="min-w-0">
-                      <h3 className="text-[16px] font-semibold text-white font-display leading-tight">Alterar grupos</h3>
-                      <p className="text-[11px] mt-0.5 truncate" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                      <h3 className="text-[16px] font-semibold text-txt font-display leading-tight">Alterar grupos</h3>
+                      <p className="text-[11px] mt-0.5 truncate" style={{ color: 'var(--c-t-40)' }}>
                         {alterarGruposModal.mensagem?.nome ?? 'Mensagem'}
                       </p>
                     </div>
@@ -1401,7 +1401,7 @@ const Agendados: React.FC = () => {
                     onClick={() => !salvandoGrupos && setAlterarGruposModal(null)}
                     disabled={salvandoGrupos}
                     className="w-8 h-8 rounded-lg flex items-center justify-center transition-all shrink-0 disabled:opacity-40"
-                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.4)' }}
+                    style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-40)' }}
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -1420,10 +1420,10 @@ const Agendados: React.FC = () => {
                   </div>
                   <div
                     className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg"
-                    style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }}
+                    style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
                   >
-                    <span className="text-[10px] uppercase tracking-wider font-semibold" style={{ color: 'rgba(255,255,255,0.35)' }}>Total</span>
-                    <span className="text-[12px] font-mono font-bold tabular-nums" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                    <span className="text-[10px] uppercase tracking-wider font-semibold" style={{ color: 'var(--c-t-35)' }}>Total</span>
+                    <span className="text-[12px] font-mono font-bold tabular-nums" style={{ color: 'var(--c-t-60)' }}>
                       {totalOriginal}
                     </span>
                   </div>
@@ -1443,7 +1443,7 @@ const Agendados: React.FC = () => {
                 {/* Busca */}
                 {totalOriginal > 6 && (
                   <div className="relative mt-3">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5" style={{ color: 'rgba(255,255,255,0.3)' }} />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5" style={{ color: 'var(--c-t-30)' }} />
                     <input
                       type="text"
                       value={buscaGrupo}
@@ -1451,26 +1451,26 @@ const Agendados: React.FC = () => {
                       placeholder="Buscar grupo..."
                       className="w-full pl-9 pr-3 py-2 rounded-xl text-[12px] outline-none transition-all"
                       style={{
-                        background: 'rgba(255,255,255,0.03)',
-                        border: '1px solid rgba(255,255,255,0.06)',
-                        color: '#fff',
+                        background: 'var(--c-glass)',
+                        border: '1px solid var(--c-border)',
+                        color: 'var(--c-t-100)',
                       }}
                       onFocus={(e) => {
                         e.currentTarget.style.borderColor = `rgba(${accentRgb},0.3)`;
                         e.currentTarget.style.background = `rgba(${accentRgb},0.04)`;
                       }}
                       onBlur={(e) => {
-                        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)';
-                        e.currentTarget.style.background = 'rgba(255,255,255,0.03)';
+                        e.currentTarget.style.borderColor = 'var(--c-border)';
+                        e.currentTarget.style.background = 'var(--c-glass)';
                       }}
                     />
                     {buscaGrupo && (
                       <button
                         onClick={() => setBuscaGrupo('')}
                         className="absolute right-2 top-1/2 -translate-y-1/2 w-6 h-6 rounded-md flex items-center justify-center transition-colors"
-                        style={{ color: 'rgba(255,255,255,0.4)' }}
-                        onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = '#fff'; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.4)'; }}
+                        style={{ color: 'var(--c-t-40)' }}
+                        onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.4)'; }}
                       >
                         <X className="w-3 h-3" />
                       </button>
@@ -1486,8 +1486,8 @@ const Agendados: React.FC = () => {
               >
                 {gruposVisiveis.length === 0 && removidosVisiveis.length === 0 && (
                   <div className="flex flex-col items-center justify-center py-12 gap-2">
-                    <UsersRound className="w-8 h-8" style={{ color: 'rgba(255,255,255,0.15)' }} />
-                    <p className="text-[12px]" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                    <UsersRound className="w-8 h-8" style={{ color: 'var(--c-t-15)' }} />
+                    <p className="text-[12px]" style={{ color: 'var(--c-t-40)' }}>
                       {buscaLower ? 'Nenhum grupo encontrado' : 'Nenhum grupo configurado'}
                     </p>
                   </div>
@@ -1498,8 +1498,8 @@ const Agendados: React.FC = () => {
                     key={grupo.grupo_id}
                     className="group/item flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors duration-150"
                     style={{
-                      background: 'rgba(255,255,255,0.025)',
-                      border: '1px solid rgba(255,255,255,0.04)',
+                      background: 'var(--c-glass-2)',
+                      border: '1px solid var(--c-border)',
                     }}
                   >
                     <div
@@ -1513,10 +1513,10 @@ const Agendados: React.FC = () => {
                       {String(idx + 1).padStart(2, '0')}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[12.5px] font-medium text-white truncate leading-tight">
+                      <p className="text-[12.5px] font-medium text-txt truncate leading-tight">
                         {grupo.grupo_nome || 'Sem nome'}
                       </p>
-                      <p className="text-[10px] font-mono mt-0.5 truncate" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                      <p className="text-[10px] font-mono mt-0.5 truncate" style={{ color: 'var(--c-t-30)' }}>
                         {grupo.grupo_id}
                       </p>
                     </div>
@@ -1537,11 +1537,11 @@ const Agendados: React.FC = () => {
                 {removidosVisiveis.length > 0 && (
                   <>
                     <div className="flex items-center gap-2 pt-4 pb-1">
-                      <div className="h-px flex-1" style={{ background: 'rgba(255,255,255,0.05)' }} />
+                      <div className="h-px flex-1" style={{ background: 'var(--c-glass-hover)' }} />
                       <span className="text-[9px] uppercase tracking-[0.15em] font-bold" style={{ color: 'rgba(248,113,113,0.6)' }}>
                         Removidos ({removidosVisiveis.length})
                       </span>
-                      <div className="h-px flex-1" style={{ background: 'rgba(255,255,255,0.05)' }} />
+                      <div className="h-px flex-1" style={{ background: 'var(--c-glass-hover)' }} />
                     </div>
                     {removidosVisiveis.map((grupo) => (
                       <div
@@ -1559,10 +1559,10 @@ const Agendados: React.FC = () => {
                           <Trash2 className="w-3.5 h-3.5" style={{ color: '#f87171' }} />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-[12.5px] font-medium truncate leading-tight line-through" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                          <p className="text-[12.5px] font-medium truncate leading-tight line-through" style={{ color: 'var(--c-t-45)' }}>
                             {grupo.grupo_nome || 'Sem nome'}
                           </p>
-                          <p className="text-[10px] font-mono mt-0.5 truncate" style={{ color: 'rgba(255,255,255,0.2)' }}>
+                          <p className="text-[10px] font-mono mt-0.5 truncate" style={{ color: 'var(--c-t-20)' }}>
                             {grupo.grupo_id}
                           </p>
                         </div>
@@ -1570,9 +1570,9 @@ const Agendados: React.FC = () => {
                           onClick={() => handleDesfazerRemocao(grupo.grupo_id)}
                           disabled={salvandoGrupos}
                           className="flex items-center gap-1.5 px-2.5 h-8 rounded-lg transition-all shrink-0 text-[11px] font-medium disabled:opacity-30"
-                          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.6)' }}
-                          onMouseEnter={(e) => { if (!salvandoGrupos) { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#fff'; } }}
-                          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'rgba(255,255,255,0.6)'; }}
+                          style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)', color: 'var(--c-t-60)' }}
+                          onMouseEnter={(e) => { if (!salvandoGrupos) { e.currentTarget.style.background = 'var(--c-glass-hover)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))'; } }}
+                          onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.6)'; }}
                           title="Desfazer remoção"
                         >
                           <Undo2 className="w-3 h-3" />
@@ -1587,13 +1587,13 @@ const Agendados: React.FC = () => {
               {/* Footer */}
               <div
                 className="px-6 py-4 flex items-center gap-3"
-                style={{ borderTop: '1px solid rgba(255,255,255,0.05)', background: 'rgba(0,0,0,0.2)' }}
+                style={{ borderTop: '1px solid var(--c-border)', background: 'rgba(0,0,0,0.2)' }}
               >
                 <button
                   onClick={() => setAlterarGruposModal(null)}
                   disabled={salvandoGrupos}
                   className="flex-1 py-2.5 rounded-[10px] text-[13px] font-medium transition-all duration-200 disabled:opacity-40"
-                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
+                  style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border-strong)', color: 'var(--c-t-60)' }}
                 >
                   Cancelar
                 </button>

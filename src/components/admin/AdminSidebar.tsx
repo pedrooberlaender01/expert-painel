@@ -27,7 +27,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ collapsed, onToggle,
       !isMobile && (collapsed ? "w-[72px]" : "w-[260px]")
     )}>
       {/* Header - "Admin Master" branding */}
-      <div className={cn("p-5 border-b border-white/[0.04] relative h-[73px] flex items-center", collapsed && "px-3")}>
+      <div className={cn("p-5 border-b border-glass relative h-[73px] flex items-center", collapsed && "px-3")}>
         <div className={cn("flex items-center w-full", collapsed ? "justify-center" : "justify-between")}>
           <div className={cn("flex items-center gap-2.5", collapsed && "justify-center")}>
             <div
@@ -38,19 +38,19 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ collapsed, onToggle,
             </div>
             {!collapsed && (
               <div>
-                <h1 className="text-sm font-bold text-white tracking-tight font-display">Admin Master</h1>
-                <p className="text-[11px] text-white/[0.45] font-mono tracking-wide uppercase">Painel</p>
+                <h1 className="text-sm font-bold text-txt tracking-tight font-display">Admin Master</h1>
+                <p className="text-[11px] text-txt-muted font-mono tracking-wide uppercase">Painel</p>
               </div>
             )}
           </div>
           {/* Collapse toggle - same pattern as expert sidebar */}
           {!collapsed && (
-            <button onClick={onToggle} className="p-1.5 text-white/[0.45] hover:text-white hover:bg-white/[0.04] rounded-lg transition-all duration-200" aria-label="Recolher sidebar">
+            <button onClick={onToggle} className="p-1.5 text-txt-muted hover:text-txt hover:bg-glass rounded-lg transition-all duration-200" aria-label="Recolher sidebar">
               <ChevronLeft className="w-3.5 h-3.5" />
             </button>
           )}
           {collapsed && (
-            <button onClick={onToggle} className="absolute -right-3 top-6 bg-white/[0.04] backdrop-blur-xl border border-white/[0.04] shadow-lg z-10 p-1.5 text-white/[0.45] hover:text-white hover:bg-white/[0.06] rounded-lg transition-all duration-200" aria-label="Expandir sidebar">
+            <button onClick={onToggle} className="absolute -right-3 top-6 bg-glass backdrop-blur-xl border border-glass shadow-lg z-10 p-1.5 text-txt-muted hover:text-txt hover:bg-glass-hover rounded-lg transition-all duration-200" aria-label="Expandir sidebar">
               <ChevronRight className="w-3.5 h-3.5" />
             </button>
           )}
@@ -69,7 +69,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ collapsed, onToggle,
               collapsed && "justify-center px-2",
               isActive
                 ? "bg-primary-bg text-primary-light rounded-r-lg rounded-l-none"
-                : "text-white/[0.45] hover:bg-white/[0.04] hover:text-white/[0.7] rounded-xl"
+                : "text-txt-muted hover:bg-glass hover:text-txt-secondary rounded-xl"
             )}
           >
             {({ isActive }) => (
@@ -84,10 +84,10 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ collapsed, onToggle,
       </nav>
 
       {/* Logout button */}
-      <div className="p-3 border-t border-white/[0.04] relative">
+      <div className="p-3 border-t border-glass relative">
         <button
           onClick={() => { signOut(); navigate('/login', { replace: true }); }}
-          className={cn("flex items-center w-full px-3 py-2.5 rounded-xl text-[13px] font-medium text-white/[0.45] hover:bg-red-500/10 hover:text-red-400 transition-all duration-200", collapsed && "justify-center px-2")}
+          className={cn("flex items-center w-full px-3 py-2.5 rounded-xl text-[13px] font-medium text-txt-muted hover:bg-red-500/10 hover:text-red-400 transition-all duration-200", collapsed && "justify-center px-2")}
         >
           <LogOut className={cn("w-[18px] h-[18px]", !collapsed && "mr-3")} />
           {!collapsed && <span>Sair</span>}

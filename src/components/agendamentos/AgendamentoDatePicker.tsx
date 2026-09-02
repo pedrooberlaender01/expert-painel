@@ -95,18 +95,18 @@ const GlassDropdown: React.FC<{
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-center gap-1 font-mono text-[13px] transition-all duration-200 outline-none"
         style={{
-          background: 'rgba(255,255,255,0.04)',
-          border: open ? `1px solid rgba(${accentRgb},0.35)` : '1px solid rgba(255,255,255,0.04)',
+          background: 'var(--c-glass)',
+          border: open ? `1px solid rgba(${accentRgb},0.35)` : '1px solid var(--c-border)',
           borderRadius: '10px',
           padding: '8px 6px',
-          color: selected ? '#fff' : 'rgba(255,255,255,0.35)',
+          color: selected ? 'rgb(var(--c-fg-rgb))' : 'rgb(var(--c-fg-rgb) / 0.35)',
           boxShadow: open ? `0 0 0 3px rgba(${accentRgb},0.1)` : 'none',
         }}
       >
         <span className="tabular-nums">{selected?.label ?? placeholder ?? '—'}</span>
         <ChevronDown
           className="w-3 h-3 transition-transform duration-200 shrink-0"
-          style={{ color: 'rgba(255,255,255,0.3)', transform: open ? 'rotate(180deg)' : 'none' }}
+          style={{ color: 'var(--c-t-30)', transform: open ? 'rotate(180deg)' : 'none' }}
         />
       </button>
 
@@ -120,8 +120,8 @@ const GlassDropdown: React.FC<{
             left: pos.left,
             width: '56px',
             zIndex: 9999,
-            background: 'rgba(16,16,28,0.97)',
-            border: '1px solid rgba(255,255,255,0.12)',
+            background: 'var(--c-popup-bg)',
+            border: '1px solid var(--c-border-strong)',
             borderRadius: '12px',
             boxShadow: '0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04) inset',
             overflow: 'hidden',
@@ -143,11 +143,11 @@ const GlassDropdown: React.FC<{
                   className="w-full text-center px-4 py-1.5 text-[13px] font-mono tabular-nums transition-all duration-150 outline-none"
                   style={{
                     background: isSelected ? `rgba(${accentRgb},0.15)` : 'transparent',
-                    color: isSelected ? accentColor : 'rgba(255,255,255,0.6)',
+                    color: isSelected ? accentColor : 'rgb(var(--c-fg-rgb) / 0.6)',
                     fontWeight: isSelected ? 600 : 400,
                   }}
-                  onMouseEnter={(e) => { if (!isSelected) { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = '#fff' } }}
-                  onMouseLeave={(e) => { if (!isSelected) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.6)' } }}
+                  onMouseEnter={(e) => { if (!isSelected) { e.currentTarget.style.background = 'var(--c-glass)'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb))' } }}
+                  onMouseLeave={(e) => { if (!isSelected) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.6)' } }}
                 >
                   {opt.label}
                 </button>
@@ -304,7 +304,7 @@ export const AgendamentoDatePicker: React.FC<AgendamentoDatePickerProps> = ({
   return (
     <div
       className="rounded-2xl overflow-hidden"
-      style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.04)' }}
+      style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
     >
       <div className="p-5">
         {/* Header */}
@@ -315,7 +315,7 @@ export const AgendamentoDatePicker: React.FC<AgendamentoDatePickerProps> = ({
           >
             2
           </span>
-          <h3 className="text-[14px] font-semibold text-white font-display">Agendamento</h3>
+          <h3 className="text-[14px] font-semibold text-txt font-display">Agendamento</h3>
         </div>
 
         <div className="space-y-4">
@@ -323,7 +323,7 @@ export const AgendamentoDatePicker: React.FC<AgendamentoDatePickerProps> = ({
           {!recorrente && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-2" style={{ color: 'rgba(255,255,255,0.4)' }}>Data</label>
+                <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-2" style={{ color: 'var(--c-t-40)' }}>Data</label>
                 <div className="flex items-center gap-1.5">
                   <GlassDropdown
                     value={dParts[2] ?? ''}
@@ -337,7 +337,7 @@ export const AgendamentoDatePicker: React.FC<AgendamentoDatePickerProps> = ({
                     accentColor={accentColor}
                     accentRgb={accentRgb}
                   />
-                  <span className="font-bold text-[14px]" style={{ color: 'rgba(255,255,255,0.2)' }}>/</span>
+                  <span className="font-bold text-[14px]" style={{ color: 'var(--c-t-20)' }}>/</span>
                   <GlassDropdown
                     value={dParts[1] ?? ''}
                     options={MONTHS}
@@ -350,7 +350,7 @@ export const AgendamentoDatePicker: React.FC<AgendamentoDatePickerProps> = ({
                     accentColor={accentColor}
                     accentRgb={accentRgb}
                   />
-                  <span className="font-bold text-[14px]" style={{ color: 'rgba(255,255,255,0.2)' }}>/</span>
+                  <span className="font-bold text-[14px]" style={{ color: 'var(--c-t-20)' }}>/</span>
                   <GlassDropdown
                     value={dParts[0] ?? ''}
                     options={YEARS}
@@ -366,7 +366,7 @@ export const AgendamentoDatePicker: React.FC<AgendamentoDatePickerProps> = ({
                 </div>
               </div>
               <div>
-                <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-2" style={{ color: 'rgba(255,255,255,0.4)' }}>Horário</label>
+                <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-2" style={{ color: 'var(--c-t-40)' }}>Horário</label>
                 <div className="flex items-center gap-1.5">
                   <GlassDropdown
                     value={hParts[0] ?? ''}
@@ -380,7 +380,7 @@ export const AgendamentoDatePicker: React.FC<AgendamentoDatePickerProps> = ({
                     accentColor={accentColor}
                     accentRgb={accentRgb}
                   />
-                  <span className="font-bold text-[14px]" style={{ color: 'rgba(255,255,255,0.2)' }}>:</span>
+                  <span className="font-bold text-[14px]" style={{ color: 'var(--c-t-20)' }}>:</span>
                   <GlassDropdown
                     value={hParts[1] ?? ''}
                     options={MINUTES}
@@ -401,7 +401,7 @@ export const AgendamentoDatePicker: React.FC<AgendamentoDatePickerProps> = ({
           {/* Horario — quando recorrente */}
           {recorrente && (
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-2" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-2" style={{ color: 'var(--c-t-40)' }}>
                 Horário do envio
               </label>
               <div className="flex items-center gap-1.5" style={{ maxWidth: '160px' }}>
@@ -417,7 +417,7 @@ export const AgendamentoDatePicker: React.FC<AgendamentoDatePickerProps> = ({
                   accentColor={accentColor}
                   accentRgb={accentRgb}
                 />
-                <span className="font-bold text-[14px]" style={{ color: 'rgba(255,255,255,0.2)' }}>:</span>
+                <span className="font-bold text-[14px]" style={{ color: 'var(--c-t-20)' }}>:</span>
                 <GlassDropdown
                   value={hParts[1] ?? ''}
                   options={MINUTES}
@@ -437,7 +437,7 @@ export const AgendamentoDatePicker: React.FC<AgendamentoDatePickerProps> = ({
           {/* Recorrente toggle */}
           <label
             className="flex items-center gap-3 p-3 rounded-xl cursor-pointer group transition-colors"
-            style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
+            style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
           >
             <div className="relative">
               <input
@@ -449,8 +449,8 @@ export const AgendamentoDatePicker: React.FC<AgendamentoDatePickerProps> = ({
               <div
                 className="w-[44px] h-[24px] rounded-full transition-colors duration-300"
                 style={{
-                  background: recorrente ? `${accentBg}0.35)` : 'rgba(255,255,255,0.1)',
-                  border: recorrente ? `1px solid ${accentBg}0.5)` : '1px solid rgba(255,255,255,0.15)',
+                  background: recorrente ? `${accentBg}0.35)` : 'rgb(var(--c-fg-rgb) / 0.1)',
+                  border: recorrente ? `1px solid ${accentBg}0.5)` : '1px solid var(--c-border-strong)',
                 }}
               />
               <div
@@ -461,15 +461,15 @@ export const AgendamentoDatePicker: React.FC<AgendamentoDatePickerProps> = ({
                 }}
               />
             </div>
-            <span className="text-[12px] font-medium transition-colors" style={{ color: recorrente ? '#fff' : 'rgba(255,255,255,0.5)' }}>
+            <span className="text-[12px] font-medium transition-colors" style={{ color: recorrente ? 'rgb(var(--c-fg-rgb))' : 'rgb(var(--c-fg-rgb) / 0.5)' }}>
               Horários recorrentes
             </span>
           </label>
 
           {/* Dias da semana — visivel apenas quando recorrente */}
           {recorrente && (
-            <div style={{ borderTop: '1px solid rgba(255,255,255,0.04)', paddingTop: '16px' }}>
-              <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-2.5" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <div style={{ borderTop: '1px solid var(--c-border)', paddingTop: '16px' }}>
+              <label className="block text-[11px] font-semibold uppercase tracking-[0.5px] mb-2.5" style={{ color: 'var(--c-t-40)' }}>
                 Dias da semana
               </label>
               <div className="flex gap-1.5">
@@ -488,8 +488,8 @@ export const AgendamentoDatePicker: React.FC<AgendamentoDatePickerProps> = ({
                             boxShadow: `0 0 12px ${accentBg}0.2)`,
                           }
                         : {
-                            background: 'rgba(255,255,255,0.04)',
-                            color: 'rgba(255,255,255,0.4)',
+                            background: 'var(--c-glass)',
+                            color: 'var(--c-t-40)',
                           }
                       }
                     >

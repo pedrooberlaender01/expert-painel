@@ -80,7 +80,7 @@ export const Suporte: React.FC = () => {
       {/* Tab Selector */}
       <div
         className="flex flex-wrap md:inline-flex gap-1 p-1 rounded-[14px] w-full md:w-fit mb-6"
-        style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.04)' }}
+        style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
       >
         {tabs.map((t) => (
           <button
@@ -89,10 +89,10 @@ export const Suporte: React.FC = () => {
             className="flex-1 flex items-center justify-center gap-2 px-5 py-2.5 rounded-[10px] text-[13px] font-medium transition-all duration-250"
             style={tab === t.key
               ? t.activeStyle
-              : { background: 'transparent', border: '1px solid transparent', color: 'rgba(255,255,255,0.45)' }
+              : { background: 'transparent', border: '1px solid transparent', color: 'var(--c-t-45)' }
             }
-            onMouseEnter={(e) => { if (tab !== t.key) { e.currentTarget.style.color = 'rgba(255,255,255,0.65)'; e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; } }}
-            onMouseLeave={(e) => { if (tab !== t.key) { e.currentTarget.style.color = 'rgba(255,255,255,0.45)'; e.currentTarget.style.background = 'transparent'; } }}
+            onMouseEnter={(e) => { if (tab !== t.key) { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.65)'; e.currentTarget.style.background = 'var(--c-glass)'; } }}
+            onMouseLeave={(e) => { if (tab !== t.key) { e.currentTarget.style.color = 'rgb(var(--c-fg-rgb) / 0.45)'; e.currentTarget.style.background = 'transparent'; } }}
           >
             <t.icon className="w-4 h-4" style={{ opacity: tab === t.key ? 1 : 0.45 }} />
             {t.label}

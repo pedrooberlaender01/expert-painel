@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Loader2, Upload, X, Image, Info } from 'lucide-react';
+import { Loader2, Upload, X, Image, Info, Moon, Sun } from 'lucide-react';
+import { getTheme, applyTheme, type Theme } from '../lib/theme';
 import { PageHeader } from '../components/PageHeader';
 import { Toast } from '../components/Toast';
 import { useAuthStore } from '../stores/authStore';
@@ -29,6 +30,10 @@ export const Configuracoes: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const expert = impersonatedExpert || user?.expert;
   const currentLogo = expert?.logo_url || null;
+
+  // Tema (dark/white)
+  const [tema, setTema] = useState<Theme>(getTheme());
+  const trocarTema = (t: Theme) => { applyTheme(t); setTema(t); };
 
   // Toast
   const { toast, showToast, hideToast } = useToast();
@@ -214,12 +219,12 @@ export const Configuracoes: React.FC = () => {
               {/* Preview atual */}
               <div
                 className="w-16 h-16 rounded-2xl shrink-0 flex items-center justify-center overflow-hidden"
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+                style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
               >
                 {(logoPreview || currentLogo) ? (
                   <img src={logoPreview || currentLogo!} alt="Logo" className="w-full h-full object-contain" />
                 ) : (
-                  <Image className="w-6 h-6 text-white/15" />
+                  <Image className="w-6 h-6 text-txt-dim" />
                 )}
               </div>
 
@@ -253,16 +258,16 @@ export const Configuracoes: React.FC = () => {
                       onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(var(--color-primary-rgb),0.2)'; e.currentTarget.style.background = 'rgba(var(--color-primary-rgb),0.03)' }}
                     >
                       <Upload className="w-5 h-5" style={{ color: 'var(--color-primary-light)', opacity: 0.6 }} />
-                      <span className="text-[12px] text-white/40">
+                      <span className="text-[12px] text-txt-dim">
                         {logoFile ? logoFile.name : 'Clique para selecionar uma imagem'}
                       </span>
                     </button>
 
                     {/* Dicas */}
-                    <div className="flex items-start gap-2 px-3 py-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}>
-                      <Info className="w-3.5 h-3.5 text-white/25 shrink-0 mt-0.5" />
-                      <div className="text-[10px] text-white/30 leading-relaxed space-y-0.5">
-                        <p>Dimensão recomendada: <strong className="text-white/50">128x128px</strong> ou <strong className="text-white/50">256x256px</strong></p>
+                    <div className="flex items-start gap-2 px-3 py-2 rounded-lg" style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}>
+                      <Info className="w-3.5 h-3.5 text-txt-dim shrink-0 mt-0.5" />
+                      <div className="text-[10px] text-txt-dim leading-relaxed space-y-0.5">
+                        <p>Dimensão recomendada: <strong className="text-txt-muted">128x128px</strong> ou <strong className="text-txt-muted">256x256px</strong></p>
                         <p>Formatos: PNG, JPG, SVG ou WebP</p>
                         <p>Tamanho máximo: 5MB</p>
                         <p>Fundo transparente funciona melhor na sidebar</p>
@@ -294,6 +299,40 @@ export const Configuracoes: React.FC = () => {
           </section>
         )}
 
+        {/* Aparência (tema) */}
+        <section className="card-dark p-6">
+          <h2 className="text-sm font-semibold text-txt font-display mb-5">Aparência</h2>
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-sm font-medium text-txt">Tema</p>
+              <p className="text-[11px] text-txt-dim mt-0.5">Alternar entre modo escuro e claro</p>
+            </div>
+            <div
+              className="inline-flex p-1 rounded-xl shrink-0"
+              style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
+            >
+              <button
+                type="button"
+                onClick={() => trocarTema('dark')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all duration-200 ${tema === 'dark' ? 'text-white' : 'text-txt-muted hover:text-txt'}`}
+                style={tema === 'dark' ? { background: 'var(--color-primary)', boxShadow: '0 2px 10px rgba(var(--color-primary-rgb),0.25)' } : undefined}
+              >
+                <Moon className="w-3.5 h-3.5" />
+                Escuro
+              </button>
+              <button
+                type="button"
+                onClick={() => trocarTema('light')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all duration-200 ${tema === 'light' ? 'text-white' : 'text-txt-muted hover:text-txt'}`}
+                style={tema === 'light' ? { background: 'var(--color-primary)', boxShadow: '0 2px 10px rgba(var(--color-primary-rgb),0.25)' } : undefined}
+              >
+                <Sun className="w-3.5 h-3.5" />
+                Claro
+              </button>
+            </div>
+          </div>
+        </section>
+
         {/* Notifications */}
         <section className="card-dark p-6">
           <h2 className="text-sm font-semibold text-txt font-display mb-5">Preferencias de Notificacao</h2>
@@ -309,11 +348,11 @@ export const Configuracoes: React.FC = () => {
                 aria-checked={notificarNovosLeads}
                 onClick={() => setNotificarNovosLeads(!notificarNovosLeads)}
                 className="relative w-10 h-5 rounded-full transition-colors duration-200 shrink-0"
-                style={{ background: notificarNovosLeads ? 'rgba(var(--color-primary-rgb),0.3)' : 'rgba(255,255,255,0.08)' }}
+                style={{ background: notificarNovosLeads ? 'rgba(var(--color-primary-rgb),0.3)' : 'var(--c-glass-hover)' }}
               >
                 <span
                   className="absolute top-[2px] left-[2px] w-4 h-4 rounded-full transition-all duration-200"
-                  style={{ background: notificarNovosLeads ? 'var(--color-primary)' : 'rgba(255,255,255,0.35)', transform: notificarNovosLeads ? 'translateX(20px)' : 'translateX(0)' }}
+                  style={{ background: notificarNovosLeads ? 'var(--color-primary)' : 'rgb(var(--c-fg-rgb) / 0.35)', transform: notificarNovosLeads ? 'translateX(20px)' : 'translateX(0)' }}
                 />
               </button>
             </div>
@@ -329,11 +368,11 @@ export const Configuracoes: React.FC = () => {
                 aria-checked={notificarConversoes}
                 onClick={() => setNotificarConversoes(!notificarConversoes)}
                 className="relative w-10 h-5 rounded-full transition-colors duration-200 shrink-0"
-                style={{ background: notificarConversoes ? 'rgba(var(--color-primary-rgb),0.3)' : 'rgba(255,255,255,0.08)' }}
+                style={{ background: notificarConversoes ? 'rgba(var(--color-primary-rgb),0.3)' : 'var(--c-glass-hover)' }}
               >
                 <span
                   className="absolute top-[2px] left-[2px] w-4 h-4 rounded-full transition-all duration-200"
-                  style={{ background: notificarConversoes ? 'var(--color-primary)' : 'rgba(255,255,255,0.35)', transform: notificarConversoes ? 'translateX(20px)' : 'translateX(0)' }}
+                  style={{ background: notificarConversoes ? 'var(--color-primary)' : 'rgb(var(--c-fg-rgb) / 0.35)', transform: notificarConversoes ? 'translateX(20px)' : 'translateX(0)' }}
                 />
               </button>
             </div>
