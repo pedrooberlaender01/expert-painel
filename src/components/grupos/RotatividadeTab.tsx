@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Loader2, Plus, Copy, Check, Trash2, RefreshCw, Shuffle, Search, AlertTriangle } from 'lucide-react';
+import { Loader2, Plus, Copy, Check, Trash2, RefreshCw, Shuffle, Search, AlertTriangle, X } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useAuthStore } from '../../stores/authStore';
 import { WEBHOOKS, N8N_GEND, fetchWithTimeout } from '../../config/webhooks';
@@ -81,6 +81,69 @@ async function pegarConvites(token: string, jids: string[]): Promise<Record<stri
   return mapa;
 }
 
+// ─── Confirmação de exclusão (modal do painel, no lugar do window.confirm) ───
+
+interface Confirmacao {
+  titulo: string;
+  mensagem: string;
+  acao: () => Promise<void>;
+}
+
+const ConfirmarModal: React.FC<{ confirmacao: Confirmacao; onClose: () => void }> = ({ confirmacao, onClose }) => {
+  const [executando, setExecutando] = useState(false);
+
+  useEffect(() => {
+    const esc = (e: KeyboardEvent) => { if (e.key === 'Escape' && !executando) onClose(); };
+    window.addEventListener('keydown', esc);
+    return () => window.removeEventListener('keydown', esc);
+  }, [executando, onClose]);
+
+  const confirmar = async () => {
+    setExecutando(true);
+    await confirmacao.acao();
+    setExecutando(false);
+    onClose();
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true">
+      <div className="absolute inset-0 bg-black/70" onClick={() => !executando && onClose()} />
+      <div className="relative w-full max-w-sm rounded-2xl animate-slide-up" style={{ background: 'var(--c-popup-bg)', border: '1px solid var(--c-border)' }}>
+        <div className="flex items-center justify-between p-5" style={{ borderBottom: '1px solid var(--c-border)' }}>
+          <div className="flex items-center gap-2.5">
+            <AlertTriangle className="w-5 h-5" style={{ color: '#f87171' }} />
+            <h2 className="text-[15px] font-semibold text-txt font-display">{confirmacao.titulo}</h2>
+          </div>
+          <button onClick={onClose} disabled={executando} className="p-1.5 rounded-lg text-txt-dim" aria-label="Fechar">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+        <p className="p-5 text-[13px] leading-relaxed" style={{ color: 'var(--c-t-50)' }}>{confirmacao.mensagem}</p>
+        <div className="flex items-center justify-end gap-3 p-5" style={{ borderTop: '1px solid var(--c-border)' }}>
+          <button
+            onClick={onClose}
+            disabled={executando}
+            className="px-4 py-2 text-[13px] font-medium rounded-xl text-txt-dim"
+            style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={confirmar}
+            disabled={executando}
+            autoFocus
+            className="flex items-center gap-2 px-4 py-2 text-[13px] font-semibold text-white rounded-xl disabled:opacity-60"
+            style={{ background: 'rgba(239,68,68,0.85)' }}
+          >
+            {executando ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
+            Excluir
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // ─── Card de uma rotação ───
 
 interface CardProps {
@@ -93,6 +156,7 @@ interface CardProps {
 
 const RotacaoCard: React.FC<CardProps> = ({ rotacao, instancias, expertId, showToast, onChange }) => {
   const [copiado, setCopiado] = useState(false);
+  const [confirmacao, setConfirmacao] = useState<Confirmacao | null>(null);
   const [adicionando, setAdicionando] = useState(false);
   const [modo, setModo] = useState<'instancia' | 'manual'>('instancia');
   const [nomeManual, setNomeManual] = useState('');
@@ -124,13 +188,16 @@ const RotacaoCard: React.FC<CardProps> = ({ rotacao, instancias, expertId, showT
     onChange();
   };
 
-  const excluirRotacao = async () => {
-    if (!window.confirm(`Excluir a rotação "${rotacao.nome}"? O link para de funcionar.`)) return;
-    const { error } = await supabase.from('rotacao_grupos').delete().eq('id', rotacao.id);
-    if (error) return showToast('error', 'Erro ao excluir');
-    showToast('success', 'Rotação excluída');
-    onChange();
-  };
+  const excluirRotacao = () => setConfirmacao({
+    titulo: 'Excluir rotação?',
+    mensagem: `A rotação "${rotacao.nome}" será excluída e o link para de funcionar. Esta ação não pode ser desfeita.`,
+    acao: async () => {
+      const { error } = await supabase.from('rotacao_grupos').delete().eq('id', rotacao.id);
+      if (error) return showToast('error', 'Erro ao excluir');
+      showToast('success', 'Rotação excluída');
+      onChange();
+    },
+  });
 
   const toggleItem = async (item: Item) => {
     const { error } = await supabase.from('rotacao_grupos_itens').update({ ativo: !item.ativo }).eq('id', item.id);
@@ -138,12 +205,16 @@ const RotacaoCard: React.FC<CardProps> = ({ rotacao, instancias, expertId, showT
     onChange();
   };
 
-  const removerItem = async (item: Item) => {
-    if (!window.confirm(`Remover "${item.grupo_nome}" da rotação?`)) return;
-    const { error } = await supabase.from('rotacao_grupos_itens').delete().eq('id', item.id);
-    if (error) return showToast('error', 'Erro ao remover grupo');
-    onChange();
-  };
+  const removerItem = (item: Item) => setConfirmacao({
+    titulo: 'Remover grupo?',
+    mensagem: `"${item.grupo_nome || item.grupo_jid}" sai da rotação e para de receber leads. A contagem de cliques dele é perdida.`,
+    acao: async () => {
+      const { error } = await supabase.from('rotacao_grupos_itens').delete().eq('id', item.id);
+      if (error) return showToast('error', 'Erro ao remover grupo');
+      showToast('success', 'Grupo removido');
+      onChange();
+    },
+  });
 
   const carregarGrupos = async () => {
     const inst = instancias.find((i) => i.instancia === instSel);
@@ -246,6 +317,8 @@ const RotacaoCard: React.FC<CardProps> = ({ rotacao, instancias, expertId, showT
 
   return (
     <div className="rounded-2xl p-4 md:p-5 space-y-4" style={CARD}>
+      {confirmacao && <ConfirmarModal confirmacao={confirmacao} onClose={() => setConfirmacao(null)} />}
+
       {/* Cabeçalho */}
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
