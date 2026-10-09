@@ -12,7 +12,7 @@ interface Item {
   id: string;
   grupo_jid: string;
   grupo_nome: string | null;
-  instancia: string;
+  instancia: string | null; // null = link colado manualmente
   invite_link: string | null;
   ordem: number;
   ativo: boolean;
@@ -49,6 +49,7 @@ const CARD = { background: 'var(--c-glass-2)', border: '1px solid var(--c-border
 const BTN_SOFT = { background: 'rgba(var(--color-primary-rgb),0.15)', border: '1px solid rgba(var(--color-primary-rgb),0.25)', color: 'var(--color-primary-light)' };
 
 const linkPublico = (slug: string) => `${N8N_GEND}/grupo?r=${slug}`;
+const LINK_CONVITE = /^https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]{10,}$/;
 
 const gerarSlug = (txt: string) =>
   txt.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
@@ -93,6 +94,9 @@ interface CardProps {
 const RotacaoCard: React.FC<CardProps> = ({ rotacao, instancias, expertId, showToast, onChange }) => {
   const [copiado, setCopiado] = useState(false);
   const [adicionando, setAdicionando] = useState(false);
+  const [modo, setModo] = useState<'instancia' | 'manual'>('instancia');
+  const [nomeManual, setNomeManual] = useState('');
+  const [linkManual, setLinkManual] = useState('');
   const [instSel, setInstSel] = useState('');
   const [grupos, setGrupos] = useState<GrupoWpp[]>([]);
   const [selecionados, setSelecionados] = useState<Set<string>>(new Set());
@@ -100,6 +104,8 @@ const RotacaoCard: React.FC<CardProps> = ({ rotacao, instancias, expertId, showT
 
   const itens = [...rotacao.itens].sort((a, b) => a.ordem - b.ordem);
   const jaNaRotacao = new Set(itens.map((i) => i.grupo_jid));
+  const temComInstancia = itens.some((i) => i.instancia);
+  const proximaOrdem = itens.length ? Math.max(...itens.map((i) => i.ordem)) + 1 : 0;
   const ativosComLink = itens.filter((i) => i.ativo && i.invite_link).length;
 
   const copiar = async () => {
@@ -161,7 +167,7 @@ const RotacaoCard: React.FC<CardProps> = ({ rotacao, instancias, expertId, showT
     try {
       const jids = [...selecionados];
       const links = await pegarConvites(inst.token, jids);
-      const base = itens.length ? Math.max(...itens.map((i) => i.ordem)) + 1 : 0;
+      const base = proximaOrdem;
       const rows = jids.map((jid, idx) => ({
         rotacao_id: rotacao.id,
         expert_id: expertId,
@@ -187,12 +193,38 @@ const RotacaoCard: React.FC<CardProps> = ({ rotacao, instancias, expertId, showT
     }
   };
 
-  // Recarrega links de convite (caso algum tenha sido revogado no WhatsApp)
+  // Grupo sem instância: grupo_jid recebe o próprio link (mantém unicidade por rotação)
+  const salvarManual = async () => {
+    const link = linkManual.trim().split('?')[0];
+    if (!LINK_CONVITE.test(link)) return showToast('error', 'Link inválido — use o formato https://chat.whatsapp.com/XXXX');
+    if (jaNaRotacao.has(link)) return showToast('error', 'Esse link já está na rotação');
+    setLoading('salvar');
+    const { error } = await supabase.from('rotacao_grupos_itens').insert({
+      rotacao_id: rotacao.id,
+      expert_id: expertId,
+      grupo_jid: link,
+      grupo_nome: nomeManual.trim() || null,
+      instancia: null,
+      invite_link: link,
+      ordem: proximaOrdem,
+    });
+    setLoading('');
+    if (error) return showToast('error', 'Erro ao adicionar link');
+    showToast('success', 'Grupo adicionado');
+    setNomeManual('');
+    setLinkManual('');
+    onChange();
+  };
+
+  // Recarrega links de convite (caso algum tenha sido revogado no WhatsApp). Links manuais ficam como estão.
   const atualizarLinks = async () => {
     setLoading('links');
     try {
       const porInstancia = new Map<string, Item[]>();
-      for (const it of itens) porInstancia.set(it.instancia, [...(porInstancia.get(it.instancia) ?? []), it]);
+      for (const it of itens) {
+        if (!it.instancia) continue;
+        porInstancia.set(it.instancia, [...(porInstancia.get(it.instancia) ?? []), it]);
+      }
       let falhas = 0;
       for (const [nomeInst, lista] of porInstancia) {
         const inst = instancias.find((i) => i.instancia === nomeInst);
@@ -263,7 +295,7 @@ const RotacaoCard: React.FC<CardProps> = ({ rotacao, instancias, expertId, showT
                 <div className="flex-1 min-w-0">
                   <p className="text-[13px] text-txt truncate">{it.grupo_nome || it.grupo_jid}</p>
                   <p className="text-[11px] text-txt-dim truncate">
-                    {it.instancia}
+                    {it.instancia ?? 'link manual'}
                     {!it.invite_link && <span style={{ color: '#f87171' }}> · sem link de convite</span>}
                   </p>
                 </div>
@@ -292,7 +324,7 @@ const RotacaoCard: React.FC<CardProps> = ({ rotacao, instancias, expertId, showT
         <button onClick={() => setAdicionando((v) => !v)} className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-[12px] font-semibold" style={BTN_SOFT}>
           <Plus className="w-3.5 h-3.5" /> Adicionar grupos
         </button>
-        {itens.length > 0 && (
+        {temComInstancia && (
           <button
             onClick={atualizarLinks}
             disabled={loading === 'links'}
@@ -308,7 +340,34 @@ const RotacaoCard: React.FC<CardProps> = ({ rotacao, instancias, expertId, showT
       {/* Painel de adicionar grupos */}
       {adicionando && (
         <div className="space-y-3 p-3 rounded-xl" style={{ background: 'var(--c-glass)', border: '1px solid var(--c-border)' }}>
-          {instancias.length === 0 ? (
+          <div className="inline-flex gap-1 p-[3px] rounded-lg" style={{ background: 'var(--c-glass-2)', border: '1px solid var(--c-border)' }}>
+            {([['instancia', 'Pela instância'], ['manual', 'Colar link']] as const).map(([k, label]) => (
+              <button
+                key={k}
+                onClick={() => setModo(k)}
+                className="px-3 py-1.5 rounded-md text-[12px] font-medium"
+                style={modo === k ? BTN_SOFT : { border: '1px solid transparent', color: 'var(--c-t-40)' }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
+          {modo === 'manual' ? (
+            <div className="flex flex-col sm:flex-row gap-2">
+              <input className={INPUT} placeholder="Nome do grupo (opcional)" value={nomeManual} onChange={(e) => setNomeManual(e.target.value)} />
+              <input className={INPUT} placeholder="https://chat.whatsapp.com/..." value={linkManual} onChange={(e) => setLinkManual(e.target.value)} />
+              <button
+                onClick={salvarManual}
+                disabled={!linkManual.trim() || loading === 'salvar'}
+                className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-[12px] font-semibold shrink-0 disabled:opacity-40"
+                style={{ background: 'var(--color-primary)', color: '#fff' }}
+              >
+                {loading === 'salvar' ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Plus className="w-3.5 h-3.5" />}
+                Adicionar
+              </button>
+            </div>
+          ) : instancias.length === 0 ? (
             <p className="text-[12px] text-txt-dim">Nenhuma instância cadastrada na Central WhatsApp para este expert.</p>
           ) : (
             <div className="flex flex-col sm:flex-row gap-2">
@@ -332,7 +391,7 @@ const RotacaoCard: React.FC<CardProps> = ({ rotacao, instancias, expertId, showT
             </div>
           )}
 
-          {grupos.length > 0 && (
+          {modo === 'instancia' && grupos.length > 0 && (
             <>
               <div className="max-h-72 overflow-y-auto space-y-1">
                 {grupos.map((g) => {
