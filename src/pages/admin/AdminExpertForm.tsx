@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Loader2, Upload, X, Check, Copy, CheckCheck, LayoutDashboard, MessagesSquare, Bot, UsersRound, Send, Trophy, MessageSquare, Phone, Eye, EyeOff, RefreshCw, Trash2, AlertTriangle, Lock, Users, Ban, GitBranch, Clock, Shield, FileText, Radio, Headset, CalendarPlus, CalendarClock, FlaskConical, Sparkles } from 'lucide-react';
+import { Loader2, Upload, X, Check, Copy, CheckCheck, LayoutDashboard, MessagesSquare, Bot, UsersRound, Send, Trophy, MessageSquare, Phone, Eye, EyeOff, RefreshCw, Trash2, AlertTriangle, Lock, Users, Ban, GitBranch, Clock, Shield, FileText, Radio, Headset, CalendarPlus, CalendarClock, FlaskConical, Sparkles, Shuffle } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { PageHeader } from '../../components/PageHeader';
 import { useAdminExperts } from '../../hooks/useAdminExperts';
@@ -35,6 +35,7 @@ const GRUPOS_SUB_KEYS = [
   { key: 'grupos_fechar_abrir', label: 'Fechar/Abrir Grupos', icon: Lock },
   { key: 'grupos_blacklist', label: 'Blacklist', icon: Ban },
   { key: 'grupos_bots', label: 'Bots de Engajamento', icon: Bot },
+  { key: 'grupos_rotatividade', label: 'Rotatividade (link de grupos)', icon: Shuffle },
 ] as const;
 
 const MODERACAO_SUB_KEYS = [
@@ -749,7 +750,8 @@ export const AdminExpertForm: React.FC = () => {
           <p className="text-xs text-txt-dim">Controle as funcionalidades disponíveis dentro da aba Grupos</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {GRUPOS_SUB_KEYS.map(({ key, label, icon: Icon }) => {
-              const raw = form.secoes_habilitadas?.[key];
+              // grupos_rotatividade é opt-in: chave ausente = oculta (mesma regra do useSectionGate)
+              const raw = form.secoes_habilitadas?.[key] ?? (key === 'grupos_rotatividade' ? 'hidden' : undefined);
               const state: 'enabled' | 'disabled' | 'hidden' =
                 raw === 'enabled' || raw === true || raw === undefined ? 'enabled'
                 : raw === 'disabled' || raw === false ? 'disabled'

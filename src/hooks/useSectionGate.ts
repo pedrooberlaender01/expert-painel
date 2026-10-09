@@ -5,7 +5,7 @@ import type { SectionState } from '../types';
 import { SectionLockedPage } from '../components/SectionLockedPage';
 
 // Chaves de secao correspondendo ao JSONB secoes_habilitadas
-export type SectionKey = 'dashboard' | 'conversas' | 'leads' | 'grupos' | 'envios' | 'torneios' | 'mensagens' | 'central_whatsapp' | 'premiacoes' | 'suporte' | 'grupos_membros' | 'grupos_fechar_abrir' | 'grupos_blacklist' | 'grupos_bots' | 'grupos_moderacao_grupos' | 'grupos_moderacao_log' | 'grupos_moderacao_instancia' | 'torneios_instancia' | 'torneios_copy' | 'mensagens_funil' | 'mensagens_followups' | 'mensagens_abertura' | 'mensagens_boas_vindas' | 'envios_novo_agendamento' | 'envios_agendados' | 'envios_simulador' | 'envios_gerar_copy';
+export type SectionKey = 'dashboard' | 'conversas' | 'leads' | 'grupos' | 'envios' | 'torneios' | 'mensagens' | 'central_whatsapp' | 'premiacoes' | 'suporte' | 'grupos_membros' | 'grupos_fechar_abrir' | 'grupos_blacklist' | 'grupos_bots' | 'grupos_moderacao_grupos' | 'grupos_moderacao_log' | 'grupos_moderacao_instancia' | 'grupos_rotatividade' | 'torneios_instancia' | 'torneios_copy' | 'mensagens_funil' | 'mensagens_followups' | 'mensagens_abertura' | 'mensagens_boas_vindas' | 'envios_novo_agendamento' | 'envios_agendados' | 'envios_simulador' | 'envios_gerar_copy';
 
 // Mapeia rotas para chaves de secao (inclui sub-rotas)
 // /notificacoes e /configuracoes NAO sao mapeadas — sempre acessiveis (D-11)
@@ -31,7 +31,7 @@ export const SECTION_PATH_MAP: Record<string, SectionKey> = {
 
 // Secoes que sao 'hidden' por default quando a chave nao existe no JSONB
 // (secoes opt-in — precisam ser explicitamente habilitadas)
-const HIDDEN_BY_DEFAULT: Set<SectionKey> = new Set(['premiacoes', 'suporte']);
+const HIDDEN_BY_DEFAULT: Set<SectionKey> = new Set(['premiacoes', 'suporte', 'grupos_rotatividade']);
 
 // Resolve o estado de uma secao a partir do JSONB secoes_habilitadas
 // Retrocompatibilidade:

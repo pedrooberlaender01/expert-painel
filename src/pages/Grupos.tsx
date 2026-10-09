@@ -39,7 +39,9 @@ import {
   BarChart3,
   ShieldAlert,
   Phone,
+  Shuffle,
 } from 'lucide-react';
+import { RotatividadeTab } from '../components/grupos/RotatividadeTab';
 import { format, isSameDay, getDaysInMonth, getMonth, startOfDay, endOfDay } from 'date-fns';
 import { supabase } from '../lib/supabase';
 import { WEBHOOKS, N8N_GEND, UAZAPI_BASE_URL, fetchWithTimeout } from '../config/webhooks';
@@ -77,7 +79,7 @@ interface Lead {
   saiu_grupo: string | null;
 }
 
-type MainTab = 'membros' | 'moderacao' | 'configuracao' | 'bots';
+type MainTab = 'membros' | 'moderacao' | 'configuracao' | 'bots' | 'rotatividade';
 type ModeracaoSubTab = 'grupos' | 'log' | 'instancia' | 'fechar-abrir';
 type BotSubTab = 'personas' | 'grupos-ativos' | 'conhecimento' | 'metricas' | 'instancia';
 
@@ -1670,6 +1672,7 @@ export const Grupos: React.FC = () => {
   const gModGrupos = useSectionGate('grupos_moderacao_grupos');
   const gModLog = useSectionGate('grupos_moderacao_log');
   const gModInstancia = useSectionGate('grupos_moderacao_instancia');
+  const gRotatividade = useSectionGate('grupos_rotatividade');
 
   // ── Main Tab ──
   const [mainTab, setMainTab] = useState<MainTab>('membros');
@@ -2813,6 +2816,7 @@ export const Grupos: React.FC = () => {
           { key: 'moderacao' as MainTab, label: 'Moderação', icon: Shield, gate: 'enabled' as SectionState, activeStyle: { background: 'rgba(250,204,21,0.1)', border: '1px solid rgba(250,204,21,0.25)', color: '#facc15' } },
           { key: 'configuracao' as MainTab, label: 'Configuração', icon: Settings, gate: 'enabled' as SectionState, activeStyle: { background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.2)', color: '#f87171' } },
           { key: 'bots' as MainTab, label: 'Bots', icon: Bot, gate: gBots, activeStyle: { background: 'rgba(var(--color-primary-rgb),0.1)', border: '1px solid rgba(var(--color-primary-rgb),0.2)', color: 'var(--color-primary-light)' } },
+          { key: 'rotatividade' as MainTab, label: 'Rotatividade', icon: Shuffle, gate: gRotatividade, activeStyle: { background: 'rgba(52,211,153,0.1)', border: '1px solid rgba(52,211,153,0.25)', color: '#34d399' } },
         ]).filter((tab) => tab.gate !== 'hidden').map((tab) => (
           <button
             key={tab.key}
@@ -5189,6 +5193,8 @@ export const Grupos: React.FC = () => {
           )}
         </>
       )}
+
+      {mainTab === 'rotatividade' && gRotatividade === 'enabled' && <RotatividadeTab showToast={showToast} />}
     </div>
   );
 };

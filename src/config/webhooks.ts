@@ -27,6 +27,7 @@ export const WEBHOOKS = {
   ASSISTENTE_WHATSAPP: `${N8N_GEND}/assistente-whatsapp`,
   BUSCAR_CANAIS_TELEGRAM: `${N8N_GEND}/buscar-canais-telegram`,
   RELATORIO_PREMIACOES: `${N8N_GEND}/relatorio-premiacoes`,
+  ROTACAO_GRUPOS_LINKS: `${N8N_GEND}/rotacao-grupos-links`,
 
   // Bots de engajamento
   BOT_CONFIGURAR_PERFIL: `${N8N_GEND}/bot-configurar-perfil`,
